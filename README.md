@@ -4,7 +4,7 @@ You should see this challenge as an opportunity to create an application followi
 ## Scope
 In this challenge you should build an API, and then implement an simple interface that consumes the data of your API.
 
-__NOTE:__ In this challenge we will not evaluate the implementation of visual styles. In fact, it’s recommended that you use some library of components to assist you in the development of the interface. But if you prefer, feel free to implement your own components/styles.
+__NOTE:__ We will not evaluate the implementation of visual styles. In fact, it’s recommended that you use some library of components to assist you in the development of the interface. But if you prefer, feel free to implement your own components/styles.
 
 ## Challenge
 Build an API for a events social network that provides the following:

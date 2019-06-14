@@ -38,7 +38,7 @@ Build an application for a events social network that provides the following:
 
 ## Deliverables
 The project source code and dependencies should be made available in GitHub. Here are the steps you should follow:
-1. Create a public repository on GitHub (create an account if you don't have one).
+1. Fork this repository to your GitHub account (create an account if you don't have one, you will need it working with us).
 2. Create a "development" branch and commit the code to it. Do not push the code to the master branch.
 3. Create a "screenshots" sub-folder and include at least two screenshots of the app.
 4. Include a README file that describes:
@@ -67,4 +67,5 @@ Use the following checklist to ensure high quality of the project.
 2. Briefly describe how you decided on the tools that you used.
 
 ## Have Fun Coding 🤘
-This challenge description is intentionally vague in some aspects, but if you need assistance feel free to ask for help.
+- This challenge description is intentionally vague in some aspects, but if you need assistance feel free to ask for help.
+- If any of the seens out of your current level, you may skip it, but remember to tell us about it in the pull request.

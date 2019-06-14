@@ -32,8 +32,9 @@ Build an application for a events social network that provides the following:
 ## Requirements
 1. Create project using any technology of your preference. It’s perfectly OK to use vanilla code or any framework or libraries;
 2. Although you can use as many dependencies as you want, you should manage them wisely;
-2. The API should be covered by unit tests;
-3. It is not necessary to send the notification emails, however, the code required for that would be welcome.
+3. The API should be covered by unit tests;
+4. It is not necessary to send the notification emails, however, the code required for that would be welcome;
+5. The API must be documented in some way.
 
 ## Deliverables
 The project source code and dependencies should be made available in GitHub. Here are the steps you should follow:
@@ -59,6 +60,7 @@ Use the following checklist to ensure high quality of the project.
 - First of all, the application should run without errors.
 - Are all requirements set above met?
 - Is coding style consistent?
+- The API is well documented?
 
 ## Submission
 1. A link to the Github repository.

@@ -12,10 +12,10 @@ __NOTE:__ the implementation of an interface will not be evaluated.
 2. __Event details:__ the application must allow the user to see the details of the event, by clicking on the event listing, or accessing the event link;
 3. __User signup:__ the application should allow the user to register by informing: Name, Email, Password, Bio, Profile Picture, City, and State;
 4. __User login:__ The application should allow the user to login using their credentials;
-- 4.1 The login should persist when the application is closed, or updated;
+- 4.1 The login should persist when the application is closed, or reloaded;
 
 ### Logged Area
-5. __Friend invitation:__ the application will accept the user to enter an email to add as a friend;
+5. __Friend invitation:__ the application will allow the user to enter an email to add as a friend;
 6. __Add as friend:__ The informed user should receive a friend request, or an invitation to register, if they are not already a user;
 7. __Friendship management:__ the user will be able to see your new friend requests, list your friends, and undo friendships;
 8. __Event registration:__ the application should allow the user to register an event by informing: Name, Description, Date, Time, and Place;

@@ -7,7 +7,7 @@ In this challenge you should build an API, and then implement an simple interfac
 __NOTE:__ We will not evaluate the implementation of visual styles. In fact, it’s recommended that you use some library of components to assist you in the development of the interface. But if you prefer, feel free to implement your own components/styles.
 
 ## Challenge
-Build an API for a events social network that provides the following:
+Build an application for a events social network that provides the following:
 
 ### Public Area
 1. __A public event list:__ When accessing the main route, the application should show a list of all the events registered, paging them every 10 events;

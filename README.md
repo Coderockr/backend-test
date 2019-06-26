@@ -2,12 +2,9 @@
 You should see this challenge as an opportunity to create an application following modern development best practices (given the stack of your choice), but also feel free to use your own architecture preferences (coding standards, code organization, third-party libraries, etc). It’s perfectly fine to use vanilla code or any framework or libraries.
 
 ## Scope
-In this challenge you should build an API, and then implement an simple interface that consumes the data of your API.
+In this challenge you should build an API for an application such as a social event network that implements the following features:
 
-__NOTE:__ We will not evaluate the implementation of visual styles. In fact, it’s recommended that you use some library of components to assist you in the development of the interface. But if you prefer, feel free to implement your own components/styles.
-
-## Challenge
-Build an application for a events social network that provides the following:
+__NOTE:__ the implementation of an interface will not be evaluated.
 
 ### Public Area
 1. __A public event list:__ When accessing the main route, the application should show a list of all the events registered, paging them every 10 events;
@@ -40,12 +37,11 @@ Build an application for a events social network that provides the following:
 The project source code and dependencies should be made available in GitHub. Here are the steps you should follow:
 1. Create a public repository on GitHub (create an account if you don't have one).
 2. Create a "development" branch and commit the code to it. Do not push the code to the master branch.
-3. Create a "screenshots" sub-folder and include at least two screenshots of the app.
-4. Include a README file that describes:
+3. Include a README file that describes:
   - Special build instructions, if any
   - List of third-party libraries used and short description of why/how they were used
-5. Once the work is complete, create a pull request from "development" into "master" and send us the link.
-6. Avoid using huge commits hiding your progress. Feel free to work on a branch and use rebase to adjust your commits before submitting the final version.
+4. Once the work is complete, create a pull request from "development" into "master" and send us the link.
+5. Avoid using huge commits hiding your progress. Feel free to work on a branch and use rebase to adjust your commits before submitting the final version.
 
 ## Coding Standards
 When working on the project be as clean and consistent as possible.

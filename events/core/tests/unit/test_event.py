@@ -6,5 +6,7 @@ from events.core.models import Event
 class EventTest(TestCase):
     def test_model_has_attributes(self):
         self.assertEqual(hasattr(Event, "name"), True)
+        self.assertEqual(hasattr(Event, "description"), True)
         self.assertEqual(hasattr(Event, "date"), True)
-        self.assertEqual(hasattr(Event, "region"), True)
+        self.assertEqual(hasattr(Event, "time"), True)
+        self.assertEqual(hasattr(Event, "place"), True)

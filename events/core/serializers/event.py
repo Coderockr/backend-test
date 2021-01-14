@@ -12,4 +12,10 @@ class ListEventSerializer(ModelSerializer):
 class DetailEventSerializer(ModelSerializer):
     class Meta:
         model = Event
-        fields = ["id", "name", "date", "region"]
+        fields = ["id", "name", "description", "date", "time", "place"]
+
+
+class CreateEventSerializer(ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ["name", "description", "date", "time", "place"]

@@ -29,6 +29,10 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+SIMPLES_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+}
+
 REST_FRAMEWORK = {
     # pagination
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
@@ -36,16 +40,20 @@ REST_FRAMEWORK = {
     # filter
     "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     # auth
-    "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework_simplejwt.authentication.JWTAuthentication",),
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
+    "DEFAULT_AUTHENTICATION_CLASSES": ["rest_framework_simplejwt.authentication.JWTAuthentication"],
+    # permission
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.DjangoModelPermissions"],
+    # test
+    "TEST_REQUEST_DEFAULT_FORMAT": "json",
+    # parser
+    "DEFAULT_PARSER_CLASSES": [
+        "rest_framework.parsers.JSONParser",
+    ],
+    # renderer
+    "DEFAULT_RENDERER_CLASSES": [
+        "rest_framework.renderers.JSONRenderer",
     ],
 }
-
-SIMPLES_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
-}
-
 
 # Application definition
 

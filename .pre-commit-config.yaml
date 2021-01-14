@@ -1,0 +1,25 @@
+repos:
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 3.8.4
+    hooks:
+      - id: flake8
+        name: Lint Code with Flake8
+        entry: flake8
+        language: system
+        types: [python]
+  - repo: https://github.com/psf/black
+    rev: 20.8b1
+    hooks:
+      - id: black
+        name: Format Code with Black
+        entry: black
+        language: system
+        types: [python]
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.7.0
+    hooks:
+      - id: isort
+        name: Format Import with Isort
+        entry: isort
+        language: system
+        types: [python]

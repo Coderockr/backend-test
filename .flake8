@@ -1,0 +1,5 @@
+[flake8]
+max-line-length = 119
+exclude = /*/migrations/*.py
+ignore = W503,E203
+per-file-ignores= */__init__.py:F401

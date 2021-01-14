@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  backend:
+    image: "devguerreiro/python-drf"
+    container_name: backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/code
+    command: python manage.py runserver 0:8000

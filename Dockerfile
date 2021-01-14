@@ -13,7 +13,7 @@ RUN apt-get update \
 
 RUN pip install poetry==1.1.4 && poetry config virtualenvs.create false
 
-# to install dependencies always when removed or added
+#to install dependencies always when removed or added
 COPY poetry.lock pyproject.toml /code/
 RUN poetry install --no-root
 

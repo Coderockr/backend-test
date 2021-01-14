@@ -1,8 +1,8 @@
-version: "3"
+version: "3.9"
 
 services:
   backend:
-    image: "devguerreiro/python-drf"
+    image: devguerreiro/python-drf
     container_name: backend
     ports:
       - "8000:8000"

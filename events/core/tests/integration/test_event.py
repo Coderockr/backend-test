@@ -59,6 +59,9 @@ class EventTest(APITestCase):
         self.assertEqual(Event.objects.count(), 1)
 
     def test_user_can_update_own_event(self):
+        """
+        Test whether the user can update an event that he is own
+        """
         # setup
         new_user = create_user_with_permission(permissions=[])
         random_event = baker.make("Event", owner=new_user)
@@ -94,6 +97,9 @@ class EventTest(APITestCase):
         self.assertEqual(updated_event.name, new_name)
 
     def test_user_cannot_update_non_owner_event(self):
+        """
+        Test whether the user can update an event that he is not own
+        """
         # setup
         new_user = create_user_with_permission(permissions=[])
         random_event = baker.make("Event")
@@ -113,6 +119,9 @@ class EventTest(APITestCase):
         self.assertEqual(response.status_code, 403)
 
     def test_user_can_cancel_own_event(self):
+        """
+        Test whether the user can cancel an event that he is own
+        """
         # setup
         new_user = create_user_with_permission(permissions=[])
         random_event = baker.make("Event", owner=new_user)
@@ -127,6 +136,9 @@ class EventTest(APITestCase):
         self.assertEqual(response.status_code, 204)
 
     def test_user_cannot_cancel_non_owner_event(self):
+        """
+        Test whether the user can cancel an event that he is not own
+        """
         # setup
         new_user = create_user_with_permission(permissions=[])
         random_event = baker.make("Event")

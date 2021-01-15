@@ -4,9 +4,20 @@ from events.core.models import Event
 
 
 class EventTest(TestCase):
+    """
+    Test Event model that should has following attributes:
+        - name
+        - description
+        - date
+        - time
+        - place
+        - owner
+    """
+
     def test_model_has_attributes(self):
         self.assertEqual(hasattr(Event, "name"), True)
         self.assertEqual(hasattr(Event, "description"), True)
         self.assertEqual(hasattr(Event, "date"), True)
         self.assertEqual(hasattr(Event, "time"), True)
         self.assertEqual(hasattr(Event, "place"), True)
+        self.assertEqual(hasattr(Event, "owner"), True)

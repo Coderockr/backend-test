@@ -18,4 +18,10 @@ class DetailEventSerializer(ModelSerializer):
 class CreateEventSerializer(ModelSerializer):
     class Meta:
         model = Event
-        fields = ["name", "description", "date", "time", "place"]
+        fields = ["name", "description", "date", "time", "place", "owner"]
+
+
+class UpdateEventSerializer(ModelSerializer):
+    class Meta:
+        model = Event
+        fields = ["name", "description", "date", "time", "place", "owner"]

@@ -42,7 +42,9 @@ REST_FRAMEWORK = {
     # auth
     "DEFAULT_AUTHENTICATION_CLASSES": ["rest_framework_simplejwt.authentication.JWTAuthentication"],
     # permission
-    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.DjangoModelPermissions"],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.DjangoModelPermissions",
+    ],
     # test
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
     # parser

@@ -3,12 +3,12 @@ from rest_framework.viewsets import ModelViewSet
 
 from events.core.filters import EventFilter
 from events.core.models import Event
+from events.core.permissions import IsEventOwner, ReadOnly
 from events.core.serializers import DetailEventSerializer, ListEventSerializer
 from events.core.serializers.event import CreateEventSerializer, UpdateEventSerializer
-from events.core.views.permissions import IsEventOwner, ReadOnly
 
 
-class EventView(ModelViewSet):
+class EventViewSet(ModelViewSet):
     """
     List, Retrieve, Create, Update and Destroy events
     """

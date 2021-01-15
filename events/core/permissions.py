@@ -8,7 +8,7 @@ class ReadOnly(BasePermission):
 
 class IsEventOwner(BasePermission):
     """
-    Block whether the user is non-owner event
+    Block whether the user is not event owner
     """
 
     def has_object_permission(self, request, view, obj):

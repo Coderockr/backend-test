@@ -3,7 +3,7 @@ from django.test import TestCase
 from events.core.models import CustomUser
 
 
-class UserTest(TestCase):
+class UserTestCase(TestCase):
     """
     Test Custom User model that should has following attributes:
         - first_name

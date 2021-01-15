@@ -12,6 +12,18 @@ def make_path(_, filename):
 
 
 class CustomUser(AbstractUser):
+    """
+    User model that has the following attributes:
+        - email
+        - bio
+        - city
+        - state
+        - profile_picture
+
+    REQUIRED_FIELDS = ["username", "city", "state", "first_name", "last_name"]
+    USERNAME_FIELD = "email"
+    """
+
     email = models.EmailField(unique=True)
     bio = models.CharField(max_length=250, null=True, blank=True)
     city = models.CharField(max_length=50)

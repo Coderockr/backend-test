@@ -13,6 +13,9 @@ def create_user_with_permission(permissions):
         - city = somecity
         - state = somestate
         - password = somepassword
+
+    Args:
+        permissions (list): list of Strings with format <'app_name'.'codename_of_permission'>
     """
     user = CustomUser.objects.create_user(
         email="somemail@gmail.com", username="someusername", city="somecity", state="somestate"
@@ -26,3 +29,13 @@ def create_user_with_permission(permissions):
         user.user_permissions.add(permission)
 
     return user
+
+
+def add_user_to_participate_in_events(events: list, user):
+    """
+    Args:
+        events (list): list of Event model objects
+        user (CustomUser): CustomUser object model
+    """
+    for event in events:
+        event.participants.add(user)

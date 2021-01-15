@@ -1,16 +1,48 @@
 from django.db import models
-
-# class EventQueryset(models.QuerySet):
-#     def only_active(self):
-#         return self.filter(active=True)
+from django.db.models import Q
 
 
-# class EventManager(models.Manager):
-#     def get_queryset(self):
-#         return EventQueryset(self.model, using=self._db).only_active()
+class EventQueryset(models.QuerySet):
+    def only_active(self):
+        return self.filter(active=True)
+
+    def own_or_participating_events(self, user):
+        return self.filter(Q(owner=user) | Q(participants=user))
+
+    def own_events(self, owner):
+        return self.filter(owner=owner)
+
+    def participating_events(self, participant):
+        return self.filter(participants=participant)
+
+
+class EventManager(models.Manager):
+    def get_queryset(self):
+        return EventQueryset(self.model, using=self._db).only_active()
+
+    def get_own_events(self, owner):
+        return self.get_queryset().own_events(owner)
+
+    def get_participating_events(self, participant):
+        return self.get_queryset().participating_events(participant)
+
+    def get_own_or_participating_events(self, user):
+        return self.get_queryset().own_or_participating_events(user)
 
 
 class Event(models.Model):
+    """
+    Event model that has the following attributes:
+        - name
+        - description
+        - date
+        - time
+        - place
+        - owner
+        - active
+        - participants
+    """
+
     name = models.CharField(max_length=100)
     description = models.TextField()
     date = models.DateField()
@@ -20,8 +52,23 @@ class Event(models.Model):
         "CustomUser", on_delete=models.CASCADE, related_name="events", related_query_name="event"
     )
     active = models.BooleanField(default=True)
+    participants = models.ManyToManyField(
+        "CustomUser",
+        related_name="participated_events",
+        related_query_name="participated_event",
+        through="Participants",
+    )
 
-    # objects = EventManager()
+    objects = EventManager()
 
     class Meta:
         ordering = ["name"]
+
+
+class Participants(models.Model):
+    event = models.ForeignKey(
+        "Event", related_name="participations", related_query_name="participation", on_delete=models.CASCADE
+    )
+    user = models.ForeignKey(
+        "CustomUser", related_name="participations", related_query_name="participation", on_delete=models.CASCADE
+    )

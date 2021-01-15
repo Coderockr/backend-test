@@ -32,7 +32,8 @@
 		"ms-python.vscode-pylance",
 		"njpwerner.autodocstring",
 		"christian-kohler.path-intellisense",
-		"christian-kohler.path-intellisense",
+		"bierner.emojisense",
+		"wayou.vscode-todo-highlight",
 	]
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],

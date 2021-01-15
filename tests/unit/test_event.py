@@ -3,7 +3,7 @@ from django.test import TestCase
 from events.core.models import Event
 
 
-class EventTest(TestCase):
+class EventTestCase(TestCase):
     """
     Test Event model that should has following attributes:
         - name

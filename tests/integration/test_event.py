@@ -1,14 +1,14 @@
 from datetime import date, datetime
 
-from django.urls import reverse
 from model_bakery import baker
+from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
 from events.core.models import Event
-from events.core.tests.integration.setup import create_user_with_permission
+from tests.integration.setup import create_user_with_permission
 
 
-class EventTest(APITestCase):
+class EventAPITestCase(APITestCase):
     def test_list_events(self):
         # setup
         baker.make("Event", _quantity=15)

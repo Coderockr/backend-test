@@ -33,6 +33,20 @@ class CustomUser(AbstractUser):
     city = models.CharField(max_length=50)
     state = models.CharField(max_length=50)
     profile_picture = models.ImageField(null=True, blank=True, upload_to=make_path)
+    friends = models.ManyToManyField("CustomUser", through="Friendship")
 
     REQUIRED_FIELDS = ["username", "first_name", "last_name", "city", "state"]
     USERNAME_FIELD = "email"
+
+
+class Friendship(models.Model):
+    user1 = models.ForeignKey(
+        "CustomUser", related_name="friendships1", related_query_name="friendship1", on_delete=models.CASCADE
+    )
+    user2 = models.ForeignKey(
+        "CustomUser", related_name="friendships2", related_query_name="friendship2", on_delete=models.CASCADE
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ["user1_id", "user2_id"]

@@ -75,3 +75,6 @@ class Participants(models.Model):
     user = models.ForeignKey(
         "CustomUser", related_name="participations", related_query_name="participation", on_delete=models.CASCADE
     )
+
+    class Meta:
+        unique_together = ["event", "user"]

@@ -34,6 +34,8 @@
 		"christian-kohler.path-intellisense",
 		"bierner.emojisense",
 		"wayou.vscode-todo-highlight",
+		"streetsidesoftware.code-spell-checker",
+		"streetsidesoftware.code-spell-checker-portuguese"
 	]
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],

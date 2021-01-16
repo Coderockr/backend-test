@@ -11,6 +11,10 @@ from events.core.serializers import ListEventSerializer
 
 
 class UserViewSet(GenericViewSet):
+    """
+    Get events that user is participating or that is own events
+    """
+
     filterset_class = MyEventsFilter
 
     def get_queryset(self):

@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ("date", models.DateField()),
                 ("time", models.TimeField()),
                 ("place", models.CharField(max_length=150)),
-                ("active", models.BooleanField(default=True)),
+                ("is_active", models.BooleanField(default=True)),
                 (
                     "owner",
                     models.ForeignKey(

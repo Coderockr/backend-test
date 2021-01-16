@@ -39,7 +39,7 @@ class Event(models.Model):
         - time
         - place
         - owner
-        - active
+        - is_active
         - participants
     """
 
@@ -51,7 +51,7 @@ class Event(models.Model):
     owner = models.ForeignKey(
         "CustomUser", on_delete=models.CASCADE, related_name="events", related_query_name="event"
     )
-    active = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
     participants = models.ManyToManyField(
         "CustomUser",
         related_name="participated_events",

@@ -6,14 +6,14 @@ class EventQueryset(models.QuerySet):
     def only_active(self):
         return self.filter(is_active=True)
 
-    def own_or_participating_events(self, user):
-        return self.filter(Q(owner=user) | Q(participants=user))
-
     def own_events(self, owner):
         return self.filter(owner=owner)
 
     def participating_events(self, participant):
         return self.filter(participants=participant)
+
+    def own_or_participating_events(self, user):
+        return self.filter(Q(owner=user) | Q(participants=user)).distinct()
 
 
 class EventManager(models.Manager):

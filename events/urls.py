@@ -28,7 +28,7 @@ router.register("user", UserViewSet, basename="user")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include(router.urls)),
+    path("api/v1/", include(router.urls)),
     path("auth/", include("djoser.urls")),
     path("auth/", include("djoser.urls.jwt")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

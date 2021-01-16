@@ -31,6 +31,9 @@ class EventViewSet(ModelViewSet):
         "partial_update": UpdateEventSerializer,
     }
 
+    def get_queryset(self):
+        return Event.objects.get_only_active() if self.action == "list" else super().get_queryset()
+
     def get_serializer_class(self):
         serializer_class = self.per_action_serializer.get(self.action)
 

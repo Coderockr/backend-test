@@ -1,6 +1,7 @@
 from datetime import date, datetime
 
 from model_bakery import baker
+from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
@@ -11,14 +12,23 @@ from tests.integration.setup import create_user_with_permission
 class EventAPITestCase(APITestCase):
     def test_list_events(self):
         # setup
-        baker.make("Event", _quantity=15)
+        random_events = baker.make("Event", _quantity=15)
+
+        # random events that not should returned
+        baker.make("Event", is_active=False, _quantity=10)
+
         path = reverse("event-list")
 
         # validation
         response = self.client.get(path)
 
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data.get("count"), 15)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get("count"), len(random_events))
+
+        first_result = response.data.get("results")[0]
+        # should has the serializer fields
+        self.assertNotEqual(first_result.get("id"), None)
+        self.assertNotEqual(first_result.get("name"), None)
 
     def test_retrieve_event(self):
         # setup
@@ -28,13 +38,20 @@ class EventAPITestCase(APITestCase):
         # validation
         response = self.client.get(path)
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # should has the serializer fields and their corresponding values
         self.assertEqual(response.data.get("id"), random_event.id)
         self.assertEqual(response.data.get("name"), random_event.name)
         self.assertEqual(response.data.get("description"), random_event.description)
         self.assertEqual(response.data.get("date"), str(random_event.date))
         self.assertEqual(response.data.get("time"), str(random_event.time))
         self.assertEqual(response.data.get("place"), random_event.place)
+        self.assertEqual(response.data.get("owner_id"), random_event.owner.id)
+        self.assertEqual(response.data.get("is_active"), random_event.is_active)
+
+        participants_id = [participant.id for participant in random_event.participants.all()]
+        self.assertEqual(response.data.get("participants_id"), participants_id)
 
     def test_create_event(self):
         # setup
@@ -45,7 +62,6 @@ class EventAPITestCase(APITestCase):
             "date": str(date.today()),
             "time": datetime.now().strftime("%H:%M:%S"),
             "place": "someplace",
-            "owner": new_user.id,
         }
         path = reverse("event-list")
 
@@ -55,8 +71,9 @@ class EventAPITestCase(APITestCase):
         # validation
         response = self.client.post(path, new_event)
 
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Event.objects.count(), 1)
+        self.assertEqual(Event.objects.all().first().owner, new_user)
 
     def test_user_can_update_own_event(self):
         """
@@ -73,7 +90,6 @@ class EventAPITestCase(APITestCase):
             "date": random_event.date,
             "time": random_event.time,
             "place": random_event.place,
-            "active": random_event.active,
             "owner": random_event.owner.id,
         }
         path = reverse("event-detail", args=[random_event.id])
@@ -84,16 +100,18 @@ class EventAPITestCase(APITestCase):
         # validation update / put
         response = self.client.put(path, update_event_data)
 
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
         updated_event = Event.objects.get(pk=random_event.id)
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(updated_event.name, new_name)
 
         # validation partial_update / patch
         new_name = "somenewnameagain"
         response = self.client.patch(path, {"name": new_name})
 
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
         updated_event = Event.objects.get(pk=random_event.id)
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(updated_event.name, new_name)
 
     def test_user_cannot_update_non_owner_event(self):
@@ -111,12 +129,12 @@ class EventAPITestCase(APITestCase):
         # validation update / put
         response = self.client.put(path)
 
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
         # validation partial_update / patch
         response = self.client.patch(path)
 
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_user_can_cancel_own_event(self):
         """
@@ -133,7 +151,7 @@ class EventAPITestCase(APITestCase):
         # validation
         response = self.client.delete(path)
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
     def test_user_cannot_cancel_non_owner_event(self):
         """
@@ -151,4 +169,4 @@ class EventAPITestCase(APITestCase):
         response = self.client.delete(path)
 
         self.assertNotEqual(random_event.owner, new_user)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)

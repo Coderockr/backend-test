@@ -4,7 +4,7 @@ from django.db.models import Q
 
 class EventQueryset(models.QuerySet):
     def only_active(self):
-        return self.filter(active=True)
+        return self.filter(is_active=True)
 
     def own_or_participating_events(self, user):
         return self.filter(Q(owner=user) | Q(participants=user))
@@ -18,7 +18,10 @@ class EventQueryset(models.QuerySet):
 
 class EventManager(models.Manager):
     def get_queryset(self):
-        return EventQueryset(self.model, using=self._db).only_active()
+        return EventQueryset(self.model, using=self._db)
+
+    def get_only_active(self):
+        return self.get_queryset().only_active()
 
     def get_own_events(self, owner):
         return self.get_queryset().own_events(owner)

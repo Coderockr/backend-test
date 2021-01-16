@@ -15,12 +15,16 @@ class CustomUser(AbstractUser):
     """
     User model that has the following attributes:
         - email
-        - bio
+        - username
+        - first_name
+        - last_name
         - city
         - state
+        - password
+        - bio
         - profile_picture
 
-    REQUIRED_FIELDS = ["username", "city", "state", "first_name", "last_name"]
+    REQUIRED_FIELDS = ["username", "first_name", "last_name", "city", "state"]
     USERNAME_FIELD = "email"
     """
 
@@ -30,5 +34,5 @@ class CustomUser(AbstractUser):
     state = models.CharField(max_length=50)
     profile_picture = models.ImageField(null=True, blank=True, upload_to=make_path)
 
-    REQUIRED_FIELDS = ["username", "city", "state", "first_name", "last_name"]
+    REQUIRED_FIELDS = ["username", "first_name", "last_name", "city", "state"]
     USERNAME_FIELD = "email"

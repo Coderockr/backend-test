@@ -12,6 +12,8 @@ class EventTestCase(TestCase):
         - time
         - place
         - owner
+        - is_active
+        - participants
     """
 
     def test_model_has_attributes(self):
@@ -21,3 +23,5 @@ class EventTestCase(TestCase):
         self.assertEqual(hasattr(Event, "time"), True)
         self.assertEqual(hasattr(Event, "place"), True)
         self.assertEqual(hasattr(Event, "owner"), True)
+        self.assertEqual(hasattr(Event, "is_active"), True)
+        self.assertEqual(hasattr(Event, "participants"), True)

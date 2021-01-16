@@ -1,5 +1,6 @@
 from djoser.email import ActivationEmail
 from model_bakery import baker
+from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
@@ -28,7 +29,7 @@ class UserAPITestCase(APITestCase):
         # validation
         response = self.client.get(path)
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get("count"), len(random_owner_events) + len(random_participating_events))
 
     def test_get_just_my_own_events(self):
@@ -47,7 +48,7 @@ class UserAPITestCase(APITestCase):
         # validation
         response = self.client.get(path)
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get("count"), len(random_owner_events))
 
     def test_get_just_participating_events(self):
@@ -67,7 +68,7 @@ class UserAPITestCase(APITestCase):
         # validation
         response = self.client.get(path)
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get("count"), len(random_participating_events))
 
     def test_account_activation(self):
@@ -86,5 +87,5 @@ class UserAPITestCase(APITestCase):
 
         response = self.client.get(path)
 
-        self.assertEqual(response.status_code, 204)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(CustomUser.objects.get(pk=new_user.id).is_active, True)

@@ -57,3 +57,4 @@ class Invitation(models.Model):
 
     class Meta:
         unique_together = ["type", "invitation_from", "invitation_to"]
+        ordering = ["-created_at"]

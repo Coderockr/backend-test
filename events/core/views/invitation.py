@@ -29,9 +29,8 @@ class InvitationViewSet(GenericViewSet, UpdateModelMixin):
 
         was_sent = send_email_to_register(to)
 
-        # invitations to register should not be created
         if was_sent:
-            return Response({"detail": f"Was sent an register invitation email to {to}"}, status=status.HTTP_200_OK)
+            return Response({"detail": f"An email has been sent for {to} to register"}, status=status.HTTP_200_OK)
         else:
             invitation = Invitation()
             invitation.type = type
@@ -42,9 +41,13 @@ class InvitationViewSet(GenericViewSet, UpdateModelMixin):
         return Response({"detail": "Invitation sent successfully"}, status=status.HTTP_200_OK)
 
     def __raise_if_invalid_invitation(self, request, type, to):
-        # invite yourself or passed a invalid parameter
-        if to == request.user.email or type is None or to is None:
+        # passed a invalid parameter
+        if type is None or to is None:
             raise InvalidQueryParam()
+
+        # invite yourself
+        if to == request.user.email:
+            raise InvalidQueryParam(detail="Can not send invitation to yourself.")
 
         # invalid type
         try:

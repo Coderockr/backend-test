@@ -8,24 +8,19 @@ from rest_framework.viewsets import GenericViewSet
 
 from events.core.filters import MyEventsFilter
 from events.core.models import Event
+from events.core.models.user import CustomUser
 from events.core.serializers import ListEventSerializer
+from events.core.serializers.user import ListUserSerializer
 
 
 class UserViewSet(GenericViewSet):
-    """
-    Get events that user is participating or that is own events
-    """
-
+    queryset = CustomUser.objects.all()
     filterset_class = MyEventsFilter
 
-    def get_queryset(self):
-        queryset = Event.objects.get_own_or_participating_events(self.request.user)
-
-        return queryset
-
+    # Get events that user is participating or that is own events
     @action(detail=False, permission_classes=[IsAuthenticated])
-    def my_events(self, _):
-        queryset = self.get_queryset()
+    def my_events(self, request):
+        queryset = Event.objects.get_own_or_participating_events(request.user)
         filtered_queryset = self.filter_queryset(queryset)
         paginated_data = self.paginate_queryset(filtered_queryset)
         serializer = ListEventSerializer(instance=paginated_data, many=True)
@@ -50,8 +45,20 @@ class UserViewSet(GenericViewSet):
         return (
             Response(
                 {"detail": "Account successfully activated"},
-                status=status.HTTP_200_OK,
+                status=status.HTTP_204_NO_CONTENT,
             )
             if response.status_code == status.HTTP_204_NO_CONTENT
             else Response(response.data)
         )
+
+    @action(detail=False, permission_classes=[IsAuthenticated])
+    def friends(self, request):
+        queryset = CustomUser.objects.get_all_friends(request.user)
+        paginated_queryset = self.paginate_queryset(queryset)
+        serializer = ListUserSerializer(instance=paginated_queryset, many=True)
+
+        return self.get_paginated_response(serializer.data)
+
+    @action(detail=False, permission_classes=[IsAuthenticated])
+    def friends_requests(self, request):
+        pass

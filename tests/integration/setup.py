@@ -39,3 +39,8 @@ def add_user_to_participate_in_events(events: list, user):
     """
     for event in events:
         event.participants.add(user)
+
+
+def add_friends(user, friends):
+    for friend in friends:
+        user.friends.add(friend)

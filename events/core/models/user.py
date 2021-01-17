@@ -74,11 +74,9 @@ class Invitation(models.Model):
     # type
     EVENT = "EV"
     FRIENDSHIP = "FS"
-    REGISTER = "RE"
     INVITATION_TYPE_CHOICES = [
         (EVENT, "Event"),
         (FRIENDSHIP, "Friendship"),
-        (REGISTER, "Register"),
     ]
     # status
     ACCEPTED = "AC"

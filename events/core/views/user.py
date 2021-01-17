@@ -11,6 +11,7 @@ from events.core.filters import MyEventsFilter
 from events.core.models import Event
 from events.core.models.user import CustomUser, Invitation
 from events.core.serializers import ListEventSerializer
+from events.core.signals.email import send_email_to_register
 
 
 class UserViewSet(GenericViewSet):
@@ -69,11 +70,17 @@ class UserViewSet(GenericViewSet):
 
         self.__raise_if_invalid_invitation(request, type, to)
 
-        invitation = Invitation()
-        invitation.type = type
-        invitation.invitation_from = request.user
-        invitation.invitation_to = CustomUser.objects.get(email=to)
-        invitation.save()
+        was_sent = send_email_to_register(to)
+
+        # invitations to register should not be created
+        if was_sent:
+            return Response({"detail": f"Was sent an register invitation email to {to}"}, status=status.HTTP_200_OK)
+        else:
+            invitation = Invitation()
+            invitation.type = type
+            invitation.invitation_from = request.user
+            invitation.invitation_to = CustomUser.objects.get(email=to)
+            invitation.save()
 
         return Response({"detail": "Invitation sent successfully"}, status=status.HTTP_200_OK)
 
@@ -87,12 +94,6 @@ class UserViewSet(GenericViewSet):
             Invitation().get_invitation_type(type)
         except AttributeError:
             raise InvalidQueryParam(detail="Invalid invitation type.")
-
-        # unregistered email
-        try:
-            CustomUser.objects.get(email=to)
-        except CustomUser.DoesNotExist:
-            raise InvalidQueryParam(detail="Does not has a user with this email.")
 
         # sent same invite more than once
         invitations = Invitation.objects.filter(type=type, invitation_from=request.user, invitation_to__email=to)

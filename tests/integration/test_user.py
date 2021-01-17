@@ -163,25 +163,6 @@ class UserAPITestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
-    def test_send_invitation_unregistered_email(self):
-        # setup
-        random_user_1 = baker.make(CustomUser)
-
-        # invitation query params
-        type = "ev"  # evento
-        to = "someunregisteredemail@gmail.com"
-
-        path = reverse("user-send-invitation")
-        path = path + f"?type={type}&to={to}"
-
-        # authenticate
-        self.client.force_authenticate(user=random_user_1)
-
-        # validation
-        response = self.client.get(path)
-
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
     def test_send_same_invitation_more_than_once(self):
         # setup
         random_user_1 = baker.make(CustomUser)

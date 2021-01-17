@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-def make_path(_, filename):
+def make_path(_, filename):  # pragma: no cover -> no complexity
     filename_ext = os.path.splitext(filename)
 
     return f"{uuid4().hex}.{filename_ext}"

@@ -23,11 +23,11 @@ class EventManager(models.Manager):
     def get_only_active(self):
         return self.get_queryset().only_active()
 
-    def get_own_events(self, owner):
-        return self.get_queryset().own_events(owner)
+    # def get_own_events(self, owner):
+    #     return self.get_queryset().own_events(owner)
 
-    def get_participating_events(self, participant):
-        return self.get_queryset().participating_events(participant)
+    # def get_participating_events(self, participant):
+    #     return self.get_queryset().participating_events(participant)
 
     def get_own_or_participating_events(self, user):
         return self.get_queryset().own_or_participating_events(user)

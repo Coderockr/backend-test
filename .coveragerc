@@ -1,0 +1,15 @@
+[run]
+branch = True
+source = events/
+omit =
+    # root files
+    events/asgi.py
+    events/wsgi.py
+    events/settings.py
+    events/urls.py
+    
+    # apps files
+    */admin.py
+    */__init__.py
+    */apps.py
+    */migrations/*

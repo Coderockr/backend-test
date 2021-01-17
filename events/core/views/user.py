@@ -61,31 +61,41 @@ class UserViewSet(GenericViewSet):
     @action(detail=False, permission_classes=[IsAuthenticated])
     def send_invitation(self, request):
         """
-        Send invitation by passing invitation type and user email to send
+        Send invitation by passing invitation "type" and user "email" to send
         ...
         """
         type = request.query_params.get("type")
         to = request.query_params.get("to")
 
-        if self.__is_invalid_invitation(request, type, to):
-            raise InvalidQueryParam()
+        self.__raise_if_invalid_invitation(request, type, to)
 
         invitation = Invitation()
-
-        try:
-            type = invitation.get_invitation_type(type)
-            to = CustomUser.objects.get(email=to)
-        except (AttributeError, CustomUser.DoesNotExist):
-            raise InvalidQueryParam()
-
         invitation.type = type
         invitation.invitation_from = request.user
-        invitation.invitation_to = to
+        invitation.invitation_to = CustomUser.objects.get(email=to)
         invitation.save()
 
-        return Response({}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"detail": "Invitation sent successfully"}, status=status.HTTP_200_OK)
 
-    def __is_invalid_invitation(self, request, type, to):
-        # should not invite yourself and should pass a valid parameter
-        if type is None or to is None or to == request.user.email:
-            return True
+    def __raise_if_invalid_invitation(self, request, type, to):
+        # invite yourself or passed a invalid parameter
+        if to == request.user.email or type is None or to is None:
+            raise InvalidQueryParam()
+
+        # invalid type
+        try:
+            Invitation().get_invitation_type(type)
+        except AttributeError:
+            raise InvalidQueryParam(detail="Invalid invitation type.")
+
+        # unregistered email
+        try:
+            CustomUser.objects.get(email=to)
+        except CustomUser.DoesNotExist:
+            raise InvalidQueryParam(detail="Does not has a user with this email.")
+
+        # sent same invite more than once
+        invitations = Invitation.objects.filter(type=type, invitation_from=request.user, invitation_to__email=to)
+
+        if invitations.exists():
+            raise InvalidQueryParam(detail="This invitation was already sent before.")

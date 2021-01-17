@@ -89,3 +89,120 @@ class UserAPITestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(CustomUser.objects.get(pk=new_user.id).is_active, True)
+
+    def test_send_invitation(self):
+        # setup
+        random_user_1 = baker.make(CustomUser)
+        random_user_2 = baker.make(CustomUser)
+
+        # invitation query params
+        type = "ev"  # evento
+        to = random_user_2.email
+
+        path = reverse("user-send-invitation")
+        path = path + f"?type={type}&to={to}"
+
+        # authenticate
+        self.client.force_authenticate(user=random_user_1)
+
+        # validation
+        response = self.client.get(path)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_send_invitation_invalid_parameter(self):
+        # setup
+        random_user_1 = baker.make(CustomUser)
+        random_user_2 = baker.make(CustomUser)
+
+        # invitation query params
+        type = "ev"  # evento
+        to = random_user_2.email
+
+        path = reverse("user-send-invitation")
+
+        # wrong first param
+        path = path + f"?wrong_param={type}&to={to}"
+
+        # authenticate
+        self.client.force_authenticate(user=random_user_1)
+
+        # validation
+        response = self.client.get(path)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+        # wrong second param
+        path = path + f"?type={type}&wrong_param={to}"
+
+        # authenticate
+        self.client.force_authenticate(user=random_user_1)
+
+        # validation
+        response = self.client.get(path)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_send_invitation_invalid_type(self):
+        # setup
+        random_user_1 = baker.make(CustomUser)
+        random_user_2 = baker.make(CustomUser)
+
+        # invitation query params
+        type = "somewrongtype"
+        to = random_user_2.email
+
+        path = reverse("user-send-invitation")
+        path = path + f"?type={type}&to={to}"
+
+        # authenticate
+        self.client.force_authenticate(user=random_user_1)
+
+        # validation
+        response = self.client.get(path)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_send_invitation_unregistered_email(self):
+        # setup
+        random_user_1 = baker.make(CustomUser)
+
+        # invitation query params
+        type = "ev"  # evento
+        to = "someunregisteredemail@gmail.com"
+
+        path = reverse("user-send-invitation")
+        path = path + f"?type={type}&to={to}"
+
+        # authenticate
+        self.client.force_authenticate(user=random_user_1)
+
+        # validation
+        response = self.client.get(path)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_send_same_invitation_more_than_once(self):
+        # setup
+        random_user_1 = baker.make(CustomUser)
+        random_user_2 = baker.make(CustomUser)
+
+        # invitation query params
+        type = "ev"  # evento
+        to = random_user_2.email
+
+        path = reverse("user-send-invitation")
+        path = path + f"?type={type}&to={to}"
+
+        # authenticate
+        self.client.force_authenticate(user=random_user_1)
+
+        # validation
+        response = self.client.get(path)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        # same invitation by second time
+        response = self.client.get(path)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

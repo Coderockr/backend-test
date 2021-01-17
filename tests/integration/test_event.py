@@ -91,6 +91,7 @@ class EventAPITestCase(APITestCase):
             "time": random_event.time,
             "place": random_event.place,
             "owner": random_event.owner.id,
+            "participants": [],
         }
         path = reverse("event-detail", args=[random_event.id])
 

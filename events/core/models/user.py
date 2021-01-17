@@ -23,6 +23,7 @@ class CustomUser(AbstractUser):
         - password
         - bio
         - profile_picture
+        - friends
 
     REQUIRED_FIELDS = ["username", "first_name", "last_name", "city", "state"]
     USERNAME_FIELD = "email"
@@ -40,6 +41,13 @@ class CustomUser(AbstractUser):
 
 
 class Friendship(models.Model):
+    """
+    Friendship model that has the following attributes:
+        - user1
+        - user2
+        - created_at
+    """
+
     user1 = models.ForeignKey(
         "CustomUser", related_name="friendships1", related_query_name="friendship1", on_delete=models.CASCADE
     )
@@ -53,6 +61,16 @@ class Friendship(models.Model):
 
 
 class Invitation(models.Model):
+    """
+    Invitation model that has the following attributes:
+        - type
+        - status
+        - invitation_from
+        - invitation_to
+        - created_at
+        - updated_at
+    """
+
     # type
     EVENT = "EV"
     FRIENDSHIP = "FS"
@@ -97,3 +115,6 @@ class Invitation(models.Model):
             raise AttributeError()
 
         return type
+
+    class Meta:
+        unique_together = ["type", "invitation_from", "invitation_to"]

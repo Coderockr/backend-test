@@ -2,16 +2,17 @@ from django.core.mail.message import EmailMessage
 from django.db.models.signals import post_save
 from django.dispatch.dispatcher import receiver
 
-from events.core.models import Invitation
-from events.core.models.user import CustomUser
+from events.core.models import CustomUser, Invitation
 
 
 @receiver(signal=post_save, sender=Invitation, dispatch_uid="send_invitation_email")
 def send_invitation_email(sender, **kwargs):
-    if kwargs.get("created"):
-        instance = kwargs.get("instance")
+    instance = kwargs.get("instance")
 
+    if kwargs.get("created"):
         __send_generic_email(sender, instance)
+    else:
+        __send_invitation_status_email(sender, instance)
 
 
 def is_unregistered_destination(destination):
@@ -38,10 +39,6 @@ def send_email_to_register(destination):
         email.to = ["luiscvlh11@gmail.com"]
         email.send()
 
-        print("+++++++++++++++++++")
-        print("Register Email sent")
-        print("+++++++++++++++++++")
-
         return True
 
 
@@ -61,6 +58,19 @@ def __send_generic_email(sender, instance):
     email.to = [instance.invitation_to.email]
     email.send()
 
-    print("++++++++++++++++++")
-    print("Generic Email sent")
-    print("++++++++++++++++++")
+
+def __send_invitation_status_email(sender, instance):
+    choices = dict(sender.status.field.choices)
+    choice_label = choices.get(instance.status.upper())
+
+    email = EmailMessage()
+    email.subject = "Invitation status updated"
+    email.body = f"""
+    Hi {instance.invitation_from.username},
+
+    The invitation sent to {instance.invitation_to.username} is {choice_label}.
+
+    Hugs,
+    """
+    email.to = [instance.invitation_from.email]
+    email.send()

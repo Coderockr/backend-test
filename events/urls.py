@@ -20,11 +20,12 @@ from django.urls import path
 from django.urls.conf import include
 from rest_framework.routers import DefaultRouter
 
-from events.core.views import EventViewSet, UserViewSet
+from events.core.views import EventViewSet, InvitationViewSet, UserViewSet
 
 router = DefaultRouter()
 router.register("", EventViewSet, basename="event")
 router.register("user", UserViewSet, basename="user")
+router.register("invitation", InvitationViewSet, basename="invitation")
 
 urlpatterns = [
     path("admin/", admin.site.urls),

@@ -10,6 +10,7 @@ from events.core.filters import MyEventsFilter
 from events.core.models import Event
 from events.core.models.user import CustomUser
 from events.core.serializers import ListEventSerializer
+from events.core.serializers.invitation import ListInvitationSerializer
 from events.core.serializers.user import ListUserSerializer
 
 
@@ -61,4 +62,8 @@ class UserViewSet(GenericViewSet):
 
     @action(detail=False, permission_classes=[IsAuthenticated])
     def friends_requests(self, request):
-        pass
+        queryset = CustomUser.objects.get_all_friends_requests(request.user)
+        paginated_queryset = self.paginate_queryset(queryset)
+        serializer = ListInvitationSerializer(instance=paginated_queryset, many=True)
+
+        return self.get_paginated_response(serializer.data)

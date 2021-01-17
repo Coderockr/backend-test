@@ -4,6 +4,7 @@ from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
+from events.core.models.invitation import Invitation
 from events.core.models.user import CustomUser
 from tests.integration.setup import add_friends, add_user_to_participate_in_events, create_user_with_permission
 
@@ -106,4 +107,21 @@ class UserAPITestCase(APITestCase):
         response = self.client.get(path)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data.get("count"), new_user.friends.all().count())
+        self.assertEqual(response.data.get("count"), len(random_users))
+
+    def test_get_friends_requests(self):
+        # setup
+        new_user = create_user_with_permission(permissions=[])
+        random_friend_invitations = baker.make(
+            Invitation, invitation_to=new_user, type=Invitation.FRIENDSHIP, _quantity=15
+        )
+
+        path = reverse("user-friends-requests")
+
+        # authenticate
+        self.client.force_authenticate(new_user)
+
+        # validation
+        response = self.client.get(path)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get("count"), len(random_friend_invitations))

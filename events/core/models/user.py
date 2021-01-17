@@ -4,6 +4,8 @@ from uuid import uuid4
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 
+from events.core.models import Invitation
+
 
 def make_path(_, filename):  # pragma: no cover -> no complexity
     filename_ext = os.path.splitext(filename)
@@ -12,8 +14,14 @@ def make_path(_, filename):  # pragma: no cover -> no complexity
 
 
 class CustomUserQuerySet(models.QuerySet):
+    def user_by_id(self, id):
+        return self.get(pk=id)
+
     def all_friends(self, user):
-        return self.get(pk=user.id).friends.all()
+        return self.user_by_id(user.id).friends.all()
+
+    def all_friends_requests(self, user):
+        return self.user_by_id(user.id).invitations_received.filter(type=Invitation.FRIENDSHIP)
 
 
 class CustomUserManager(UserManager):
@@ -22,6 +30,9 @@ class CustomUserManager(UserManager):
 
     def get_all_friends(self, user):
         return self.get_queryset().all_friends(user)
+
+    def get_all_friends_requests(self, user):
+        return self.get_queryset().all_friends_requests(user)
 
 
 class CustomUser(AbstractUser):

@@ -28,6 +28,25 @@ class InvitationAPITestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
+    def test_send_invite_to_yourself(self):
+        # setup
+        random_user = baker.make(CustomUser)
+
+        # invitation query params
+        type = "ev"  # evento
+        to = random_user.email
+
+        path = reverse("invitation-send-invitation")
+        path = path + f"?type={type}&to={to}"
+
+        # authenticate
+        self.client.force_authenticate(user=random_user)
+
+        # validation
+        response = self.client.get(path)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_send_invitation_invalid_parameter(self):
         # setup
         random_user_1 = baker.make(CustomUser)

@@ -1,6 +1,19 @@
 from django.db import models
 
 
+class InvitationQuerySet(models.QuerySet):
+    def invitations_of_type(self, type):  # pragma: no cover -> not used yet
+        return self.filter(type=type)
+
+
+class InvitationManager(models.Manager):
+    def get_queryset(self):
+        return InvitationQuerySet(self.model, using=self._db)
+
+    def get_invitations_of_type(self, type):  # pragma: no cover -> not used yet
+        return self.get_queryset().invitations_of_type(type)
+
+
 class Invitation(models.Model):
     """
     Invitation model that has the following attributes:
@@ -45,6 +58,8 @@ class Invitation(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    objects = InvitationManager()
 
     def get_invitation_type(self, type):
         type = type.upper()

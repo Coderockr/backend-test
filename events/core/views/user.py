@@ -50,8 +50,8 @@ class UserViewSet(GenericViewSet):
         return (
             Response(
                 {"detail": "Account successfully activated"},
-                status=status.HTTP_204_NO_CONTENT,
+                status=status.HTTP_200_OK,
             )
             if response.status_code == status.HTTP_204_NO_CONTENT
-            else Response(response.json())
+            else Response(response.data)
         )

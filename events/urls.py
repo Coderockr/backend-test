@@ -15,21 +15,13 @@ Including another URLconf
 """
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
-from rest_framework.routers import DefaultRouter
 
-from events.core.views import EventViewSet, InvitationViewSet, UserViewSet
-
-router = DefaultRouter()
-router.register("", EventViewSet, basename="event")
-router.register("user", UserViewSet, basename="user")
-router.register("invitation", InvitationViewSet, basename="invitation")
+from events.core.urls import router as api_router
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("api/v1/", include(router.urls)),
+    path("api/v1/", include(api_router.urls)),
     path("auth/", include("djoser.urls")),
     path("auth/", include("djoser.urls.jwt")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

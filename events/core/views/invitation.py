@@ -1,103 +1,47 @@
-import ast
-
 from rest_framework import status
-from rest_framework.decorators import action
-from rest_framework.mixins import UpdateModelMixin
+from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from events.core.exceptions import InvalidQueryParam
-from events.core.models import CustomUser, Invitation
-from events.core.serializers import UpdateInvitationSerializer
-from events.core.signals.email import is_unregistered_destination, send_email_to_register
+from events.core.models import Invitation
+from events.core.permissions import CanChangeOrDestroyInvitation
+from events.core.serializers.invitation import CreateInvitationSerializer, UpdateInvitationSerializer
 
 
-class InvitationViewSet(GenericViewSet, UpdateModelMixin):
+class InvitationViewSet(GenericViewSet, CreateModelMixin, UpdateModelMixin, DestroyModelMixin):
     queryset = Invitation.objects.all()
-    serializer_class = UpdateInvitationSerializer
 
-    @action(detail=False, permission_classes=[IsAuthenticated])
-    def send_invitation(self, request):
-        """
-        Send invitation by passing two query params:
-            - type -> some choice of Invitation.INVITATION_TYPE_CHOICES
-            - to -> must be an email list or "all_friends" to send to all_friends
-        ...
-        """
-        type = request.query_params.get("type")
-        emails = request.query_params.get("to")
+    per_action_permission = {
+        "create": [IsAuthenticated],
+        "update": [CanChangeOrDestroyInvitation],
+        "partial_update": [CanChangeOrDestroyInvitation],
+        "destroy": [CanChangeOrDestroyInvitation],
+    }
+    per_action_serializer = {
+        "create": CreateInvitationSerializer,
+        "update": UpdateInvitationSerializer,
+        "partial_update": UpdateInvitationSerializer,
+    }
 
-        emails = self.__raise_if_invalid_invitation(request, type, emails)
-        type = type.upper()
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
 
-        if emails == "all_friends":
-            self.__send_invitation_to_all_friends(request.user, type)
-        else:
-            self.__send_invitations(request.user, type, emails)
+        data = serializer.data
 
-        return Response({"detail": "Invitation sent successfully"}, status=status.HTTP_200_OK)
+        if data.get("invitation_to"):
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def __send_invitations(self, invitation_from, type, emails):
-        for email in emails:
-            if is_unregistered_destination(email):
-                send_email_to_register(email)
-            else:
-                user = CustomUser.objects.get(email=email)
-                Invitation.objects.create(type=type, invitation_from=invitation_from, invitation_to=user)
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
 
-    def __send_invitation_to_all_friends(self, user, type):
-        friends = CustomUser.objects.get_all_friends(user)
+    def get_serializer_class(self):
+        serializer_class = self.per_action_serializer.get(self.action)
 
-        for friend in friends:
-            Invitation.objects.create(type=type, invitation_from=user, invitation_to=friend)
+        return serializer_class if serializer_class else super().get_serializer_class()
 
-    def __raise_if_invalid_invitation(self, request, invitation_type, emails):
-        """
-        if not an invalid invitation, return the email list
+    def get_permissions(self):
+        permission_classes = self.per_action_permission.get(self.action)
 
-        Args:
-            request: request
-            invitation_type (string): some choice of Invitation.INVITATION_TYPE_CHOICES
-            emails (string): must be an email list string "['foo@foo.com', 'bar@bar.com']" \
-                or "all_friends" to send to all_friends
-
-        Raises:
-            InvalidQueryParam: 1 -> if error when converting string to list
-            InvalidQueryParam: 2 -> if invalid query params
-            InvalidQueryParam: 3 -> if invited yourself
-            InvalidQueryParam: 4 -> if invalid invitation type
-            InvalidQueryParam: 5 -> if same invite more than once
-        """
-        # "all" is a valid query params, must be ignored
-        if emails == "all_friends":
-            return emails
-
-        # convert string "['foo', 'bar']" to list ['foo', 'bar']
-        try:
-            emails = ast.literal_eval(emails)
-        except SyntaxError:  # pragma: no cover -> out of scope
-            raise InvalidQueryParam()  # 1
-
-        # invalid query params
-        invalid_invitation_type = invitation_type is None
-        invalid_emails = emails is None or type(emails) is not list
-        if invalid_invitation_type or invalid_emails:
-            raise InvalidQueryParam()  # 2
-
-        # invited yourself
-        if request.user.email in emails:
-            raise InvalidQueryParam(detail="Can not send invitation to yourself.")  # 3
-
-        # invalid invitation_type
-        try:
-            Invitation().get_invitation_type(invitation_type)
-        except AttributeError:
-            raise InvalidQueryParam(detail="Invalid invitation type.")  # 4
-
-        for email in emails:
-            # invite already existing
-            if Invitation.objects.is_duplicated(invitation_type, request.user, email):
-                raise InvalidQueryParam(detail=f"This invitation to {email} was already sent before.")  # 5
-
-        return emails
+        return [permission() for permission in permission_classes] if permission_classes else super().get_permissions()

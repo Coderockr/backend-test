@@ -15,43 +15,41 @@ def send_invitation_email(sender, **kwargs):
         __send_invitation_update_notification_by_email(sender, instance)
 
 
-def is_unregistered_destination(destination_email):
-    try:
-        CustomUser.objects.get(email=destination_email)
-    except CustomUser.DoesNotExist:
-        return True
-
-
 # should use template html to create messages
-def send_email_to_register(destination_emails):
+def send_email_to_register(destination_email):
     email = EmailMessage()
     email.subject = "Join our network!"
     email.body = """
     Hi, bro!
 
-    Join us and participate in our events !!!
+    Join us and participate our events !!!
 
     Hugs,
     """
-    email.to = [destination_emails]
+    email.to = [destination_email]
     email.send()
 
 
 def __send_invitation_creation_notification_by_email(sender, instance):
-    choices = dict(sender.type.field.choices)
-    choice_label = choices.get(instance.type.upper())
+    destination_email = instance.invitation_to.email
 
-    email = EmailMessage()
-    email.subject = f"You have a new {choice_label} Invitation"
-    email.body = f"""
-    Hi {instance.invitation_to.username},
+    if CustomUser.objects.is_unregistered(destination_email):  # pragma: no cover -> no complexity
+        send_email_to_register(destination_email)
+    else:
+        choices = dict(sender.type.field.choices)
+        choice_label = choices.get(instance.type.upper())
 
-    {instance.invitation_from.username} sent an email to you.
+        email = EmailMessage()
+        email.subject = f"You have a new {choice_label} Invitation"
+        email.body = f"""
+        Hi {instance.invitation_to.username},
 
-    Hugs,
-    """
-    email.to = [instance.invitation_to.email]
-    email.send()
+        {instance.invitation_from.username} sent an email to you.
+
+        Hugs,
+        """
+        email.to = [instance.invitation_to.email]
+        email.send()
 
 
 def __send_invitation_update_notification_by_email(sender, instance):

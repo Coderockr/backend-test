@@ -2,9 +2,9 @@ from django.db import models
 
 
 class InvitationQuerySet(models.QuerySet):
-    def is_duplicated(self, type, invitation_from, invitation_to__email):
+    def already_exist(self, *, type, event=None, invitation_from, invitation_to_email):
         return self.filter(
-            type=type, invitation_from=invitation_from, invitation_to__email=invitation_to__email
+            type=type, event=event, invitation_from=invitation_from, invitation_to__email=invitation_to_email
         ).exists()
 
 
@@ -12,8 +12,10 @@ class InvitationManager(models.Manager):
     def get_queryset(self):
         return InvitationQuerySet(self.model, using=self._db)
 
-    def is_duplicated(self, type, invitation_from, invitation_to__email):
-        return self.get_queryset().is_duplicated(type, invitation_from, invitation_to__email)
+    def already_exist(self, *, type, event=None, invitation_from, invitation_to_email):
+        return self.get_queryset().already_exist(
+            type=type, event=event, invitation_from=invitation_from, invitation_to_email=invitation_to_email
+        )
 
 
 class Invitation(models.Model):
@@ -46,6 +48,14 @@ class Invitation(models.Model):
 
     type = models.CharField(max_length=2, choices=INVITATION_TYPE_CHOICES)
     status = models.CharField(max_length=2, choices=INVITATION_STATUS_CHOICES, default=PENDING)
+    event = models.ForeignKey(
+        "Event",
+        related_name="invitations",
+        related_query_name="invitation",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
     invitation_from = models.ForeignKey(
         "CustomUser",
         related_name="invitations_sended",
@@ -63,15 +73,6 @@ class Invitation(models.Model):
 
     objects = InvitationManager()
 
-    def get_invitation_type(self, type):
-        # case insensitive
-        type = dict(self.INVITATION_TYPE_CHOICES).get(type.upper())
-
-        if type is None:
-            raise AttributeError()
-
-        return type
-
     class Meta:
-        unique_together = ["type", "invitation_from", "invitation_to"]
+        unique_together = ["type", "event", "invitation_from", "invitation_to"]
         ordering = ["-created_at"]

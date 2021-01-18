@@ -119,9 +119,28 @@ class UserAPITestCase(APITestCase):
         path = reverse("user-friends-requests")
 
         # authenticate
-        self.client.force_authenticate(new_user)
+        self.client.force_authenticate(user=new_user)
 
         # validation
         response = self.client.get(path)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get("count"), len(random_friend_invitations))
+
+    def test_remove_friend(self):
+        # setup
+        new_user = create_user_with_permission(permissions=[])
+        random_friend = baker.make(CustomUser)
+
+        new_user.friends.add(random_friend)
+
+        path = reverse("user-remove-friend", args=[random_friend.id])
+
+        # authenticate
+        self.client.force_authenticate(user=new_user)
+
+        # validation
+        response = self.client.delete(path)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        user = CustomUser.objects.get(pk=new_user.id)
+        self.assertEqual(user.friends.count(), 0)

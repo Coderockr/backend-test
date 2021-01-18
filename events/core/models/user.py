@@ -23,6 +23,9 @@ class CustomUserQuerySet(models.QuerySet):
     def all_friends_requests(self, user):
         return self.user_by_id(user.id).invitations_received.filter(type=Invitation.FRIENDSHIP)
 
+    def remove_friend(self, user, friend):
+        return self.user_by_id(user.id).friends.remove(friend)
+
 
 class CustomUserManager(UserManager):
     def get_queryset(self):
@@ -33,6 +36,9 @@ class CustomUserManager(UserManager):
 
     def get_all_friends_requests(self, user):
         return self.get_queryset().all_friends_requests(user)
+
+    def remove_friend(self, user, friend):
+        return self.get_queryset().remove_friend(user, friend)
 
 
 class CustomUser(AbstractUser):

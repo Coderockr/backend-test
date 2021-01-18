@@ -16,11 +16,12 @@ from events.core.serializers.user import ListUserSerializer
 
 class UserViewSet(GenericViewSet):
     queryset = CustomUser.objects.all()
-    filterset_class = MyEventsFilter
 
     # Get events that user is participating or that is own events
     @action(detail=False, permission_classes=[IsAuthenticated])
     def my_events(self, request):
+        self.filterset_class = MyEventsFilter
+
         queryset = Event.objects.get_own_or_participating_events(request.user)
         filtered_queryset = self.filter_queryset(queryset)
         paginated_data = self.paginate_queryset(filtered_queryset)
@@ -67,3 +68,11 @@ class UserViewSet(GenericViewSet):
         serializer = ListInvitationSerializer(instance=paginated_queryset, many=True)
 
         return self.get_paginated_response(serializer.data)
+
+    @action(detail=True, methods=["delete"], permission_classes=[IsAuthenticated])
+    def remove_friend(self, request, pk=None):
+        friend = self.get_object()
+
+        CustomUser.objects.remove_friend(request.user, friend)
+
+        return Response({"detail": "Friend remove succeed."}, status=status.HTTP_204_NO_CONTENT)

@@ -62,10 +62,10 @@ class Invitation(models.Model):
     objects = InvitationManager()
 
     def get_invitation_type(self, type):
-        type = type.upper()
-        invitation_types = [type for type, _ in self.INVITATION_TYPE_CHOICES]
+        # case insensitive
+        type = dict(self.INVITATION_TYPE_CHOICES).get(type.upper())
 
-        if type not in invitation_types:
+        if type is None:
             raise AttributeError()
 
         return type

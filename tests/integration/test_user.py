@@ -32,6 +32,8 @@ class UserAPITestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get("count"), len(random_owner_events) + len(random_participating_events))
+        self.assertNotEqual(response.data.get("results")[0].get("id"), None)
+        self.assertNotEqual(response.data.get("results")[0].get("name"), None)
 
     def test_get_just_my_own_events(self):
         # setup
@@ -51,6 +53,8 @@ class UserAPITestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get("count"), len(random_owner_events))
+        self.assertNotEqual(response.data.get("results")[0].get("id"), None)
+        self.assertNotEqual(response.data.get("results")[0].get("name"), None)
 
     def test_get_just_participating_events(self):
         # setup
@@ -71,6 +75,8 @@ class UserAPITestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get("count"), len(random_participating_events))
+        self.assertNotEqual(response.data.get("results")[0].get("id"), None)
+        self.assertNotEqual(response.data.get("results")[0].get("name"), None)
 
     def test_account_activation(self):
         # setup
@@ -108,6 +114,10 @@ class UserAPITestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get("count"), len(random_users))
+        self.assertNotEqual(response.data.get("results")[0].get("id"), None)
+        self.assertNotEqual(response.data.get("results")[0].get("first_name"), None)
+        self.assertNotEqual(response.data.get("results")[0].get("last_name"), None)
+        self.assertNotEqual(response.data.get("results")[0].get("email"), None)
 
     def test_get_friends_requests(self):
         # setup
@@ -125,6 +135,11 @@ class UserAPITestCase(APITestCase):
         response = self.client.get(path)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get("count"), len(random_friend_invitations))
+        self.assertNotEqual(response.data.get("results")[0].get("id"), None)
+        self.assertNotEqual(response.data.get("results")[0].get("type"), None)
+        self.assertNotEqual(response.data.get("results")[0].get("status"), None)
+        self.assertNotEqual(response.data.get("results")[0].get("invitation_from"), None)
+        self.assertNotEqual(response.data.get("results")[0].get("created_at"), None)
 
     def test_remove_friend(self):
         # setup
@@ -139,8 +154,8 @@ class UserAPITestCase(APITestCase):
         self.client.force_authenticate(user=new_user)
 
         # validation
+        self.assertEqual(new_user.friends.count(), 1)
+
         response = self.client.delete(path)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-
-        user = CustomUser.objects.get(pk=new_user.id)
-        self.assertEqual(user.friends.count(), 0)
+        self.assertEqual(new_user.friends.count(), 0)

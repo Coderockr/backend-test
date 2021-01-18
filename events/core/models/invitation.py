@@ -2,16 +2,18 @@ from django.db import models
 
 
 class InvitationQuerySet(models.QuerySet):
-    def invitations_of_type(self, type):  # pragma: no cover -> not used yet
-        return self.filter(type=type)
+    def is_duplicated(self, type, invitation_from, invitation_to__email):
+        return self.filter(
+            type=type, invitation_from=invitation_from, invitation_to__email=invitation_to__email
+        ).exists()
 
 
 class InvitationManager(models.Manager):
     def get_queryset(self):
         return InvitationQuerySet(self.model, using=self._db)
 
-    def get_invitations_of_type(self, type):  # pragma: no cover -> not used yet
-        return self.get_queryset().invitations_of_type(type)
+    def is_duplicated(self, type, invitation_from, invitation_to__email):
+        return self.get_queryset().is_duplicated(type, invitation_from, invitation_to__email)
 
 
 class Invitation(models.Model):

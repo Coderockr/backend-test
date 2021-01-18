@@ -6,7 +6,7 @@ from events.core.models import Invitation
 class ListInvitationSerializer(ModelSerializer):
     class Meta:
         model = Invitation
-        fields = ["type", "status", "invitation_from", "created_at"]
+        fields = ["id", "type", "status", "invitation_from", "created_at"]
 
 
 class UpdateInvitationSerializer(ModelSerializer):

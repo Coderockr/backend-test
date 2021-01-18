@@ -14,7 +14,7 @@ class EventAPITestCase(APITestCase):
         # setup
         random_events = baker.make("Event", _quantity=15)
 
-        # random events that not should returned
+        # random events that not must returned
         baker.make("Event", is_active=False, _quantity=10)
 
         path = reverse("event-list")
@@ -91,6 +91,7 @@ class EventAPITestCase(APITestCase):
             "time": random_event.time,
             "place": random_event.place,
             "owner": random_event.owner.id,
+            "is_active": random_event.is_active,
             "participants": [],
         }
         path = reverse("event-detail", args=[random_event.id])

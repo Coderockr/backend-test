@@ -10,39 +10,34 @@ def send_invitation_email(sender, **kwargs):
     instance = kwargs.get("instance")
 
     if kwargs.get("created"):
-        __send_generic_email(sender, instance)
+        __send_invitation_creation_notification_by_email(sender, instance)
     else:
-        __send_invitation_status_email(sender, instance)
+        __send_invitation_update_notification_by_email(sender, instance)
 
 
-def is_unregistered_destination(destination):
+def is_unregistered_destination(destination_email):
     try:
-        CustomUser.objects.get(email=destination)
+        CustomUser.objects.get(email=destination_email)
     except CustomUser.DoesNotExist:
         return True
 
 
-def send_email_to_register(destination):
+# should use template html to create messages
+def send_email_to_register(destination_emails):
+    email = EmailMessage()
+    email.subject = "Join our network!"
+    email.body = """
+    Hi, bro!
+
+    Join us and participate in our events !!!
+
+    Hugs,
     """
-    Send an invitation email to register and return True if was succeed
-    """
-    if is_unregistered_destination(destination):
-        email = EmailMessage()
-        email.subject = "Join our network!"
-        email.body = """
-        Hi, bro!
-
-        Join us and participate in our events !!!
-
-        Hugs,
-        """
-        email.to = ["luiscvlh11@gmail.com"]
-        email.send()
-
-        return True
+    email.to = [destination_emails]
+    email.send()
 
 
-def __send_generic_email(sender, instance):
+def __send_invitation_creation_notification_by_email(sender, instance):
     choices = dict(sender.type.field.choices)
     choice_label = choices.get(instance.type.upper())
 
@@ -59,7 +54,7 @@ def __send_generic_email(sender, instance):
     email.send()
 
 
-def __send_invitation_status_email(sender, instance):
+def __send_invitation_update_notification_by_email(sender, instance):
     choices = dict(sender.status.field.choices)
     choice_label = choices.get(instance.status.upper())
 
@@ -68,7 +63,7 @@ def __send_invitation_status_email(sender, instance):
     email.body = f"""
     Hi {instance.invitation_from.username},
 
-    The invitation sent to {instance.invitation_to.username} is {choice_label}.
+    The invitation sent to {instance.invitation_to.username} was {choice_label}.
 
     Hugs,
     """

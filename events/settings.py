@@ -33,6 +33,19 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "testserver"]
 
+SPECTACULAR_SETTINGS = {
+    "SCHEMA_PATH_PREFIX": r"api/v[0-9]",
+    # info
+    "TITLE": "Event social network",
+    "DESCRIPTION": "Documentation of event social network API",
+    "CONTACT": {
+        "url": "https://linkedin.com/in/devguerreiro",
+        "email": "devcorujam@gmail.com",
+    },
+    "VERSION": "v1.0.0",
+}
+
+
 DJOSER = {
     "SEND_ACTIVATION_EMAIL": True,
     "SEND_CONFIRMATION_EMAIL": True,
@@ -44,6 +57,8 @@ SIMPLE_JWT = {
 }
 
 REST_FRAMEWORK = {
+    # auto schema
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     # pagination
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
@@ -78,8 +93,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     # 3d
     "rest_framework",
-    "djoser",
     "django_filters",
+    "djoser",
+    "drf_spectacular",
     # apps
     "events.core",
 ]

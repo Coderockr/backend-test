@@ -83,7 +83,7 @@ class EventAPITestCase(APITestCase):
         Test whether the user can update an event that he is own
         """
         # setup
-        new_user = create_user_with_permission(permissions=[])
+        new_user = baker.make("CustomUser")
         random_event = baker.make("Event", owner=new_user)
 
         new_name = "somenewname"
@@ -125,7 +125,7 @@ class EventAPITestCase(APITestCase):
         Test whether the user can update an event that he is not own
         """
         # setup
-        new_user = create_user_with_permission(permissions=[])
+        new_user = baker.make("CustomUser")
         random_event = baker.make("Event")
 
         path = reverse("event-detail", args=[random_event.id])
@@ -148,7 +148,7 @@ class EventAPITestCase(APITestCase):
         Test whether the user can cancel an event that he is own
         """
         # setup
-        new_user = create_user_with_permission(permissions=[])
+        new_user = baker.make("CustomUser")
         random_event = baker.make("Event", owner=new_user)
 
         path = reverse("event-detail", args=[random_event.id])
@@ -166,7 +166,7 @@ class EventAPITestCase(APITestCase):
         Test whether the user can cancel an event that he is not own
         """
         # setup
-        new_user = create_user_with_permission(permissions=[])
+        new_user = baker.make("CustomUser")
         random_event = baker.make("Event")
         path = reverse("event-detail", args=[random_event.id])
 

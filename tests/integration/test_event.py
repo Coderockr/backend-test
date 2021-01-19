@@ -179,7 +179,7 @@ class EventAPITestCase(APITestCase):
         self.assertNotEqual(random_event.owner, new_user)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_user_should_participate_event(self):
+    def test_should_add_participant_to_event(self):
         random_owner = baker.make("CustomUser")
         random_event = baker.make(
             Event,
@@ -198,7 +198,7 @@ class EventAPITestCase(APITestCase):
         self.assertEqual(random_event.participants.count(), 0)
 
         response = self.client.post(path)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(random_event.participants.count(), 1)
 
     def test_user_should_not_participate_own_event(self):

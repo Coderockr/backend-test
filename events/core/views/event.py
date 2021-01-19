@@ -19,8 +19,12 @@ from events.core.schemas.event import (
     RETRIEVE_SCHEMA,
     UPDATE_SCHEMA,
 )
-from events.core.serializers import DetailEventSerializer, ListEventSerializer
-from events.core.serializers.event import CreateEventSerializer, UpdateEventSerializer
+from events.core.serializers import (
+    CreateEventSerializer,
+    DetailEventSerializer,
+    ListEventSerializer,
+    UpdateEventSerializer,
+)
 
 
 @extend_schema_view(

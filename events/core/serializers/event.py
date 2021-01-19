@@ -9,6 +9,7 @@ class ListEventSerializer(ModelSerializer):
 
     Has the following fields:
         - id
+
         - name
     """
 
@@ -19,17 +20,25 @@ class ListEventSerializer(ModelSerializer):
 
 class DetailEventSerializer(ModelSerializer):
     """
-    Serializer to detail events
+    Serializer to detail an event
 
     Has the following fields:
         - id
+
         - name
+
         - description
+
         - date
+
         - time
+
         - place
+
         - owner
+
         - is_active
+
         - participants
     """
 
@@ -43,13 +52,18 @@ class DetailEventSerializer(ModelSerializer):
 
 class CreateEventSerializer(ModelSerializer):
     """
-    Serializer to create events
+    Serializer to create an event
 
     Has the following fields:
+
         - name
+
         - description
+
         - date
+
         - time
+
         - place
     """
 
@@ -65,17 +79,22 @@ class CreateEventSerializer(ModelSerializer):
 
 class UpdateEventSerializer(ModelSerializer):
     """
-    Serializer to update events
+    Serializer to update an event
 
     Has the following fields:
         - name
+
         - description
+
         - date
+
         - time
+
         - place
+
         - owner
+
         - is_active
-        - participants
     """
 
     class Meta:

@@ -1,4 +1,9 @@
-from events.core.serializers.event import DetailEventSerializer, ListEventSerializer
+from events.core.serializers.event import (
+    CreateEventSerializer,
+    DetailEventSerializer,
+    ListEventSerializer,
+    UpdateEventSerializer,
+)
 from events.core.serializers.invitation import (
     CreateInvitationSerializer,
     ListInvitationSerializer,

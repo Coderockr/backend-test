@@ -27,6 +27,9 @@ class CustomUserQuerySet(models.QuerySet):
     def is_unregistered(self, email):
         return not self.filter(email=email).exists()
 
+    def all_invitations_of_type_and_status(self, user, invitation_type, status):
+        return self.all_invitations_of_type(user, invitation_type).filter(status=status)
+
 
 class CustomUserManager(UserManager):
     def get_queryset(self):
@@ -43,6 +46,9 @@ class CustomUserManager(UserManager):
 
     def is_unregistered(self, email):
         return self.get_queryset().is_unregistered(email)
+
+    def get_all_invitations_of_type_and_status(self, user, invitation_type, status):
+        return self.get_queryset().all_invitations_of_type_and_status(user, invitation_type, status)
 
 
 class CustomUser(AbstractUser):

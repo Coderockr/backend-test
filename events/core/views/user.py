@@ -7,7 +7,7 @@ from rest_framework.test import APIRequestFactory
 from rest_framework.viewsets import GenericViewSet
 
 from events.core.filters import MyEventsFilter
-from events.core.models import CustomUser, Event
+from events.core.models import CustomUser, Event, Invitation
 from events.core.serializers import ListEventSerializer, ListInvitationSerializer, ListUserSerializer
 
 
@@ -59,8 +59,16 @@ class UserViewSet(GenericViewSet):
         return self.get_paginated_response(serializer.data)
 
     @action(detail=False, permission_classes=[IsAuthenticated])
-    def friends_requests(self, request):
-        queryset = CustomUser.objects.get_all_friends_requests(request.user)
+    def friendship_invitations(self, request):
+        queryset = CustomUser.objects.get_all_invitations_of_type(request.user, Invitation.FRIENDSHIP)
+        paginated_queryset = self.paginate_queryset(queryset)
+        serializer = ListInvitationSerializer(instance=paginated_queryset, many=True)
+
+        return self.get_paginated_response(serializer.data)
+
+    @action(detail=False, permission_classes=[IsAuthenticated])
+    def event_invitations(self, request):
+        queryset = CustomUser.objects.get_all_invitations_of_type(request.user, Invitation.EVENT)
         paginated_queryset = self.paginate_queryset(queryset)
         serializer = ListInvitationSerializer(instance=paginated_queryset, many=True)
 

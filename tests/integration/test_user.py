@@ -11,7 +11,7 @@ from tests.integration.setup import add_friends, add_user_to_participate_in_even
 
 class UserAPITestCase(APITestCase):
     # events that user is owner or is participating
-    def test_get_all_my_events(self):
+    def test_should_return_all_my_events(self):
         # setup
         new_user = create_user_with_permission(permissions=[])
         # random events that user is not owner and is not participating
@@ -32,10 +32,12 @@ class UserAPITestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get("count"), len(random_owner_events) + len(random_participating_events))
+
+        # should has the serializer fields
         self.assertNotEqual(response.data.get("results")[0].get("id"), None)
         self.assertNotEqual(response.data.get("results")[0].get("name"), None)
 
-    def test_get_just_my_own_events(self):
+    def test_should_return_just_my_own_events(self):
         # setup
         new_user = create_user_with_permission(permissions=[])
         # random events that user is not owner
@@ -53,10 +55,12 @@ class UserAPITestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get("count"), len(random_owner_events))
+
+        # should has the serializer fields
         self.assertNotEqual(response.data.get("results")[0].get("id"), None)
         self.assertNotEqual(response.data.get("results")[0].get("name"), None)
 
-    def test_get_just_participating_events(self):
+    def test_should_return_just_participating_events(self):
         # setup
         new_user = create_user_with_permission(permissions=[])
         # random events that user is owner
@@ -75,10 +79,12 @@ class UserAPITestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get("count"), len(random_participating_events))
+
+        # should has the serializer fields
         self.assertNotEqual(response.data.get("results")[0].get("id"), None)
         self.assertNotEqual(response.data.get("results")[0].get("name"), None)
 
-    def test_account_activation(self):
+    def test_should_activate_account(self):
         # setup
         new_user = create_user_with_permission(permissions=[])
         new_user.is_active = False
@@ -87,6 +93,7 @@ class UserAPITestCase(APITestCase):
         context_data = ActivationEmail(context={"user": new_user}).get_context_data()
         uid = context_data.get("uid")
         token = context_data.get("token")
+
         path = reverse("user-account-activation", args=[uid, token])
 
         # validation
@@ -97,7 +104,7 @@ class UserAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(CustomUser.objects.get(pk=new_user.id).is_active, True)
 
-    def test_get_friends(self):
+    def test_should_return_friends(self):
         # setup
         new_user = create_user_with_permission(permissions=[])
         random_users = baker.make(CustomUser, _quantity=15)
@@ -114,19 +121,21 @@ class UserAPITestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get("count"), len(random_users))
+
+        # should has the serializer fields
         self.assertNotEqual(response.data.get("results")[0].get("id"), None)
         self.assertNotEqual(response.data.get("results")[0].get("first_name"), None)
         self.assertNotEqual(response.data.get("results")[0].get("last_name"), None)
         self.assertNotEqual(response.data.get("results")[0].get("email"), None)
 
-    def test_get_friends_requests(self):
+    def test_should_return_friendship_invitations(self):
         # setup
         new_user = create_user_with_permission(permissions=[])
         random_friend_invitations = baker.make(
             Invitation, invitation_to=new_user, type=Invitation.FRIENDSHIP, _quantity=15
         )
 
-        path = reverse("user-friends-requests")
+        path = reverse("user-friendship-invitations")
 
         # authenticate
         self.client.force_authenticate(user=new_user)
@@ -135,13 +144,42 @@ class UserAPITestCase(APITestCase):
         response = self.client.get(path)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data.get("count"), len(random_friend_invitations))
+
+        # should has the serializer fields
         self.assertNotEqual(response.data.get("results")[0].get("id"), None)
         self.assertNotEqual(response.data.get("results")[0].get("type"), None)
         self.assertNotEqual(response.data.get("results")[0].get("status"), None)
         self.assertNotEqual(response.data.get("results")[0].get("invitation_from"), None)
         self.assertNotEqual(response.data.get("results")[0].get("created_at"), None)
 
-    def test_remove_friend(self):
+    def test_should_return_event_invitations(self):
+        # setup
+        new_user = create_user_with_permission(permissions=[])
+        random_event_invitations = baker.make(
+            Invitation,
+            invitation_to=new_user,
+            type=Invitation.EVENT,
+            _quantity=15,
+        )
+
+        path = reverse("user-event-invitations")
+
+        # authenticate
+        self.client.force_authenticate(user=new_user)
+
+        # validation
+        response = self.client.get(path)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get("count"), len(random_event_invitations))
+
+        # should has the serializer fields
+        self.assertNotEqual(response.data.get("results")[0].get("id"), None)
+        self.assertNotEqual(response.data.get("results")[0].get("type"), None)
+        self.assertNotEqual(response.data.get("results")[0].get("status"), None)
+        self.assertNotEqual(response.data.get("results")[0].get("invitation_from"), None)
+        self.assertNotEqual(response.data.get("results")[0].get("created_at"), None)
+
+    def test_should_remove_friend(self):
         # setup
         new_user = create_user_with_permission(permissions=[])
         random_friend = baker.make(CustomUser)

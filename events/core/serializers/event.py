@@ -1,7 +1,6 @@
 from rest_framework.serializers import IntegerField, ModelSerializer, PrimaryKeyRelatedField
 
 from events.core.models import Event
-from events.core.models.user import CustomUser
 
 
 class ListEventSerializer(ModelSerializer):
@@ -79,8 +78,6 @@ class UpdateEventSerializer(ModelSerializer):
         - participants
     """
 
-    participants = PrimaryKeyRelatedField(many=True, queryset=CustomUser.objects.all())
-
     class Meta:
         model = Event
-        fields = ["name", "description", "date", "time", "place", "owner", "is_active", "participants"]
+        fields = ["name", "description", "date", "time", "place", "owner", "is_active"]

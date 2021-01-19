@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from model_bakery import baker
 from rest_framework import status
@@ -120,7 +120,7 @@ class EventAPITestCase(APITestCase):
         updated_event = Event.objects.get(pk=random_event.id)
         self.assertEqual(updated_event.name, new_name)
 
-    def test_user_cannot_update_non_owner_event(self):
+    def test_user_should_not_update_non_owner_event(self):
         """
         Test whether the user can update an event that he is not own
         """
@@ -143,7 +143,7 @@ class EventAPITestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
 
-    def test_user_can_cancel_own_event(self):
+    def test_user_should_cancel_own_event(self):
         """
         Test whether the user can cancel an event that he is own
         """
@@ -161,7 +161,7 @@ class EventAPITestCase(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
 
-    def test_user_cannot_cancel_non_owner_event(self):
+    def test_user_should_not_cancel_non_owner_event(self):
         """
         Test whether the user can cancel an event that he is not own
         """
@@ -178,3 +178,104 @@ class EventAPITestCase(APITestCase):
 
         self.assertNotEqual(random_event.owner, new_user)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_user_should_participate_event(self):
+        random_owner = baker.make("CustomUser")
+        random_event = baker.make(
+            Event,
+            date=date.today(),
+            time=datetime.now().time(),
+            owner=random_owner,
+        )
+        random_participant = baker.make("CustomUser")
+
+        path = reverse("event-add-participant", args=[random_event.id, random_participant.id])
+
+        # authenticate
+        self.client.force_authenticate(user=random_owner)
+
+        # validation
+        self.assertEqual(random_event.participants.count(), 0)
+
+        response = self.client.post(path)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(random_event.participants.count(), 1)
+
+    def test_user_should_not_participate_own_event(self):
+        random_owner = baker.make("CustomUser")
+        random_event = baker.make(
+            Event,
+            date=date.today(),
+            time=datetime.now().time(),
+            owner=random_owner,
+        )
+
+        path = reverse("event-add-participant", args=[random_event.id, random_owner.id])
+
+        # authenticate
+        self.client.force_authenticate(user=random_owner)
+
+        # validation
+        self.assertEqual(random_event.participants.count(), 0)
+
+        response = self.client.post(path)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(random_event.participants.count(), 0)
+
+    def test_user_should_not_participate_event_that_already_occurred(self):
+        random_owner = baker.make("CustomUser")
+        random_event = baker.make(
+            Event,
+            date=date.today(),
+            time=(datetime.now() - timedelta(minutes=1)).time(),
+            owner=random_owner,
+        )
+        random_participant = baker.make("CustomUser")
+
+        path = reverse("event-add-participant", args=[random_event.id, random_participant.id])
+
+        # authenticate
+        self.client.force_authenticate(user=random_owner)
+
+        # validation
+        self.assertEqual(random_event.participants.count(), 0)
+
+        response = self.client.post(path)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(random_event.participants.count(), 0)
+
+    def test_should_remove_participant_from_event(self):
+        # setup
+        random_user = baker.make("CustomUser")
+        random_event = baker.make(Event, owner=random_user)
+
+        random_event.participants.add(random_user)
+
+        path = reverse("event-remove-participant", args=[random_event.id, random_user.id])
+
+        # authenticate
+        self.client.force_authenticate(user=random_user)
+
+        # validation
+        self.assertEqual(random_event.participants.count(), 1)
+
+        response = self.client.post(path)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(random_event.participants.count(), 0)
+
+    def test_should_not_remove_non_participant_from_event(self):
+        # setup
+        random_user = baker.make("CustomUser")
+        random_event = baker.make(Event, owner=random_user)
+
+        path = reverse("event-remove-participant", args=[random_event.id, random_user.id])
+
+        # authenticate
+        self.client.force_authenticate(user=random_user)
+
+        # validation
+        self.assertEqual(random_event.participants.count(), 0)
+
+        response = self.client.post(path)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(random_event.participants.count(), 0)

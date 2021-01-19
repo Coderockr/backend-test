@@ -198,6 +198,23 @@ class UserAPITestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(random_user.friends.count(), 0)
 
+    def test_should_not_remove_non_friend(self):
+        # setup
+        random_user = baker.make(CustomUser)
+        random_user_2 = baker.make(CustomUser)
+
+        path = reverse("user-remove-friend", args=[random_user_2.id])
+
+        # authenticate
+        self.client.force_authenticate(user=random_user)
+
+        # validation
+        self.assertEqual(random_user.friends.count(), 0)
+
+        response = self.client.delete(path)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(random_user.friends.count(), 0)
+
     def test_should_return_rejected_events(self):
         # setup
         random_user = baker.make(CustomUser)

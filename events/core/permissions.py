@@ -6,6 +6,11 @@ class ReadOnly(BasePermission):
         return request.method in SAFE_METHODS
 
 
+class IsEventOwner(BasePermission):
+    def has_object_permission(self, request, view, obj):
+        return request.user == obj.owner
+
+
 class CanChangeOrDeleteEvent(BasePermission):
     """
     Block whether the user is not event owner or has not django permission

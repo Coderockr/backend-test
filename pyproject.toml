@@ -13,6 +13,7 @@ Pillow = "^8.1.0"
 djoser = "^2.1.0"
 djangorestframework-simplejwt = "^4.6.0"
 python-dotenv = "^0.15.0"
+psycopg2-binary = "^2.8.6"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^3.8.4"

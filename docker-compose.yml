@@ -9,3 +9,8 @@ services:
     volumes:
       - .:/code
     command: python manage.py runserver 0:8000
+    depends_on:
+      - db
+  db:
+    image: postgres
+    env_file: .env

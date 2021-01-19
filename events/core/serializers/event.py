@@ -54,14 +54,14 @@ class CreateEventSerializer(ModelSerializer):
         - place
     """
 
-    class Meta:
-        model = Event
-        fields = ["name", "description", "date", "time", "place"]
-
     def create(self, validated_data):
         validated_data["owner"] = self.context.get("request").user
 
         return super().create(validated_data)
+
+    class Meta:
+        model = Event
+        fields = ["name", "description", "date", "time", "place"]
 
 
 class UpdateEventSerializer(ModelSerializer):

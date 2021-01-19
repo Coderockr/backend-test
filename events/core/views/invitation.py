@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from events.core.models import Invitation
-from events.core.permissions import CanChangeOrDestroyInvitation
+from events.core.permissions import CanChangeInvitation, CanDeleteInvitation
 from events.core.serializers.invitation import CreateInvitationSerializer, UpdateInvitationSerializer
 
 
@@ -14,9 +14,9 @@ class InvitationViewSet(GenericViewSet, CreateModelMixin, UpdateModelMixin, Dest
 
     per_action_permission = {
         "create": [IsAuthenticated],
-        "update": [CanChangeOrDestroyInvitation],
-        "partial_update": [CanChangeOrDestroyInvitation],
-        "destroy": [CanChangeOrDestroyInvitation],
+        "update": [CanChangeInvitation],
+        "partial_update": [CanChangeInvitation],
+        "destroy": [CanDeleteInvitation],
     }
     per_action_serializer = {
         "create": CreateInvitationSerializer,

@@ -3,7 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 
 from events.core.filters import EventFilter
 from events.core.models import Event
-from events.core.permissions import CanChangeOrDestroyEvent, ReadOnly
+from events.core.permissions import CanChangeOrDeleteEvent, ReadOnly
 from events.core.serializers import DetailEventSerializer, ListEventSerializer
 from events.core.serializers.event import CreateEventSerializer, UpdateEventSerializer
 
@@ -19,9 +19,9 @@ class EventViewSet(ModelViewSet):
         "list": [ReadOnly],
         "retrieve": [ReadOnly],
         "create": [DjangoModelPermissions],
-        "update": [CanChangeOrDestroyEvent],
-        "partial_update": [CanChangeOrDestroyEvent],
-        "destroy": [CanChangeOrDestroyEvent],
+        "update": [CanChangeOrDeleteEvent],
+        "partial_update": [CanChangeOrDeleteEvent],
+        "destroy": [CanChangeOrDeleteEvent],
     }
     per_action_serializer = {
         "list": ListEventSerializer,

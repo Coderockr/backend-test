@@ -1,10 +1,7 @@
 from drf_spectacular.utils import extend_schema, inline_serializer
-from rest_framework.serializers import CharField
 
+from events.core.schemas.reusable import bad_request_serializer, forbidden_request_serializer
 from events.core.serializers import CreateEventSerializer, UpdateEventSerializer
-
-bad_request_serializer = inline_serializer(name="bad_request", fields={"detail": CharField()})
-forbidden_request_serializer = inline_serializer(name="forbbiden_request", fields={"detail": CharField()})
 
 LIST_SCHEMA = extend_schema(description="list all events")
 RETRIEVE_SCHEMA = extend_schema(description="retrieve an event")
@@ -15,6 +12,7 @@ PARTIAL_UPDATE_SCHEMA = extend_schema(
         "201": UpdateEventSerializer,
         "400": bad_request_serializer,
         "403": forbidden_request_serializer,
+        "404": bad_request_serializer,
     },
 )
 
@@ -24,6 +22,7 @@ UPDATE_SCHEMA = extend_schema(
         "201": UpdateEventSerializer,
         "400": bad_request_serializer,
         "403": forbidden_request_serializer,
+        "404": bad_request_serializer,
     },
 )
 
@@ -41,6 +40,7 @@ DESTROY_SCHEMA = extend_schema(
         "204": inline_serializer,
         "400": bad_request_serializer,
         "403": forbidden_request_serializer,
+        "404": bad_request_serializer,
     },
 )
 
@@ -50,6 +50,7 @@ ADD_PARTICIPANT_SCHEMA = extend_schema(
         "200": inline_serializer,
         "400": bad_request_serializer,
         "403": forbidden_request_serializer,
+        "404": bad_request_serializer,
     },
 )
 
@@ -59,5 +60,6 @@ REMOVE_PARTICIPANT_SCHEMA = extend_schema(
         "204": inline_serializer,
         "400": bad_request_serializer,
         "403": forbidden_request_serializer,
+        "404": bad_request_serializer,
     },
 )

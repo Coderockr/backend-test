@@ -17,6 +17,9 @@ class CustomUserQuerySet(models.QuerySet):
     def user_by_id(self, id):
         return self.get(pk=id)
 
+    def is_unregistered(self, email):
+        return not self.filter(email=email).exists()
+
     def all_friends(self, user):
         return self.user_by_id(user.id).friends.all()
 
@@ -39,6 +42,9 @@ class CustomUserManager(UserManager):
 
     def remove_friend(self, user, friend):
         return self.get_queryset().remove_friend(user, friend)
+
+    def is_unregistered(self, email):
+        return self.get_queryset().is_unregistered(email)
 
 
 class CustomUser(AbstractUser):

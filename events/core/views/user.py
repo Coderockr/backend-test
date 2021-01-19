@@ -7,11 +7,8 @@ from rest_framework.test import APIRequestFactory
 from rest_framework.viewsets import GenericViewSet
 
 from events.core.filters import MyEventsFilter
-from events.core.models import Event
-from events.core.models.user import CustomUser
-from events.core.serializers import ListEventSerializer
-from events.core.serializers.invitation import ListInvitationSerializer
-from events.core.serializers.user import ListUserSerializer
+from events.core.models import CustomUser, Event
+from events.core.serializers import ListEventSerializer, ListInvitationSerializer, ListUserSerializer
 
 
 class UserViewSet(GenericViewSet):

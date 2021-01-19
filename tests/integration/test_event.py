@@ -10,7 +10,7 @@ from tests.integration.setup import create_user_with_permission
 
 
 class EventAPITestCase(APITestCase):
-    def test_list_events(self):
+    def test_should_list_events(self):
         # setup
         random_events = baker.make("Event", _quantity=15)
 
@@ -26,13 +26,15 @@ class EventAPITestCase(APITestCase):
         self.assertEqual(response.data.get("count"), len(random_events))
 
         first_result = response.data.get("results")[0]
+
         # should has the serializer fields
         self.assertNotEqual(first_result.get("id"), None)
         self.assertNotEqual(first_result.get("name"), None)
 
-    def test_retrieve_event(self):
+    def test_should_retrieve_event(self):
         # setup
         random_event = baker.make("Event")
+
         path = reverse("event-detail", args=[random_event.id])
 
         # validation
@@ -53,7 +55,7 @@ class EventAPITestCase(APITestCase):
         participants_id = [participant.id for participant in random_event.participants.all()]
         self.assertEqual(response.data.get("participants_id"), participants_id)
 
-    def test_create_event(self):
+    def test_should_create_event(self):
         # setup
         new_user = create_user_with_permission(permissions=["core.add_event"])
         new_event = {
@@ -63,6 +65,7 @@ class EventAPITestCase(APITestCase):
             "time": datetime.now().strftime("%H:%M:%S"),
             "place": "someplace",
         }
+
         path = reverse("event-list")
 
         # authenticate
@@ -75,7 +78,7 @@ class EventAPITestCase(APITestCase):
         self.assertEqual(Event.objects.count(), 1)
         self.assertEqual(Event.objects.all().first().owner, new_user)
 
-    def test_user_can_update_own_event(self):
+    def test_should_user_can_update_own_event(self):
         """
         Test whether the user can update an event that he is own
         """
@@ -94,6 +97,7 @@ class EventAPITestCase(APITestCase):
             "is_active": random_event.is_active,
             "participants": [],
         }
+
         path = reverse("event-detail", args=[random_event.id])
 
         # authenticate
@@ -123,6 +127,7 @@ class EventAPITestCase(APITestCase):
         # setup
         new_user = create_user_with_permission(permissions=[])
         random_event = baker.make("Event")
+
         path = reverse("event-detail", args=[random_event.id])
 
         # authenticate
@@ -145,6 +150,7 @@ class EventAPITestCase(APITestCase):
         # setup
         new_user = create_user_with_permission(permissions=[])
         random_event = baker.make("Event", owner=new_user)
+
         path = reverse("event-detail", args=[random_event.id])
 
         # authenticate

@@ -8,7 +8,7 @@ from rest_framework.viewsets import GenericViewSet
 from events.core.models import Invitation
 from events.core.permissions import CanChangeInvitation, CanDeleteInvitation
 from events.core.schemas.invitation import CREATE_SCHEMA, DESTROY_SCHEMA, PARTIAL_UPDATE_SCHEMA, UPDATE_SCHEMA
-from events.core.serializers.invitation import CreateInvitationSerializer, UpdateInvitationSerializer
+from events.core.serializers import CreateInvitationSerializer, UpdateInvitationSerializer
 
 
 @extend_schema_view(
@@ -42,7 +42,7 @@ class InvitationViewSet(GenericViewSet, CreateModelMixin, UpdateModelMixin, Dest
         if data.get("invitation_to"):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-        return Response({}, status=status.HTTP_204_NO_CONTENT)
+        return Response({}, status=status.HTTP_400_BAD_REQUEST)
 
     def get_serializer_class(self):
         serializer_class = self.per_action_serializer.get(self.action)

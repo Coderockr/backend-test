@@ -7,12 +7,39 @@ from events.core.signals.email import send_email_to_register
 
 
 class ListInvitationSerializer(ModelSerializer):
+    """
+    Serializer to list invitations
+
+    Has the following fields:
+        - id
+
+        - type
+
+        - status
+
+        - invitation_from
+
+        - created_at
+    """
+
     class Meta:
         model = Invitation
         fields = ["id", "type", "status", "invitation_from", "created_at"]
 
 
 class CreateInvitationSerializer(ModelSerializer):
+    """
+    Serializer to create an invitation
+
+    Has the following fields:
+
+        - type
+
+        - event
+
+        - invitation_to
+    """
+
     invitation_to = SlugRelatedField(
         slug_field="email", many=True, queryset=CustomUser.objects.all(), help_text="Email list"
     )
@@ -95,6 +122,13 @@ class CreateInvitationSerializer(ModelSerializer):
 
 
 class UpdateInvitationSerializer(ModelSerializer):
+    """
+    Serializer to update an invitation
+
+    Has the following fields:
+        - status
+    """
+
     class Meta:
         model = Invitation
         fields = ["status"]

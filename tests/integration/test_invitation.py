@@ -225,7 +225,7 @@ class InvitationAPITestCase(APITestCase):
         self.assertEqual(Invitation.objects.count(), 1)
         self.assertEqual(random_user_2.invitations_received.count(), 1)
 
-    def test_update_invitation(self):
+    def test_should_update_invitation(self):
         # setup
         new_user = create_user_with_permission(permissions=["core.change_invitation"])
         random_user = baker.make(CustomUser)

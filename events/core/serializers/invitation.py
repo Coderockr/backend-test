@@ -1,7 +1,7 @@
 from rest_framework.relations import SlugRelatedField
 from rest_framework.serializers import ModelSerializer, ValidationError
 
-from events.core.models import Invitation
+from events.core.models import Event, Invitation
 from events.core.models.user import CustomUser
 from events.core.signals.email import send_email_to_register
 
@@ -104,8 +104,9 @@ class UpdateInvitationSerializer(ModelSerializer):
         # event invitation
         if instance.event:
             if status == Invitation.ACCEPTED:
-                instance.event.participants.add(request.user)
-            elif status == Invitation.REJECTED and instance.event.participants.filter(pk=request.user.id).exists():
-                instance.event.participants.remove(request.user)
+                Event.objects.add_participant(instance.event, request.user)
+            # elif status == Invitation.REJECTED:
+            else:
+                Event.objects.remove_participant(instance.event, request.user)
 
         return super().update(instance, validated_data)

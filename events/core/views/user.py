@@ -74,6 +74,16 @@ class UserViewSet(GenericViewSet):
 
         return self.get_paginated_response(serializer.data)
 
+    @action(detail=False, permission_classes=[IsAuthenticated])
+    def rejected_events(self, request):
+        queryset = CustomUser.objects.get_all_invitations_of_type_and_status(
+            request.user, Invitation.EVENT, Invitation.REJECTED
+        )
+        paginated_queryset = self.paginate_queryset(queryset)
+        serializer = ListInvitationSerializer(instance=paginated_queryset, many=True)
+
+        return self.get_paginated_response(serializer.data)
+
     @action(detail=True, methods=["delete"], permission_classes=[IsAuthenticated])
     def remove_friend(self, request, pk=None):
         friend = self.get_object()

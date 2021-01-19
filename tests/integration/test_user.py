@@ -197,3 +197,31 @@ class UserAPITestCase(APITestCase):
         response = self.client.delete(path)
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(random_user.friends.count(), 0)
+
+    def test_should_return_rejected_events(self):
+        # setup
+        random_user = baker.make(CustomUser)
+        random_event_invitations = baker.make(
+            Invitation,
+            invitation_to=random_user,
+            type=Invitation.EVENT,
+            status=Invitation.REJECTED,
+            _quantity=15,
+        )
+
+        path = reverse("user-rejected-events")
+
+        # authenticate
+        self.client.force_authenticate(user=random_user)
+
+        # validation
+        response = self.client.get(path)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data.get("count"), len(random_event_invitations))
+
+        # should has the serializer fields
+        self.assertNotEqual(response.data.get("results")[0].get("id"), None)
+        self.assertNotEqual(response.data.get("results")[0].get("type"), None)
+        self.assertNotEqual(response.data.get("results")[0].get("status"), None)
+        self.assertNotEqual(response.data.get("results")[0].get("invitation_from"), None)
+        self.assertNotEqual(response.data.get("results")[0].get("created_at"), None)

@@ -12,17 +12,16 @@ def make_path(_, filename):  # pragma: no cover -> no complexity
 
 
 class CustomUserQuerySet(models.QuerySet):
-    def user_by_id(self, id):
-        return self.get(pk=id)
-
     def all_friends(self, user):
-        return self.user_by_id(user.id).friends.all()
+        return user.friends.all()
 
     def all_invitations_of_type(self, user, invitation_type):
-        return self.user_by_id(user.id).invitations_received.filter(type=invitation_type)
+        return user.invitations_received.filter(type=invitation_type)
 
     def remove_friend(self, user, friend):
-        return self.user_by_id(user.id).friends.remove(friend)
+        if user.friends.filter(pk=friend.id).exists():
+            user.friends.remove(friend)
+            return True
 
     def is_unregistered(self, email):
         return not self.filter(email=email).exists()

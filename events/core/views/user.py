@@ -1,4 +1,5 @@
 from djoser.views import UserViewSet as DjoserUserViewSet
+from drf_spectacular.utils import extend_schema_view
 from rest_framework import status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -8,9 +9,27 @@ from rest_framework.viewsets import GenericViewSet
 
 from events.core.filters import MyEventsFilter
 from events.core.models import CustomUser, Event, Invitation
+from events.core.schemas.user import (
+    ACCOUNT_ACTIVATION_USER,
+    DELETE_USER,
+    EVENT_INVITATIONS_USER,
+    FRIENDS_USER,
+    FRIENDSHIP_INVITATIONS_USER,
+    MY_EVENTS_USER,
+    REJECTED_EVENTS_USER,
+)
 from events.core.serializers import ListEventSerializer, ListInvitationSerializer, ListUserSerializer
 
 
+@extend_schema_view(
+    remove_friend=DELETE_USER,
+    account_activation=ACCOUNT_ACTIVATION_USER,
+    event_invitations=EVENT_INVITATIONS_USER,
+    friends=FRIENDS_USER,
+    friendship_invitations=FRIENDSHIP_INVITATIONS_USER,
+    my_events=MY_EVENTS_USER,
+    rejected_events=REJECTED_EVENTS_USER,
+)
 class UserViewSet(GenericViewSet):
     queryset = CustomUser.objects.all()
 
@@ -42,10 +61,7 @@ class UserViewSet(GenericViewSet):
         response = view(request)
 
         return (
-            Response(
-                {"detail": "Account successfully activated"},
-                status=status.HTTP_204_NO_CONTENT,
-            )
+            Response({}, status=status.HTTP_200_OK)
             if response.status_code == status.HTTP_204_NO_CONTENT
             else Response(response.data)
         )
@@ -88,6 +104,8 @@ class UserViewSet(GenericViewSet):
     def remove_friend(self, request, pk=None):
         friend = self.get_object()
 
-        CustomUser.objects.remove_friend(request.user, friend)
+        removed = CustomUser.objects.remove_friend(request.user, friend)
+        if removed:
+            return Response({}, status=status.HTTP_200_OK)
 
-        return Response({"detail": "Friend remove succeed."}, status=status.HTTP_204_NO_CONTENT)
+        return Response({"detail": "User is not your friend."}, status=status.HTTP_400_BAD_REQUEST)

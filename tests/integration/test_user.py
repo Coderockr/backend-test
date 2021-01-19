@@ -101,7 +101,7 @@ class UserAPITestCase(APITestCase):
 
         response = self.client.get(path)
 
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(CustomUser.objects.get(pk=random_user.id).is_active, True)
 
     def test_should_return_friends(self):
@@ -195,7 +195,7 @@ class UserAPITestCase(APITestCase):
         self.assertEqual(random_user.friends.count(), 1)
 
         response = self.client.delete(path)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(random_user.friends.count(), 0)
 
     def test_should_return_rejected_events(self):

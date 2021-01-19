@@ -5,9 +5,6 @@ from django.db.models import Q
 
 
 class EventQueryset(models.QuerySet):
-    def event_by_id(self, id):
-        return self.get(pk=id)
-
     def only_active(self):
         return self.filter(is_active=True)
 
@@ -22,7 +19,7 @@ class EventQueryset(models.QuerySet):
 
     def add_participant(self, event, user):
         if self.__event_is_open_to_participate(event) and not event.owner == user:
-            self.event_by_id(event.id).participants.add(user)
+            event.participants.add(user)
             return True
 
     def remove_participant(self, event, user):

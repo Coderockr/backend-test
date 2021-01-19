@@ -15,22 +15,12 @@ class ListInvitationSerializer(ModelSerializer):
 class CreateInvitationSerializer(ModelSerializer):
     invitation_to = SlugRelatedField(slug_field="email", many=True, queryset=CustomUser.objects.all())
 
-    def to_representation(self, instances):
+    def to_representation(self, invitations):
         return {
-            "type": instances[0].type if instances else None,
-            "event": instances[0].event if instances else None,
-            "invitation_to": [instance.invitation_to.email for instance in instances],
+            "type": invitations[0].type if invitations else None,
+            "event": invitations[0].event.id if invitations and invitations[0].event else None,
+            "invitation_to": [instance.invitation_to.email for instance in invitations],
         }
-
-    # URGENT ->> type = FS and event is not None should not be possible
-    # URGENT ->> type = FS and event is not None should not be possible
-    # URGENT ->> type = FS and event is not None should not be possible
-    # URGENT ->> type = FS and event is not None should not be possible
-    # URGENT ->> type = FS and event is not None should not be possible
-    # URGENT ->> type = FS and event is not None should not be possible
-    # URGENT ->> type = FS and event is not None should not be possible
-    # URGENT ->> type = FS and event is not None should not be possible
-    # URGENT ->> type = FS and event is not None should not be possible
 
     def to_internal_value(self, data):
         invitation_to = data.pop("invitation_to", [])
@@ -62,7 +52,7 @@ class CreateInvitationSerializer(ModelSerializer):
 
     # must permit case insensitive
     def validate_type(self, value):
-        return value.lower()
+        return value.upper()
 
     def validate_invitation_to(self, destinations):
         request = self.context.get("request")
@@ -72,6 +62,13 @@ class CreateInvitationSerializer(ModelSerializer):
             raise ValidationError(detail="Must not invite yourself.")
 
         return destinations
+
+    # must not send friendship invitation with event
+    def validate(self, attrs):
+        if attrs.get("type") == "FS" and attrs.get("event"):
+            raise ValidationError(detail="Sent friendship invitation with event??")
+
+        return super().validate(attrs)
 
     def create(self, validated_data):
         request = self.context.get("request")
@@ -99,3 +96,16 @@ class UpdateInvitationSerializer(ModelSerializer):
     class Meta:
         model = Invitation
         fields = ["status"]
+
+    def update(self, instance, validated_data):
+        status = validated_data.get("status")
+        request = self.context.get("request")
+
+        # event invitation
+        if instance.event:
+            if status == Invitation.ACCEPTED:
+                instance.event.participants.add(request.user)
+            elif status == Invitation.REJECTED and instance.event.participants.filter(pk=request.user.id).exists():
+                instance.event.participants.remove(request.user)
+
+        return super().update(instance, validated_data)

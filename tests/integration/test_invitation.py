@@ -225,15 +225,16 @@ class InvitationAPITestCase(APITestCase):
         self.assertEqual(Invitation.objects.count(), 1)
         self.assertEqual(random_user_2.invitations_received.count(), 1)
 
-    def test_should_update_invitation(self):
+    def test_user_that_has_permission_should_update_invitation(self):
         # setup
         new_user = create_user_with_permission(permissions=["core.change_invitation"])
-        random_user = baker.make(CustomUser)
-        random_invitation = baker.make(Invitation, invitation_from=new_user, invitation_to=random_user)
+        random_invitation = baker.make(Invitation)
 
         path = reverse("invitation-detail", args=[random_invitation.id])
 
-        new_status = {"status": "AC"}
+        new_status = {
+            "status": "AC",  # accepted
+        }
 
         # authenticate
         self.client.force_authenticate(user=new_user)
@@ -247,10 +248,179 @@ class InvitationAPITestCase(APITestCase):
         self.assertEqual(invitation_updated.status, new_status.get("status"))
 
         # validation update / patch
-        new_status = {"status": "RE"}
+        new_status = {
+            "status": "RE",  # rejected
+        }
         response = self.client.patch(path, new_status)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         invitation_updated = Invitation.objects.get(pk=random_invitation.id)
         self.assertEqual(invitation_updated.status, new_status.get("status"))
+
+    def test_user_that_received_invitation_should_update(self):
+        # setup
+        new_user = create_user_with_permission(permissions=[])
+        random_invitation = baker.make(Invitation, invitation_to=new_user)
+
+        path = reverse("invitation-detail", args=[random_invitation.id])
+
+        new_status = {
+            "status": "AC",  # accepted
+        }
+
+        # authenticate
+        self.client.force_authenticate(user=new_user)
+
+        # validation update / put
+        response = self.client.put(path, new_status)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        invitation_updated = Invitation.objects.get(pk=random_invitation.id)
+        self.assertEqual(invitation_updated.status, new_status.get("status"))
+
+        # validation update / patch
+        new_status = {
+            "status": "RE",  # rejected
+        }
+        response = self.client.patch(path, new_status)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        invitation_updated = Invitation.objects.get(pk=random_invitation.id)
+        self.assertEqual(invitation_updated.status, new_status.get("status"))
+
+    def test_should_not_send_friendship_invitation_with_event(self):
+        # setup
+        random_user_1 = baker.make(CustomUser)
+        random_user_2 = baker.make(CustomUser)
+        random_event = baker.make("Event")
+
+        invitation_data = {
+            "type": "FS",  # friendship
+            "event": random_event.id,
+            "invitation_to": [random_user_2.email],
+        }
+
+        path = reverse("invitation-list")
+
+        # authenticate
+        self.client.force_authenticate(user=random_user_1)
+
+        response = self.client.post(path, invitation_data)
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertEqual(Invitation.objects.all().count(), 0)
+
+    def test_should_add_participant_when_accept_event_invitation(self):
+        # setup
+        random_user = baker.make(CustomUser)
+        random_event = baker.make("Event")
+        random_invitation = baker.make(Invitation, event=random_event, invitation_to=random_user)
+
+        new_status = {
+            "status": "AC",  # accepted
+        }
+
+        path = reverse("invitation-detail", args=[random_invitation.id])
+
+        # authenticate
+        self.client.force_authenticate(user=random_user)
+
+        # validation
+        response = self.client.put(path, new_status)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(random_event.participants.all().first(), random_user)
+        self.assertEqual(random_event.participants.count(), 1)
+
+    def test_should_remove_participant_when_reject_event_invitation(self):
+        # setup
+        random_user = baker.make(CustomUser)
+        random_event = baker.make("Event")
+        random_invitation = baker.make(Invitation, event=random_event, invitation_to=random_user)
+
+        random_event.participants.add(random_user)
+
+        new_status = {
+            "status": "RE",  # rejected
+        }
+
+        path = reverse("invitation-detail", args=[random_invitation.id])
+
+        # authenticate
+        self.client.force_authenticate(user=random_user)
+
+        # validation
+        self.assertEqual(random_event.participants.count(), 1)
+
+        response = self.client.put(path, new_status)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(random_event.participants.count(), 0)
+
+    def test_should_do_nothing_when_reject_event_invitation_that_not_participate(self):
+        # setup
+        random_user = baker.make(CustomUser)
+        random_event = baker.make("Event")
+        random_invitation = baker.make(Invitation, event=random_event, invitation_to=random_user)
+
+        new_status = {
+            "status": "RE",  # rejected
+        }
+
+        path = reverse("invitation-detail", args=[random_invitation.id])
+
+        # authenticate
+        self.client.force_authenticate(user=random_user)
+
+        # validation
+        self.assertEqual(random_event.participants.count(), 0)
+
+        response = self.client.put(path, new_status)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(random_event.participants.count(), 0)
+
+    def test_user_that_received_invitation_should_delete(self):
+        # setup
+        random_user = baker.make(CustomUser)
+        random_invitation = baker.make(Invitation, invitation_to=random_user)
+
+        path = reverse("invitation-detail", args=[random_invitation.id])
+
+        # authenticate
+        self.client.force_authenticate(user=random_user)
+
+        # validation
+        response = self.client.delete(path)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_user_that_send_invitation_should_delete(self):
+        # setup
+        random_user = baker.make(CustomUser)
+        random_invitation = baker.make(Invitation, invitation_from=random_user)
+
+        path = reverse("invitation-detail", args=[random_invitation.id])
+
+        # authenticate
+        self.client.force_authenticate(user=random_user)
+
+        # validation
+        response = self.client.delete(path)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+    def test_user_that_has_permission_should_delete(self):
+        # setup
+        random_user = create_user_with_permission(permissions=["core.delete_invitation"])
+        random_invitation = baker.make(Invitation)
+
+        path = reverse("invitation-detail", args=[random_invitation.id])
+
+        # authenticate
+        self.client.force_authenticate(user=random_user)
+
+        # validation
+        response = self.client.delete(path)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)

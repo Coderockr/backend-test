@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema_view
 from rest_framework import status
 from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.permissions import IsAuthenticated
@@ -6,9 +7,16 @@ from rest_framework.viewsets import GenericViewSet
 
 from events.core.models import Invitation
 from events.core.permissions import CanChangeInvitation, CanDeleteInvitation
+from events.core.schemas.invitation import CREATE_SCHEMA, DESTROY_SCHEMA, PARTIAL_UPDATE_SCHEMA, UPDATE_SCHEMA
 from events.core.serializers.invitation import CreateInvitationSerializer, UpdateInvitationSerializer
 
 
+@extend_schema_view(
+    create=CREATE_SCHEMA,
+    update=UPDATE_SCHEMA,
+    partial_update=PARTIAL_UPDATE_SCHEMA,
+    destroy=DESTROY_SCHEMA,
+)
 class InvitationViewSet(GenericViewSet, CreateModelMixin, UpdateModelMixin, DestroyModelMixin):
     queryset = Invitation.objects.all()
 

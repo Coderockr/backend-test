@@ -46,8 +46,15 @@ class Invitation(models.Model):
         (PENDING, "Pending"),
     ]
 
-    type = models.CharField(max_length=2, choices=INVITATION_TYPE_CHOICES)
-    status = models.CharField(max_length=2, choices=INVITATION_STATUS_CHOICES, default=PENDING)
+    type = models.CharField(
+        max_length=2, choices=INVITATION_TYPE_CHOICES, help_text="EV = Event Invitation | FS = Frienship Invitation"
+    )
+    status = models.CharField(
+        max_length=2,
+        choices=INVITATION_STATUS_CHOICES,
+        default=PENDING,
+        help_text="AC = Accepted | RE = Rejected | PE = Pending\n\nDefault is PE",
+    )
     event = models.ForeignKey(
         "Event",
         related_name="invitations",

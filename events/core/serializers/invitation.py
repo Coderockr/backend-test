@@ -13,7 +13,9 @@ class ListInvitationSerializer(ModelSerializer):
 
 
 class CreateInvitationSerializer(ModelSerializer):
-    invitation_to = SlugRelatedField(slug_field="email", many=True, queryset=CustomUser.objects.all())
+    invitation_to = SlugRelatedField(
+        slug_field="email", many=True, queryset=CustomUser.objects.all(), help_text="Email list"
+    )
 
     def to_representation(self, invitations):
         return {

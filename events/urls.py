@@ -17,7 +17,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from django.urls.conf import include
-from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
 from events.core.urls import router as api_router
 
@@ -25,6 +24,4 @@ urlpatterns = [
     path("api/v1/", include(api_router.urls), name="api"),
     path("auth/", include("djoser.urls"), name="djoser_auth"),
     path("auth/", include("djoser.urls.jwt"), name="djoser_auth_jwt"),
-    path("schema/", SpectacularAPIView.as_view(), name="schema"),
-    path("swagger/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

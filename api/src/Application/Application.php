@@ -1,13 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Application;
+namespace Api\Application;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
-use Slim\Psr7\Request;
-use Slim\Psr7\Response;
 
 final class Application
 {
@@ -34,7 +30,8 @@ final class Application
 
     public static function isDevelopmentMode(): bool
     {
-        return $_SERVER['REMOTE_ADDR'] === '127.0.0.1';
+        return ($_SERVER['REMOTE_ADDR'] ?? null) === '127.0.0.1'
+               || strpos($_SERVER['HTTP_HOST'] ?? '', 'localhost') === 0;
     }
 
 
@@ -46,19 +43,7 @@ final class Application
 
     private function defineRoutes(): void
     {
-        $this->app->get(
-            '',
-            function(
-                ServerRequestInterface|Request $request,
-                ResponseInterface|Response $response,
-                array $args
-            ) {
-                $json = json_encode(['message' => 'Welcome to the Event Manager API']);
-                $response->getBody()->write($json);
-
-                return $response->withHeader('Content-Type', 'application/json');
-            }
-        );
+        $this->app->get('', [IndexController::class, 'index']);
     }
 
 }

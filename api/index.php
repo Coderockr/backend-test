@@ -1,22 +1,19 @@
 <?php
 declare(strict_types=1);
 
-use Application\Application;
-use Slim\Factory\AppFactory;
+use Api\Application\Application;
+use DI\Bridge\Slim\Bridge;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-/**
- * Instantiate App
- *
- * In order for the factory to work you need to ensure you have installed
- * a supported PSR-7 implementation of your choice e.g.: Slim PSR-7 and a supported
- * ServerRequest creator (included with Slim PSR-7)
- */
-$app = AppFactory::create();
+// Create DI container holding services
+$containerBuilder = new \DI\ContainerBuilder;
+$containerBuilder->addDefinitions(__DIR__ . '/src/Application/services.php');
+$container = $containerBuilder->build();
 
-// Instantiate Application
-$application = Application::create($app);
+// Instantiate application with its respective services
+$slimApp     = Bridge::create($container);
+$application = Application::create($slimApp);
 
 // Run application
 $application->run();

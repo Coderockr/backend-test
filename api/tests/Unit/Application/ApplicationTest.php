@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Api\Tests\Unit\Application;
 
 use Api\Application\Application;
-use Api\Application\IndexController;
+use Api\Application\Controllers\IndexController;
 use PHPUnit\Framework\TestCase;
 use Slim\App;
 

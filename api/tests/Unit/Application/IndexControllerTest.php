@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace Api\Tests\Unit\Application;
 
-use Api\Application\AbstractController;
-use Api\Application\IndexController;
+use Api\Application\Controllers\AbstractController;
+use Api\Application\Controllers\IndexController;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Api\Tests\Unit\Application;
 
-use Api\Application\AbstractController;
+use Api\Application\Controllers\AbstractController;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;

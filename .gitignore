@@ -3,3 +3,4 @@ composer.lock
 /logs/*.log
 .phpunit.result.cache
 /coverage
+/api/config/settings.development.php

@@ -6,9 +6,17 @@ use DI\Bridge\Slim\Bridge;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-// Create DI container holding services
+// Create DI container holding configuration and dependencies
 $containerBuilder = new \DI\ContainerBuilder;
-$containerBuilder->addDefinitions(__DIR__ . '/src/Application/services.php');
+
+$settingsPath = Application::isDevelopmentMode()
+    ? __DIR__ . '/../api/config/settings.development.php'
+    : __DIR__ . '/../api/config/settings.php';
+
+$servicesPath = __DIR__ . '/../api/src/dependencies.php';
+
+$containerBuilder->addDefinitions($settingsPath);
+$containerBuilder->addDefinitions($servicesPath);
 $container = $containerBuilder->build();
 
 // Instantiate application with its respective services

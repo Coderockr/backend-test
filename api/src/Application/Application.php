@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Api\Application;
 
+use Api\Application\Controllers\IndexController;
 use Slim\App;
 
 final class Application

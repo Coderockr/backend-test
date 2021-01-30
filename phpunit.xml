@@ -7,9 +7,6 @@
         <include>
             <directory suffix=".php">api/src</directory>
         </include>
-        <exclude>
-            <directory>api/src/Application/services.php</directory>
-        </exclude>
     </coverage>
     <testsuites>
         <testsuite name="api-tests">

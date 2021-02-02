@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Api\Application;
+namespace Api;
 
-use Api\Application\Controllers\IndexController;
+use Api\Controllers\EventController;
+use Api\Controllers\IndexController;
 use Slim\App;
 
 final class Application
@@ -32,7 +33,7 @@ final class Application
     public static function isDevelopmentMode(): bool
     {
         return ($_SERVER['REMOTE_ADDR'] ?? null) === '127.0.0.1'
-               || strpos($_SERVER['HTTP_HOST'] ?? '', 'localhost') === 0;
+               || str_starts_with($_SERVER['HTTP_HOST'] ?? '', 'localhost');
     }
 
 
@@ -45,6 +46,8 @@ final class Application
     private function defineRoutes(): void
     {
         $this->app->get('', [IndexController::class, 'index']);
+        $this->app->get('/event', [EventController::class, 'list']);
+        $this->app->get('/event/{id}', [EventController::class, 'details']);
     }
 
 }

@@ -129,10 +129,10 @@ CREATE TABLE IF NOT EXISTS `event_manager`.`event_attendance`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `event_manager`.`event_invitation`
 (
-    `id`                    INT       NOT NULL,
-    `invitation_inviter_id` INT       NULL     DEFAULT NULL,
-    `invitation_invitee_id` INT       NULL     DEFAULT NULL,
-    `invitation_event_id`   INT       NULL     DEFAULT NULL,
+    `id`                    INT       NOT NULL AUTO_INCREMENT,
+    `invitation_inviter_id` INT       NOT NULL,
+    `invitation_invitee_id` INT       NOT NULL,
+    `invitation_event_id`   INT       NOT NULL,
     `invitation_invited_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `accepted_at`           TIMESTAMP NULL     DEFAULT NULL,
     `rejected_at`           TIMESTAMP NULL     DEFAULT NULL,

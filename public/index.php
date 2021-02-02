@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use Api\Application\Application;
+use Api\Application;
 use DI\Bridge\Slim\Bridge;
 
 require __DIR__ . '/../vendor/autoload.php';

@@ -1,0 +1,6 @@
+composer.lock
+/vendor
+/logs/*.log
+.phpunit.result.cache
+/coverage
+/api/config/settings.development.php

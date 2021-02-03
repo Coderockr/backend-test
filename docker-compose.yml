@@ -1,0 +1,59 @@
+# For more information: https://laravel.com/docs/sail
+version: '3'
+services:
+  application:
+    container_name: coderockr_events
+    build:
+      context: ./vendor/laravel/sail/runtimes/8.0
+      dockerfile: Dockerfile
+      args:
+        WWWGROUP: '${WWWGROUP}'
+    image: sail-8.0/app
+    ports:
+      - '${APP_PORT:-80}:80'
+    environment:
+      WWWUSER: '${WWWUSER}'
+      LARAVEL_SAIL: 1
+    volumes:
+      - '.:/var/www/html'
+    networks:
+      - coderockr_events
+    depends_on:
+      - database
+      - cache
+  database:
+    container_name: coderockr_events_database
+    image: 'mysql:8.0'
+    ports:
+      - '${FORWARD_DB_PORT:-3306}:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_DATABASE: '${DB_DATABASE}'
+      MYSQL_USER: '${DB_USERNAME}'
+      MYSQL_PASSWORD: '${DB_PASSWORD}'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - 'coderockr_events_database:/var/lib/mysql'
+    networks:
+      - coderockr_events
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping" ]
+  cache:
+    container_name: coderockr_events_cache
+    image: 'redis:alpine'
+    ports:
+      - '${FORWARD_REDIS_PORT:-6379}:6379'
+    volumes:
+      - 'coderockr_events_cache:/data'
+    networks:
+      - coderockr_events
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+networks:
+  coderockr_events:
+    driver: bridge
+volumes:
+  coderockr_events_database:
+    driver: local
+  coderockr_events_cache:
+    driver: local

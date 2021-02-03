@@ -4,6 +4,7 @@ declare(strict_types=1);
 use Api\Controllers\EventController;
 use Api\Controllers\IndexController;
 use Api\Filters\EventFilter;
+use Api\Helpers\TableHelper;
 use Api\Tables\AddressTable;
 use Api\Tables\EventTable;
 use Api\Tables\UserTable;
@@ -17,6 +18,11 @@ return [
     // Application
     Adapter::class              => function(ContainerInterface $container): Adapter {
         return new Adapter($container->get('db'));
+    },
+
+    // Helpers
+    TableHelper::class          => function(ContainerInterface $container): TableHelper {
+        return new TableHelper();
     },
 
     // Controllers
@@ -57,16 +63,21 @@ return [
 
     // Tables
     AddressTable::class         => function(ContainerInterface $container) {
-        return new AddressTable($container->get(AddressTable::TABLE_GATEWAY));
+        return new AddressTable(
+            $container->get(AddressTable::TABLE_GATEWAY),
+            $container->get(TableHelper::class),
+        );
     },
     UserTable::class            => function(ContainerInterface $container) {
         return new UserTable(
             $container->get(UserTable::TABLE_GATEWAY),
+            $container->get(TableHelper::class),
         );
     },
     EventTable::class           => function(ContainerInterface $container) {
         return new EventTable(
             $container->get(EventTable::TABLE_GATEWAY),
+            $container->get(TableHelper::class),
         );
     },
 ];

@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Api\Tests\Unit\Application;
+namespace Api\Tests\Unit;
 
-use Api\Application\Application;
-use Api\Application\Controllers\IndexController;
+use Api\Application;
+use Api\Controllers\EventController;
+use Api\Controllers\IndexController;
 use PHPUnit\Framework\TestCase;
 use Slim\App;
 
@@ -104,10 +105,12 @@ final class ApplicationTest extends TestCase
     {
         $slimApp = $this->createMock(App::class);
 
-        $slimApp->expects(static::once())
+        $slimApp->expects(static::exactly(3))
                 ->method('get')
                 ->withConsecutive(
-                    ['', [IndexController::class, 'index']]
+                    ['', [IndexController::class, 'index']],
+                    ['/event', [EventController::class, 'list']],
+                    ['/event/{id}', [EventController::class, 'details']],
                 );
 
         Application::create($slimApp);

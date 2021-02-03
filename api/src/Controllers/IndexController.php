@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Api\Application\Controllers;
+namespace Api\Controllers;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

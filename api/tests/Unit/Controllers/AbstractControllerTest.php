@@ -1,9 +1,8 @@
 <?php
 declare(strict_types=1);
 
-namespace Api\Tests\Unit\Application;
+namespace Api\Tests\Unit\Controllers;
 
-use Api\Application\Controllers\AbstractController;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -12,26 +11,10 @@ use Slim\Psr7\Response;
 
 abstract class AbstractControllerTest extends TestCase
 {
-    protected ?AbstractController $controller;
-
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->controller = $this->controller();
-    }
-
-
-    protected function controller(): ?AbstractController
-    {
-        return null;
-    }
-
-
     protected function assertJsonResponse(
         MockObject|ResponseInterface $response,
-        array $data
+        array $data,
+        int $code = 200
     ): MockObject|ResponseInterface
     {
         $body = $this->createMock(StreamInterface::class);
@@ -50,6 +33,11 @@ abstract class AbstractControllerTest extends TestCase
                  ->method('withHeader')
                  ->with('Content-Type', 'application/json')
                  ->willReturn($jsonResponse);
+
+        $jsonResponse->expects(static::once())
+                     ->method('withStatus')
+                     ->with($code)
+                     ->willReturnSelf();
 
         return $jsonResponse;
     }

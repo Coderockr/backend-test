@@ -1,18 +1,21 @@
 <?php
 declare(strict_types=1);
 
-namespace Api\Tests\Unit\Application;
+namespace Api\Tests\Unit\Controllers;
 
-use Api\Application\Controllers\AbstractController;
-use Api\Application\Controllers\IndexController;
+use Api\Controllers\IndexController;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 final class IndexControllerTest extends AbstractControllerTest
 {
-    protected function controller(): AbstractController
+    private IndexController $controller;
+
+
+    protected function setUp(): void
     {
-        return new IndexController();
+        parent::setUp();
+        $this->controller = new IndexController(null, null);
     }
 
 

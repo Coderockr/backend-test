@@ -58,7 +58,7 @@ __Note that the application is written in PHP 8, so we need to download the XAMP
     
 ## Third-party packages
 
-P.S.: the project is written in PHP 8.0, so all packages are using the latest version (as of the date of writing this file).
+The project is written in PHP 8.0, so all packages are using the latest version (as of the date of writing this file). The decision of choosing the packages below is that the project should be as light as possible, having only the necessary tools for the application to run.
 
 - `slim/slim` used for routing
 - `slim/psr7` used for routing and basics

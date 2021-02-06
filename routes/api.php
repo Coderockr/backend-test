@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('register', [AuthController::class, 'register']);
+Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('login', [AuthController::class, 'login']);
 
 Route::middleware('auth:api')->group(function () {
@@ -24,8 +24,8 @@ Route::middleware('auth:api')->group(function () {
         return $request->user();
     });
 
-    Route::get('events', [EventController::class, 'index']);
-    Route::post('events', [EventController::class, 'store']);
-    Route::put('events/{event}', [EventController::class, 'update']);
-    Route::delete('events/{event}', [EventController::class, 'delete']);
+    Route::get('events', [EventController::class, 'index'])->name('events');
+    Route::post('events', [EventController::class, 'store'])->name('events.store');
+    Route::put('events/{event}', [EventController::class, 'update'])->name('events.update');
+    Route::delete('events/{event}', [EventController::class, 'delete'])->name('events.delete');
 });

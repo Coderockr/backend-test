@@ -12,7 +12,7 @@ class AuthController extends Controller
         $this->validate($request, [
             'name' => ['required', 'min:4'],
             'email' => ['required', 'unique:users', 'email'],
-            'password' => ['required', 'min:8'],
+            'password' => ['required', 'min:8', 'confirmed'],
         ]);
 
         $user = User::create([
@@ -23,7 +23,10 @@ class AuthController extends Controller
 
         $token = $user->createToken('CoderockrToken')->accessToken;
 
-        return response()->json(['token' => $token]);
+        return response()->json(array_merge(
+            $user->toArray(),
+            ['token' => $token]
+        ), 201);
     }
 
     public function login(Request $request)
@@ -34,9 +37,13 @@ class AuthController extends Controller
         ];
 
         if (auth()->attempt($data)) {
-            $token = auth()->user()->createToken('CoderockrToken')->accessToken;
+            $user = auth()->user();
+            $token = $user->createToken('CoderockrToken')->accessToken;
 
-            return response()->json(['token' => $token]);
+            return response()->json(array_merge(
+                $user->toArray(),
+                ['token' => $token]
+            ));
         } else {
             return response()->json(['error' => 'Unauthorised'], 401);
         }

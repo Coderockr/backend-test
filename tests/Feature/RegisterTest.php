@@ -54,11 +54,10 @@ class RegisterTest extends TestCase
 
     public function test_unique_email_are_blocking()
     {
-        User::factory()->create(['email' => 'daniel@coderock.com.br']);
-
+        User::factory()->create(['email' => 'duplicated@mail.com']);
         $payload = [
             'name' => 'Daniel Freitas',
-            'email' => 'daniel@coderock.com.br',
+            'email' => 'duplicated@mail.com',
             'password' => '1SafePassword*!!',
         ];
 

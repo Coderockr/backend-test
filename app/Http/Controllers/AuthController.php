@@ -31,12 +31,12 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $data = [
+        $input = [
             'email' => $request->get('email'),
             'password' => $request->get('password'),
         ];
 
-        if (auth()->attempt($data)) {
+        if (auth()->attempt($input)) {
             $user = auth()->user();
             $token = $user->createToken('CoderockrToken')->accessToken;
 
@@ -44,8 +44,8 @@ class AuthController extends Controller
                 $user->toArray(),
                 ['token' => $token]
             ));
-        } else {
-            return response()->json(['error' => 'Unauthorised'], 401);
         }
+
+        return response()->json(null, 401);
     }
 }

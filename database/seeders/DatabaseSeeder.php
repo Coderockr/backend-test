@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         Event::factory()->count(250)->create();
 
         $this->call(
-            FriendSeeder::class
+            FriendshipSeeder::class
         );
     }
 }

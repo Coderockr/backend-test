@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Friend;
+use App\Models\Friendship;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
-class FriendSeeder extends Seeder
+class FriendshipSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -25,7 +25,7 @@ class FriendSeeder extends Seeder
                     $friendId = rand(1, $users->count());
                 }
 
-                Friend::create([
+                Friendship::create([
                     'user_id' => $user->id,
                     'friend_id' => $friendId,
                 ]);

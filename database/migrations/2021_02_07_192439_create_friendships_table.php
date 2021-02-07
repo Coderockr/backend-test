@@ -5,7 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFriendsTable extends Migration
+class CreateFriendshipsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class CreateFriendsTable extends Migration
      */
     public function up()
     {
-        Schema::create('friends', function (Blueprint $table) {
+        Schema::create('friendships', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
             $table->foreignIdFor(User::class, 'friend_id');
@@ -29,6 +29,6 @@ class CreateFriendsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('friends');
+        Schema::dropIfExists('friendships');
     }
 }

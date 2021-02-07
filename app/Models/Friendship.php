@@ -6,7 +6,7 @@ use App\Scopes\UserScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Friend extends Model
+class Friendship extends Model
 {
     use HasFactory;
 

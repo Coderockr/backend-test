@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Friend;
+use App\Models\Friendship;
 
-class FriendController extends Controller
+class FriendshipController extends Controller
 {
     public function index()
     {
-        return Friend::query()
+        return Friendship::query()
             ->with(['user', 'friend',])
             ->get();
     }
 
-    public function delete(Friend $friend)
+    public function delete(Friendship $friendship)
     {
-        $friend->delete();
+        $friendship->delete();
 
         return response()->json(null, 204);
     }

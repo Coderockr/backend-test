@@ -35,11 +35,22 @@ class EventListTest extends TestCase
             ->assertStatus(200)
             ->assertJson([
                 'current_page' => 1,
-                'per_page' => 10,
                 'data' => [
                     ['name' => 'First event'],
                     ['name' => 'Second event'],
                 ],
+            ]);
+    }
+
+    public function test_event_list_can_be_paginated()
+    {
+        Event::factory()->count(250)->create();
+
+        $this->get(route('events', ['page' => 2]))
+            ->assertStatus(200)
+            ->assertJson([
+                'current_page' => 2,
+                'per_page' => 10,
             ])
             ->assertJsonStructure([
                 'current_page',
@@ -54,15 +65,67 @@ class EventListTest extends TestCase
             ]);
     }
 
-    public function test_event_list_can_be_paginated()
+    public function test_event_list_can_be_filtered_by_date()
     {
-        Event::factory()->count(250)->create();
+        $date = now()->addDays(2);
 
-        $this->get(route('events', ['page' => 2]))
+        Event::factory()->count(10)->create();
+        Event::factory()->create(['moment' => $date->format('Y-m-d 22:15'),]);
+        Event::factory()->create(['moment' => $date->format('Y-m-d 23:30'),]);
+
+        $this->get(route('events', ['date' => $date->format('Y-m-d')]))
             ->assertStatus(200)
             ->assertJson([
-                'current_page' => 2,
-                'per_page' => 10,
+                'data' => [
+                    ['moment' => $date->format('Y-m-d 22:15'),],
+                    ['moment' => $date->format('Y-m-d 23:30'),],
+                ],
+            ]);
+    }
+
+    public function test_event_list_can_be_filtered_by_date_and_time()
+    {
+        $date = now()->addDays(2);
+
+        Event::factory()->count(10)->create();
+        Event::factory()->count(2)->create(['moment' => $date->format('Y-m-d H:i'),]);
+
+        $payload = [
+            'date' => $date->format('Y-m-d'),
+            'time' => $date->format('H:i'),
+        ];
+
+        $this->get(route('events', $payload))
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    ['moment' => $date->format('Y-m-d H:i'),],
+                    ['moment' => $date->format('Y-m-d H:i'),],
+                ],
+            ])
+            ->assertJsonStructure([
+                'current_page',
+                'data' => [
+                    '*' => [
+                        'id', 'name', 'description', 'location', 'moment', 'created_at', 'updated_at',
+                    ],
+                ],
+            ]);
+    }
+
+    public function test_event_list_can_be_filtered_by_location()
+    {
+        Event::factory()->count(10)->create();
+        Event::factory()->create(['location' => 'Somewhere in America.',]);
+        Event::factory()->create(['location' => 'Somewhere in Europe.',]);
+
+        $this->get(route('events', ['location' => 'somewhere']))
+            ->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    ['location' => 'Somewhere in America.',],
+                    ['location' => 'Somewhere in Europe.',],
+                ],
             ]);
     }
 }

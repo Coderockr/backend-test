@@ -15,7 +15,7 @@ class EventFactory extends Factory
             'name' => $this->faker->sentence(3, true),
             'description' => $this->faker->text,
             'location' => $this->faker->streetAddress,
-            'moment' => $this->faker->dateTimeBetween('+1 week', '+2 week')->format('Y-m-d H:i:s'),
+            'moment' => $this->faker->dateTimeBetween('+1 week', '+2 week')->format('Y-m-d H:i'),
         ];
     }
 }

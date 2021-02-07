@@ -9,7 +9,17 @@ class EventController extends Controller
 {
     public function index()
     {
-        return Event::paginate(10);
+        $query = Event::query();
+
+        if ($date = request()->get('date')) {
+            $query->whereDate('moment', $date);
+        }
+
+        if ($location = request()->get('location')) {
+            $query->where('location', 'LIKE', "%{$location}%");
+        }
+
+        return $query->paginate(10);
     }
 
     public function store(Request $request)
@@ -18,7 +28,7 @@ class EventController extends Controller
             'name' => ['required', 'max:60'],
             'description' => ['max:500'],
             'location' => ['required', 'max:100'],
-            'moment' => ['date_format:Y-m-d H:i:s', 'after_or_equal:today'],
+            'moment' => ['date_format:Y-m-d H:i', 'after_or_equal:today'],
         ]);
 
         $event = Event::create($data);

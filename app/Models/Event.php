@@ -12,4 +12,10 @@ class Event extends Model
     protected $fillable = [
         'name', 'description', 'location', 'moment',
     ];
+
+    protected $casts = [
+        'moment' => 'datetime:Y-m-d H:i',
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s',
+    ];
 }

@@ -12,15 +12,26 @@ class EventTest extends TestCase
 {
     use WithFaker, RefreshDatabase;
 
-    public function test_events_are_listed_correctly()
+    public function test_event_list_are_publicly_available()
+    {
+        $this->get(route('events'))->assertStatus(200);
+    }
+
+    public function test_event_list_are_privately_available()
     {
         $user = User::factory()->create();
 
+        $this->actingAs($user, 'api')
+            ->get(route('events'))
+            ->assertStatus(200);
+    }
+
+    public function test_events_are_listed_correctly()
+    {
         Event::factory()->create(['name' => 'First event',]);
         Event::factory()->create(['name' => 'Second event',]);
 
-        $this->actingAs($user, 'api')
-            ->get(route('events'))
+        $this->get(route('events'))
             ->assertStatus(200)
             ->assertJson([
                 'data' => [

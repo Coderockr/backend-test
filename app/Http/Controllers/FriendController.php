@@ -10,7 +10,6 @@ class FriendController extends Controller
     {
         return Friend::query()
             ->with(['user', 'friend',])
-            ->where('user_id', auth()->user()->id)
             ->get();
     }
 

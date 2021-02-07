@@ -7,12 +7,16 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $query = Event::query();
 
         if ($date = request()->get('date')) {
             $query->whereDate('moment', $date);
+
+            if ($time = request()->get('time')) {
+                $query->whereTime('moment', $time . ':00');
+            }
         }
 
         if ($location = request()->get('location')) {

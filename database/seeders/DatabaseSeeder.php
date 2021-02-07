@@ -2,16 +2,15 @@
 
 namespace Database\Seeders;
 
+use App\Models\Event;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-        
-        $this->call([
-            EventSeeder::class,
-        ]);
+        User::factory()->count(50)->create();
+        Event::factory()->count(250)->create();
     }
 }

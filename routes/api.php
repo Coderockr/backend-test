@@ -33,4 +33,5 @@ Route::middleware('auth:api')->group(function () {
     Route::delete('events/{event}', [EventController::class, 'delete'])->name('events.delete');
 
     Route::get('/friends', [FriendController::class, 'index'])->name('friends');
+    Route::delete('/friends/{friend}', [FriendController::class, 'delete'])->name('friends.delete');
 });

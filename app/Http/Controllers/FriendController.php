@@ -13,4 +13,11 @@ class FriendController extends Controller
             ->where('user_id', auth()->user()->id)
             ->get();
     }
+
+    public function delete(Friend $friend)
+    {
+        $friend->delete();
+
+        return response()->json(null, 204);
+    }
 }

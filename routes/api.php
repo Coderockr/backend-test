@@ -16,15 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('register', [AuthController::class, 'register'])->name('register');
-Route::post('login', [AuthController::class, 'login'])->name('login');
+Route::get('/', [EventController::class, 'index'])->name('home');
+Route::get('/events', [EventController::class, 'index'])->name('events');
+
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
 
-    Route::get('events', [EventController::class, 'index'])->name('events');
     Route::post('events', [EventController::class, 'store'])->name('events.store');
     Route::put('events/{event}', [EventController::class, 'update'])->name('events.update');
     Route::delete('events/{event}', [EventController::class, 'delete'])->name('events.delete');

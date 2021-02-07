@@ -23,12 +23,16 @@ class EventTest extends TestCase
             ->get(route('events'))
             ->assertStatus(200)
             ->assertJson([
-                ['name' => 'First event'],
-                ['name' => 'Second event'],
+                'data' => [
+                    ['name' => 'First event'],
+                    ['name' => 'Second event'],
+                ],
             ])
             ->assertJsonStructure([
-                '*' => [
-                    'id', 'name', 'description', 'location', 'moment', 'created_at', 'updated_at',
+                'data' => [
+                    '*' => [
+                        'id', 'name', 'description', 'location', 'moment', 'created_at', 'updated_at',
+                    ],
                 ],
             ]);
     }

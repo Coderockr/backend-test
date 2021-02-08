@@ -9,7 +9,7 @@ class FriendshipController extends Controller
     public function index()
     {
         return Friendship::query()
-            ->with(['user', 'friend',])
+            ->with(['user', 'friend'])
             ->get();
     }
 

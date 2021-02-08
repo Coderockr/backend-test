@@ -1,94 +1,81 @@
 <?php
 
-namespace Tests\Feature;
-
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use function Pest\Faker\faker;
 
-class RegisterTest extends TestCase
-{
-    use RefreshDatabase;
+it('store correctly', function () {
+    $payload = [
+        'name' => 'Daniel Freitas',
+        'email' => 'daniel@coderock.com.br',
+        'password' => '1SafePassword*!!',
+        'password_confirmation' => '1SafePassword*!!',
+    ];
 
-    public function test_register_correctly_works()
-    {
-        $payload = [
-            'name' => 'Daniel Freitas',
-            'email' => 'daniel@coderock.com.br',
-            'password' => '1SafePassword*!!',
-            'password_confirmation' => '1SafePassword*!!',
-        ];
+    $this->post(route('register'), $payload)
+        ->assertStatus(201)
+        ->assertJson([
+            'name' => $payload['name'],
+            'email' => $payload['email'],
+        ])
+        ->assertJsonStructure([
+            'id', 'name', 'email', 'token', 'created_at', 'updated_at',
+        ]);
+});
 
-        $this->post(route('register'), $payload)
-            ->assertStatus(201)
-            ->assertJson([
-                'name' => $payload['name'],
-                'email' => $payload['email'],
-            ])
-            ->assertJsonStructure([
-                'id', 'name', 'email', 'token', 'created_at', 'updated_at',
-            ]);
-    }
+it('require password confirmation', function () {
+    $payload = [
+        'name' => faker()->name,
+        'email' => faker()->email,
+        'password' => faker()->password(8, 10),
+    ];
 
-    public function test_confirmation_are_required()
-    {
-        $payload = [
-            'name' => 'Daniel Freitas',
-            'email' => 'daniel@coderock.com.br',
-            'password' => '1SafePassword*!!',
-        ];
+    $this->post(route('register'), $payload)
+        ->assertStatus(302)
+        ->assertSessionHasErrors(['password']);
+});
 
-        $this->post(route('register'), $payload)
-            ->assertStatus(302)
-            ->assertSessionHasErrors(['password',]);
-    }
+it('require name, e-mail and password', function () {
+    $this->post(route('register'))
+        ->assertStatus(302)
+        ->assertSessionHasErrors([
+            'name', 'email', 'password',
+        ]);
+});
 
-    public function test_required_fields_are_blocking()
-    {
-        $this->post(route('register'))
-            ->assertStatus(302)
-            ->assertSessionHasErrors([
-                'name', 'email', 'password',
-            ]);
-    }
+it('require an unique e-mail address', function () {
+    User::factory()->create(['email' => 'duplicated@mail.com']);
 
-    public function test_unique_email_are_blocking()
-    {
-        User::factory()->create(['email' => 'duplicated@mail.com']);
-        $payload = [
-            'name' => 'Daniel Freitas',
-            'email' => 'duplicated@mail.com',
-            'password' => '1SafePassword*!!',
-        ];
+    $payload = [
+        'name' => faker()->name,
+        'email' => 'duplicated@mail.com',
+        'password' => faker()->password(8, 10),
+    ];
 
-        $this->post(route('register'), $payload)
-            ->assertStatus(302)
-            ->assertSessionHasErrors(['email',]);
-    }
+    $this->post(route('register'), $payload)
+        ->assertStatus(302)
+        ->assertSessionHasErrors(['email']);
+});
 
-    public function test_email_format_are_blocking()
-    {
-        $payload = [
-            'name' => 'Daniel Freitas',
-            'email' => 'An invalid email',
-            'password' => '1SafePassword*!!',
-        ];
+it('require an valid (format) e-mail address', function () {
+    $payload = [
+        'name' => faker()->name,
+        'email' => 'invalid_email.com',
+        'password' => faker()->password(8, 10),
+    ];
 
-        $this->post(route('register'), $payload)
-            ->assertStatus(302)
-            ->assertSessionHasErrors(['email',]);
-    }
+    $this->post(route('register'), $payload)
+        ->assertStatus(302)
+        ->assertSessionHasErrors(['email']);
+});
 
-    public function test_min_length_are_blocking()
-    {
-        $payload = [
-            'name' => 'ABC',
-            'email' => 'daniel@coderock.com.br',
-            'password' => '1234567',
-        ];
+it('require a minimum length for name and password', function () {
+    $payload = [
+        'name' => 'ABC',
+        'email' => faker()->email,
+        'password' => '1234567',
+    ];
 
-        $this->post(route('register'), $payload)
-            ->assertStatus(302)
-            ->assertSessionHasErrors(['name', 'password',]);
-    }
-}
+    $this->post(route('register'), $payload)
+        ->assertStatus(302)
+        ->assertSessionHasErrors(['name', 'password']);
+});

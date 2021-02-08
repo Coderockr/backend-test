@@ -8,9 +8,7 @@ class FriendshipController extends Controller
 {
     public function index()
     {
-        return Friendship::query()
-            ->with(['user', 'friend'])
-            ->get();
+        return Friendship::query()->get();
     }
 
     public function delete(Friendship $friendship)

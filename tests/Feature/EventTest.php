@@ -16,10 +16,7 @@ it('store correctly', function () {
     $this->actingAs($user, 'api')
         ->post(route('events.store'), $payload)
         ->assertStatus(201)
-        ->assertJson($payload)
-        ->assertJsonStructure([
-            'id', 'name', 'description', 'location', 'moment', 'created_at', 'updated_at',
-        ]);
+        ->assertJson($payload);
 });
 
 it('update correctly', function () {
@@ -35,10 +32,7 @@ it('update correctly', function () {
     $this->actingAs($user, 'api')
         ->put(route('events.update', $event->id), $payload)
         ->assertStatus(200)
-        ->assertJson($payload)
-        ->assertJsonStructure([
-            'id', 'name', 'description', 'location', 'moment', 'created_at', 'updated_at',
-        ]);
+        ->assertJson($payload);
 });
 
 it('delete correctly', function () {

@@ -6,9 +6,13 @@ use App\Scopes\UserScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Friendship extends Model
+class FriendshipRequest extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'user_id', 'friend_id',
+    ];
 
     protected $with = [
         'user', 'friend',

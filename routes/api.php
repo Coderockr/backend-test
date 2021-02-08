@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FriendshipController;
+use App\Http\Controllers\FriendshipRequestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,9 @@ Route::middleware('auth:api')->group(function () {
     Route::post('events', [EventController::class, 'store'])->name('events.store');
     Route::put('events/{event}', [EventController::class, 'update'])->name('events.update');
     Route::delete('events/{event}', [EventController::class, 'delete'])->name('events.delete');
+
+    Route::get('/friendship-requests', [FriendshipRequestController::class, 'index'])->name('friendship-requests');
+    Route::post('/friendship-requests', [FriendshipRequestController::class, 'store'])->name('friendship-requests.store');
 
     Route::get('/friendships', [FriendshipController::class, 'index'])->name('friendships');
     Route::delete('/friendships/{friendship}', [FriendshipController::class, 'delete'])->name('friendships.delete');

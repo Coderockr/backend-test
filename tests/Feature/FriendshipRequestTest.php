@@ -1,14 +1,15 @@
 <?php
 
-use App\Models\Friendship;
+use App\Models\FriendshipRequest;
 use App\Models\User;
 
 it('list correctly', function () {
     $user = User::factory()->create();
-    Friendship::factory()->count(2)->create(['user_id' => $user->id]);
+
+    FriendshipRequest::factory()->count(2)->create(['user_id' => $user->id]);
 
     $this->actingAs($user, 'api')
-        ->get(route('friendships'))
+        ->get(route('friendship-requests'))
         ->assertStatus(200)
         ->assertJson([
             ['user_id' => $user->id],
@@ -21,11 +22,16 @@ it('list correctly', function () {
         ]);
 });
 
-it('delete correctly', function () {
+it('store correctly', function () {
     $user = User::factory()->create();
-    $friendship = Friendship::factory(['user_id' => $user->id])->create();
+    $friend = User::factory()->create();
+    $payload = [
+        'user_id' => $user->id,
+        'friend_id' => $friend->id,
+    ];
 
     $this->actingAs($user, 'api')
-        ->delete(route('friendships.delete', $friendship->id))
-        ->assertStatus(204);
+        ->post(route('friendship-requests.store'), $payload)
+        ->assertStatus(201)
+        ->assertJson($payload);
 });

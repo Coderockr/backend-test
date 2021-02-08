@@ -28,6 +28,15 @@ it('list correctly', function () {
                 ['name' => 'First event'],
                 ['name' => 'Second event'],
             ],
+        ])
+        ->assertJsonStructure([
+            'current_page',
+            'per_page',
+            'data' => [
+                '*' => [
+                    'id', 'name', 'description', 'location', 'moment', 'created_at', 'updated_at',
+                ],
+            ],
         ]);
 });
 
@@ -45,10 +54,6 @@ it('paginate list correctly', function () {
             'per_page',
             'last_page_url',
             'next_page_url',
-            'data' => [
-                '*' => [
-                    'id', 'name', 'description', 'location', 'moment', 'created_at', 'updated_at',
-                ],
-            ],
+            'data',
         ]);
 });

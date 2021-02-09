@@ -39,12 +39,12 @@ The server init on port 3000. Acess: http://localhost:3000/index/1
 
 ## Libs
 
--[Sequelize](https://sequelize.org/master/) A ORM that make solid transaction support, relations, eager and lazy loading, read replication and more
--[Multer](https://github.com/expressjs/multer#readme) Used for upload images
--[JWT](https://github.com/auth0/node-jsonwebtoken) Used to create a token for users
--[Dotenv](https://github.com/motdotla/dotenv) Loads environment variables from a .env file
--[Sequelize-Cli](https://github.com/sequelize/cli) The sequelize CLI helps to create tables, migrations and seeders
--[Sequelize-paginate](https://github.com/eclass/sequelize-paginate#readme) Plugin for add paginate method
--[Cors](https://github.com/expressjs/cors) Used enable cors for some routes
--[Nodemon](https://github.com/remy/nodemon) Helps develop node.js based applications by automatically restarting the node application when file changes in the directory are detected
+- [Sequelize](https://sequelize.org/master/) A ORM that make solid transaction support, relations, eager and lazy loading, read replication and more
+- [Multer](https://github.com/expressjs/multer#readme) Used for upload images
+- [JWT](https://github.com/auth0/node-jsonwebtoken) Used to create a token for users
+- [Dotenv](https://github.com/motdotla/dotenv) Loads environment variables from a .env file
+- [Sequelize-Cli](https://github.com/sequelize/cli) The sequelize CLI helps to create tables, migrations and seeders
+- [Sequelize-paginate](https://github.com/eclass/sequelize-paginate#readme) Plugin for add paginate method
+- [Cors](https://github.com/expressjs/cors) Used enable cors for some routes
+-[ Nodemon](https://github.com/remy/nodemon) Helps develop node.js based applications by automatically restarting the node application when file changes in the directory are detected
 - Pg, pg-hstore: Libs to support Postgres database.

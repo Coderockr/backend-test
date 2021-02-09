@@ -11,10 +11,10 @@ module.exports = {
             Bio,
             City,
             State,
-            File
         } = req.body
 
-        const filename = req.file.filename
+        const File = req.file
+        const filename = req.file.key
 
 
         const Profile_Picture = `${process.env.APP_URL}/files/${filename}`
@@ -32,12 +32,7 @@ module.exports = {
 
         try {
             const result = await User.create(data)
-            const dataUser = {
-                Name: result.Name,
-                Email: result.Email,
-                Bio: result.Bio
-            }
-            res.json(dataUser)
+            res.json(result)
         } catch (error) {
             res.status(400).send('User not inserted!')
 

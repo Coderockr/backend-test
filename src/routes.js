@@ -19,9 +19,9 @@ routes.get('/user/:page', cors(), UserController.index)
 //Rota para autenticação de usuario
 routes.post('/user/auth', cors(), UserController.autenticate)
 
-//Rotas para eventos
+//Rotas principal e para busca de eventos
+routes.get('/index/:page', cors(), EventController.index)
 routes.post('/event/create', cors(), EventController.insert)
-routes.get('/event/:page', cors(), EventController.index)
 routes.get('/event/index/:id', cors(), EventController.indexDetails)
 routes.get('/event/region/:region', cors(), EventController.showRegion)
 routes.get('/event/date/:date', cors(), EventController.showDate)

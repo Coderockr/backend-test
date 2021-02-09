@@ -16,7 +16,8 @@ class User extends Model {
             },
             Password: {
                 type: DataTypes.STRING,
-                allowNull: false
+                allowNull: false,
+                select: false
             },
             Bio: {
                 type: DataTypes.STRING,

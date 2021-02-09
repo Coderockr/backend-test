@@ -21,7 +21,7 @@ module.exports = {
             const result = await Events.create(data)
             res.send(result)
         } catch (error) {
-            res.send(error)
+            res.status(400).send('Event not inserted!')
         }
 
     },
@@ -38,8 +38,7 @@ module.exports = {
             const result = await Events.paginate(options)
             res.send(result)
         } catch (error) {
-            console.log(error)
-            res.send(500)
+            res.status(500).send('Internal error!')
         }
 
     },
@@ -52,8 +51,7 @@ module.exports = {
             })
             res.send(result)
         } catch (error) {
-            console.log(error)
-            res.send(500)
+            res.status(400).send('Invalid Event!')
         }
     },
 
@@ -65,8 +63,7 @@ module.exports = {
             })
             res.send(result)
         } catch (error) {
-            console.log(error)
-            res.send(500)
+            res.status(400).send('Not events for this region!')
         }
     },
 
@@ -78,8 +75,7 @@ module.exports = {
             })
             res.send(result)
         } catch (error) {
-            console.log(error)
-            res.send(500)
+            res.status(400).send('Data not found!')
         }
     }
 }

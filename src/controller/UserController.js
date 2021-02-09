@@ -1,4 +1,6 @@
 const User = require('../models/User')
+const jwt = require('jsonwebtoken')
+const authConfig = require('../../config/auth.json')
 
 module.exports = {
     async insertUser(req, res) {
@@ -30,10 +32,14 @@ module.exports = {
 
         try {
             const result = await User.create(data)
-            res.json(result)
+            const dataUser = {
+                Name: result.Name,
+                Email: result.Email,
+                Bio: result.Bio
+            }
+            res.json(dataUser)
         } catch (error) {
-            res.send(500)
-            res.send('User not inserted!')
+            res.status(400).send('User not inserted!')
 
         }
     },
@@ -50,8 +56,39 @@ module.exports = {
             const result = await User.paginate(options)
             res.send(result)
         } catch (error) {
-            res.send(error)
+            res.status(400).send('Internal error')
         }
 
+    },
+
+    async autenticate(req, res) {
+        const {
+            Email,
+            Password
+        } = req.body
+
+        const user = await User.findOne({
+            where: { Email }
+        })
+
+        if (!user) {
+            res.status(400).send({ error: 'User not Found!' })
+        }
+
+        if (user.Password !== Password)
+            return res.status(400).send({ error: 'Invalid Password!' })
+
+        const token = jwt.sign({ id: user.id }, authConfig.secret, {
+            expiresIn: 86400,
+        })
+
+
+        const dataUser = {
+            id: user.id,
+            Name: user.Name,
+            Email: user.Email
+        }
+
+        res.send({ dataUser, token })
     }
 }

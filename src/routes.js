@@ -15,6 +15,9 @@ const routes = Router()
 routes.post('/user/create', upload.single('File'), UserController.insertUser)
 routes.get('/user/:page', UserController.index)
 
+//Rota para autenticação de usuario
+routes.post('/user/auth', UserController.autenticate)
+
 //Rotas para eventos
 routes.post('/event/create', EventController.insert)
 routes.get('/event/:page', EventController.index)

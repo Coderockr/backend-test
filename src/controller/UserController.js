@@ -8,12 +8,14 @@ module.exports = {
             Password,
             Bio,
             City,
-            State
+            State,
+            File
         } = req.body
 
-        const key = req.file.key
+        const filename = req.file.filename
 
-        const Profile_Picture = `${process.env.APP_URL}/files/${key}`
+
+        const Profile_Picture = `${process.env.APP_URL}/files/${filename}`
 
         const data = {
             Name,
@@ -22,7 +24,8 @@ module.exports = {
             Bio,
             City,
             State,
-            Profile_Picture
+            Profile_Picture,
+            File
         }
 
         try {

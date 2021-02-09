@@ -3,10 +3,6 @@ const sequelizePaginate = require('sequelize-paginate')
 
 class User extends Model {
 
-    static associate(models) {
-        User.belongsToMany(models.Event, { through: 'UserEvent', as: 'events', foreignKey: 'user_id' })
-    }
-
     static init(sequelize) {
         super.init({
             Name: {
@@ -48,8 +44,9 @@ class User extends Model {
         })
         sequelizePaginate.paginate(User)
         return User
-
     }
+
+
 }
 
 module.exports = User

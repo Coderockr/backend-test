@@ -1,4 +1,3 @@
-const { options } = require('../models/Event')
 const Events = require('../models/Event')
 
 

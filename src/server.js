@@ -8,12 +8,15 @@ dotenv.config()
 
 const User = require('./models/User')
 const Event = require('./models/Event')
+const UserEvent = require('./models/UserEvent')
 
 
 const app = express()
 
 User.init(connection)
 Event.init(connection)
+UserEvent.init(connection)
+
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

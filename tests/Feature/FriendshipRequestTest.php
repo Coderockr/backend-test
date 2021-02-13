@@ -25,10 +25,7 @@ it('list correctly', function () {
 it('store correctly', function () {
     $user = User::factory()->create();
     $friend = User::factory()->create();
-    $payload = [
-        'user_id' => $user->id,
-        'friend_id' => $friend->id,
-    ];
+    $payload = ['friend_id' => $friend->id];
 
     $this->actingAs($user, 'api')
         ->post(route('friendship-requests.store'), $payload)

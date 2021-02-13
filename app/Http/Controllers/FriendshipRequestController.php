@@ -15,11 +15,11 @@ class FriendshipRequestController extends Controller
     public function store(Request $request)
     {
         $data = $this->validate($request, [
-            'user_id' => ['required', 'exists:App\Models\User,id'],
             'friend_id' => ['required', 'exists:App\Models\User,id'],
         ]);
 
-        $friendshipRequest = FriendshipRequest::create($data);
+        $user = auth()->user();
+        $friendshipRequest = $user->friendship_requests()->create($data);
 
         return response()->json($friendshipRequest, 201);
     }

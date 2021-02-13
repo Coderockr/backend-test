@@ -24,10 +24,7 @@ it('list correctly', function () {
 
 it('store correctly', function () {
     $user = User::factory()->create();
-    $payload = [
-        'user_id' => $user->id,
-        'email' => faker()->email,
-    ];
+    $payload = ['email' => faker()->email];
 
     $this->actingAs($user, 'api')
         ->post(route('invitations.store'), $payload)

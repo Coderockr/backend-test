@@ -34,4 +34,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Friendship::class);
     }
+
+    public function invitations()
+    {
+        return $this->hasMany(Invitation::class);
+    }
 }

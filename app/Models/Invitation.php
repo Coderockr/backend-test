@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\InvitationCreated;
 use App\Scopes\UserScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,10 @@ class Invitation extends Model
     protected $casts = [
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
+    ];
+
+    protected $dispatchesEvents = [
+        'created' => InvitationCreated::class,
     ];
 
     protected static function booted()

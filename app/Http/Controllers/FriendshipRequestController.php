@@ -9,7 +9,7 @@ class FriendshipRequestController extends Controller
 {
     public function index()
     {
-        return FriendshipRequest::query()->get();
+        return auth()->user()->friendship_requests;
     }
 
     public function store(Request $request)

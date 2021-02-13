@@ -8,7 +8,7 @@ class FriendshipController extends Controller
 {
     public function index()
     {
-        return Friendship::query()->get();
+        return auth()->user()->friendships;
     }
 
     public function delete(Friendship $friendship)

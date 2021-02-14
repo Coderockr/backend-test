@@ -5,7 +5,6 @@ use App\Models\User;
 
 it('list correctly', function () {
     $user = User::factory()->create();
-
     FriendshipRequest::factory()->count(2)->create(['user_id' => $user->id]);
 
     $this->actingAs($user, 'api')
@@ -30,5 +29,8 @@ it('store correctly', function () {
     $this->actingAs($user, 'api')
         ->post(route('friendship-requests.store'), $payload)
         ->assertStatus(201)
-        ->assertJson($payload);
+        ->assertJson($payload)
+        ->assertJson([
+            'user_id' => $user->id,
+        ]);
 });

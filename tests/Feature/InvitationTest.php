@@ -25,22 +25,18 @@ it('list correctly', function () {
 });
 
 it('store correctly', function () {
+    Mail::fake();
+
     $user = User::factory()->create();
     $payload = ['email' => faker()->email];
 
     $this->actingAs($user, 'api')
         ->post(route('invitations.store'), $payload)
         ->assertStatus(201)
-        ->assertJson($payload);
-});
-
-it('send invites by email', function () {
-    Mail::fake();
-
-    $user = User::factory()->create();
-    $payload = ['email' => faker()->email];
-
-    $this->actingAs($user, 'api')->post(route('invitations.store'), $payload);
+        ->assertJson($payload)
+        ->assertJson([
+            'user_id' => $user->id,
+        ]);
 
     Mail::assertSent(InvitationMail::class);
 });

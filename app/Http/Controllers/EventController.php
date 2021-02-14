@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Scopes\UserScope;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -10,6 +11,7 @@ class EventController extends Controller
     public function index(Request $request)
     {
         $query = Event::query();
+        $query->withoutGlobalScope(UserScope::class);
 
         if ($date = request()->get('date')) {
             $query->whereDate('moment', $date);

@@ -17,7 +17,7 @@ it('auth correctly', function () {
             'email' => $user->email,
         ])
         ->assertJsonStructure([
-            'id', 'name', 'email', 'token', 'created_at', 'updated_at',
+            'id', 'name', 'email', 'bio', 'location', 'picture', 'token', 'created_at', 'updated_at',
         ]);
 });
 

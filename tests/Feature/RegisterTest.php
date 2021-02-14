@@ -7,6 +7,8 @@ it('store correctly', function () {
     $payload = [
         'name' => 'Daniel Freitas',
         'email' => 'daniel@coderock.com.br',
+        'bio' => 'Solution builder.',
+        'location' => 'Lajeado/RS, Brasil',
         'password' => '1SafePassword*!!',
         'password_confirmation' => '1SafePassword*!!',
     ];
@@ -18,7 +20,7 @@ it('store correctly', function () {
             'email' => $payload['email'],
         ])
         ->assertJsonStructure([
-            'id', 'name', 'email', 'token', 'created_at', 'updated_at',
+            'id', 'name', 'email', 'bio', 'location', 'picture', 'token', 'created_at', 'updated_at',
         ]);
 });
 

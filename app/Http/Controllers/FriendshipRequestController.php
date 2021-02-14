@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FriendshipRequest;
 use Illuminate\Http\Request;
 
 class FriendshipRequestController extends Controller

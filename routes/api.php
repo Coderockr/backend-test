@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\FriendshipRequestController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvitationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,8 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [EventController::class, 'index'])->name('home');
-Route::get('/events', [EventController::class, 'index'])->name('events');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
@@ -30,9 +30,10 @@ Route::middleware('auth:api')->group(function () {
         return $request->user();
     });
 
-    Route::post('events', [EventController::class, 'store'])->name('events.store');
-    Route::put('events/{event}', [EventController::class, 'update'])->name('events.update');
-    Route::delete('events/{event}', [EventController::class, 'delete'])->name('events.delete');
+    Route::get('/events', [EventController::class, 'index'])->name('events');
+    Route::post('/events', [EventController::class, 'store'])->name('events.store');
+    Route::put('/events/{event}', [EventController::class, 'update'])->name('events.update');
+    Route::delete('/events/{event}', [EventController::class, 'delete'])->name('events.delete');
 
     Route::get('/friendship-requests', [FriendshipRequestController::class, 'index'])->name('friendship-requests');
     Route::post('/friendship-requests', [FriendshipRequestController::class, 'store'])->name('friendship-requests.store');

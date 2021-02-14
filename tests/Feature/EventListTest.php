@@ -34,7 +34,7 @@ it('list correctly', function () {
             'per_page',
             'data' => [
                 '*' => [
-                    'id', 'name', 'description', 'location', 'moment', 'created_at', 'updated_at',
+                    'id', 'user_id', 'name', 'description', 'location', 'moment', 'user', 'created_at', 'updated_at',
                 ],
             ],
         ]);

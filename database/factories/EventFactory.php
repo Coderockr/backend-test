@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Event;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class EventFactory extends Factory
@@ -12,6 +13,7 @@ class EventFactory extends Factory
     public function definition()
     {
         return [
+            'user_id' => User::factory()->create(),
             'name' => $this->faker->sentence(3, true),
             'description' => $this->faker->text,
             'location' => $this->faker->streetAddress,

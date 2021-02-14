@@ -23,8 +23,8 @@ class InvitationFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory()->create()->id,
-            'email' => User::factory()->create()->email,
+            'user_id' => User::factory()->create(),
+            'email' => $this->faker->companyEmail,
         ];
     }
 }

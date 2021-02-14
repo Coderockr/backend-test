@@ -10,7 +10,11 @@ class Event extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'description', 'location', 'moment',
+        'user_id', 'name', 'description', 'location', 'moment',
+    ];
+
+    protected $with = [
+        'user',
     ];
 
     protected $casts = [
@@ -18,4 +22,9 @@ class Event extends Model
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

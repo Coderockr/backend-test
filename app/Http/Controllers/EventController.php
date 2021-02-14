@@ -35,7 +35,8 @@ class EventController extends Controller
             'moment' => ['date_format:Y-m-d H:i', 'after_or_equal:today'],
         ]);
 
-        $event = Event::create($data);
+        $user = auth()->user();
+        $event = $user->events()->create($data);
 
         return response()->json($event, 201);
     }

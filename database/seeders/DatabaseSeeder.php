@@ -19,8 +19,6 @@ class DatabaseSeeder extends Seeder
         User::factory()->count(50)->create();
         Event::factory()->count(250)->create();
 
-        $this->call(
-            FriendshipSeeder::class
-        );
+        $this->call(FriendshipSeeder::class);
     }
 }

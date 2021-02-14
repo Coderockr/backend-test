@@ -1,7 +1,9 @@
 <?php
 
+use App\Mail\InvitationMail;
 use App\Models\Invitation;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 use function Pest\Faker\faker;
 
 it('list correctly', function () {
@@ -30,4 +32,15 @@ it('store correctly', function () {
         ->post(route('invitations.store'), $payload)
         ->assertStatus(201)
         ->assertJson($payload);
+});
+
+it('send invites by email', function () {
+    Mail::fake();
+
+    $user = User::factory()->create();
+    $payload = ['email' => faker()->email];
+
+    $this->actingAs($user, 'api')->post(route('invitations.store'), $payload);
+
+    Mail::assertSent(InvitationMail::class);
 });

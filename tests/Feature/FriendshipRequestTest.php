@@ -5,14 +5,14 @@ use App\Models\User;
 
 it('list correctly', function () {
     $user = User::factory()->create();
-    FriendshipRequest::factory()->count(2)->create(['user_id' => $user->id]);
+    FriendshipRequest::factory()->count(2)->create(['friend_id' => $user->id]);
 
     $this->actingAs($user, 'api')
         ->get(route('friendship-requests'))
         ->assertStatus(200)
         ->assertJson([
-            ['user_id' => $user->id],
-            ['user_id' => $user->id],
+            ['friend_id' => $user->id],
+            ['friend_id' => $user->id],
         ])
         ->assertJsonStructure([
             '*' => [

@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\FriendshipRequest;
+use App\Scopes\UserScope;
 use Illuminate\Http\Request;
 
 class FriendshipRequestController extends Controller
 {
     public function index()
     {
-        return auth()->user()->friendship_requests;
+        return FriendshipRequest::query()
+            ->withoutGlobalScope(UserScope::class)
+            ->where('friend_id', auth()->user()->id)
+            ->get();
     }
 
     public function store(Request $request)
@@ -24,10 +28,14 @@ class FriendshipRequestController extends Controller
         return response()->json($friendshipRequest, 201);
     }
 
-    public function accept(FriendshipRequest $friendshipRequest)
+    public function accept($id)
     {
+        $friendshipRequest = FriendshipRequest::query()
+            ->withoutGlobalScope(UserScope::class)
+            ->find($id);
+
         $user = auth()->user();
-        $user->friendships()->create(['friend_id' => $friendshipRequest->friend_id]);
+        $user->friendships()->create(['friend_id' => $friendshipRequest->user_id]);
 
         $friendshipRequest->delete();
     }

@@ -1,67 +1,52 @@
 # Back End Test Project
-You should see this challenge as an opportunity to create an application following modern development best practices (given the stack of your choice), but also feel free to use your own architecture preferences (coding standards, code organization, third-party libraries, etc). It’s perfectly fine to use vanilla code or any framework or libraries.
 
-## Scope
-In this challenge you should build an API for an application such as a social event network that implements the following features:
+Essa é a solução que eu ([@scrlkx](https://github.com/scrlkx)) construí durante o processo seletivo de uma vaga
+na [@coderockbr](https://github.com/Coderockr). Esta é a base de uma API para uma rede social de eventos.
 
-__NOTE:__ the implementation of an interface will not be evaluated.
+## Stack
 
-### Public Area
-1. __A public event list:__ When accessing the main route, the application should show a list of all the events registered, paging them every 10 events;
-- 1.1 The user should be able to filter the list of events by dates, or regions;
-2. __Event details:__ the application must allow the user to see the details of the event, by clicking on the event listing, or accessing the event link;
-3. __User signup:__ the application should allow the user to register by informing: Name, Email, Password, Bio, Profile Picture, City, and State;
-4. __User login:__ The application should allow the user to login using their credentials;
-- 4.1 The login should persist when the application is closed, or reloaded;
+A API foi construída com a stack PHP 8 + Laravel 8, pensando em rodar sobre uma base de dados MySQL. A autenticação é
+uma responsabilidade do [Laravel Passport](https://laravel.com/docs/8.x/passport) e os testes são escritos
+com [Pest PHP](https://pestphp.com). As filas de processamento são gerenciadas com [Redis](https://redis.io) e ainda
+temos o [MailHog](https://github.com/mailhog/MailHog) para preview de e-mails. Para ambientes de desenvolvimento
+utiliza-se o [Laravel Sail](https://laravel.com/docs/8.x/sail) que roda sobre [Docker](https://www.docker.com) e também
+querer [docker-compose](https://docs.docker.com/compose).
 
-### Logged Area
-5. __Friend invitation:__ the application will allow the user to enter an email to add as a friend;
-6. __Add as friend:__ The informed user should receive a friend request, or an invitation to register, if they are not already a user;
-7. __Friendship management:__ the user will be able to see your new friend requests, list your friends, and undo friendships;
-8. __Event registration:__ the application should allow the user to register an event by informing: Name, Description, Date, Time, and Place;
-- 8.1 The user should be able to edit and cancel events their events;
-9. __Invite friends to event:__ the user can invite their friends to events, being able to invite all friends, or only the selected ones;
-- 9.1 If the user has already been invited to the event, regardless of their status (confirmed, rejected, awaiting confirmation), the invited user should not be notified of the invitation again;
-10. __My event list:__ the user should be able to see their events, being able to filter them by those who will participate, and the ones that he created;
-11. __Manage event invitations:__ The user can accept, or reject, attend events.
-12. __Events management:__ The user can view their rejected events and undo rejections, deciding to participate, if the event has not yet occurred;
+### Setup
 
-## Requirements
-1. Create project using any technology of your preference. It’s perfectly OK to use vanilla code or any framework or libraries;
-2. Although you can use as many dependencies as you want, you should manage them wisely;
-3. The API should be covered by unit tests;
-4. It is not necessary to send the notification emails, however, the code required for that would be welcome;
-5. The API must be documented in some way.
+1. Clone o repositório
+2. Crie uma cópia de `.env` com `cp .env.example .env`
+3. Instale as dependências com `composer install` (isso requer o [Composer](https://getcomposer.org))
+4. Construa a estrutura com `sail up -d`
+5. Acesse o container principal com `sail shell`
+6. Crie a sua chave com `php artisan key:generate`
+7. Rode migrations e seeds com `php artisan migrate:refresh --seed`
+8. Gere suas chaves Passport com `php artisan passport:install`
+9. Me avise se algo sair errado
 
-## Deliverables
-The project source code and dependencies should be made available in GitHub. Here are the steps you should follow:
-1. Fork this repository to your GitHub account (create an account if you don't have one, you will need it working with us).
-2. Create a "development" branch and commit the code to it. Do not push the code to the master branch.
-3. Include a README file that describes:
-  - Special build instructions, if any
-  - List of third-party libraries used and short description of why/how they were used
-4. Once the work is complete, create a pull request from "development" into "master" and send us the link.
-5. Avoid using huge commits hiding your progress. Feel free to work on a branch and use rebase to adjust your commits before submitting the final version.
+A partir deste momento, os seguintes recursos estão disponíveis:
 
-## Coding Standards
-When working on the project be as clean and consistent as possible.
+- A API na porta 80
+- Um banco de dados MySQL na porta 3306
+- Uma instância de Redis na porta 6379
+- O painel do MailHog na porta 1025
 
-## Project Deadline
-Ideally you'd finish the test project in 5 days. It shouldn't take you longer than a entire week.
+### Documentação
 
-## Quality Assurance
-Use the following checklist to ensure high quality of the project.
+A documentação da API está disponível publicamente [neste link](https://documenter.getpostman.com/view/5768628/TWDTKxnK)
+e se você estiver pensando em utilizar Postman para simular requisições pode importar uma coleção completa utilizando
+este link: https://www.getpostman.com/collections/b954894b6831b44c5a2c
 
-### General
-- First of all, the application should run without errors.
-- Are all requirements set above met?
-- Is coding style consistent?
-- The API is well documented?
+### Testes
 
-## Submission
-1. A link to the Github repository.
-2. Briefly describe how you decided on the tools that you used.
+Para executar os testes disponíveis:
 
-## Have Fun Coding 🤘
-- This challenge description is intentionally vague in some aspects, but if you need assistance feel free to ask for help.
-- If any of the seens out of your current level, you may skip it, but remember to tell us about it in the pull request.
+1. Acesse o container principal com `sail shell`
+2. Execute `composer test`
+
+### Envios de e-mail
+
+A solução entregue não considera fazer envios reais de e-mail, apesar de que você pode fazer isso apenas mudando algumas
+configurações locais. Ao invés disso ela foi pensada para simular envios que são posteriormente capturados pelo MailHog.
+
+O painel do MailHog está disponível em [http://localhost:8025](http://localhost:8025).

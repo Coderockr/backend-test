@@ -10,6 +10,10 @@ class Friendship extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id', 'friend_id',
+    ];
+
     protected $with = [
         'user', 'friend',
     ];

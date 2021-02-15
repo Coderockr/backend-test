@@ -41,6 +41,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/friendship-requests', [FriendshipRequestController::class, 'index'])->name('friendship-requests');
     Route::post('/friendship-requests', [FriendshipRequestController::class, 'store'])->name('friendship-requests.store');
+    Route::post('/friendship-requests/{friendshipRequest}/accept', [FriendshipRequestController::class, 'accept'])->name('friendship-requests.accept');
 
     Route::get('/friendships', [FriendshipController::class, 'index'])->name('friendships');
     Route::delete('/friendships/{friendship}', [FriendshipController::class, 'delete'])->name('friendships.delete');

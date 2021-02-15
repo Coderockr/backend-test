@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FriendshipRequest;
 use Illuminate\Http\Request;
 
 class FriendshipRequestController extends Controller
@@ -21,5 +22,13 @@ class FriendshipRequestController extends Controller
         $friendshipRequest = $user->friendship_requests()->create($data);
 
         return response()->json($friendshipRequest, 201);
+    }
+
+    public function accept(FriendshipRequest $friendshipRequest)
+    {
+        $user = auth()->user();
+        $user->friendships()->create(['friend_id' => $friendshipRequest->friend_id]);
+
+        $friendshipRequest->delete();
     }
 }

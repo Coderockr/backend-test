@@ -3,13 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Scopes\UserScope;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return auth()->user()->events;
+        $origin = $request->get('origin', 'mine');
+        $user = auth()->user();
+
+        if ($origin === 'invited') {
+            return Event::query()
+                ->withoutGlobalScope(UserScope::class)
+                ->join('event_invitations', 'event_invitations.id', '=', 'events.id')
+                ->where('event_invitations.friend_id', $user->id)
+                ->select('events.*')
+                ->get();
+        }
+
+        return $user->events;
     }
 
     public function store(Request $request)

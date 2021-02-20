@@ -1,7 +1,7 @@
 # Coderockr Interview Challenge
 
 Essa é a solução que eu ([@scrlkx](https://github.com/scrlkx)) construí durante o processo seletivo de uma vaga
-na [@coderockbr](https://github.com/Coderockr). Esta é a base de uma API para uma rede social de eventos.
+na [@Coderockr](https://github.com/Coderockr). Esta é a base de uma API para uma rede social de eventos.
 
 ## Stack
 

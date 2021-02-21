@@ -12,7 +12,7 @@ temos o [MailHog](https://github.com/mailhog/MailHog) para preview de e-mails. P
 utiliza-se o [Laravel Sail](https://laravel.com/docs/8.x/sail) que roda sobre [Docker](https://www.docker.com) e também
 querer [docker-compose](https://docs.docker.com/compose).
 
-### Setup
+## Setup
 
 1. Clone o repositório
 2. Crie uma cópia de `.env` com `cp .env.example .env`
@@ -31,20 +31,20 @@ A partir deste momento, os seguintes recursos estão disponíveis:
 - Uma instância de Redis na porta 6379
 - O painel do MailHog na porta 1025
 
-### Documentação
+## Documentação
 
 A documentação da API está disponível publicamente [neste link](https://documenter.getpostman.com/view/5768628/TWDTKxnK)
 e se você estiver pensando em utilizar Postman para simular requisições pode importar uma coleção completa utilizando
 este link: https://www.getpostman.com/collections/b954894b6831b44c5a2c
 
-### Testes
+## Testes
 
 Para executar os testes disponíveis:
 
 1. Acesse o container principal com `sail shell`
 2. Execute `composer test`
 
-### Envios de e-mail
+## Envios de e-mail
 
 A solução entregue não considera fazer envios reais de e-mail, apesar de que você pode fazer isso apenas mudando algumas
 configurações locais. Ao invés disso ela foi pensada para simular envios que são posteriormente capturados pelo MailHog.

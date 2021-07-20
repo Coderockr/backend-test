@@ -76,5 +76,9 @@ Use the following checklist to ensure high quality of the project.
 - This challenge description is intentionally vague in some aspects, but if you need assistance feel free to ask for help.
 - If any of the seens out of your current level, you may skip it, but remember to tell us about it in the pull request.
 
+## Credits
+
+This coding challenge was inspired on [kinvoapp/kinvo-back-end-test](https://github.com/kinvoapp/kinvo-back-end-test/blob/2f17d713de739e309d17a1a74a82c3fd0e66d128/README.md)
+
 [taxes]: #taxation
 [interest]: #interest-calculation

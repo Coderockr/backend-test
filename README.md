@@ -6,34 +6,35 @@ You should see this challenge as an opportunity to create an application followi
 
 In this challenge you should build an API for an application that stores and manages investments, it should have the following features:
 
-  1. __Creation__ of an investment with a owner, a creation date and an amount.
+  1. __Creation__ of an investment with an owner, a creation date and an amount.
     1. An investment can be in the past.
-    2. An investment should not be or became negative.
-  2. __View__ of a investment with its withdraws and current balance.
+    2. An investment should not be or become negative.
+  2. __View__ of an investment with its withdrawals and current balance.
     1. Current balance should be the sum of the invested amount, the [interest] and withdraws.
   3. Partial or total __withdraw__ of the investment amount.
-    1. Should not be able to withdraw more than the balance.
-    2. Withdraws in the past can be created, but can't be before the investment creation or previous withdraws.
+    1. Should not be able to withdraw more than the available balance.
+    2. Withdraws in the past can be created, but can't happen before the investment creation or previously created withdrawals.
     3. Should show the amount paid on [taxes].
-  4. __List__ of all investments of a person.
+  4. __List__ of a person's investments
+    1. This list should have pagination.
 
 __NOTE:__ the implementation of an interface will not be evaluated.
 
 ### Interest Calculation
 
-The investment will pay 0.52% every month in the same day of the investment creation, if a withdraw is made than in that month no interest will be paid.
+The investment will pay 0.52% every month in the same day of the investment creation, if a withdraw is made then in that month no interest will be paid.
 
-Given that the interest is paid every month, than it should be treated as as compound interest, that means that interest that is not withdrawn will became part of the investment balance for the next interest payment.
+Given that the interest is paid every month, it should be treated as as compound interest, which means that interest that is not withdrawn will become part of the investment balance for the next interest payment.
 
 ### Taxation
 
-Every time a withdrawn happens part of it will automatically be kept as taxes.
-The taxes apply only on the interest, that means that if the investment was created with 1000.00, and when now the balance was 1,100.00, if you withdraw 110.00 than the taxes will be calculated over 11.00 (10% = 1,100/1000).
+Every time a withdrawal happens part of it will automatically be kept as taxes.
+The taxes apply only to the interest, meaning that if the investment was created with 1000.00, and now the balance is 1,100.00, if you withdraw 110.00 than the taxes will be calculated over 11.00 (10% = 1,100/1000).
 
-The percent of taxes change with how old the investment is:
-* If it is less than one year old, the percent will be 22.5%
-* If it is between one and two years old, the percent will be 18.5%.
-* If older than two years, the percent will be 15%.
+The tax percentage changes according to the age of the investment:
+* If it is less than one year old, the percentage will be 22.5%
+* If it is between one and two years old, the percentage will be 18.5%.
+* If older than two years, the percentage will be 15%.
 
 ## Requirements
 1. Create project using any technology of your preference. It’s perfectly OK to use vanilla code or any framework or libraries;

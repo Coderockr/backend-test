@@ -28,8 +28,7 @@ Given that the interest is paid every month, it should be treated as as compound
 
 ### Taxation
 
-Every time a withdrawal happens part of it will automatically be kept as taxes.
-The taxes apply only to the interest, meaning that if the investment was created with 1000.00, and now the balance is 1,100.00, if you withdraw 110.00 than the taxes will be calculated over 11.00 (10% = 1,100/1000).
+When money is withdrawn, tax is triggered. Taxes apply only to the interest portion of the money withdrawn. For example, if the initial investment was 1000.00, the current balance is 1200.00, and you withdraw 150.00, then the taxes will be applied to 16.67% = (200/1200) of the amount withdrawn. Meaning that you should apply tax on 25.00 (150 x 16,67%).
 
 The tax percentage changes according to the age of the investment:
 * If it is less than one year old, the percentage will be 22.5%

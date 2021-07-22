@@ -10,7 +10,7 @@ In this challenge you should build an API for an application that stores and man
     1. The creation date of an investment can be today or a date in the past.
     2. An investment should not be or become negative.
 2. __View__ of an investment with its withdrawals and current balance.
-    1. Current balance should be the sum of the invested amount, the [interest] and withdrawals.
+    1. Current balance should be the sum of the invested amount, the [gains] and withdrawals.
 3. Partial or total __withdrawal__ of the investment amount.
     1. Should not be able to withdraw more than the available balance.
     2. Withdrawals in the past can be created, but can't happen before the investment creation or previously created withdrawals.
@@ -20,15 +20,15 @@ In this challenge you should build an API for an application that stores and man
 
 __NOTE:__ the implementation of an interface will not be evaluated.
 
-### Interest Calculation
+### Gain Calculation
 
-The investment will pay 0.52% every month in the same day of the investment creation, if a withdrawal is made then in that month no interest will be paid.
+The investment will pay 0.52% every month in the same day of the investment creation, if a withdrawal is made then in that month nothing will be paid.
 
-Given that the interest is paid every month, it should be treated as as compound interest, which means that interest that is not withdrawn will become part of the investment balance for the next interest payment.
+Given that the gain is paid every month, it should be treated as as [compound gain], which means that gain that is not withdrawn will become part of the investment balance for the next payment.
 
 ### Taxation
 
-When money is withdrawn, tax is triggered. Taxes apply only to the interest portion of the money withdrawn. For example, if the initial investment was 1000.00, the current balance is 1200.00, and you withdraw 150.00, then the taxes will be applied to 16.67% = (200/1200) of the amount withdrawn. Meaning that you should apply tax on 25.00 (150 x 16,67%).
+When money is withdrawn, tax is triggered. Taxes apply only to the profit/gain portion of the money withdrawn. For example, if the initial investment was 1000.00, the current balance is 1200.00, and you withdraw 150.00, then the taxes will be applied to 16.67% = (200/1200) of the amount withdrawn. Meaning that you should apply tax on 25.00 (150 x 16,67%).
 
 The tax percentage changes according to the age of the investment:
 * If it is less than one year old, the percentage will be 22.5%
@@ -82,3 +82,4 @@ This coding challenge was inspired on [kinvoapp/kinvo-back-end-test](https://git
 
 [taxes]: #taxation
 [interest]: #interest-calculation
+[compound gain]: https://www.investopedia.com/terms/g/gain.asp

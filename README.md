@@ -6,16 +6,16 @@ You should see this challenge as an opportunity to create an application followi
 
 In this challenge you should build an API for an application that stores and manages investments, it should have the following features:
 
-  1. __Creation__ of an investment with an owner, a creation date and an amount.
+1. __Creation__ of an investment with an owner, a creation date and an amount.
     1. The creation date of an investment can be today or a date in the past.
     2. An investment should not be or become negative.
-  2. __View__ of an investment with its withdrawals and current balance.
+2. __View__ of an investment with its withdrawals and current balance.
     1. Current balance should be the sum of the invested amount, the [interest] and withdrawals.
-  3. Partial or total __withdrawal__ of the investment amount.
+3. Partial or total __withdrawal__ of the investment amount.
     1. Should not be able to withdraw more than the available balance.
     2. Withdrawals in the past can be created, but can't happen before the investment creation or previously created withdrawals.
     3. Should show the amount paid on [taxes].
-  4. __List__ of a person's investments
+4. __List__ of a person's investments
     1. This list should have pagination.
 
 __NOTE:__ the implementation of an interface will not be evaluated.

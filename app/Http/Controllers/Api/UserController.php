@@ -25,21 +25,7 @@ class UserController extends ApiController
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $data["password"] = bcrypt( $data["password"] );
 
-        try {
-            User::create($data);
-        } catch(\Exception $e) {
-            return response()->json([
-                'status' => 500,
-                'errors' => 'Registration error'
-            ], 500);
-        }
-        return response()->json([
-            'status' => 200,
-            'message' => 'Registered successfully =)',
-        ], 200);
     }
 
     /**

@@ -24,13 +24,20 @@ use Illuminate\Http\Request;
 //    Route::post('me', 'AuthController@me');
 //});
 
-Route::post('auth/login', 'Api\\AuthController@login');
-Route::post('auth/logout', 'Api\\AuthController@logout');
-Route::post('auth/refresh', 'Api\\AuthController@refresh');
-Route::post('auth/me', 'Api\\AuthController@me');
+Route::group(['prefix' => 'auth'], function($router) {
+    Route::post('register', 'Api\\AuthController@register');
+    Route::post('login', 'Api\\AuthController@login');
+    Route::post('logout', 'Api\\AuthController@logout');
+    Route::post('me', 'Api\\AuthController@me');
+    Route::post('refresh', 'Api\\AuthController@refresh');
+});
 
-Route::post('user/store', 'Api\\UserController@store');
+Route::group(['middleware' => ['apiJwt'], 'prefix' => 'users'], function($router) {
+    Route::get('/', 'Api\\UserController@index');
 
-Route::group(['middleware' => ['apiJwt']], function () {
-    Route::get('users', 'Api\\UserController@index');
+});
+
+// Not Found
+Route::fallback(function(){
+    return response()->json(['status' => 404, 'message' => 'Resource not found.'], 404);
 });

@@ -2,10 +2,54 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends ApiController
 {
+
+    /**
+     *  Handles with the registration of new users as well as their validation and creation
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function register(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:150',
+            'email' => 'required|string|email|max:150|unique:users',
+            'password' => 'required|string|min:6', // confirmed
+        ]);
+
+        if ($validator->fails()) {
+            return $this->responseUnprocessable($validator->errors()->toArray());
+        }
+
+        try {
+            $user = $this->create($request->all());
+            return $this->responseSuccess('Registered successfully.');
+        } catch (Exception $e) {
+            return $this->responseServerError('Registration error.');
+        }
+    }
+
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  array  $data
+     * @return \App\Models\User
+     */
+    protected function create(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+        ]);
+    }
 
     /**
      * Get a JWT via given credentials.

@@ -79,7 +79,7 @@ abstract class ApiController extends Controller
     /**
      * Returns a unprocessable entity (422) JSON response.
      *
-     * @param  array $errors
+     * @param array $errors
      * @return \Illuminate\Http\JsonResponse
      */
     public function responseUnprocessable($errors)

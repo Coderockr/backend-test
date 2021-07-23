@@ -14,7 +14,7 @@ class UserController extends ApiController
      */
     public function index()
     {
-        //
+        return User::all();
     }
 
     /**

@@ -27,13 +27,15 @@ use Illuminate\Http\Request;
 Route::group(['prefix' => 'auth'], function($router) {
     Route::post('register', 'Api\\AuthController@register');
     Route::post('login', 'Api\\AuthController@login');
-    Route::post('logout', 'Api\\AuthController@logout');
-    Route::post('me', 'Api\\AuthController@me');
-    Route::post('refresh', 'Api\\AuthController@refresh');
 });
 
-Route::group(['middleware' => ['apiJwt'], 'prefix' => 'users'], function($router) {
-    Route::get('/', 'Api\\UserController@index');
+Route::group(['middleware' => ['apiJwt']], function($router) {
+    Route::group(['prefix' => 'auth'], function($router) {
+        Route::post('logout', 'Api\\AuthController@logout');
+        Route::post('me', 'Api\\AuthController@me');
+    });
+
+    Route::get('users', 'Api\\UserController@index');
 
 });
 

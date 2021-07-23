@@ -91,18 +91,6 @@ class AuthController extends ApiController
         return $this->responseSuccess('Successfully logged out.');
     }
 
-    /**
-     * Refresh a token.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function refresh()
-    {
-        $token = auth('api')->refresh();
-        // Get the user data.
-        $user = auth('api')->user();
-        return $this->respondWithToken($user, $token);
-    }
 
     /**
      * Get the token array structure.

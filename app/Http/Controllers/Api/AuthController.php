@@ -21,9 +21,9 @@ class AuthController extends ApiController
         }
 
         // Get the user data.
-        // $user = auth()->user();
+        $user = auth('api')->user();
 
-        return $this->respondWithToken($token);
+        return $this->respondWithToken($user, $token);
     }
 
     /**
@@ -33,7 +33,7 @@ class AuthController extends ApiController
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($token)
+    protected function respondWithToken($user, $token)
     {
         return response()->json([
             'status' => 200,
@@ -41,6 +41,10 @@ class AuthController extends ApiController
             'access_token' => $token,
             'token_type' => 'bearer',
             // 'expires_in' => auth('api')->factory()->getTTL() * 60
+            'user' => [
+                'id' => $user->hashid,
+                'name' => $user->name
+            ]
         ], 200);
     }
 }

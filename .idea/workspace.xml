@@ -2,7 +2,99 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c92a6dd0-ea7c-447a-ae43-fcd79585b3a9" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.env" afterPath="$PROJECT_DIR$/.env" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.editorconfig" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.env.example" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.gitattributes" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.styleci.yml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Console/Kernel.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Exceptions/Handler.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/ForgotPasswordController.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/ResetPasswordController.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Http/Controllers/Auth/VerificationController.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Http/Controllers/Controller.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Http/Middleware/Authenticate.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Http/Middleware/CheckForMaintenanceMode.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Http/Middleware/EncryptCookies.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Http/Middleware/RedirectIfAuthenticated.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Http/Middleware/TrimStrings.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Http/Middleware/TrustProxies.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Http/Middleware/VerifyCsrfToken.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Providers/BroadcastServiceProvider.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Providers/EventServiceProvider.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/app/User.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/artisan" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/bootstrap/app.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/bootstrap/cache/.gitignore" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/composer.json" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/composer.lock" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/config/app.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/config/auth.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/config/broadcasting.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/config/cache.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/config/database.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/config/filesystems.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/config/hashing.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/config/logging.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/config/mail.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/config/queue.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/config/services.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/config/session.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/config/view.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/database/.gitignore" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/database/factories/UserFactory.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/database/migrations/2014_10_12_100000_create_password_resets_table.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/package.json" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/phpunit.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/public/.htaccess" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/public/css/app.css" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/public/favicon.ico" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/public/index.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/public/js/app.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/public/robots.txt" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/public/web.config" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/js/app.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/js/bootstrap.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/js/components/ExampleComponent.vue" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/lang/en/auth.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/lang/en/pagination.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/lang/en/passwords.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/lang/en/validation.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/sass/_variables.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/sass/app.scss" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/resources/views/welcome.blade.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/routes/api.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/routes/channels.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/routes/console.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/routes/web.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/server.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/storage/app/.gitignore" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/storage/app/public/.gitignore" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/storage/framework/.gitignore" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/storage/framework/cache/.gitignore" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/storage/framework/cache/data/.gitignore" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/storage/framework/sessions/.gitignore" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/storage/framework/testing/.gitignore" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/storage/framework/views/.gitignore" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/storage/logs/.gitignore" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/test-description.md" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/tests/CreatesApplication.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/tests/Feature/ExampleTest.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/tests/TestCase.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/tests/Unit/ExampleTest.php" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/webpack.mix.js" />
       <change beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,14 +109,14 @@
       <file leaf-file-name=".env" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.env">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+            <state relative-caret-position="187">
+              <caret line="11" column="28" lean-forward="false" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="readme.md" pinned="false" current-in-tab="true">
+      <file leaf-file-name="readme.md" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/readme.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
@@ -33,6 +125,16 @@
                 <folding />
               </first_editor>
               <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="11" lean-forward="true" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -60,6 +162,7 @@
       <list>
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/readme.md" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -97,7 +200,7 @@
         <subPane>
           <expand>
             <path>
-              <item name="projeto" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Coderockr Events" type="b2602c69:ProjectViewProjectNode" />
               <item name="projeto" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
@@ -139,12 +242,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627071698982</updated>
-      <workItem from="1627071701180" duration="1242000" />
+      <workItem from="1627071701180" duration="1357000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1242000" />
+    <option name="totallyTimeSpent" value="1357000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -214,8 +317,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.env">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+        <state relative-caret-position="187">
+          <caret line="11" column="28" lean-forward="false" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
           <folding />
         </state>
       </provider>
@@ -228,6 +331,14 @@
             <folding />
           </first_editor>
           <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="11" lean-forward="true" selection-start-line="7" selection-start-column="11" selection-end-line="7" selection-end-column="11" />
+          <folding />
         </state>
       </provider>
     </entry>

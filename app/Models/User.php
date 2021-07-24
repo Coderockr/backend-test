@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Helpers\Hasher;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -17,27 +16,14 @@ class User extends Authenticatable  implements JWTSubject
      *
      * @var array
      */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    protected $fillable = ['name', 'email', 'password', 'biography', 'picture', 'city', 'state'];
 
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = [
-        'id', 'password', 'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    protected $hidden = ['id', 'password'];
 
     /**
      * Custom attributes for data model.
@@ -45,6 +31,15 @@ class User extends Authenticatable  implements JWTSubject
      * @var array
      */
     public $appends = ['hashid'];
+
+    /**
+     * A User can have multiple Events.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function events() {
+        return $this->hasMany(Event::class, 'owner_id', 'id');
+    }
 
     /**
      * Encodes the user id and returns the unique hash.

@@ -35,11 +35,18 @@ Route::group(['middleware' => ['apiJwt']], function($router) {
         Route::post('me', 'Api\\AuthController@me');
     });
 
-    Route::get('users', 'Api\\UserController@index');
+    Route::group(['prefix' => 'my-events'], function($router) {
+        Route::post('store', 'Api\\EventController@store');
+        Route::get('/{id}/edit', 'Api\\EventController@show');
+        Route::put('/{id}/update', 'Api\\EventController@update');
+    });
+
 });
 
-Route::get('events', 'Api\\EventController@publicEvents');
-
+Route::group(['prefix' => 'events'], function($router) {
+    Route::get('/', 'Api\\PublicEventController@index');
+    Route::get('/{id}', 'Api\\PublicEventController@show');
+});
 
 // Not Found
 Route::fallback(function(){

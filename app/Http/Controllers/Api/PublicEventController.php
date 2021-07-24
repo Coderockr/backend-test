@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\EventCollection;
+use App\Http\Resources\EventResource;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class EventController extends ApiController
+class PublicEventController extends ApiController
 {
     /**
      * @var Event
@@ -58,26 +59,17 @@ class EventController extends ApiController
         return new EventCollection($collection); // ResourceCollection
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return EventResource
      */
     public function show($id)
     {
-        //
+        $event = $this->eventModel::findOrFail($id);
+        return new EventResource($event);
     }
 
     /**
@@ -92,14 +84,5 @@ class EventController extends ApiController
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+
 }

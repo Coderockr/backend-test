@@ -39,7 +39,6 @@ class AuthController extends ApiController
             $user = $this->create($request);
             return $this->responseSuccess('Registered successfully.');
         } catch (Exception $e) {
-            dd($e);
             return $this->responseServerError('Registration error.');
         }
     }

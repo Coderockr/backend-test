@@ -36,9 +36,11 @@ Route::group(['middleware' => ['apiJwt']], function($router) {
     });
 
     Route::group(['prefix' => 'my-events'], function($router) {
-        Route::post('store', 'Api\\EventController@store');
-        Route::get('/{id}/edit', 'Api\\EventController@show');
+        Route::get('/', 'Api\\EventController@index');
+        Route::post('/', 'Api\\EventController@store');
+        Route::get('/{id}/edit', 'Api\\EventController@edit');
         Route::put('/{id}/update', 'Api\\EventController@update');
+        Route::put('/{id}/cancel', 'Api\\EventController@cancel');
     });
 
 });

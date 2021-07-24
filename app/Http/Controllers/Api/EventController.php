@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\EventResource;
+use Exception;
 use App\Http\Resources\EventCollection;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class EventController extends ApiController
@@ -24,60 +27,95 @@ class EventController extends ApiController
     }
 
     /**
-     * Display a public pending listing of the resource.
+     * Display a pending list of the resource of the user.
      *
      * @return EventCollection
      */
     public function index(Request $request)
     {
-        $collection = $this->eventModel->pending();
+        $user = auth('api')->user();
 
-        // Check state query string filter.
-        if ($state = $request->query('state')) {
-            $collection = $collection->where('state', $state);
-        }
+        $collection = $this->eventModel->where('owner_id', $user->id)
+                                       ->pending()
+                                       ->orderBy('date')
+                                       ->orderBy('time')
+                                       ->latest()
+                                       ->paginate(10);
 
-        // Check date query string filter.
-        if ($date = $request->query('date')) {
-            $date = dateDBFormat($date);
-            $collection = $collection->where('date', $date);
-        }
-
-        $collection = $collection->orderBy('date')->orderBy('time')->latest()->paginate(10);
-
-        // Appends "status" to pagination links if present in the query.
-        if ($state) {
-            $collection = $collection->appends('state', $state);
-        }
-
-        // Appends "date" to pagination links if present in the query.
-        if ($date) {
-            $collection = $collection->appends('date', $date);
-        }
-
-        return new EventCollection($collection); // ResourceCollection
+        return new EventCollection($collection);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        //
+        $validator = $this->formValidate($data = $request->all());
+
+        if ($validator->fails()) {
+            return $this->responseUnprocessable($validator->errors()->toArray());
+        }
+
+        try {
+            $event = $this->create($data);
+            return $this->responseResourceCreated('Resource created.');
+        } catch (Exception $e) {
+            return $this->responseServerError('Error creating resource.');
+        }
+    }
+
+    /**
+     * Create a new event instance after a valid registration.
+     *
+     * @param $data
+     * @return mixed
+     */
+    protected function create($data)
+    {
+        // Set the owner id
+        $data['owner_id'] = auth('api')->user()->id;
+        // Default status
+        $data['status'] = 'pending';
+
+        return $this->eventModel->create($data);
+    }
+
+    /**
+     * Input form validation rules
+     *
+     * @param $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    public function formValidate($data) {
+        return Validator::make($data, [
+            'name' => 'required|string|min:5|max:255',
+            'description' => 'required|string',
+            'date' => 'required|date_format:Y-m-d|after_or_equal:' . date('Y-m-d'),
+            'time' => 'required|date_format:H:i',
+            'city' => 'required|string|min:2|max:175',
+            'state' => 'required|string|min:2|max:2',
+        ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return EventResource|\Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function edit($id)
     {
-        //
+        $event = $this->eventModel->findOrFail($id);
+
+        // User can only edit their own pending events.
+        if ($event->owner_id != auth('api')->user()->id || $event->status != 'pending') {
+            return $this->responseUnauthorized();
+        }
+
+        return new EventResource($event);
     }
 
     /**
@@ -85,21 +123,55 @@ class EventController extends ApiController
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = $this->formValidate($data = $request->all());
+
+        if ($validator->fails()) {
+            return $this->responseUnprocessable($validator->errors()->toArray());
+        }
+
+        try {
+            $event = $this->eventModel->findOrFail($id);
+
+            // User can only acccess their own data.
+            if ($event->owner_id == auth('api')->user()->id) {
+                unset($data['status'], $data['owner_id']);
+
+                $event->update($data);
+
+                return $this->responseResourceUpdated();
+            } else {
+                return $this->responseUnauthorized();
+            }
+        } catch (Exception $e) {
+            return $this->responseServerError('Error updating resource.');
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Sets the status of the specified resource to canceled
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int $id
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function cancel($id)
     {
-        //
+        $event = $this->eventModel->findOrFail($id);
+
+        // User can only cancel their own pending events.
+        if ($event->owner_id != auth('api')->user()->id || $event->status != 'pending') {
+            return $this->responseUnauthorized();
+        }
+
+        try {
+            $event->update(['status' => 'canceled']);
+            // TODO: Criar evento para cancelar os convites para os amigos participarem
+            return $this->responseResourceUpdated('Event canceled.');
+        } catch (Exception $e) {
+            return $this->responseServerError('Error deleting resource.');
+        }
     }
 }

@@ -36,8 +36,10 @@ Route::group(['middleware' => ['apiJwt']], function($router) {
     });
 
     Route::get('users', 'Api\\UserController@index');
-
 });
+
+Route::get('events', 'Api\\EventController@publicEvents');
+
 
 // Not Found
 Route::fallback(function(){

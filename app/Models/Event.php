@@ -43,7 +43,7 @@ class Event extends Model
      * @return array
      */
     public function getStatusArray() {
-        return [1 => 'Pending', 2 => 'Closed', 3 => 'Canceled'];
+        return ['pending' => 'Pending', 'closed' => 'Closed', 'canceled' => 'Canceled'];
     }
 
     /**
@@ -54,5 +54,17 @@ class Event extends Model
     public function getStatusNameAttribute() {
         $status = $this->getStatusArray();
         return array_key_exists($this->status, $status) ? $status[$this->status] : '';
+    }
+
+
+    // Query Scope
+    public function scopePending($query)
+    {
+        return $query->where('status', 'pending');
+    }
+
+    // Global Scope
+    public function scopeOfOwner($query, $type){
+        return $query->where('owner_id', $type);
     }
 }

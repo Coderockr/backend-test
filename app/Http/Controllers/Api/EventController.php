@@ -32,20 +32,30 @@ class EventController extends ApiController
     {
         $collection = $this->eventModel->pending();
 
-        // Check query string filters.
+        // Check state query string filter.
         if ($state = $request->query('state')) {
             $collection = $collection->where('state', $state);
         }
 
-        $collection = $collection->latest()->paginate(10);
+        // Check date query string filter.
+        if ($date = $request->query('date')) {
+            $date = dateDBFormat($date);
+            $collection = $collection->where('date', $date);
+        }
+
+        $collection = $collection->orderBy('date')->orderBy('time')->latest()->paginate(10);
 
         // Appends "status" to pagination links if present in the query.
         if ($state) {
             $collection = $collection->appends('state', $state);
         }
 
+        // Appends "date" to pagination links if present in the query.
+        if ($date) {
+            $collection = $collection->appends('date', $date);
+        }
+
         return new EventCollection($collection); // ResourceCollection
-        // return response()->json($collection);
     }
 
     /**

@@ -15,9 +15,11 @@ class EventResource extends ApiResource
     public function toArray($request)
     {
         return [
-            'created_at' => (string)$this->created_at->toDateTimeString(),
             'id' => $this->id,
-            'owner' => Hasher::encode($this->owner_id),
+            'owner' => [
+                'id' => Hasher::encode($this->owner_id),
+                'name' => $this->owner->name
+            ],
             'name' => $this->name,
             'description' => $this->description,
             'date' => $this->date,
@@ -26,6 +28,7 @@ class EventResource extends ApiResource
             'state' => $this->state,
             'status' => $this->status,
             'status_name' => $this->status_name,
+            'created_at' => $this->created_at->toDateTimeString()
         ];
     }
 }

@@ -23,7 +23,7 @@ class CreateEventsTable extends Migration
             $table->time('time');
             $table->string('city', 160)->nullable();
             $table->char('state', 2)->nullable();
-            $table->string('status', 20)->comment('pending | closed | canceled');
+            $table->string('status', 20)->default('pending')->comment('pending | closed | canceled');
             $table->timestamps();
         });
     }

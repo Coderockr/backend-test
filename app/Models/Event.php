@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Hasher;
 use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
@@ -13,13 +14,12 @@ class Event extends Model
      */
     protected $fillable = ['owner_id', 'name', 'description', 'date', 'time', 'city', 'state', 'status'];
 
-
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = ['updated_at'];
+    protected $hidden = ['updated_at', 'owner_id'];
 
     /**
      * A Event belongs to a User.
@@ -56,7 +56,6 @@ class Event extends Model
         return array_key_exists($this->status, $status) ? $status[$this->status] : '';
     }
 
-
     // Query Scope
     public function scopePending($query)
     {
@@ -64,7 +63,7 @@ class Event extends Model
     }
 
     // Global Scope
-    public function scopeOfOwner($query, $type){
-        return $query->where('owner_id', $type);
+    public function scopeOfOwner($query, $type) {
+        return $query->where('owner_id', Hasher::decode($type));
     }
 }

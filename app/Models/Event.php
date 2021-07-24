@@ -13,6 +13,14 @@ class Event extends Model
      */
     protected $fillable = ['owner_id', 'name', 'description', 'date', 'time', 'city', 'state', 'status'];
 
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = ['updated_at'];
+
     /**
      * A Event belongs to a User.
      *

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\EventResource;
+use App\Models\EventInvitation;
 use Exception;
 use App\Http\Resources\EventCollection;
 use App\Models\Event;
@@ -167,11 +168,115 @@ class EventController extends ApiController
         }
 
         try {
+            // Se the event has canceled
             $event->update(['status' => 'canceled']);
-            // TODO: Criar evento para cancelar os convites para os amigos participarem
+
+            // Remove the invitations sent to the users
+            EventInvitation::where('event_id', $id)->delete();
+
             return $this->responseResourceUpdated('Event canceled.');
         } catch (Exception $e) {
             return $this->responseServerError('Error deleting resource.');
+        }
+    }
+
+
+    /**
+     * Call to the invite method handles to the all user friends
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function inviteAllFriends(Request $request, $id)
+    {
+        return $this->invite($request, $id, 'all');
+    }
+
+    /**
+     * Call to the invite method handles to the selected user friends
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function inviteSelectedFriends(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'ids' => 'required|array',
+            'ids.*' => 'required|integer|exists:users,id'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->responseUnprocessable($validator->errors()->toArray());
+        }
+
+        return $this->invite($request, $id, 'selected');
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @param $action
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function invite(Request $request, $id, $action)
+    {
+        $event = $this->eventModel->findOrFail($id);
+        $me = auth('api')->user();
+
+        // User can only cancel their own pending events.
+        if ($event->owner_id != $me->id || $event->status != 'pending') {
+            return $this->responseUnauthorized();
+        }
+
+        // Get all user friends ids
+        $myFriends = $me->friendsIdsArray;
+
+        $friendsToInvite = [];
+        if ($action == 'selected') {
+            // If the invitation for the selected friends, get he's ids from the form
+            foreach ($request->get('ids', []) as $friendId) {
+                if (in_array($friendId, $myFriends)) {
+                    $friendsToInvite[] = (int) $friendId;
+                }
+            }
+        } else {
+            // All friends invitation
+            $friendsToInvite = $myFriends;
+        }
+
+        // Check if have any friend to invite
+        if (!$friendsToInvite) {
+            return $this->responseUnprocessable(['No friends to invite']);
+        }
+
+        // Check if any friends have already been invited to not send again
+        $friendsAlreadyInvited = EventInvitation::ofEvent($id)->whereIn("guest_id", $friendsToInvite)->get()->pluck('guest_id')->toArray();
+        if ($friendsAlreadyInvited) {
+            $friendsToInvite = array_diff($friendsToInvite, $friendsAlreadyInvited);
+        }
+
+        // Check if have any friend to invite
+        if (!$friendsToInvite) {
+            return $this->responseUnauthorized(['No friends to invite']);
+        }
+
+        // Generate the invitation data to store
+        $invites = [];
+        foreach ($friendsToInvite as $friendId) {
+            $invites[] = [
+                'event_id' => $id, 'user_id' => $me->id, 'guest_id' => $friendId, 'status' => 'pending'
+            ];
+        }
+
+        try {
+            // Store the invitations
+            EventInvitation::insert($invites);
+
+            return $this->responseResourceUpdated('Friends invited.');
+        } catch (Exception $e) {
+            return $this->responseServerError('Error inviting friends.');
         }
     }
 }

@@ -14,9 +14,9 @@ class FriendshipInvitationCollection extends ApiResourceCollection
      */
     public function toArray($request)
     {
-        // Transforms the collection to match format in EventResource.
-        $this->collection->transform(function(FriendshipInvitation $event) {
-            return (new FriendshipInvitationResource($event));
+        // Transforms the collection to match format in FriendshipInvitationResource.
+        $this->collection->transform(function(FriendshipInvitation $item) {
+            return (new FriendshipInvitationResource($item));
         });
 
         return parent::toArray($request);

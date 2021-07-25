@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\FriendshipCollection;
 use App\Http\Resources\FriendshipInvitationCollection;
 use Exception;
 use App\Events\RegisterRequestCreated;
@@ -20,7 +21,7 @@ class FriendshipController extends ApiController
      * @param $email
      * @return \Illuminate\Http\JsonResponse
      */
-    public function inviteByEmail($email)
+    public function invite($email)
     {
         $email = trim($email);
 
@@ -213,5 +214,15 @@ class FriendshipController extends ApiController
         } catch (Exception $e) {
             return $this->responseServerError('Error undoing the friendship.');
         }
+    }
+
+    /**
+     * Return the list of user friends
+     *
+     * @return FriendshipCollection
+     */
+    public function myFriends()
+    {
+        return new FriendshipCollection( auth('api')->user()->friends );
     }
 }

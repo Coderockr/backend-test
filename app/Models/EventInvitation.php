@@ -23,8 +23,19 @@ class EventInvitation extends Invitation
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function event() {
+    public function event()
+    {
         return $this->belongsTo(Event::class, 'event_id', 'id');
     }
 
+    /**
+     * Query scope to filter by the event
+     *
+     * @param $query
+     * @param $type
+     * @return mixed
+     */
+    public function scopeOfEvent($query, $type) {
+        return $query->where('event_id', $type);
+    }
 }

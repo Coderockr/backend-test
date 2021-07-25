@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -12,17 +10,6 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-
-//Route::group(['middleware' => 'api', 'prefix' => 'auth'], function($router) {
-//    Route::post('login', 'AuthController@login');
-//    Route::post('logout', 'AuthController@logout');
-//    Route::post('refresh', 'AuthController@refresh');
-//    Route::post('me', 'AuthController@me');
-//});
 
 Route::group(['prefix' => 'auth'], function($router) {
     Route::post('register', 'Api\\AuthController@register');
@@ -41,16 +28,23 @@ Route::group(['middleware' => ['apiJwt']], function($router) {
         Route::get('/{id}/edit', 'Api\\EventController@edit');
         Route::put('/{id}/update', 'Api\\EventController@update');
         Route::put('/{id}/cancel', 'Api\\EventController@cancel');
+
+        Route::group(['prefix' => 'invite'], function($router) {
+            Route::post('/{id}/all-friends', 'Api\\EventController@inviteAllFriends');
+            Route::post('/{id}/selected-friends', 'Api\\EventController@inviteSelectedFriends');
+        });
     });
 
     Route::group(['prefix' => 'friendship'], function($router) {
-        Route::post('/invite/{email}', 'Api\\FriendshipController@inviteByEmail');
+        Route::post('/invite/{email}', 'Api\\FriendshipController@invite');
 
         Route::get('/pending', 'Api\\FriendshipController@pending');
         Route::put('/{id}/confirm', 'Api\\FriendshipController@confirm');
         Route::put('/{id}/reject', 'Api\\FriendshipController@reject');
         Route::delete('/{friend_id}/remove', 'Api\\FriendshipController@remove');
     });
+    
+    Route::get('/my-friends', 'Api\\FriendshipController@myFriends');
 
 });
 

@@ -26,7 +26,8 @@ class Invitation extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
@@ -35,7 +36,8 @@ class Invitation extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function guest() {
+    public function guest()
+    {
         return $this->belongsTo(User::class, 'guest_id', 'id');
     }
 
@@ -44,7 +46,8 @@ class Invitation extends Model
      *
      * @return array
      */
-    public function getStatusArray() {
+    public function getStatusArray()
+    {
         return ['pending' => 'Pending', 'confirmed' => 'Confirmed', 'rejected' => 'Rejected'];
     }
 
@@ -53,7 +56,8 @@ class Invitation extends Model
      *
      * @return string status_name
      */
-    public function getStatusNameAttribute() {
+    public function getStatusNameAttribute()
+    {
         $status = $this->getStatusArray();
         return array_key_exists($this->status, $status) ? $status[$this->status] : '';
     }

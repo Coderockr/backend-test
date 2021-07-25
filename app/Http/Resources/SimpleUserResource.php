@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources;
 
-class FriendshipResource extends ApiResource
+class SimpleUserResource extends ApiResource
 {
     /**
      * Transform the resource into an array.

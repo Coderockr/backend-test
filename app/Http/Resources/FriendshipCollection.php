@@ -16,7 +16,7 @@ class FriendshipCollection extends ApiResourceCollection
     {
         // Transforms the collection to match format in FriendshipResource.
         $this->collection->transform(function(User $user) {
-            return (new FriendshipResource($user));
+            return (new SimpleUserResource($user));
         });
 
         return parent::toArray($request);

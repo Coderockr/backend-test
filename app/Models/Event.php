@@ -7,6 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     /**
+     * Database table name.
+     *
+     * @var string
+     */
+    public $table = 'events';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -75,7 +82,7 @@ class Event extends Model
      */
     public function scopePending($query)
     {
-        return $query->where('status', 'pending');
+        return $query->where($this->table . '.status', 'pending');
     }
 
     /**
@@ -86,6 +93,6 @@ class Event extends Model
      * @return mixed
      */
     public function scopeOfOwner($query, $type) {
-        return $query->where('owner_id', $type);
+        return $query->where($this->table . '.owner_id', $type);
     }
 }

@@ -30,18 +30,40 @@ class EventController extends ApiController
     /**
      * Display a pending list of the resource of the user.
      *
-     * @return EventCollection
+     * @param Request $request
+     * @return EventCollection|\Illuminate\Http\JsonResponse
      */
     public function index(Request $request)
     {
+        // Validate the confirmed users query param
+        $validator = Validator::make($request->all(), [
+            'users' => 'array',
+            'users.*' => 'integer|exists:users,id'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->responseUnprocessable($validator->errors()->toArray());
+        }
+
+        // Current user
         $user = auth('api')->user();
 
-        $collection = $this->eventModel->ofOwner($user->id)
-                                       ->pending()
-                                       ->orderBy('date')
-                                       ->orderBy('time')
-                                       ->latest()
-                                       ->paginate(10);
+        $collection = $this->eventModel->select($this->eventModel->table . '.*')->ofOwner($user->id)->pending();
+
+        // Check confirmed users query string filter.
+        if ($users = $request->get('users')) {
+            $collection = $collection->leftJoin('events_invitations', 'events_invitations.event_id', '=', 'events.id')
+                                     ->groupBy('events.id')
+                                     ->whereIn('guest_id', $users)
+                                     ->where('events_invitations.status', 'confirmed');
+        }
+
+        $collection = $collection->orderBy('date')->orderBy('time')->latest()->paginate(10);
+
+        // Appends "users" to pagination links if present in the query.
+        if ($users) {
+            $collection = $collection->appends('users', $users);
+        }
 
         return new EventCollection($collection);
     }
@@ -264,9 +286,11 @@ class EventController extends ApiController
 
         // Generate the invitation data to store
         $invites = [];
+        $now = now();
         foreach ($friendsToInvite as $friendId) {
             $invites[] = [
-                'event_id' => $id, 'user_id' => $me->id, 'guest_id' => $friendId, 'status' => 'pending'
+                'event_id' => $id, 'user_id' => $me->id, 'guest_id' => $friendId, 'status' => 'pending',
+                'created_at' => $now, 'updated_at' => $now
             ];
         }
 

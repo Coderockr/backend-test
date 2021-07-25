@@ -43,7 +43,7 @@ Route::group(['middleware' => ['apiJwt']], function($router) {
         Route::put('/{id}/reject', 'Api\\FriendshipController@reject');
         Route::delete('/{friend_id}/remove', 'Api\\FriendshipController@remove');
     });
-    
+
     Route::get('/my-friends', 'Api\\FriendshipController@myFriends');
 
 });

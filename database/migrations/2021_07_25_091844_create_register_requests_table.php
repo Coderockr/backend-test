@@ -17,7 +17,7 @@ class CreateRegisterRequestsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->comment('who invited');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('guest_email', 175);
+            $table->string('email', 175)->comment('the guest email');
             $table->timestamps();
         });
     }

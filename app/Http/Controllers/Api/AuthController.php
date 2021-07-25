@@ -85,6 +85,7 @@ class AuthController extends ApiController
     /**
      * Get a JWT via given credentials.
      *
+     * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function login(Request $request)
@@ -95,10 +96,7 @@ class AuthController extends ApiController
             return $this->responseUnauthorized();
         }
 
-        // Get the user data.
-        $user = auth('api')->user();
-
-        return $this->respondWithToken($user, $token);
+        return $this->respondWithToken($token);
     }
 
     /**
@@ -127,10 +125,9 @@ class AuthController extends ApiController
      * Get the token array structure.
      *
      * @param  string $token
-     *
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithToken($user, $token)
+    protected function respondWithToken($token)
     {
         return response()->json([
             'status' => 200,
@@ -138,7 +135,6 @@ class AuthController extends ApiController
             'access_token' => $token,
             'token_type' => 'bearer',
             // 'expires_in' => auth('api')->factory()->getTTL() * 60
-            // 'user' => $user
         ], 200);
     }
 }

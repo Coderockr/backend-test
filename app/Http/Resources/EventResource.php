@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Helpers\Hasher;
-
 class EventResource extends ApiResource
 {
     /**
@@ -17,7 +15,7 @@ class EventResource extends ApiResource
         return [
             'id' => $this->id,
             'owner' => [
-                'id' => Hasher::encode($this->owner_id),
+                'id' => $this->owner_id,
                 'name' => $this->owner->name
             ],
             'name' => $this->name,

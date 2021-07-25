@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Helpers\Hasher;
+use Illuminate\Database\Eloquent\Model;
 
-trait Invitation
+class Invitation extends Model
 {
     /**
      * The attributes that should be hidden for arrays.
@@ -18,7 +18,7 @@ trait Invitation
      *
      * @var array
      */
-    public $appends = ['hash_user_id', 'hash_guest_id', 'status_name'];
+    public $appends = ['status_name'];
 
 
     /**
@@ -37,36 +37,6 @@ trait Invitation
      */
     public function guest() {
         return $this->belongsTo(User::class, 'guest_id', 'id');
-    }
-
-    /**
-     * Encodes the user id and returns the unique hash.
-     *
-     * @return string Hashid
-     */
-    public function hashid($id)
-    {
-        return Hasher::encode($id);
-    }
-
-    /**
-     * Returns the hash user_id for a custom attribute.
-     *
-     * @return string Hashid
-     */
-    public function getHashUserIdAttribute()
-    {
-        return $this->hashid($this->user_id);
-    }
-
-    /**
-     * Returns the hash guest_id for a custom attribute.
-     *
-     * @return string Hashid
-     */
-    public function getHashGuestIdAttribute()
-    {
-        return $this->hashid($this->guest_id);
     }
 
     /**
@@ -119,5 +89,16 @@ trait Invitation
     public function scopeConfirmed($query)
     {
         return $query->where('status', 'confirmed');
+    }
+
+    /**
+     * Query scope to filter by the guest
+     *
+     * @param $query
+     * @param $type
+     * @return mixed
+     */
+    public function scopeOfGuest($query, $type) {
+        return $query->where('guest_id', $type);
     }
 }

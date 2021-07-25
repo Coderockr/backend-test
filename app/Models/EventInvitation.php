@@ -2,12 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class EventInvitation extends Model
+class EventInvitation extends Invitation
 {
-    use Invitation;
-
     /**
      * Database table name
      *

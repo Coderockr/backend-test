@@ -37,4 +37,17 @@ class Friendship extends Model
     public function friend() {
         return $this->belongsTo(User::class, 'friend_id', 'id');
     }
+
+    /**
+     * Query scope to filter by the defined users
+     *
+     * @param $query
+     * @param array $users
+     * @return mixed
+     */
+    public function scopeOfUs($query, array $users) {
+        $user_id = $users[0];
+        $friend_id = $users[1];
+        return $query->whereRaw("((user_id = $user_id AND friend_id = $friend_id) OR (user_id = $friend_id AND friend_id = $user_id))");
+    }
 }

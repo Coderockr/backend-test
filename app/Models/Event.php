@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Helpers\Hasher;
 use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
@@ -73,9 +72,10 @@ class Event extends Model
      * Query scope to filter by the event owner
      *
      * @param $query
+     * @param $type
      * @return mixed
      */
     public function scopeOfOwner($query, $type) {
-        return $query->where('owner_id', Hasher::decode($type));
+        return $query->where('owner_id', $type);
     }
 }

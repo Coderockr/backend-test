@@ -2,12 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class FriendshipInvitation extends Model
+class FriendshipInvitation extends Invitation
 {
-    use Invitation;
-
     /**
      * Database table name
      *
@@ -22,4 +18,16 @@ class FriendshipInvitation extends Model
      */
     protected $fillable = ['user_id', 'guest_id', 'status'];
 
+    /**
+     * Query scope to filter by the defined users
+     *
+     * @param $query
+     * @param array $users
+     * @return mixed
+     */
+    public function scopeOfUs($query, array $users) {
+        $user_id = $users[0];
+        $guest_id = $users[1];
+        return $query->whereRaw("((user_id = $user_id AND guest_id = $guest_id) OR (user_id = $guest_id AND guest_id = $user_id))");
+    }
 }

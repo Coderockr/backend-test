@@ -18,14 +18,14 @@ class RegisterRequest extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'guest_email'];
+    protected $fillable = ['user_id', 'email'];
 
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = ['updated_at', 'user_id'];
+    protected $hidden = ['updated_at'];
 
     /**
      * A RegisterRequest belongs to a User.
@@ -34,5 +34,27 @@ class RegisterRequest extends Model
      */
     public function user() {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    /**
+     * Query scope to filter by the request user
+     *
+     * @param $query
+     * @param $type
+     * @return mixed
+     */
+    public function scopeOfUser($query, $type) {
+        return $query->where('user_id', $type);
+    }
+
+    /**
+     * Query scope to filter by the request email
+     *
+     * @param $query
+     * @param $type
+     * @return mixed
+     */
+    public function scopeOfEmail($query, $type) {
+        return $query->where('email', $type);
     }
 }

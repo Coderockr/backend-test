@@ -49,6 +49,7 @@ Route::group(['middleware' => ['apiJwt']], function($router) {
         Route::get('/pending', 'Api\\FriendshipController@pending');
         Route::put('/{id}/confirm', 'Api\\FriendshipController@confirm');
         Route::put('/{id}/reject', 'Api\\FriendshipController@reject');
+        Route::delete('/{friend_id}/remove', 'Api\\FriendshipController@remove');
     });
 
 });

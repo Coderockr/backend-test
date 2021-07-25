@@ -193,4 +193,25 @@ class FriendshipController extends ApiController
             return $this->responseServerError('Error ' . ($status == 'rejected' ? 'rejecting' : 'confirming') . ' the invitation.');
         }
     }
+
+    /**
+     * Handles with removing a user friendship.
+     *
+     * @param $friend_id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function remove($friend_id)
+    {
+        try {
+            $friendship = Friendship::ofUs([auth('api')->user()->id, $friend_id])->firstOrFail();
+            if ($friendship) {
+                $friendship->delete();
+                return $this->responseSuccess('Friendship removed');
+            } else {
+                return $this->responseUnauthorized();
+            }
+        } catch (Exception $e) {
+            return $this->responseServerError('Error undoing the friendship.');
+        }
+    }
 }

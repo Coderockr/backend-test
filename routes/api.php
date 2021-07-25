@@ -43,6 +43,7 @@ Route::group(['middleware' => ['apiJwt']], function($router) {
         Route::put('/{id}/cancel', 'Api\\EventController@cancel');
     });
 
+    Route::get('/invite-friend-by-email/{email}', 'Api\\UserController@inviteFriendByEmail');
 });
 
 Route::group(['prefix' => 'events'], function($router) {

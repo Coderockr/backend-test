@@ -62,6 +62,21 @@ class User extends Authenticatable  implements JWTSubject
         return $this->hashid();
     }
 
+    public function getFriendsAttribute()
+    {
+        $friends = Friendship::where('user_id', $this->id)->orWhere('friend_id', $this->id)->get();
+        $data = [];
+        foreach ($friends as $f) {
+            $data[] = $f->user_id == $this->id ? $f->friend : $f->user;
+        }
+        return collect($data)->unique();
+    }
+    public function getFriendsIdsArrayAttribute()
+    {
+        return $this->friends->pluck('hashid')->toArray();
+    }
+
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

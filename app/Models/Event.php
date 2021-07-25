@@ -22,6 +22,14 @@ class Event extends Model
     protected $hidden = ['updated_at', 'owner_id'];
 
     /**
+     * Custom attributes for data model.
+     *
+     * @var array
+     */
+    public $appends = ['status_name'];
+
+
+    /**
      * A Event belongs to a User.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -30,12 +38,6 @@ class Event extends Model
         return $this->belongsTo(User::class, 'owner_id', 'id');
     }
 
-    /**
-     * Custom attributes for data model.
-     *
-     * @var array
-     */
-    public $appends = ['status_name'];
 
     /**
      * Return an array with the given status options
@@ -56,13 +58,23 @@ class Event extends Model
         return array_key_exists($this->status, $status) ? $status[$this->status] : '';
     }
 
-    // Query Scope
+    /**
+     * Query scope to filter pending status
+     *
+     * @param $query
+     * @return mixed
+     */
     public function scopePending($query)
     {
         return $query->where('status', 'pending');
     }
 
-    // Global Scope
+    /**
+     * Query scope to filter by the event owner
+     *
+     * @param $query
+     * @return mixed
+     */
     public function scopeOfOwner($query, $type) {
         return $query->where('owner_id', Hasher::decode($type));
     }

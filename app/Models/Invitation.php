@@ -4,7 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Invitation extends Model
+/*
+ * Define properties for the models that handles with invitations
+ * */
+abstract class Invitation extends Model
 {
     /**
      * The attributes that should be hidden for arrays.
@@ -70,7 +73,7 @@ class Invitation extends Model
      */
     public function scopePending($query)
     {
-        return $query->where('status', 'pending');
+        return $query->where($this->table . '.status', 'pending');
     }
 
     /**
@@ -81,7 +84,7 @@ class Invitation extends Model
      */
     public function scopeRejected($query)
     {
-        return $query->where('status', 'rejected');
+        return $query->where($this->table . '.status', 'rejected');
     }
 
     /**
@@ -92,7 +95,12 @@ class Invitation extends Model
      */
     public function scopeConfirmed($query)
     {
-        return $query->where('status', 'confirmed');
+        return $query->where($this->table . '.status', 'confirmed');
+    }
+
+    public function scopePendingOrRejected($query)
+    {
+        return $query->whereRaw('(' . $this->table . '.status = \'pending\' OR ' . $this->table . '.status = \'rejected\'' . ')');
     }
 
     /**
@@ -103,6 +111,6 @@ class Invitation extends Model
      * @return mixed
      */
     public function scopeOfGuest($query, $type) {
-        return $query->where('guest_id', $type);
+        return $query->where($this->table . '.guest_id', $type);
     }
 }

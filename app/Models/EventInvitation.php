@@ -9,7 +9,7 @@ class EventInvitation extends Invitation
      *
      * @var string
     */
-    protected $table = 'events_invitations';
+    public $table = 'events_invitations';
 
     /**
      * The attributes that are mass assignable.

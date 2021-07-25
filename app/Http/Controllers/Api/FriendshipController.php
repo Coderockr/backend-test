@@ -221,7 +221,7 @@ class FriendshipController extends ApiController
      *
      * @return FriendshipCollection
      */
-    public function myFriends()
+    public function friends()
     {
         return new FriendshipCollection( auth('api')->user()->friends );
     }

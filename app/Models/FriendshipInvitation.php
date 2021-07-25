@@ -30,4 +30,5 @@ class FriendshipInvitation extends Invitation
         $guest_id = $users[1];
         return $query->whereRaw("((user_id = $user_id AND guest_id = $guest_id) OR (user_id = $guest_id AND guest_id = $user_id))");
     }
+
 }

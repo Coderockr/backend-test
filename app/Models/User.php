@@ -35,6 +35,11 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
+    /**
+     * Generate the custom attribute to get user friends.
+     *
+     * @return static
+     */
     public function getFriendsAttribute()
     {
         $friends = Friendship::where('user_id', $this->id)->orWhere('friend_id', $this->id)->get();
@@ -44,9 +49,15 @@ class User extends Authenticatable implements JWTSubject
         }
         return collect($data)->unique();
     }
+
+    /**
+     * Generate the custom attribute to get user friends ids array.
+     *
+     * @return mixed
+     */
     public function getFriendsIdsArrayAttribute()
     {
-        return $this->friends->pluck('hashid')->toArray();
+        return $this->friends->pluck('id')->toArray();
     }
 
 

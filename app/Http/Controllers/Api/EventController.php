@@ -35,7 +35,7 @@ class EventController extends ApiController
     {
         $user = auth('api')->user();
 
-        $collection = $this->eventModel->where('owner_id', $user->id)
+        $collection = $this->eventModel->ofOwner($user->id)
                                        ->pending()
                                        ->orderBy('date')
                                        ->orderBy('time')

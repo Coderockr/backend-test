@@ -43,7 +43,14 @@ Route::group(['middleware' => ['apiJwt']], function($router) {
         Route::put('/{id}/cancel', 'Api\\EventController@cancel');
     });
 
-    Route::post('/invite-friend-by-email/{email}', 'Api\\FriendshipController@inviteFriendByEmail');
+    Route::group(['prefix' => 'friendship'], function($router) {
+        Route::post('/invite/{email}', 'Api\\FriendshipController@inviteByEmail');
+
+        Route::get('/pending', 'Api\\FriendshipController@pending');
+        Route::put('/{id}/confirm', 'Api\\FriendshipController@confirm');
+        Route::put('/{id}/reject', 'Api\\FriendshipController@reject');
+    });
+
 });
 
 Route::group(['prefix' => 'events'], function($router) {

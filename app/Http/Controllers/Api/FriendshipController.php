@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Resources\FriendshipInvitationCollection;
 use Exception;
 use App\Events\RegisterRequestCreated;
 use App\Models\Friendship;
@@ -13,7 +14,13 @@ use Illuminate\Support\Facades\Validator;
 
 class FriendshipController extends ApiController
 {
-    public function inviteFriendByEmail($email)
+    /**
+     * Handles with the invitation of user friendship by email (as well as their validation and creation)
+     *
+     * @param $email
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function inviteByEmail($email)
     {
         $email = trim($email);
 
@@ -106,5 +113,84 @@ class FriendshipController extends ApiController
             'user_id' => $user_id,
             'email' => $email
         ]);
+    }
+
+    /**
+     * Display a pending list of the friendship invitations of the user.
+     *
+     * @return FriendshipInvitationCollection
+     */
+    public function pending(Request $request)
+    {
+        $user = auth('api')->user();
+
+        $collection = FriendshipInvitation::ofGuest($user->id)
+                                          ->pending()
+                                          ->latest()
+                                          ->get();
+
+        return new FriendshipInvitationCollection($collection);
+    }
+
+
+    /**
+     * Call to the update status method to confirm an invitation
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function confirm($id)
+    {
+        return $this->updateStatus($id, 'confirm');
+    }
+
+    /**
+     * Call to the update status method to reject an invitation
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function reject($id)
+    {
+        return $this->updateStatus($id, 'rejected');
+    }
+
+    /**
+     * Handles with confirm or reject the user friendship invitations
+     *
+     * @param $id
+     * @param $status
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function updateStatus($id, $status)
+    {
+        try {
+            $invite = FriendshipInvitation::findOrFail($id);
+
+            // User can only acccess their own pending invitations.
+            if ($invite->guest_id == auth('api')->user()->id && $invite->status == 'pending') {
+
+                // Update the invitation status
+                $invite->update(['status' => $status]);
+
+                if ($status == 'confirm') {
+                    $msg = 'confirmed';
+
+                    // Register the Friendship
+                    Friendship::create([
+                        'user_id' => $invite->user_id,
+                        'friend_id' => $invite->guest_id
+                    ]);
+                } else {
+                    $msg = $status;
+                }
+
+                return $this->responseResourceUpdated('Friendship invitation ' . $msg . '.');
+            } else {
+                return $this->responseUnauthorized();
+            }
+        } catch (Exception $e) {
+            return $this->responseServerError('Error ' . ($status == 'rejected' ? 'rejecting' : 'confirming') . ' the invitation.');
+        }
     }
 }

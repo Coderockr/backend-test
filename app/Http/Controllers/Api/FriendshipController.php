@@ -137,39 +137,39 @@ class FriendshipController extends ApiController
     /**
      * Call to the update status method to confirm an invitation
      *
-     * @param $id
+     * @param $user_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function confirm($id)
+    public function confirm($user_id)
     {
-        return $this->updateStatus($id, 'confirm');
+        return $this->updateStatus($user_id, 'confirm');
     }
 
     /**
      * Call to the update status method to reject an invitation
      *
-     * @param $id
+     * @param $user_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function reject($id)
+    public function reject($user_id)
     {
-        return $this->updateStatus($id, 'rejected');
+        return $this->updateStatus($user_id, 'rejected');
     }
 
     /**
      * Handles with confirm or reject the user friendship invitations
      *
-     * @param $id
+     * @param $user_id
      * @param $status
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateStatus($id, $status)
+    public function updateStatus($user_id, $status)
     {
         try {
-            $invite = FriendshipInvitation::findOrFail($id);
+            $invite = FriendshipInvitation::where('user_id', $user_id)->where('guest_id', auth('api')->user()->id)->firstOrFail();
 
             // User can only acccess their own pending invitations.
-            if ($invite->guest_id == auth('api')->user()->id && $invite->status == 'pending') {
+            if ($invite->status == 'pending') {
 
                 // Update the invitation status
                 $invite->update(['status' => $status]);

@@ -49,39 +49,39 @@ class EventInvitationController extends ApiController
     /**
      * Call to the update status method to confirm an invitation
      *
-     * @param $id
+     * @param $event_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function confirm($id)
+    public function confirm($event_id)
     {
-        return $this->updateStatus($id, 'confirm');
+        return $this->updateStatus($event_id, 'confirm');
     }
 
     /**
      * Call to the update status method to reject an invitation
      *
-     * @param $id
+     * @param $event_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function reject($id)
+    public function reject($event_id)
     {
-        return $this->updateStatus($id, 'rejected');
+        return $this->updateStatus($event_id, 'rejected');
     }
 
     /**
      * Handles with confirm or reject the user friendship invitations
      *
-     * @param $id
+     * @param $event_id
      * @param $status
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateStatus($id, $status)
+    public function updateStatus($event_id, $status)
     {
         try {
-            $invite = $this->invitationModel::findOrFail($id);
+            $invite = $this->invitationModel->where('event_id', $event_id)->where('guest_id', auth('api')->user()->id)->firstOrFail();
 
             // User can only acccess their own pending or rejected invitations.
-            if ($invite->guest_id == auth('api')->user()->id && $invite->status != 'confirmed' && $invite->status != $status) {
+            if ($invite->status != 'confirmed' && $invite->status != $status) {
 
                 // Update the invitation status
                 $invite->update(['status' => $status]);

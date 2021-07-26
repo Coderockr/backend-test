@@ -34,6 +34,11 @@ class PublicEventController extends ApiController
         $collection = $this->eventModel->pending();
 
         // Check state query string filter.
+        if ($city = $request->query('city')) {
+            $collection = $collection->where('city', $city);
+        }
+
+        // Check state query string filter.
         if ($state = $request->query('state')) {
             $collection = $collection->where('state', $state);
         }
@@ -46,7 +51,12 @@ class PublicEventController extends ApiController
 
         $collection = $collection->orderBy('date')->orderBy('time')->latest()->paginate(10);
 
-        // Appends "status" to pagination links if present in the query.
+        // Appends "city" to pagination links if present in the query.
+        if ($city) {
+            $collection = $collection->appends('city', $city);
+        }
+
+        // Appends "state" to pagination links if present in the query.
         if ($state) {
             $collection = $collection->appends('state', $state);
         }

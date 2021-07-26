@@ -12,29 +12,18 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        // table data reset
-        \DB::table('users')->delete();
+        // Create primary user account for testing.
+        User::create([
+            'name' => 'User Test',
+            'email' => 'user@test.dev',
+            'password' => bcrypt('password'),
+            'city' => 'Santa Teresa',
+            'state' => 'ES'
+        ]);
 
-        // Insert a user
-        factory(User::class)->create(
-            [
-                'name' => 'Alex Junior Gutler',
-                'email' => 'alex@email.com',
-                'password' => bcrypt('321456'),
-                'city' => 'Santa Teresa',
-                'state' => 'ES'
-            ]
-        );
+        // Create another five user accounts.
+        factory(User::class, 5)->create();
 
-        // Insert a user
-        factory(User::class)->create(
-            [
-                'name' => 'Simone Traspadini',
-                'email' => 'simone@email.com',
-                'password' => bcrypt('654123'),
-                'city' => 'Santa Maria de Jetibá',
-                'state' => 'ES'
-            ]
-        );
+        $this->command->info('Users table seeded.');
     }
 }

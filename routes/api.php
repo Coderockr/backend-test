@@ -24,38 +24,39 @@ Route::group(['middleware' => ['apiJwt']], function($router) {
 
     Route::group(['prefix' => 'my-events'], function($router) {
         Route::get('/', 'Api\\EventController@index');
-        Route::post('/', 'Api\\EventController@store');
+        Route::post('/store', 'Api\\EventController@store');
         Route::get('/{id}/edit', 'Api\\EventController@edit');
         Route::put('/{id}/update', 'Api\\EventController@update');
         Route::put('/{id}/cancel', 'Api\\EventController@cancel');
 
-        Route::group(['prefix' => 'invite'], function($router) {
-            Route::post('/{id}/all-friends', 'Api\\EventController@inviteAllFriends');
-            Route::post('/{id}/selected-friends', 'Api\\EventController@inviteSelectedFriends');
-        });
+        Route::post('/{id}/invite/all-friends', 'Api\\EventController@inviteAllFriends');
+        Route::post('/{id}/invite/selected-friends', 'Api\\EventController@inviteSelectedFriends');
     });
 
-    Route::group(['prefix' => 'events/invitations'], function($router) {
-        Route::get('/pending', 'Api\\EventInvitationController@pending');
-        Route::put('/{id}/confirm', 'Api\\EventInvitationController@confirm');
-        Route::put('/{id}/reject', 'Api\\EventInvitationController@reject');
+    Route::group(['prefix' => 'events/my-invitations'], function($router) {
+        Route::get('/', 'Api\\EventInvitationController@pending');
+        Route::put('/{event_id}/confirm', 'Api\\EventInvitationController@confirm');
+        Route::put('/{event_id}/reject', 'Api\\EventInvitationController@reject');
     });
 
     Route::group(['prefix' => 'friendship'], function($router) {
-        Route::post('/invite/{email}', 'Api\\FriendshipController@invite');
+        Route::get('/friends', 'Api\\FriendshipController@friends');
+        Route::post('/{email}/invite', 'Api\\FriendshipController@invite');
 
-        Route::get('/pending', 'Api\\FriendshipController@pending');
-        Route::put('/{id}/confirm', 'Api\\FriendshipController@confirm');
-        Route::put('/{id}/reject', 'Api\\FriendshipController@reject');
+        Route::group(['prefix' => 'invitations'], function($router) {
+            Route::get('/pending', 'Api\\FriendshipController@pending');
+            Route::put('/{user_id}/confirm', 'Api\\FriendshipController@confirm');
+            Route::put('/{user_id}/reject', 'Api\\FriendshipController@reject');
+        });
+
         Route::delete('/{friend_id}/remove', 'Api\\FriendshipController@remove');
     });
 
-    Route::get('/friends', 'Api\\FriendshipController@friends');
 });
 
 Route::group(['prefix' => 'events'], function($router) {
     Route::get('/', 'Api\\PublicEventController@index');
-    Route::get('/{id}', 'Api\\PublicEventController@show');
+    Route::get('/{id}/show', 'Api\\PublicEventController@show');
 });
 
 // Not Found

@@ -21,9 +21,9 @@ class UsersTableSeeder extends Seeder
             'state' => 'ES'
         ]);
 
-        // Create another five user accounts.
-        factory(User::class, 5)->create();
+        // Create another ten user accounts.
+        factory(User::class, 10)->create();
 
-        $this->command->info('Users table seeded.');
+        $this->command->info('UsersTableSeeder seeded.');
     }
 }

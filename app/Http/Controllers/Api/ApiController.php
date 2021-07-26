@@ -38,13 +38,15 @@ abstract class ApiController extends Controller
      * Returns a resource created (201) JSON response.
      *
      * @param  string $message
+     * @param null $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function responseResourceCreated($message = 'Resource created.')
+    public function responseResourceCreated($message = 'Resource created.', $id = null)
     {
         return response()->json([
             'status' => 201,
             'message' => $message,
+            'id' => $id
         ], 201);
     }
 

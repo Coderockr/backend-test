@@ -83,7 +83,7 @@ class EventController extends ApiController
 
         try {
             $event = $this->create($data);
-            return $this->responseResourceCreated('Resource created.');
+            return $this->responseResourceCreated('Resource created.', $event->id);
         } catch (Exception $e) {
             return $this->responseServerError('Error creating resource.');
         }
@@ -197,7 +197,7 @@ class EventController extends ApiController
 
             return $this->responseResourceUpdated('Event canceled.');
         } catch (Exception $e) {
-            return $this->responseServerError('Error deleting resource.');
+            return $this->responseServerError('Error canceling resource.');
         }
     }
 

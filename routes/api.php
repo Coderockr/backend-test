@@ -25,7 +25,6 @@ Route::group(['middleware' => ['apiJwt']], function($router) {
         Route::post('me', 'Api\\AuthController@me');
     });
 
-    // 
     Route::group(['prefix' => 'my-events'], function($router) {
         Route::get('/', 'Api\\EventController@index');
         Route::post('/store', 'Api\\EventController@store');

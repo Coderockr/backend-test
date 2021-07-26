@@ -29,13 +29,13 @@ if (! function_exists('dareHourBrFormat')) {
      * Format datetime to database format
      *
      * @param $data
-     * @param bool $showSeconds
-     * @param bool $hasSeparator
+     * @param bool $show_seconds
+     * @param bool $has_separator
      * @param string $separator
      * @return string
      */
-    function dareHourBrFormat($data, $showSeconds = true, $hasSeparator = false, $separator = "") {
-        $format = "d/m/Y" . ($hasSeparator ? " $separator " : " ") . "H:i" . ($showSeconds ? ":s" : "");
+    function dareHourBrFormat($data, $show_seconds = true, $has_separator = false, $separator = "") {
+        $format = "d/m/Y" . ($has_separator ? " $separator " : " ") . "H:i" . ($show_seconds ? ":s" : "");
         return $data ? date($format, strtotime( str_replace("/", "-", $data) ) ) : $data;
     }
 }

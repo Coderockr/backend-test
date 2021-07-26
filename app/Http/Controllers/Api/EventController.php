@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use App\Http\Resources\EventResource;
 use App\Models\EventInvitation;
-use Exception;
 use App\Http\Resources\EventCollection;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class EventController extends ApiController
 {
@@ -253,44 +252,52 @@ class EventController extends ApiController
         }
 
         // Get all user friends ids
-        $myFriends = $me->friendsIdsArray;
+        $my_friends = $me->friendsIdsArray;
 
-        $friendsToInvite = [];
+        $friends_to_invite = [];
         if ($action == 'selected') {
             // If the invitation for the selected friends, get he's ids from the form
-            foreach ($request->get('ids', []) as $friendId) {
-                if (in_array($friendId, $myFriends)) {
-                    $friendsToInvite[] = (int) $friendId;
+            foreach ($request->get('ids', []) as $friend_id) {
+                if (in_array($friend_id, $my_friends)) {
+                    $friends_to_invite[] = (int) $friend_id;
                 }
             }
         } else {
             // All friends invitation
-            $friendsToInvite = $myFriends;
+            $friends_to_invite = $my_friends;
         }
 
         // Check if have any friend to invite
-        if (!$friendsToInvite) {
+        if (!$friends_to_invite) {
             return $this->responseUnprocessable(['No friends to invite']);
         }
 
         // Check if any friends have already been invited to not send again
-        $friendsAlreadyInvited = EventInvitation::ofEvent($id)->whereIn("guest_id", $friendsToInvite)->get()->pluck('guest_id')->toArray();
-        if ($friendsAlreadyInvited) {
-            $friendsToInvite = array_diff($friendsToInvite, $friendsAlreadyInvited);
+        $friends_already_invited = EventInvitation::ofEvent($id)
+                                                  ->whereIn("guest_id", $friends_to_invite)
+                                                  ->get()
+                                                  ->pluck('guest_id')
+                                                  ->toArray();
+        if ($friends_already_invited) {
+            $friends_to_invite = array_diff($friends_to_invite, $friends_already_invited);
         }
 
         // Check if have any friend to invite
-        if (!$friendsToInvite) {
+        if (!$friends_to_invite) {
             return $this->responseUnauthorized(['No friends to invite']);
         }
 
         // Generate the invitation data to store
         $invites = [];
         $now = now();
-        foreach ($friendsToInvite as $friendId) {
+        foreach ($friends_to_invite as $friend_id) {
             $invites[] = [
-                'event_id' => $id, 'user_id' => $me->id, 'guest_id' => $friendId, 'status' => 'pending',
-                'created_at' => $now, 'updated_at' => $now
+                'event_id' => $id,
+                'user_id' => $me->id,
+                'guest_id' => $friend_id,
+                'status' => 'pending',
+                'created_at' => $now,
+                'updated_at' => $now
             ];
         }
 

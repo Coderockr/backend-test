@@ -16,7 +16,7 @@ class UserFriendshipTableSeeder extends Seeder
     {
         // Get the test user
         $user = User::where('email', 'user@test.dev')->first();
-        // $faker = Faker\Factory::create('pt_BR');
+
         $seeded = false;
 
         if ($user) {

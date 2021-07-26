@@ -11,17 +11,21 @@
 |
 */
 
+// Register e Login
 Route::group(['prefix' => 'auth'], function($router) {
     Route::post('register', 'Api\\AuthController@register');
     Route::post('login', 'Api\\AuthController@login');
 });
 
+// Logged Area
 Route::group(['middleware' => ['apiJwt']], function($router) {
+
     Route::group(['prefix' => 'auth'], function($router) {
         Route::post('logout', 'Api\\AuthController@logout');
         Route::post('me', 'Api\\AuthController@me');
     });
 
+    // 
     Route::group(['prefix' => 'my-events'], function($router) {
         Route::get('/', 'Api\\EventController@index');
         Route::post('/store', 'Api\\EventController@store');
@@ -51,12 +55,12 @@ Route::group(['middleware' => ['apiJwt']], function($router) {
 
         Route::delete('/{friend_id}/remove', 'Api\\FriendshipController@remove');
     });
-
 });
 
+// Public Area
 Route::group(['prefix' => 'events'], function($router) {
     Route::get('/', 'Api\\PublicEventController@index');
-    Route::get('/{id}/show', 'Api\\PublicEventController@show');
+    Route::get('/{event_id}/show', 'Api\\PublicEventController@show');
 });
 
 // Not Found

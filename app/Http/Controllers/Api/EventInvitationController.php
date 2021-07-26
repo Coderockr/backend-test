@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\EventInvitationCollection;
 use Exception;
-use App\Models\Event;
+use App\Http\Resources\EventInvitationCollection;
 use App\Models\EventInvitation;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class EventInvitationController extends ApiController
 {
@@ -78,11 +75,12 @@ class EventInvitationController extends ApiController
     public function updateStatus($event_id, $status)
     {
         try {
-            $invite = $this->invitationModel->where('event_id', $event_id)->where('guest_id', auth('api')->user()->id)->firstOrFail();
+            $invite = $this->invitationModel->where('event_id', $event_id)
+                                            ->where('guest_id', auth('api')->user()->id)
+                                            ->firstOrFail();
 
             // User can only acccess their own pending or rejected invitations.
             if ($invite->status != 'confirmed' && $invite->status != $status) {
-
                 // Update the invitation status
                 $invite->update(['status' => $status]);
 

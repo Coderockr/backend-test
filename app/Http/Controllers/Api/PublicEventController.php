@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api;
 
+use Exception;
 use App\Http\Resources\EventCollection;
 use App\Http\Resources\EventResource;
 use App\Models\Event;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class PublicEventController extends ApiController
 {
@@ -73,13 +73,17 @@ class PublicEventController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return EventResource
+     * @param  int $event_id
+     * @return EventResource|\Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show($event_id)
     {
-        $event = $this->eventModel::findOrFail($id);
-        return new EventResource($event);
+        try {
+            $event = $this->eventModel::findOrFail($event_id);
+            return new EventResource($event);
+        } catch (Exception $e) {
+            return $this->responseServerError('Event not found.');
+        }
     }
 
 }

@@ -125,12 +125,12 @@ class EventController extends ApiController
     /**
      * Display the specified resource.
      *
-     * @param  int $id
+     * @param  int $event_id
      * @return EventResource|\Illuminate\Http\JsonResponse
      */
-    public function edit($id)
+    public function edit($event_id)
     {
-        $event = $this->eventModel->findOrFail($id);
+        $event = $this->eventModel->findOrFail($event_id);
 
         // User can only edit their own pending events.
         if ($event->owner_id != auth('api')->user()->id || $event->status != 'pending') {
@@ -144,10 +144,10 @@ class EventController extends ApiController
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $event_id
      * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $event_id)
     {
         $validator = $this->formValidate($data = $request->all());
 
@@ -156,7 +156,7 @@ class EventController extends ApiController
         }
 
         try {
-            $event = $this->eventModel->findOrFail($id);
+            $event = $this->eventModel->findOrFail($event_id);
 
             // User can only acccess their own data.
             if ($event->owner_id == auth('api')->user()->id) {
@@ -176,12 +176,12 @@ class EventController extends ApiController
     /**
      * Sets the status of the specified resource to canceled
      *
-     * @param  int $id
+     * @param  int $event_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function cancel($id)
+    public function cancel($event_id)
     {
-        $event = $this->eventModel->findOrFail($id);
+        $event = $this->eventModel->findOrFail($event_id);
 
         // User can only cancel their own pending events.
         if ($event->owner_id != auth('api')->user()->id || $event->status != 'pending') {
@@ -193,7 +193,7 @@ class EventController extends ApiController
             $event->update(['status' => 'canceled']);
 
             // Remove the invitations sent to the users
-            EventInvitation::where('event_id', $id)->delete();
+            EventInvitation::where('event_id', $event_id)->delete();
 
             return $this->responseResourceUpdated('Event canceled.');
         } catch (Exception $e) {
@@ -206,22 +206,22 @@ class EventController extends ApiController
      * Call to the invite method handles to the all user friends
      *
      * @param Request $request
-     * @param $id
+     * @param $event_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function inviteAllFriends(Request $request, $id)
+    public function inviteAllFriends(Request $request, $event_id)
     {
-        return $this->invite($request, $id, 'all');
+        return $this->invite($request, $event_id, 'all');
     }
 
     /**
      * Call to the invite method handles to the selected user friends
      *
      * @param Request $request
-     * @param $id
+     * @param $event_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function inviteSelectedFriends(Request $request, $id)
+    public function inviteSelectedFriends(Request $request, $event_id)
     {
         $validator = Validator::make($request->all(), [
             'ids' => 'required|array',
@@ -232,18 +232,18 @@ class EventController extends ApiController
             return $this->responseUnprocessable($validator->errors()->toArray());
         }
 
-        return $this->invite($request, $id, 'selected');
+        return $this->invite($request, $event_id, 'selected');
     }
 
     /**
      * @param Request $request
-     * @param $id
+     * @param $event_id
      * @param $action
      * @return \Illuminate\Http\JsonResponse
      */
-    public function invite(Request $request, $id, $action)
+    public function invite(Request $request, $event_id, $action)
     {
-        $event = $this->eventModel->findOrFail($id);
+        $event = $this->eventModel->findOrFail($event_id);
         $me = auth('api')->user();
 
         // User can only cancel their own pending events.
@@ -273,7 +273,7 @@ class EventController extends ApiController
         }
 
         // Check if any friends have already been invited to not send again
-        $friends_already_invited = EventInvitation::ofEvent($id)
+        $friends_already_invited = EventInvitation::ofEvent($event_id)
                                                   ->whereIn("guest_id", $friends_to_invite)
                                                   ->get()
                                                   ->pluck('guest_id')
@@ -292,7 +292,7 @@ class EventController extends ApiController
         $now = now();
         foreach ($friends_to_invite as $friend_id) {
             $invites[] = [
-                'event_id' => $id,
+                'event_id' => $event_id,
                 'user_id' => $me->id,
                 'guest_id' => $friend_id,
                 'status' => 'pending',

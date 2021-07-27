@@ -28,12 +28,12 @@ Route::group(['middleware' => ['apiJwt']], function($router) {
     Route::group(['prefix' => 'my-events'], function($router) {
         Route::get('/', 'Api\\EventController@index');
         Route::post('/store', 'Api\\EventController@store');
-        Route::get('/{id}/edit', 'Api\\EventController@edit');
-        Route::put('/{id}/update', 'Api\\EventController@update');
-        Route::put('/{id}/cancel', 'Api\\EventController@cancel');
+        Route::get('/{event_id}/edit', 'Api\\EventController@edit');
+        Route::put('/{event_id}/update', 'Api\\EventController@update');
+        Route::put('/{event_id}/cancel', 'Api\\EventController@cancel');
 
-        Route::post('/{id}/invite/all-friends', 'Api\\EventController@inviteAllFriends');
-        Route::post('/{id}/invite/selected-friends', 'Api\\EventController@inviteSelectedFriends');
+        Route::post('/{event_id}/invite/all-friends', 'Api\\EventController@inviteAllFriends');
+        Route::post('/{event_id}/invite/selected-friends', 'Api\\EventController@inviteSelectedFriends');
     });
 
     Route::group(['prefix' => 'events/my-invitations'], function($router) {

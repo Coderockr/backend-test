@@ -1,0 +1,2767 @@
+{
+	"info": {
+		"_postman_id": "c7f1f354-95b7-4eca-bcfe-f5dd2f0f74a5",
+		"name": "Coderockr Events API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Alex Gutler",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "alex@email.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "321456",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "Santa Teresa",
+									"type": "text"
+								},
+								{
+									"key": "state",
+									"value": "ES",
+									"type": "text"
+								},
+								{
+									"key": "biography",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/auth/register",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "register",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Alex Gutler",
+											"description": "required|string|min:2|max:175",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "alex@email.com",
+											"description": "required|string|email|max:175|unique:users",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "321456",
+											"description": "required|string|min:6",
+											"type": "text"
+										},
+										{
+											"key": "city",
+											"value": "Santa Teresa",
+											"description": "required|string|min:2|max:175",
+											"type": "text"
+										},
+										{
+											"key": "state",
+											"value": "ES",
+											"description": "required|string|min:2|max:2",
+											"type": "text"
+										},
+										{
+											"key": "biography",
+											"value": "",
+											"description": "string|max:255",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "avatar",
+											"description": "mimes:jpeg,jpg,png|max:1024",
+											"type": "file",
+											"src": [],
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/auth/register",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"auth",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 08:21:59 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 11:21:59 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"Registered successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "alex@email.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "321456",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/auth/login",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "alex@email.com",
+											"description": "required|string|email",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "321456",
+											"description": "required|string|min:6",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/auth/login",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"auth",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 08:25:24 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 11:25:24 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"Authorized.\",\n    \"access_token\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5ODcyNCwibmJmIjoxNjI3Mjk4NzI0LCJqdGkiOiJGS3JxZ3kxbEZoMWYwVWplIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.pBrLGVjExk5_BpvSwccPuMk9OVtPXCElF7fYQkzBH1c\",\n    \"token_type\": \"bearer\"\n}"
+						}
+					]
+				},
+				{
+					"name": "logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5ODcyNCwibmJmIjoxNjI3Mjk4NzI0LCJqdGkiOiJGS3JxZ3kxbEZoMWYwVWplIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.pBrLGVjExk5_BpvSwccPuMk9OVtPXCElF7fYQkzBH1c",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/auth/logout",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "logout",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5ODcyNCwibmJmIjoxNjI3Mjk4NzI0LCJqdGkiOiJGS3JxZ3kxbEZoMWYwVWplIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.pBrLGVjExk5_BpvSwccPuMk9OVtPXCElF7fYQkzBH1c",
+										"description": "User Bearer Token",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/auth/logout",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"auth",
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 08:32:12 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 11:32:12 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"Successfully logged out.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "me",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzM0MzcwMSwibmJmIjoxNjI3MzQzNzAxLCJqdGkiOiI0Z3Q1UDNiMjZjdEpvUktwIiwic3ViIjoyMCwicHJ2IjoiMjNiZDVjODk0OWY2MDBhZGIzOWU3MDFjNDAwODcyZGI3YTU5NzZmNyJ9.FrUyzPi05MmsYbhxg1bymfCzGe9bmhPrfizajzxfAIc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/auth/me",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"auth",
+								"me"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "me",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5ODcyNCwibmJmIjoxNjI3Mjk4NzI0LCJqdGkiOiJGS3JxZ3kxbEZoMWYwVWplIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.pBrLGVjExk5_BpvSwccPuMk9OVtPXCElF7fYQkzBH1c",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/auth/me",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"auth",
+										"me"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 08:35:35 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 11:35:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 7,\n    \"name\": \"Alex Gutler\",\n    \"email\": \"alex@email.com\",\n    \"biography\": null,\n    \"avatar\": null,\n    \"city\": \"Santa Teresa\",\n    \"state\": \"ES\",\n    \"created_at\": \"2021-07-26 08:21:59\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Public Events",
+			"item": [
+				{
+					"name": "events",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/events",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"events"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "santa teresa",
+									"description": "(optional) filter by the event city",
+									"disabled": true
+								},
+								{
+									"key": "state",
+									"value": "ES",
+									"description": "(optional) filter by the event state",
+									"disabled": true
+								},
+								{
+									"key": "date",
+									"value": "2021-07-30",
+									"description": "(optional) filter by the event date",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "events",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/events?city=santa teresa&state=ES&date=2021-07-30",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"events"
+									],
+									"query": [
+										{
+											"key": "city",
+											"value": "santa teresa",
+											"description": "(optional) filter by the event city"
+										},
+										{
+											"key": "state",
+											"value": "ES",
+											"description": "(optional) filter by the event state"
+										},
+										{
+											"key": "date",
+											"value": "2021-07-30",
+											"description": "(optional) filter by the event date"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 08:43:55 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 11:43:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Let's celebrate my new job\",\n            \"description\": \"Lorem ipsum dolor sit amet consectur\",\n            \"date\": \"2021-07-30\",\n            \"time\": \"08:00:00\",\n            \"city\": \"Santa Teresa\",\n            \"state\": \"ES\",\n            \"status\": \"pending\",\n            \"status_name\": \"Pending\",\n            \"created_at\": \"2021-07-26 08:43:37\",\n            \"owner\": {\n                \"id\": 1,\n                \"name\": \"User Test\"\n            },\n            \"confirmed_users\": []\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://127.0.0.1:8000/api/events?city=santa%20teresa&state=ES&date=2021-07-30&page=1\",\n        \"last\": \"http://127.0.0.1:8000/api/events?city=santa%20teresa&state=ES&date=2021-07-30&page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"path\": \"http://127.0.0.1:8000/api/events\",\n        \"per_page\": 10,\n        \"to\": 1,\n        \"total\": 1\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "{event_id}/show",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/events/1/show",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"events",
+								"1",
+								"show"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "{event_id}/show",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/events/1/show",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"events",
+										"1",
+										"show"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 08:45:50 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 11:45:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": {\n        \"id\": 1,\n        \"name\": \"Let's celebrate my new job\",\n        \"description\": \"Lorem ipsum dolor sit amet consectur\",\n        \"date\": \"2021-07-30\",\n        \"time\": \"08:00:00\",\n        \"city\": \"Santa Teresa\",\n        \"state\": \"ES\",\n        \"status\": \"pending\",\n        \"status_name\": \"Pending\",\n        \"created_at\": \"2021-07-26 08:43:37\",\n        \"owner\": {\n            \"id\": 1,\n            \"name\": \"User Test\"\n        },\n        \"confirmed_users\": []\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "My Events",
+			"item": [
+				{
+					"name": "my-events",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/my-events",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"my-events"
+							],
+							"query": [
+								{
+									"key": "users[]",
+									"value": "1",
+									"description": "(optional) array with the id of the users who confirmed",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "my-events",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+										"description": "user token",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/my-events",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"my-events"
+									],
+									"query": [
+										{
+											"key": "users[]",
+											"value": "1",
+											"description": "(optional) array with the id of the users who confirmed",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 08:51:13 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 11:51:13 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Let's celebrate my new job\",\n            \"description\": \"Lorem ipsum dolor sit amet consectur\",\n            \"date\": \"2021-07-30\",\n            \"time\": \"08:00:00\",\n            \"city\": \"Santa Teresa\",\n            \"state\": \"ES\",\n            \"status\": \"pending\",\n            \"status_name\": \"Pending\",\n            \"created_at\": \"2021-07-26 08:43:37\",\n            \"owner\": {\n                \"id\": 7,\n                \"name\": \"Alex Gutler\"\n            },\n            \"confirmed_users\": []\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://127.0.0.1:8000/api/my-events?page=1\",\n        \"last\": \"http://127.0.0.1:8000/api/my-events?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"path\": \"http://127.0.0.1:8000/api/my-events\",\n        \"per_page\": 10,\n        \"to\": 1,\n        \"total\": 1\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Gabriel's birthday",
+									"description": "required|string|min:5|max:255",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Let's celebrate hir birthday",
+									"description": "required|string",
+									"type": "text"
+								},
+								{
+									"key": "date",
+									"value": "2021-07-29",
+									"description": "required|date_format:Y-m-d",
+									"type": "text"
+								},
+								{
+									"key": "time",
+									"value": "19:00",
+									"description": "required|date_format:H:i",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "Santa Maria",
+									"description": "required|string|min:2|max:175",
+									"type": "text"
+								},
+								{
+									"key": "state",
+									"value": "ES",
+									"description": "required|string|min:2|max:2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/my-events/store",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"my-events",
+								"store"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "store",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Gabriel's birthday",
+											"description": "required|string|min:5|max:255",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Let's celebrate hir birthday",
+											"description": "required|string",
+											"type": "text"
+										},
+										{
+											"key": "date",
+											"value": "2021-07-29",
+											"description": "required|date_format:Y-m-d",
+											"type": "text"
+										},
+										{
+											"key": "time",
+											"value": "19:00",
+											"description": "required|date_format:H:i",
+											"type": "text"
+										},
+										{
+											"key": "city",
+											"value": "Santa Maria",
+											"description": "required|string|min:2|max:175",
+											"type": "text"
+										},
+										{
+											"key": "state",
+											"value": "ES",
+											"description": "required|string|min:2|max:2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/my-events/store",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"my-events",
+										"store"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 08:58:00 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 11:58:00 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 201,\n    \"message\": \"Resource created.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "{event_id}/edit",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/my-events/2/edit",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"my-events",
+								"2",
+								"edit"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "{event_id}/edit",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/my-events/2/edit",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"my-events",
+										"2",
+										"edit"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 09:00:06 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 12:00:06 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": {\n        \"id\": 2,\n        \"name\": \"Gabriel's birthday\",\n        \"description\": \"Let's celebrate hir birthday\",\n        \"date\": \"2021-07-29\",\n        \"time\": \"19:00:00\",\n        \"city\": \"Santa Maria\",\n        \"state\": \"ES\",\n        \"status\": \"pending\",\n        \"status_name\": \"Pending\",\n        \"created_at\": \"2021-07-26 08:58:00\",\n        \"owner\": {\n            \"id\": 7,\n            \"name\": \"Alex Gutler\"\n        },\n        \"confirmed_users\": []\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "{event_id}/update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Gabriel's Birthday",
+									"description": "required|string|min:5|max:255",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Let's celebrate hir birthday",
+									"description": "required|string",
+									"type": "text"
+								},
+								{
+									"key": "date",
+									"value": "2021-07-29",
+									"description": "required|date_format:Y-m-d",
+									"type": "text"
+								},
+								{
+									"key": "time",
+									"value": "20:00",
+									"description": "required|date_format:H:i",
+									"type": "text"
+								},
+								{
+									"key": "city",
+									"value": "Santa Maria",
+									"description": "required|string|min:2|max:175",
+									"type": "text"
+								},
+								{
+									"key": "state",
+									"value": "ES",
+									"description": "required|string|min:2|max:2",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/my-events/2/update",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"my-events",
+								"2",
+								"update"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "{event_id}/update",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "Gabriel's Birthday",
+											"description": "required|string|min:5|max:255",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Let's celebrate hir birthday",
+											"description": "required|string",
+											"type": "text"
+										},
+										{
+											"key": "date",
+											"value": "2021-07-29",
+											"description": "required|date_format:Y-m-d",
+											"type": "text"
+										},
+										{
+											"key": "time",
+											"value": "20:00",
+											"description": "required|date_format:H:i",
+											"type": "text"
+										},
+										{
+											"key": "city",
+											"value": "Santa Maria",
+											"description": "required|string|min:2|max:175",
+											"type": "text"
+										},
+										{
+											"key": "state",
+											"value": "ES",
+											"description": "required|string|min:2|max:2",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/my-events/2/update",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"my-events",
+										"2",
+										"update"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 09:07:14 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 12:07:14 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"Resource updated.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "{event_id}/cancel",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/my-events/2/cancel",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"my-events",
+								"2",
+								"cancel"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "{event_id}/cancel",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/my-events/2/cancel",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"my-events",
+										"2",
+										"cancel"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 09:11:51 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 12:11:51 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"Event canceled.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "{event_id}/invite/all-friends",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/my-events/2/invite/all-friends",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"my-events",
+								"2",
+								"invite",
+								"all-friends"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "{event_id}/invite/all-friends",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/my-events/2/invite/all-friends",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"my-events",
+										"2",
+										"invite",
+										"all-friends"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 09:41:32 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 12:41:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"Friends invited.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "{event_id}/invite/selected-friends",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "ids[]",
+									"value": "1",
+									"description": "user id",
+									"type": "text"
+								},
+								{
+									"key": "ids[]",
+									"value": "2",
+									"description": "user id",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/my-events/2/invite/selected-friends",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"my-events",
+								"2",
+								"invite",
+								"selected-friends"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "{event_id}/invite/selected-friends",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "ids[]",
+											"value": "1",
+											"description": "user id",
+											"type": "text"
+										},
+										{
+											"key": "ids[]",
+											"value": "2",
+											"description": "user id",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/my-events/2/invite/selected-friends",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"my-events",
+										"2",
+										"invite",
+										"selected-friends"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 09:41:14 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 12:41:14 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"Friends invited.\"\n}"
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "My Events Invitations",
+			"item": [
+				{
+					"name": "my-invitations",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/events/my-invitations",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"events",
+								"my-invitations"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "my-invitations",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/events/my-invitations",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"events",
+										"my-invitations"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 09:46:21 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 12:46:21 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": [\n        {\n            \"id\": 3,\n            \"status\": \"pending\",\n            \"status_name\": \"Pending\",\n            \"created_at\": \"2021-07-26 09:46:14\",\n            \"event\": {\n                \"id\": 1,\n                \"name\": \"Let's celebrate my new job\",\n                \"date\": \"2021-07-30\",\n                \"owner\": {\n                    \"id\": 1,\n                    \"name\": \"User Test\"\n                }\n            }\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "{event_id}/confirm",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/events/my-invitations/1/confirm",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"events",
+								"my-invitations",
+								"1",
+								"confirm"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "{event_id}/confirm",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/events/my-invitations/1/confirm",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"events",
+										"my-invitations",
+										"1",
+										"confirm"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 09:55:32 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 12:55:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"Event invitation confirmed.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "{event_id}/reject",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/events/my-invitations/1/reject",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"events",
+								"my-invitations",
+								"1",
+								"reject"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "{event_id}/reject",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/events/my-invitations/1/reject",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"events",
+										"my-invitations",
+										"1",
+										"reject"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 09:56:37 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 12:56:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"Event invitation rejected.\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Friendship",
+			"item": [
+				{
+					"name": "friends",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/friendship/friends",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"friendship",
+								"friends"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "friends",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/friendship/friends",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"friendship",
+										"friends"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 09:59:26 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 12:59:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"User Test\",\n            \"email\": \"user@test.dev\"\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Ricardo Galvão Neto\",\n            \"email\": \"cortes.fabio@example.com\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "{email}/invite",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/friendship/user@test.dev/invite",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"friendship",
+								"user@test.dev",
+								"invite"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "/{email}/invite",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/friendship/user@test.dev/invite",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"friendship",
+										"user@test.dev",
+										"invite"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 10:02:22 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 13:02:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"Friendship invitation sent.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "invitations/pending",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/friendship/invitations/pending",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"friendship",
+								"invitations",
+								"pending"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "invitations/pending",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/friendship/invitations/pending",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"friendship",
+										"invitations",
+										"pending"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 10:07:41 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 13:07:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"data\": [\n        {\n            \"id\": 2,\n            \"user\": {\n                \"id\": 1,\n                \"name\": \"User Test\"\n            },\n            \"status\": \"pending\",\n            \"status_name\": \"Pending\",\n            \"created_at\": \"2021-07-26 10:07:33\"\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "invitations/{user_id}/confirm",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/friendship/invitations/1/confirm",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"friendship",
+								"invitations",
+								"1",
+								"confirm"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "invitations/{user_id}/confirm",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/friendship/invitations/1/confirm",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"friendship",
+										"invitations",
+										"1",
+										"confirm"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 10:15:35 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 13:15:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"Friendship invitation confirmed.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "invitations/{user_id}/reject",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/friendship/invitations/1/reject",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"friendship",
+								"invitations",
+								"1",
+								"reject"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "invitations/{user_id}/reject",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/friendship/invitations/1/reject",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"friendship",
+										"invitations",
+										"1",
+										"reject"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 10:16:26 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 13:16:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"Friendship invitation rejected.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "{friend_id}/remove",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/friendship/1/remove",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"friendship",
+								"1",
+								"remove"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "{friend_id}/remove",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC8xMjcuMC4wLjE6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTYyNzI5OTMyMCwibmJmIjoxNjI3Mjk5MzIwLCJqdGkiOiJYN0lJbHZvdEZUU3J1RWdVIiwic3ViIjo3LCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.CVN-0OXE_A5NdBQffGVRSGnMIM3KmQI-17HP0Ujw3ng",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://127.0.0.1:8000/api/friendship/1/remove",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"friendship",
+										"1",
+										"remove"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Host",
+									"value": "127.0.0.1:8000"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 10:18:21 -0300"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 26 Jul 2021 13:18:21 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.33"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": 200,\n    \"message\": \"Friendship removed\"\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}

@@ -1,0 +1,39 @@
+version: "3"
+
+services:
+  webserver:
+    build: ./docker/apache/
+    container_name: 'web'
+    restart: 'always'
+    ports:
+      - "8088:80"
+    links: 
+      - mysql
+    volumes: 
+      - .:/var/www/html
+      - ./docker/apache/vhosts:/etc/apache2/sites-enabled
+  mysql:
+    build: ./docker/mysql
+    container_name: 'mysql'
+    restart: 'always'
+    ports:
+      - "3306:3306"
+    volumes: 
+      - ./mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: investment
+      MYSQL_USER: investment_db_user
+      MYSQL_PASSWORD: 123456
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: 'phpmyadmin'
+    links:
+      - mysql
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+    ports:
+      - '8080:80'
+    volumes: 
+      - /sessions

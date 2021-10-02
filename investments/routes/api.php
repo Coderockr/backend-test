@@ -13,6 +13,24 @@
 |
 */
 
+
+// Cria o JWT token
+$router->post('/auth/login', 'AuthController@login');
+
+// ACCESS THROUGH JWT TOKENS
+$router->group(['middleware' => 'auth:web', 'prefix' => 'api/v1'], function () use ($router) {
+    $router->get('/list', 'UserController@list');
+});
+
 $router->get('/', function () use ($router) {
     return $router->app->version();
+});
+
+$router->group(['prefix' =>'user'], function () use ($router) {
+    // $router->get('/list', 'UserController@list');
+});
+
+$router->group(['prefix' =>'investment'], function () use ($router) {
+    $router->post('/create', 'InvestmentController@create');
+    
 });

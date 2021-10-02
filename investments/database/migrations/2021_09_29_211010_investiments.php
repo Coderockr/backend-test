@@ -15,7 +15,7 @@ class Investiments extends Migration
     {
         Schema::create('investments', function (Blueprint $table) {
             $table->id();
-            $table->integer('users_id');
+            $table->bigInteger('users_id');
             $table->integer('amount');
             $table->date('date');
             $table->timestamps();

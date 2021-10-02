@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Lumen\Auth\Authorizable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-
+use App\Models\Roles;
+use App\Models\Permissions;
 
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
@@ -38,6 +39,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'updated_at',
     ];
 
+    public $timestamps = true;
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -56,5 +59,15 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function fetchRole()
+    {
+        return Roles::select(['id', 'name'])
+                    ->join('permissions', 'roles.id', '=', 'permissions.roles_id')
+                    ->where('permissions.users_id', '=', $this->id)
+                    ->get()
+                    ->toArray();
+        
     }
 }

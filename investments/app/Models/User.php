@@ -63,11 +63,13 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function fetchRole()
     {
-        return Roles::select(['id', 'name'])
-                    ->join('permissions', 'roles.id', '=', 'permissions.roles_id')
-                    ->where('permissions.users_id', '=', $this->id)
-                    ->get()
-                    ->toArray();
+        return  (
+            Roles::select(['id', 'name'])
+                ->join('permissions', 'roles.id', '=', 'permissions.roles_id')
+                ->where('permissions.users_id', '=', $this->id)
+                ->get()
+                ->toArray()
+        ) [0];
         
     }
 }

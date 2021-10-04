@@ -10,7 +10,7 @@ class TaxTwoYears
 
 
     public function __construct($initialDate, $finalDate) {
-        $this->initialDate = $investment;
+        $this->initialDate = $initialDate;
         $this->finalDate = $finalDate;
     }
 

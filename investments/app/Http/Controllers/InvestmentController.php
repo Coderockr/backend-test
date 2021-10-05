@@ -120,7 +120,7 @@ class InvestmentController extends Controller
         }
 
         ////Should not be able to withdraw more than the available balance
-        if (empty($balance)) {
+        if ($investmentCalc->getExceedsBalance()) {
             abort(
                 401,
                 'Withdrawal amount exceeds available balance [' . formatFloat($balance) .'] '

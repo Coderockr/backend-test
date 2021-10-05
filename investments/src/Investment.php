@@ -13,6 +13,7 @@ class Investment
     protected $gainAmount = 0;
     protected $withdrawalDates = [];
     protected $withdrawalMonths = [];
+    protected $exceedsBalance=false;
     const PROFIT = 0.0052;
 
     public function __construct($creationDate, $amount, $limitDate, array $withdrawn=[]) {
@@ -85,7 +86,7 @@ class Investment
     {
         $sub = ($this->currentAmount - $amount);
         if ($sub <= 0) {
-            $this->currentAmount = 0;
+            $this->exceedsBalance = true;
             return false;
         }
 
@@ -96,6 +97,11 @@ class Investment
     public function getGainAmount()
     {
         return $this->gainAmount;
+    }
+
+    public function getExceedsBalance()
+    {
+        return $this->exceedsBalance;
     }
 
     public function getCurrentAmount()

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Investiments extends Migration
+class Investments extends Migration
 {
     /**
      * Run the migrations.
@@ -17,6 +17,7 @@ class Investiments extends Migration
             $table->id();
             $table->bigInteger('users_id');
             $table->integer('amount');
+            $table->enum('status', ['open', 'closed'])->default('open');
             $table->date('date');
             $table->timestamps();
         });

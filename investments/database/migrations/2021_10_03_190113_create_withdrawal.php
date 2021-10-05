@@ -13,7 +13,7 @@ class CreateWithdrawal extends Migration
      */
     public function up()
     {
-        Schema::create('withdrawal', function (Blueprint $table) {
+        Schema::create('withdrawals', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('investment_id');
             $table->integer('amount');

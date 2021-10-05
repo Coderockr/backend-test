@@ -115,6 +115,75 @@ class InvestmentWithdrawalAPITest extends TestCase
         )->seeStatusCode(401);
     }
 
+    public function testIfFailsWhenTheWithdrawalDateIsLowerThanInvestimentDate()
+    {
+        $token = $this->JWTtoken('admin');
+
+        $investment = $this->createInvestment(
+            $token,
+            [
+                'date' => '2021-08-10',
+                'amount' => '1000.00'
+            ]
+        );
+
+        $this->json(
+            'POST',
+            '/api/v1/investment/withdrawal',
+            [
+                'investmentId' => $investment->data->investment->id,
+                'date'         => '2021-08-07',
+                'type'         => 'partial',
+                'amount'       => '200.00'
+            ],
+            [
+                'HTTP_Authorization' => $token
+            ]
+        )->seeStatusCode(401);
+    }
+
+    public function testIfFailsWhenTryToRegisteraWithdrawalWithDateLowerThanOtherWithdrawal()
+    {
+        $token = $this->JWTtoken('admin');
+
+        $investment = $this->createInvestment(
+            $token,
+            [
+                'date' => '2021-01-01',
+                'amount' => '1000.00'
+            ]
+        );
+
+        $this->json(
+            'POST',
+            '/api/v1/investment/withdrawal',
+            [
+                'investmentId' => $investment->data->investment->id,
+                'date'         => '2021-06-10',
+                'type'         => 'partial',
+                'amount'       => '500.00'
+            ],
+            [
+                'HTTP_Authorization' => $token
+            ]
+        )->seeStatusCode(200);
+
+        $this->json(
+            'POST',
+            '/api/v1/investment/withdrawal',
+            [
+                'investmentId' => $investment->data->investment->id,
+                'date'         => '2021-05-10',
+                'type'         => 'partial',
+                'amount'       => '500.00'
+            ],
+            [
+                'HTTP_Authorization' => $token
+            ]
+        )->seeStatusCode(401);
+
+    }
+
     public function createInvestment($token, $data=[])
     {
         $this->json(

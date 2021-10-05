@@ -3,11 +3,11 @@
 namespace Investment;
 
 use Investment\ProfitCalculator;
-use investment\Investiment;
+use investment\Investment;
 
 class InvestmentCalculator
 {
-    public function investmentBalance(Investiment $investiment)
+    public function investmentBalance(Investment $investment)
     {
         $profit = new ProfitCalculator();
         //// Qual é o balance?

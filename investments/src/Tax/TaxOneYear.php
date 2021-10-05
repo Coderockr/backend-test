@@ -2,9 +2,10 @@
 
 namespace Investment\Tax;
 
+use Carbon\Carbon;
 
 
-class TaxLessthanYear
+class TaxOneYear
 {
     protected $tax = 0.225;
     protected $next = null;
@@ -22,7 +23,9 @@ class TaxLessthanYear
 
     public function handle()
     {
-        if ($this->finalDate->year == $this->initialDate->year) {
+        $initialDataOneYearInFuture =$this->initialDate->copy()->addYear()->subDay();
+
+        if ($this->finalDate->between($this->initialDate, $initialDataOneYearInFuture)) {
             return $this->tax;
         }
 

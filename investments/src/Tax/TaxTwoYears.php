@@ -21,7 +21,9 @@ class TaxTwoYears
 
     public function handle()
     {
-        if ($this->finalDate->year == $this->initialDate->year) {
+        $initialDataTwoYearInFuture =$this->initialDate->copy()->addYears(2)->subDay();
+
+        if ($this->finalDate->between($this->initialDate, $initialDataTwoYearInFuture)) {
             return $this->tax;
         }
 

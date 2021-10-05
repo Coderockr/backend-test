@@ -3,7 +3,7 @@
 namespace Investment\Tax;
 
 
-class TaxOlderThanTwoYears
+class TaxMorerThanTwoYears
 {
     protected $tax = 0.15;
     protected $next = null;
@@ -20,9 +20,9 @@ class TaxOlderThanTwoYears
 
     public function handle()
     {
-        $diff = $this->finalDate->year - $this->initialDate->year;
+        $initialDataTwoYearInFuture =$this->initialDate->copy()->addYear(2);
 
-        if ($diff > 2) {
+        if ($this->finalDate->gte($initialDataTwoYearInFuture)) {
             return $this->tax;
         }
 

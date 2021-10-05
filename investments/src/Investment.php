@@ -38,18 +38,24 @@ class Investment
             Carbon::create($this->creationDate)->addDay(),
             Carbon::create($this->limitDate)
         );
-        $initialDate = Carbon::create($this->creationDate);
 
         $this->parseWithdrawals();
 
+        $this->runPeriodGainsAndWithdrawal($period, Carbon::create($this->creationDate));
+    }
+    
+    public function runPeriodGainsAndWithdrawal($period, $initialDate)
+    {
         foreach ($period as $date) {
             if ($this->shouldApplyGain($date, $initialDate)) {
                 $this->applyGain();
             }
             
-            if (isset($this->withdrawalDates[$date->format('Ymd')])){
+            if (isset($this->withdrawalDates[$date->format('Ymd')])) {
                 foreach ($this->withdrawalDates[$date->format('Ymd')] as $withdrawalAmount) {
-                    $this->withdrawal($withdrawalAmount);
+                    if (empty($this->withdrawal($withdrawalAmount))) {
+                        return;
+                    }
                 }
            }
         }
@@ -77,7 +83,14 @@ class Investment
 
     public function withdrawal($amount)
     {
-         $this->currentAmount = $this->currentAmount - $amount;
+        $sub = ($this->currentAmount - $amount);
+        if ($sub <= 0) {
+            $this->currentAmount = 0;
+            return false;
+        }
+
+        $this->currentAmount = $sub;
+        return true;
     }
 
     public function getGainAmount()

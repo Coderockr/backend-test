@@ -120,13 +120,13 @@ class InvestmentController extends Controller
         }
 
         ////Should not be able to withdraw more than the available balance
-        if (($balance + $requestAmount) < $requestAmount) {
+        if (empty($balance)) {
             abort(
                 401,
                 'Withdrawal amount exceeds available balance [' . formatFloat($balance) .'] '
             );
         }
-        if ($balance >= $requestAmount) {
+        if ($balance) {
             // send msg to customer
             Withdrawal::create(
                 [

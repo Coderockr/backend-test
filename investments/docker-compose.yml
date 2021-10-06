@@ -12,6 +12,7 @@ services:
     volumes: 
       - .:/var/www/html
       - ./docker/apache/vhosts:/etc/apache2/sites-enabled
+    user: "$UID:$GID"
   mysql:
     build: ./docker/mysql
     container_name: 'mysql'

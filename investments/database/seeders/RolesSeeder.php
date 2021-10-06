@@ -17,10 +17,10 @@ class RolesSeeder extends Seeder
      */
     public function run()
     {
-        $this->createFakeUser(10);
+        $this->createRoles(10);
     }
     
-    public function createFakeUser($total)
+    public function createRoles($total)
     {
         Roles::insertOrIgnore(
             [

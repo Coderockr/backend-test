@@ -1,0 +1,316 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Investment API",
+    "description": "Backend test API for Coderock",
+    "version": "0.0.1",
+    "contact": {
+      "name": "Paulo Henrique",
+      "email": "paulohenrique.nj@gmail.com"
+    }
+  },
+  "paths": {
+    "/api/v1/investment/create": {
+      "post": {
+        "summary": "Create a new investment",
+        "tags": [
+          "investment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "owner": {
+                    "type": "integer",
+                    "required": [
+                      "true"
+                    ]
+                  },
+                  "date": {
+                    "required": [
+                      "true"
+                    ],
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "amount": {
+                    "type": "string",
+                    "required": [
+                      "true"
+                    ],
+                    "pattern": "^\\d+\\.\\d{1,2}",
+                    "example": "1000.00"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/creation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/investment/withdrawal": {
+      "post": {
+        "summary": "Register a new investment withdrawal",
+        "tags": [
+          "investment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "investmentId": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "required": [
+                      "true"
+                    ]
+                  },
+                  "type": {
+                    "type": "string",
+                    "required": [
+                      "true"
+                    ],
+                    "example": "partial|total"
+                  },
+                  "date": {
+                    "required": [
+                      "true"
+                    ],
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "amount": {
+                    "type": "string",
+                    "required": [
+                      "true"
+                    ],
+                    "pattern": "^\\d+\\.\\d{1,2}",
+                    "example": "1000.00"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "When the withdrawal does not violate any of the rules a success response will be sent.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/withdrawal"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Action is not allowed when the investment is closed, withdrawal date is lower than creation investment date, when try to create a withdrawal and the investmente has a previous withdrawal and when the withdrawal amount exceeds the balance amount."
+          }
+        }
+      }
+    },
+    "/api/v1/investment/view/{investment_id}": {
+      "get": {
+        "summary": "Show a investment information",
+        "tags": [
+          "investment"
+        ],
+        "parameters": [
+          {
+            "name": "investment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/investment"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Investment not found"
+          }
+        }
+      }
+    },
+    "/api/v1/investment/user/{owner_id}": {
+      "get": {
+        "summary": "Show a investments of an user",
+        "tags": [
+          "investment"
+        ],
+        "parameters": [
+          {
+            "name": "owner_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success"
+          },
+          "400": {
+            "description": "Owner_id is not a integer not found"
+          }
+        }
+      }
+    },
+    "/api/v1/user/create": {
+      "post": {
+        "summary": "Creates a new user",
+        "tags": [
+          "investment"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "required": [
+                      "true"
+                    ]
+                  },
+                  "email": {
+                    "type": "string",
+                    "required": [
+                      "true"
+                    ]
+                  },
+                  "password": {
+                    "type": "string",
+                    "required": [
+                      "true"
+                    ]
+                  },
+                  "role": {
+                    "type": "string",
+                    "required": [
+                      "true"
+                    ],
+                    "example": "customer|admin"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "success"
+          },
+          "400": {
+            "description": "role not  found"
+          }
+        }
+      }
+    },
+    "/api/v1/user/all/view": {
+      "get": {
+        "tags": [
+          "investment"
+        ],
+        "summary": "List all users",
+        "responses": {
+          "200": {
+            "description": "list of users"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "creation": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Indicates operation status."
+          },
+          "data": {
+            "type": "object",
+            "description": "Data of the current action",
+            "example": "{ \"status\": \"success\", \"data\": { \"investment\": { \"users_id\": \"1\", \"amount\": \"1000.00\", \"date\": \"2021-08-10\", \"updated_at\": \"2021-10-06T09:40:04.000000Z\", \"created_at\": \"2021-10-06T09:40:04.000000Z\", \"id\": 248 } } }"
+          }
+        }
+      },
+      "withdrawal": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Indicates operation status."
+          },
+          "data": {
+            "type": "object",
+            "description": "Data of the current action",
+            "example": "{ \"status\": \"success\", \"data\": { \"date\": \"2021-09-15\", \"balance\": \"101.04\", \"withdrawal\": \"100.00\", \"InvestmentCurrentStatus\": \"open\", \"InvestmentCreation\": \"2021-08-06\", \"tax\": \"1.05\" } }"
+          }
+        }
+      },
+      "investment": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "description": "Indicates operation status."
+          },
+          "data": {
+            "type": "object",
+            "description": "Data of the current action",
+            "example": "{ \"status\": \"success\", \"data\": { \"investment\": { \"creationDate\": \"2021-08-03\", \"creationAmount\": \"10,000.00\" }, \"balance\": \"8,041.60\", \"withdrawals\": [ { \"id\": 1, \"investment_id\": 1, \"amount\": 1000, \"date\": \"2021-08-20\", \"created_at\": \"2021-10-05T15:59:35.000000Z\", \"updated_at\": \"2021-10-05T15:59:35.000000Z\" }, { \"id\": 2, \"investment_id\": 1, \"amount\": 1000, \"date\": \"2021-08-20\", \"created_at\": \"2021-10-05T15:59:54.000000Z\", \"updated_at\": \"2021-10-05T15:59:54.000000Z\" } ] } }"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "auth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "security": [
+    {
+      "auth": []
+    }
+  ],
+  "servers": [
+    {
+      "url": "http:localhost:8088",
+      "description": "Teste API"
+    }
+  ]
+}

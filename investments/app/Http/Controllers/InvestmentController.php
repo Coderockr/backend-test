@@ -217,12 +217,15 @@ class InvestmentController extends Controller
         $balance = $investmentCalc->balance();
 
         return [
-            'investment' => [
-                'creationDate' => $investment->date,
-                'creationAmount' => formatFloat(floatval($investment->amount))
-            ],
-            'balance'     => formatFloat($balance),
-            'withdrawals' => $withdrawals,
+            'status' => 'success',
+            'data' => [
+                'investment' => [
+                    'creationDate' => $investment->date,
+                    'creationAmount' => formatFloat(floatval($investment->amount))
+                ],
+                'balance'     => formatFloat($balance),
+                'withdrawals' => $withdrawals,
+            ]
         ];
     }
 

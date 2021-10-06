@@ -19,18 +19,19 @@ $router->post('/auth/login', 'AuthController@login');
 
 // ACCESS THROUGH JWT TOKENS
 $router->group(['middleware' => 'auth:web', 'prefix' => 'api/v1'], function () use ($router) {
-    $router->get('/list', 'UserController@list');
+
+    $router->post('/investment/create', 'InvestmentController@create');
+    $router->post('/investment/withdrawal', 'InvestmentController@withdrawal');
+    $router->post('/investment/view', 'InvestmentController@view');
+    $router->post('/investment/user', 'InvestmentController@listAdmin');
+    
+    $router->post('/user/create', 'UserController@create');
+    $router->post('/user/list', 'UserController@list');
+
 });
 
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->group(['prefix' =>'user'], function () use ($router) {
-    // $router->get('/list', 'UserController@list');
-});
 
-$router->group(['prefix' =>'investment'], function () use ($router) {
-    $router->post('/create', 'InvestmentController@create');
-    
-});

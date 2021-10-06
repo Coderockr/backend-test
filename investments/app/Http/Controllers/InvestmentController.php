@@ -72,14 +72,6 @@ class InvestmentController extends Controller
         $investment = Investments::find($request->investmentId);
         $requestAmount = transfomrAmountToInt($request->amount);
 
-        /*
-            fix valor do amount q está diretão
-            e corrigir o motivo de ficar deduzindo infinito
-            Ajustar o retorno das tax
-            Add o alerta
-            Cabô! ^^
-        */
-
         if (
             empty($investment)
             || $investment->status == 'closed'

@@ -309,7 +309,7 @@
   ],
   "servers": [
     {
-      "url": "http:localhost:8088",
+      "url": "http://104.248.11.98:8087/",
       "description": "Teste API"
     }
   ]

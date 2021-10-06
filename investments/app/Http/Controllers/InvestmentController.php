@@ -12,6 +12,7 @@ use Investment\InvestmentCalculator;
 use Investment\Investment;
 use Investment\Withdrawal as InvestmentWithdrawl;
 use Investment\Tax\Tax;
+use Validator;
 
 class InvestmentController extends Controller
 {
@@ -177,14 +178,21 @@ class InvestmentController extends Controller
         return false;
     }
 
-    public function view(Request $request)
+    public function view(Request $request, $investment_id)
     {
-        $this->validate(
-            $request,
+        $validator = Validator::make(
+            ['investmentId' => $investment_id],
             ['investmentId'  => 'required|integer|gt:0']
         );
 
-        $investment = Investments::find($request->investmentId);
+        if ($validator->fails()) {
+            abort(
+                400,
+                'investmentId must be integer'
+            );
+        }
+
+        $investment = Investments::find($investment_id);
 
         if (empty($investment)) {
             abort(
@@ -226,14 +234,21 @@ class InvestmentController extends Controller
         ->toArray();
     }
 
-    public function listAdmin(Request $request)
+    public function viewInvestments(Request $request, $owner_id)
     {
-        $this->validate(
-            $request,
-            ['owner'  => 'required|integer|gt:0']
+        $validator = Validator::make(
+            ['owner_id' => $owner_id],
+            ['owner_id'  => 'required|integer|gt:0']
         );
 
-        return $this->list($request->owner);
+        if ($validator->fails()) {
+            abort(
+                400,
+                'owner_id must be integer'
+            );
+        }
+
+        return $this->list($owner_id);
     }
 
     public function list($userId)

@@ -47,11 +47,8 @@ class ViewAPITest extends TestCase
         )->seeStatusCode(200);
 
         $this->json(
-            'POST',
-            '/api/v1/investment/view',
-            [
-                'investmentId' => $investment->data->investment->id,
-            ],
+            'GET',
+            '/api/v1/investment/view/' . $investment->data->investment->id ,
             [
                 'HTTP_Authorization' => $token
             ]

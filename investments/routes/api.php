@@ -22,11 +22,11 @@ $router->group(['middleware' => 'auth:web', 'prefix' => 'api/v1'], function () u
 
     $router->post('/investment/create', 'InvestmentController@create');
     $router->post('/investment/withdrawal', 'InvestmentController@withdrawal');
-    $router->post('/investment/view', 'InvestmentController@view');
-    $router->post('/investment/user', 'InvestmentController@listAdmin');
+    $router->get('/investment/view/{investment_id}', 'InvestmentController@view');
+    $router->get('/investment/user/{owner_id}', 'InvestmentController@viewInvestments');
     
     $router->post('/user/create', 'UserController@create');
-    $router->post('/user/list', 'UserController@list');
+    $router->get('/user/all/view', 'UserController@view');
 
 });
 

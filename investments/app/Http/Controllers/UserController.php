@@ -91,7 +91,7 @@ class UserController extends Controller
 
     }
 
-    public function list()
+    public function view()
     {
 
         $users = User::paginate(10);

@@ -58,6 +58,24 @@ class InvestmentAPITest extends TestCase
             );
     }
 
+    public function testCreateInvestmentWithNegativeAmount()
+    {
+        $token = $this->JWTtoken('admin');
+        $this->json(
+                'POST',
+                '/api/v1/investment/create',
+                [
+                    'owner'  => '1',
+                    'date'   => date('Y-m-d'),
+                    'amount' => '-200.00'
+                ],
+                [
+                    'HTTP_Authorization' => $token
+                ]
+            )
+            ->seeStatusCode(422);
+    }
+
     public function testCreateInvestmentCustomerUser()
     {
         $token = $this->JWTtoken('customer');

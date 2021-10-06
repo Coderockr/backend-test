@@ -13,6 +13,11 @@ services:
       - .:/var/www/html
       - ./docker/apache/vhosts:/etc/apache2/sites-enabled
     user: "$UID:$GID"
+  composer:
+    image: "composer"
+    command: update install
+    volumes: 
+      - .:/app
   mysql:
     build: ./docker/mysql
     container_name: 'mysql'
@@ -35,6 +40,6 @@ services:
       PMA_HOST: mysql
       PMA_PORT: 3306
     ports:
-      - '8080:80'
+      - '8089:80'
     volumes: 
       - /sessions

@@ -52,13 +52,16 @@ class ViewAPITest extends TestCase
             [
                 'HTTP_Authorization' => $token
             ]
-        )->seeStatusCode(200);
+            )->seeStatusCode(200);
 
         $jsonResponse = json_decode($this->response->getContent(), true);
 
-        $this->assertArrayHasKey('investment', $jsonResponse);
-        $this->assertArrayHasKey('balance', $jsonResponse);
-        $this->assertArrayHasKey('withdrawals', $jsonResponse);
+        
+
+        $this->assertArrayHasKey('status', $jsonResponse);
+        $this->assertArrayHasKey('investment', $jsonResponse['data']);
+        $this->assertArrayHasKey('balance', $jsonResponse['data']);
+        $this->assertArrayHasKey('withdrawals', $jsonResponse['data']);
 
     }
 

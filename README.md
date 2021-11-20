@@ -14,8 +14,8 @@ In this challenge you should build an API for an application that stores and man
 3. __Withdrawal__ of a investment.
     1. The withdraw will always be the sum of the initial amount and its gains,
        partial withdrawn is not supported.
-    2. Withdrawals can have made with a date in the past or today, but can't happen before the investment creation or the future.
-    3. [Taxes][taxes] need to be applied to the withdrawn before showing the
+    2. Withdrawals can happen in the past or today, but can't happen before the investment creation or the future.
+    3. [Taxes][taxes] need to be applied to the withdrawals before showing the
        final value.
 4. __List__ of a person's investments
     1. This list should have pagination.
@@ -26,11 +26,11 @@ __NOTE:__ the implementation of an interface will not be evaluated.
 
 The investment will pay 0.52% every month in the same day of the investment creation.
 
-Given that the gain is paid every month, it should be treated as as [compound gain][], which means that every new "birthday" the amount gained will become part of the investment balance for the next payment.
+Given that the gain is paid every month, it should be treated as [compound gain][], which means that every new period (month) the amount gained will become part of the investment balance for the next payment.
 
 ### Taxation
 
-When money is withdrawn, tax is triggered. Taxes apply only to the profit/gain portion of the money withdrawn. For example, if the initial investment was 1000.00, the current balance is 1200.00, then the taxes will be applied to 16.67% = (200/1200) of the balance. Meaning that you should apply tax on 33.34 (150 x 16,67%).
+When money is withdrawn, tax is triggered. Taxes apply only to the profit/gain portion of the money withdrawn. For example, if the initial investment was 1000.00, the current balance is 1200.00, then the taxes will be applied to 16.67% = (200/1200) of the balance. Meaning that you should apply tax on 33.34 (200 x 16,67%).
 
 The tax percentage changes according to the age of the investment:
 * If it is less than one year old, the percentage will be 22.5%

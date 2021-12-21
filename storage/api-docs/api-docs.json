@@ -1,0 +1,206 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Coderockr - Back End Test Project",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/investment": {
+            "post": {
+                "summary": "Creation of an investment",
+                "description": "Creation of an investment with an owner, a creation date and an amount",
+                "operationId": "76c4e1f2a503adf5cdd4239b55e03fdb",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "description": "User ID",
+                                        "type": "int",
+                                        "example": "1"
+                                    },
+                                    "amount": {
+                                        "description": "Initial amount of investment",
+                                        "type": "double",
+                                        "example": "1000.00"
+                                    },
+                                    "investment_date": {
+                                        "description": "Initial date of investment",
+                                        "type": "double",
+                                        "example": "1000.00"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Register Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Register Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/investment/:id": {
+            "get": {
+                "summary": "View of an investment",
+                "description": "View of an investment with its initial amount and expected balance",
+                "operationId": "593e5e3d699ad0f928b42a334166b417",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "end_date": {
+                                        "description": "Used to simlulate an expected balance",
+                                        "type": "date",
+                                        "example": "2021-12-21"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Register Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/investment/withdrawal/:id": {
+            "put": {
+                "summary": "Withdrawal of a investment",
+                "description": "Withdrawal of a investment",
+                "operationId": "b12a89b4555eaa4fb595de970b1d24c4",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "withdrawal_date": {
+                                        "description": "Used to inform a withdrawal date",
+                                        "type": "date",
+                                        "example": "2021-12-21"
+                                    },
+                                    "id": {
+                                        "description": "Investment ID",
+                                        "type": "int",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Withdrawal Successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/api/investments/:id": {
+            "get": {
+                "summary": "List of a person's investments",
+                "description": "List of a person's investments",
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use DateTimeZone;
 use DateTime;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 class InvestmentController extends Controller
 {
@@ -20,7 +21,7 @@ class InvestmentController extends Controller
         $now = new DateTime("now", $dtz);
 
         $validator = Validator::make($request->all(), [
-            'owner'                 => 'required|integer',
+            'owner'                 => 'required|integer|gt:0',
             'initial_amount'        => 'required|numeric|gte:0',
             'creation'              => 'required|date|before_or_equal:' . $now->format("Y-m-d")
         ]);
@@ -180,5 +181,33 @@ class InvestmentController extends Controller
         $final_value += $investment->initial_amount;
 
         return response($final_value, 200)->header('Content-Type', 'application/json');
+    }
+
+    /**
+     * Withdraw an investment.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list(Request $request){
+        $validator = Validator::make($request->all(), [
+            'page'  => 'required|integer|gt:0',
+            'owner' => 'required|integer|gt:0',
+        ]);
+
+        if ($validator->fails()) {
+            return response(json_encode($validator->errors()), 400)
+                            ->header('Content-Type', 'application/json');
+        }
+
+        $limit = 5;
+        $offset = $request->page - 1;
+
+        $response = DB::table('investments')
+                        ->where('owner', $request->owner)
+                        ->limit($limit)
+                        ->offset($offset * $limit)
+                        ->get();
+
+        return response($response, 200)->header('Content-Type', 'application/json');
     }
 }

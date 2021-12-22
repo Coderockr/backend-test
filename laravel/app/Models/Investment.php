@@ -17,8 +17,6 @@ class Investment extends Model
     protected $fillable = [
         'owner',
         'creation',
-        'gains_last_updated_at',
-        'amount',
         'initial_amount'
     ];
 }

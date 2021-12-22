@@ -33,8 +33,6 @@ class InvestmentController extends Controller
         $investmentId = Investment::create([
             'owner'                 => $request->owner,
             'creation'              => $request->creation,
-            'gains_last_updated_at' => $request->creation,
-            'amount'                => $request->initial_amount,
             'initial_amount'        => $request->initial_amount,
         ]);
 
@@ -67,40 +65,120 @@ class InvestmentController extends Controller
             return response("Investment not found", 400)->header('Content-Type', 'application/json');
         }
         
-        $this->updateGains(Investment::find($request->investment));
-
-        $investment = Investment::find($request->investment);
+        $expected_balance = $this->calcGains(Investment::find($request->investment));
 
         $response = [];
         $response['initial_amount'] = $investment->initial_amount;
-        $response['expected_balance'] = $investment->amount;
+        $response['expected_balance'] = $expected_balance;
         
         return response($response, 200)->header('Content-Type', 'application/json');
     }
 
     /**
-     * Update the gains of an investment.
+     * Return the expected balance of an investment.
      * 
      * @param Investmen Id of investment.
+     * @return Float expected balance.
      */
-    public function updateGains(Investment $investment){
+    public function calcGains(Investment $investment, string $date = 'now'){
+        $dtz = new DateTimeZone("America/Fortaleza");
+
+        if($date == 'now'){
+            $dateWithdraw = new DateTime("now", $dtz);
+        }
+        else{
+            $dateWithdraw  = DateTime::createFromFormat('Y-m-d', $date)->setTimezone($dtz);
+        }
+
+        $creation_date = DateTime::createFromFormat('Y-m-d', $investment->creation)->setTimezone($dtz);
+
+        $interval = $creation_date->diff($dateWithdraw);
+        $months = intval($interval->format("%m"));
+        $years = intval($interval->format("%y"));
+        
+        if($years != 0){
+            $months += $years * 12;
+        }
+
+        $expected_balance = $investment->initial_amount;
+
+        for($i = 0; $i < $months; $i++){
+            $old_gains = $expected_balance;
+            $new_gains = $old_gains * (0.52 / 100);
+            $expected_balance += $new_gains;
+        }
+
+        return $expected_balance;
+    }
+
+    /**
+     * Return the expected tax percentage of an investment.
+     * 
+     * @param Investmen Id of investment.
+     * @return Float expected tax.
+     */
+    public function calcTaxes(Investment $investment, string $date){
+        $dtz = new DateTimeZone("America/Fortaleza");
+        $withdraw_date = DateTime::createFromFormat('Y-m-d', $date)->setTimezone($dtz);
+        $creation_date = DateTime::createFromFormat('Y-m-d', $investment->creation)->setTimezone($dtz);
+        
+        $interval = $creation_date->diff($withdraw_date);
+        $years = intval($interval->format("%y"));
+
+        $tax_percentage = 0.0;
+        if($years < 1){
+            $tax_percentage = 22.5;
+        }
+        if($years >= 1 && $years < 2){
+            $tax_percentage = 18.5;
+        }
+        if($years >= 2){
+            $tax_percentage = 15.0;
+        }
+
+        return $tax_percentage;
+    }
+
+    /**
+     * Withdraw an investment.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function withdrawal(Request $request){
         $dtz = new DateTimeZone("America/Fortaleza");
         $now = new DateTime("now", $dtz);
 
-        $gains_last_updated_at = DateTime::createFromFormat('Y-m-d', $investment->gains_last_updated_at)->setTimezone($dtz);
+        $investment = Investment::find($request->investment);
 
-        $interval = $gains_last_updated_at->diff($now);
-        $months_since_last_update = intval($interval->format("%m"));
-
-        for($i = 0; $i < $months_since_last_update; $i++){
-            $old_gains = $investment->amount;
-            $new_gains = $old_gains * (0.52 / 100);
-            $investment->amount += $new_gains;
+        if(!$investment){
+            return response("Investment not found", 400)->header('Content-Type', 'application/json');
         }
 
-        $new_updated_at = DateTime::createFromFormat('Y-m-d', $now->format("Y-") . $now->format("m-") . $gains_last_updated_at->format("d"))->setTimezone($dtz);
+        $validator = Validator::make($request->all(), [
+            'date'      => 'required|date|before_or_equal:' . $now->format("Y-m-d") . '|after_or_equal:' . $investment->creation,
+            'investment'=> 'required|integer',
+        ]);
 
-        $investment->gains_last_updated_at = $new_updated_at->format("Y-m-d");
-        $investment->save();
+        if ($validator->fails()) {
+            return response(json_encode($validator->errors()), 400)
+                            ->header('Content-Type', 'application/json');
+        }
+
+        $investment = Investment::find($request->investment);
+
+        if(!$investment){
+            return response("Investment not found", 400)->header('Content-Type', 'application/json');
+        }
+
+        $expected_balance = $this->calcGains($investment, $request->date);
+        $tax_percentage = $this->calcTaxes($investment, $request->date);
+
+        $gains = $expected_balance - $investment->initial_amount;
+        $taxes = $gains * ($tax_percentage / 100);
+
+        $final_value = $gains - $taxes;
+        $final_value += $investment->initial_amount;
+
+        return response($final_value, 200)->header('Content-Type', 'application/json');
     }
 }

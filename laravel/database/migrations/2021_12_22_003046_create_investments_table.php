@@ -19,8 +19,6 @@ class CreateInvestmentsTable extends Migration
 
             $table->unsignedBigInteger('owner');
             $table->date('creation');
-            $table->date('gains_last_updated_at');
-            $table->float('amount');
             $table->float('initial_amount');
         });
     }

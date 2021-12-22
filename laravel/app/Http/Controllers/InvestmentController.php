@@ -16,7 +16,7 @@ class InvestmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request){
+    public function creation(Request $request){
         $dtz = new DateTimeZone("America/Fortaleza");
         $now = new DateTime("now", $dtz);
 
@@ -38,10 +38,10 @@ class InvestmentController extends Controller
         ]);
 
         if($investmentId){
-            return response("Sucess", 200)->header('Content-Type', 'application/json');
+            return response(["status" => "Success"], 200)->header('Content-Type', 'application/json');
         }
         else{
-            return response("Failed", 500)->header('Content-Type', 'application/json');
+            return response(["status" => "Failed"], 500)->header('Content-Type', 'application/json');
         }
     }
 
@@ -152,7 +152,7 @@ class InvestmentController extends Controller
         $investment = Investment::find($request->investment);
 
         if(!$investment){
-            return response("Investment not found", 400)->header('Content-Type', 'application/json');
+            return response(["Error" => "Investment not found"], 400)->header('Content-Type', 'application/json');
         }
 
         $validator = Validator::make($request->all(), [
@@ -168,7 +168,7 @@ class InvestmentController extends Controller
         $investment = Investment::find($request->investment);
 
         if(!$investment){
-            return response("Investment not found", 400)->header('Content-Type', 'application/json');
+            return response(["Error" => "Investment not found"], 400)->header('Content-Type', 'application/json');
         }
 
         $expected_balance = $this->calcGains($investment, $request->date);
@@ -180,7 +180,7 @@ class InvestmentController extends Controller
         $final_value = $gains - $taxes;
         $final_value += $investment->initial_amount;
 
-        return response($final_value, 200)->header('Content-Type', 'application/json');
+        return response(['final_value' => $final_value], 200)->header('Content-Type', 'application/json');
     }
 
     /**

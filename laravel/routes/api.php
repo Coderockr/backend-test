@@ -19,7 +19,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/create',      [InvestmentController::class, 'create']);
+Route::post('/creation',    [InvestmentController::class, 'creation']);
 Route::get('/view ',        [InvestmentController::class, 'view']);
 Route::post('/withdrawal ', [InvestmentController::class, 'withdrawal']);
 Route::get('/list',         [InvestmentController::class, 'list']);

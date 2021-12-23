@@ -30,12 +30,12 @@ Given that the gain is paid every month, it should be treated as [compound gain]
 
 ### Taxation
 
-When money is withdrawn, tax is triggered. Taxes apply only to the profit/gain portion of the money withdrawn. For example, if the initial investment was 1000.00, the current balance is 1200.00, then the taxes will be applied to 16.67% = (200/1200) of the balance. Meaning that you should apply tax on 33.34 (200 x 16,67%).
+When money is withdrawn, tax is triggered. Taxes apply only to the profit/gain portion of the money withdrawn. For example, if the initial investment was 1000.00, the current balance is 1200.00, then the taxes will be applied to the 200.00.
 
 The tax percentage changes according to the age of the investment:
-* If it is less than one year old, the percentage will be 22.5%
-* If it is between one and two years old, the percentage will be 18.5%.
-* If older than two years, the percentage will be 15%.
+* If it is less than one year old, the percentage will be 22.5% (tax = 45.00).
+* If it is between one and two years old, the percentage will be 18.5% (tax = 37.00).
+* If older than two years, the percentage will be 15% (tax = 30.00).
 
 ## Requirements
 1. Create project using any technology of your preference. It’s perfectly OK to use vanilla code or any framework or libraries;
@@ -76,7 +76,7 @@ Use the following checklist to ensure high quality of the project.
 
 ## Have Fun Coding 🤘
 - This challenge description is intentionally vague in some aspects, but if you need assistance feel free to ask for help.
-- If any of the seens out of your current level, you may skip it, but remember to tell us about it in the pull request.
+- If any of the seems out of your current level, you may skip it, but remember to tell us about it in the pull request.
 
 ## Credits
 

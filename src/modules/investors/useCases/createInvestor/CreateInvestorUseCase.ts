@@ -1,22 +1,21 @@
 import { prisma } from "../../../../database/prismaClient";
 import { hash } from "bcrypt";
+import { inject, injectable } from "tsyringe";
+import { ICreateInvestorDTO } from "../../dtos/ICreateInvestorDTO";
+import { IInvestorRepository } from "../../repositories/IInvestorRepository";
 
-interface ICreateInvestor {
-  name: string;
-  email: string;
-  password: string;
-}
 
+@injectable()
 export class CreateInvestorUseCase {
-  async execute({ name, email, password }: ICreateInvestor) {
-    const investorExist = await prisma.investor.findFirst({
-      where: {
-        email: {
-          equals: email,
-          mode: "insensitive",
-        },
-      },
-    });
+
+  constructor(
+    @inject('InvestorRepository')
+    private investorRepository: IInvestorRepository
+  ) { }
+
+  async execute({ name, email, password }: ICreateInvestorDTO) {
+
+    const investorExist = await this.investorRepository.findByEmail(email);
 
     if (investorExist) {
       throw new Error("Investor already exists");
@@ -24,13 +23,11 @@ export class CreateInvestorUseCase {
 
     const hashPassword = await hash(password, 10);
 
-    const investor = await prisma.investor.create({
-      data: {
-        name,
-        email,
-        password: hashPassword,
-      },
-    });
+    const investor = this.investorRepository.create({
+      name,
+      email,
+      password: hashPassword
+    })
 
     return investor;
   }

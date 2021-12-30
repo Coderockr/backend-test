@@ -1,0 +1,11 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API investments",
+    "description": "API for an application that stores and manages investments",
+    "version": "1.0.0",
+    "contact": {
+      "email": "rafaeljunio7@gmail.com"
+    }
+  }
+}

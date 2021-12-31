@@ -1,4 +1,3 @@
-import { prisma } from "../../../../database/prismaClient";
 import { hash } from "bcrypt";
 import { inject, injectable } from "tsyringe";
 import { ICreateInvestorDTO } from "../../dtos/ICreateInvestorDTO";

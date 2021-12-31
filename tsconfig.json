@@ -4,22 +4,16 @@
     "module": "commonjs",
     "outDir": "./dist",
     "rootDir": "./",
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
       "@modules/*": [
         "modules/*"
       ],
-      "@config/*": [
-        "config/*"
-      ],
       "@shared/*": [
         "shared/*"
       ],
-      "@errors/*": [
-        "errors/*"
-      ],
-      "@utils/*": [
-        "utils/*"
+      "@database/*": [
+        "database/*"
       ]
     },
     "esModuleInterop": true,

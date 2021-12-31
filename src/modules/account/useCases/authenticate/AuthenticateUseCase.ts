@@ -1,7 +1,7 @@
+import { IInvestorRepository } from "@modules/investors/repositories/IInvestorRepository";
 import { compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
 import { injectable, inject } from "tsyringe";
-import { IInvestorRepository } from "src/modules/investors/repositories/IInvestorRepository";
 
 interface IAuthenticate {
   email: string;

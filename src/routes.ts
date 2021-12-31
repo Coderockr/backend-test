@@ -11,7 +11,7 @@ import { ensureAuthenticate } from "./middlewares/ensureAuthenticate";
 //import { FindAllDeliveriesDeliverymanController } from "./modules/deliveryman/useCases/findAllDeliveries/FindAllDeliveriesDeliverymanController";
 //import { UpdateEndDateController } from "./modules/deliveries/useCases/updateEndDate/UpdateEndDateController";
 import { CreateInvestorController } from "./modules/investors/useCases/createInvestor/CreateInvestorController";
-import { AuthenticateController } from "./modules/account/authenticate/AuthenticateController";
+import { AuthenticateController } from "./modules/account/useCases/authenticate/AuthenticateController";
 import { CreateInvestmentController } from "./modules/investments/useCases/createInvestment/CreateInvestmentController";
 import { FindAllInvestmentsController } from "./modules/investments/useCases/findAllInvestments/FindAllInvestmentsController";
 import { UpdateWithdrawnController } from "./modules/investments/useCases/updateWithdrawn/useCases/UpdateWithdrawnController";

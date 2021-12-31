@@ -1,9 +1,7 @@
 import "reflect-metadata";
-import { InvestorRepositoryInMemory } from "../../../investors/repositories/in-memory/InvestorRepositoryInMemory";
-import { CreateInvestorUseCase } from "../../../investors/useCases/createInvestor/CreateInvestorUseCase";
+import { InvestorRepositoryInMemory } from "@modules/investors/repositories/in-memory/InvestorRepositoryInMemory";
+import { CreateInvestorUseCase } from "@modules/investors/useCases/createInvestor/CreateInvestorUseCase";
 import { AuthenticateUseCase } from "./AuthenticateUseCase";
-
-
 
 let authenticateUseCase: AuthenticateUseCase;
 let createInvestorUseCase: CreateInvestorUseCase;

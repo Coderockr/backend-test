@@ -19,7 +19,7 @@ export class FindAllInvestmentsUseCase {
   async execute({ id_investor, page }: IFindInvestment) {
 
     const investments = await prisma.investments.findMany({
-      skip: parseInt(page),
+      skip: (page) ? parseInt(page) : 0,
       take: 2,
       where: {
         id_investor

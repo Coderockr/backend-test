@@ -5,6 +5,7 @@ import { IInvestorRepository } from "../IInvestorRepository";
 
 class InvestorRepositoryInMemory implements IInvestorRepository {
 
+
   investors: Investor[] = [];
 
   async create({ name, email, password }: ICreateInvestorDTO): Promise<Investor> {
@@ -23,6 +24,10 @@ class InvestorRepositoryInMemory implements IInvestorRepository {
 
   async findByEmail(email: string): Promise<Investor> {
     return this.investors.find((investor) => investor.email === email);
+  }
+
+  async findById(id: string): Promise<Investor> {
+    return this.investors.find((investor) => investor.id === id);
   }
 }
 

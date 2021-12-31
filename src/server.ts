@@ -8,7 +8,7 @@ import swaggerFile from './swagger.json';
 
 import { routes } from "./routes";
 
-import './shared/container/providers';
+import './shared/container';
 
 const app = express();
 

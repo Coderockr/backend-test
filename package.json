@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "generate": "npx prisma generate",
-    "dev": "prisma generate &&  ts-node-dev --poll --inspect --transpile-only --respawn --exit-child --ignore-watch node_modules src/server.ts",
+    "dev": "prisma generate &&  ts-node-dev -r tsconfig-paths/register --poll --inspect --transpile-only --respawn --exit-child --ignore-watch node_modules src/server.ts",
     "migrate": "dotenv -e .env-prisma -- prisma migrate dev --name init",
     "test": "jest"
   },
@@ -25,6 +25,7 @@
     "prisma": "^3.6.0",
     "ts-jest": "^27.1.2",
     "ts-node-dev": "^1.1.8",
+    "tsconfig-paths": "^3.12.0",
     "typescript": "^4.5.2"
   },
   "dependencies": {

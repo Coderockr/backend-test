@@ -24,7 +24,7 @@ class DayjsDateProvider {
   }
 
   dateNow(): Date {
-    return dayjs().toDate();
+    return dayjs().add(-3, 'hours').toDate();
   }
 
   compareInDays(start_date: Date, end_date: Date): number {

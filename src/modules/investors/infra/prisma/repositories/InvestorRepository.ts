@@ -35,7 +35,7 @@ class InvestorRepository implements IInvestorRepository {
   async findById(id: string): Promise<Investor> {
     const investor = await prisma.investor.findFirst({
       where: {
-        email: {
+        id: {
           equals: id,
           mode: "insensitive",
         },

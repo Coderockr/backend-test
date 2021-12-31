@@ -14,7 +14,7 @@ import { CreateInvestorController } from "./modules/investors/useCases/createInv
 import { AuthenticateController } from "./modules/account/useCases/authenticate/AuthenticateController";
 import { CreateInvestmentController } from "./modules/investments/useCases/createInvestment/CreateInvestmentController";
 import { FindAllInvestmentsController } from "./modules/investments/useCases/findAllInvestments/FindAllInvestmentsController";
-import { UpdateWithdrawnController } from "./modules/investments/useCases/updateWithdrawn/useCases/UpdateWithdrawnController";
+import { WithdrawnInvestmentController } from "@modules/investments/useCases/withdrawnInvestment/useCases/WithdrawnInvestmentController";
 
 
 
@@ -50,7 +50,7 @@ const createInvestorController = new CreateInvestorController();
 const authenticateController = new AuthenticateController();
 const createInvestmentController = new CreateInvestmentController();
 const findAllInvestmentsController = new FindAllInvestmentsController();
-const updateWithdrawnController = new UpdateWithdrawnController();
+const withdrawnInvestmentController = new WithdrawnInvestmentController();
 
 ////////////////////////////////
 routes.post("/investor", createInvestorController.handle);
@@ -59,7 +59,7 @@ routes.post("/authenticate", authenticateController.handle);
 
 routes.post("/investment", ensureAuthenticate, createInvestmentController.handle);
 routes.get("/investment/:page?", ensureAuthenticate, findAllInvestmentsController.handle);
-routes.put("/investment/:id", ensureAuthenticate, updateWithdrawnController.handle);
+routes.put("/withdrawn/:id", ensureAuthenticate, withdrawnInvestmentController.handle);
 
 
 

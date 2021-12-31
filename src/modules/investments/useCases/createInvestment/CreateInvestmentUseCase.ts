@@ -16,7 +16,7 @@ export class CreateInvestmentUseCase {
   constructor(
     @inject('DayjsDateProvider')
     private dateProvider: DayjsDateProvider,
-    @inject('InvestmentRepository')
+    @inject('InvestmentsRepository')
     private investmentsRepository: IInvestmentsRepository,
     @inject('InvestorRepository')
     private investorRepository: IInvestorRepository

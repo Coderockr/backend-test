@@ -4,31 +4,30 @@ import { DayjsDateProvider } from "../../../../../shared/container/providers/Dat
 
 import { prisma } from "../../../../../database/prismaClient";
 import { CalculateGainProvider } from '../../../../../shared/container/providers/CalculateGainProvider/implementations/CalculateGainProvider';
+import { InvestmentsRepository } from '@modules/investments/infra/prisma/InvestmentsRepository';
+import { IInvestmentsRepository } from '@modules/investments/repositories/IInvestmentsRepository';
 
-interface IUpdateWithdrawn {
+interface IWithdrawn {
   id_investor: string;
   id: string;
   withdraw_at: Date;
 }
 
 @injectable()
-export class UpdateWithdrawnUseCase {
+export class WithdrawnInvestmentUseCase {
 
   constructor(
     @inject('DayjsDateProvider')
     private dateProvider: DayjsDateProvider,
     @inject('CalculateGainProvider')
     private calculateGainProvider: CalculateGainProvider,
+    @inject('InvestmentsRepository')
+    private investmentsRepository: IInvestmentsRepository,
   ) { }
 
-  async execute({ id_investor, id, withdraw_at }: IUpdateWithdrawn) {
+  async execute({ id, withdraw_at }: IWithdrawn) {
 
-    const investment = await prisma.investments.findFirst({
-      where: {
-        id,
-        id_investor
-      },
-    });
+    const investment = await this.investmentsRepository.findById(id)
 
     if (!investment) {
       throw new Error("Investment not found");
@@ -47,18 +46,14 @@ export class UpdateWithdrawnUseCase {
 
     const rate = this.calculateGainProvider.calculateRate(gain, numberMonths);
 
-    const withdraw_value = gain - rate;
+    const withdraw_value = gain - rate + investment.capital;
 
-    const result = await prisma.investments.update({
-      where: {
-        id: id,
-      },
-      data: {
-        withdraw_at: date_withdraw,
-        withdraw_value,
-        withdraw_rate: rate
-      },
-    });
+    const result = await this.investmentsRepository.toWithdrawn(
+      id,
+      date_withdraw,
+      parseFloat(withdraw_value.toFixed(2)),
+      parseFloat(rate.toFixed(2)),
+    );
 
     return result;
   }

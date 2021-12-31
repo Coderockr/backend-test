@@ -1,11 +1,13 @@
 import { inject, injectable } from 'tsyringe';
 
-import { DayjsDateProvider } from "../../../../shared/container/providers/DateProvider/implementations/DayjsDateProvider";
-import { prisma } from "../../../../database/prismaClient";
+import { CalculateGainProvider } from '@shared/container/providers/CalculateGainProvider/implementations/CalculateGainProvider';
+import { prisma } from '@database/prismaClient';
+import { DayjsDateProvider } from '@shared/container/providers/DateProvider/implementations/DayjsDateProvider';
+import { IInvestmentsRepository } from '@modules/investments/repositories/IInvestmentsRepository';
 
 interface IFindInvestment {
   id_investor: string;
-  page: string;
+  page: number;
 }
 
 @injectable()
@@ -14,17 +16,15 @@ export class FindAllInvestmentsUseCase {
   constructor(
     @inject('DayjsDateProvider')
     private dateProvider: DayjsDateProvider,
+    @inject('CalculateGainProvider')
+    private calculateGainProvider: CalculateGainProvider,
+    @inject('InvestmentsRepository')
+    private investmentsRepository: IInvestmentsRepository
   ) { }
 
   async execute({ id_investor, page }: IFindInvestment) {
 
-    const investments = await prisma.investments.findMany({
-      skip: (page) ? parseInt(page) : 0,
-      take: 2,
-      where: {
-        id_investor
-      },
-    });
+    const investments = await this.investmentsRepository.findManyByInvestor(id_investor, page);
 
     let newInvestments = [];
 
@@ -38,16 +38,24 @@ export class FindAllInvestmentsUseCase {
           dateNow,
         );
 
-        investment['meses'] = numberMonths;
+        const amount = this.calculateGainProvider.calculateAmount(investment.capital, numberMonths);
 
+        const gain = amount - investment.capital;
 
-        let amount = investment.capital * ((1 + 0.0052) ** numberMonths);
+        const rate = this.calculateGainProvider.calculateRate(gain, numberMonths);
 
-        investment['montante'] = amount.toFixed(2);
+        const withdraw_value = gain - rate;
 
+        Object.assign(investment, {
+          capital: investment.capital.toFixed(2),
+          period_month: numberMonths,
+          income: withdraw_value.toFixed(2),
+          tax: rate.toFixed(2),
+          total_brute: amount.toFixed(2),
+          total_withdrawn: (investment.capital + withdraw_value).toFixed(2)
+        });
 
         newInvestments.push(investment);
-
       })
     }
 

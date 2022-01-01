@@ -12,7 +12,7 @@ export class FindAllInvestmentsController {
 
     const investments = await findAllInvestmentsUseCase.execute({
       id_investor,
-      page
+      page: parseInt(page)
     });
 
     return response.json(investments);

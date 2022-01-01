@@ -24,22 +24,24 @@ describe("Create Investor", () => {
     await createInvestorUseCase.execute(investor);
 
     const investorCreated = await investorRepositoryInMemory.findByEmail(investor.email);
+
     expect(investorCreated).toHaveProperty('id');
 
   });
 
   it('should not be able to create a new investor with email exists', async () => {
 
-    expect(async () => {
-      const investor = {
-        name: "Investor name test",
-        email: "investor2@email.com",
-        password: "123456"
-      }
+    const investor = {
+      name: "Investor name test",
+      email: "investor@email.com",
+      password: "123456"
+    }
 
-      await createInvestorUseCase.execute(investor);
-      await createInvestorUseCase.execute(investor);
-    }).rejects.toBeInstanceOf(Error);
+    await createInvestorUseCase.execute(investor);
+
+    await expect(
+      createInvestorUseCase.execute(investor),
+    ).rejects.toEqual(new Error('Investor already exists'));
 
   });
 })

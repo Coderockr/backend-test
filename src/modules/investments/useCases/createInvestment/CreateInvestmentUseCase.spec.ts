@@ -55,6 +55,8 @@ describe("Create Investment", () => {
   it('the investor must be registered', async () => {
 
     expect(async () => {
+
+      /*
       const investor = {
         name: "Investor name test",
         email: "investor2@email.com",
@@ -64,7 +66,7 @@ describe("Create Investment", () => {
       await createInvestorUseCase.execute(investor);
 
       const investorCreated = await investorRepositoryInMemory.findByEmail(investor.email);
-
+*/
       const investment = {
         id_investor: 'investor_invalid',
         created_at: dayjsDateProvider.dateNow(),
@@ -83,19 +85,15 @@ describe("Create Investment", () => {
 
     expect(async () => {
 
-      const investor = {
+      const investor = await investorRepositoryInMemory.create({
         name: "Investor name test",
         email: "investor2@email.com",
         password: "123456"
-      }
-
-      await createInvestorUseCase.execute(investor);
-
-      const investorCreated = await investorRepositoryInMemory.findByEmail(investor.email);
+      })
 
       const investment = {
-        id_investor: investorCreated.id,
-        created_at: dayjsDateProvider.addDays(1),
+        id_investor: investor.id,
+        created_at: dayjsDateProvider.addDays(10),
         capital: 1000.00
       }
 
@@ -103,34 +101,29 @@ describe("Create Investment", () => {
 
       await investmentsRepositoryInMemory.findByIdInvestor(investment.id_investor);
 
-    }).rejects.toBeInstanceOf(Error);
+    }).rejects.toEqual(new Error("Date invalid"));
   });
 
   it('An investment should not be or become negative', async () => {
 
     expect(async () => {
 
-      const investor = {
+      const investor = await investorRepositoryInMemory.create({
         name: "Investor name test",
         email: "investor2@email.com",
         password: "123456"
-      }
-
-      await createInvestorUseCase.execute(investor);
-
-      const investorCreated = await investorRepositoryInMemory.findByEmail(investor.email);
+      })
 
       const investment = {
-        id_investor: investorCreated.id,
-        created_at: dayjsDateProvider.addDays(1),
+        id_investor: investor.id,
+        created_at: dayjsDateProvider.dateNow(),
         capital: -1000.00
       }
 
-      await createInvestmentUseCase.execute(investment);
+      const result = await createInvestmentUseCase.execute(investment);
+      console.log(result)
+    }).rejects.toEqual(new Error("Amount not allowed"));
 
-      await investmentsRepositoryInMemory.findByIdInvestor(investment.id_investor);
-
-    }).rejects.toBeInstanceOf(Error);
   });
 
 })

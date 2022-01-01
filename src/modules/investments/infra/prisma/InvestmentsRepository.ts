@@ -50,7 +50,7 @@ class InvestmentsRepository implements IInvestmentsRepository {
 
   async findManyByInvestor(id_investor: string, page: number): Promise<Investment[]> {
     const investments = await prisma.investments.findMany({
-      skip: (page) ? page : 0,
+      skip: (page) ? page * 2 : 0,
       take: 2,
       where: {
         id_investor

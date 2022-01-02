@@ -176,4 +176,4 @@ $ npm run test
 * Beekeeper: Database Management Tool.
 
 ### **Coverage report**
-You can see the coverage report inside `coverage`. It is created automatically after running the tests.
+You can see the coverage report inside `coverage/Icov-report/index.html`. It is created automatically after running the tests.

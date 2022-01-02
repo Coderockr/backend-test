@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "API investments",
-    "description": "API for an application that stores and manages investments. \n\n In the Investments group routes, the authentication token is required, this is generated in the authenticate route, copy the token and then click Authorize and paste the token in the bearer Auth field to release the other routes.\n\n To test, open the desired route and click on \"Try it out\", a scheme will appear in JSON format with predefined values, then click on \"Execute\".\n\n There is important information from the get /investment/{page} tab",
+    "description": "API for an application that stores and manages investments. \n\n In the Investments group routes, the authentication token is required, first create in investor record and then use the registered investor's data to authenticate,  a token is generated in the authenticate route, copy the token and then click Authorize and paste the token in the bearer Auth field to release the other routes.\n\n To test, open the desired route and click on \"Try it out\", a scheme will appear in JSON format with predefined values, then click on \"Execute\".\n\n There is important information from the get /investment/{page} tab",
     "version": "1.0.0",
     "contact": {
       "email": "rafaeljunio7@gmail.com"

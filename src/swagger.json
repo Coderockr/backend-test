@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "API investments",
-    "description": "API for an application that stores and manages investments",
+    "description": "API for an application that stores and manages investments. \n\n In the Investments group routes, the authentication token is required, this is generated in the authenticate route, copy the token and then click Authorize and paste the token in the bearer Auth field to release the other routes.\n\n To test, open the desired route and click on \"Try it out\", a scheme will appear in JSON format with predefined values, then click on \"Execute\".\n\n There is important information from the get /investment/{page} tab",
     "version": "1.0.0",
     "contact": {
       "email": "rafaeljunio7@gmail.com"
@@ -16,11 +16,6 @@
         ],
         "summary": "Create a investor",
         "description": "Create a new investor",
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -75,6 +70,10 @@
                   "password": {
                     "type": "string"
                   }
+                },
+                "example": {
+                  "email": "investor@email.com",
+                  "password": "123456"
                 }
               }
             }
@@ -116,8 +115,8 @@
                   }
                 },
                 "example": {
-                  "created_at": "Date",
-                  "capital": "value capital"
+                  "created_at": "2020-12-29T18:12:20.631Z",
+                  "capital": 1500.00
                 }
               }
             }
@@ -139,7 +138,7 @@
           "Investments"
         ],
         "summary": "List all investments by investor",
-        "description": "List all investments by investor",
+        "description": "The following fields: period_month, income, tax, total_brute and total_withdrawn are just informational fields that predict investment withdrawal values ​​and are not properties in the database's investments table.\n\n The investment record that has the withdrawn_at field with value null means that this investment has not been withdrawn.",
         "security": [
           {
             "bearerAuth": []
@@ -149,7 +148,7 @@
           {
             "name": "page",
             "in": "path",
-            "description": "number page",
+            "description": "Number page, The value 0 or empty corresponds to the first page of the pagination, for testing purposes the pagination is listing only two records per page.",
             "required": false,
             "schema": {
               "type": "number"
@@ -186,21 +185,38 @@
         "tags": [
           "Investments"
         ],
-        "summary": "List all investments by investor",
-        "description": "List all investments by investor",
+        "summary": "Cash out the investment",
+        "description": "Cash out the investment",
         "security": [
           {
             "bearerAuth": []
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "withdrawn_at": {
+                    "type": "date"
+                  }
+                },
+                "example": {
+                  "withdrawn_at": "2021-12-29T18:12:20.631Z"
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
-            "name": "page",
+            "name": "investment_id",
             "in": "path",
-            "description": "number page",
-            "required": false,
+            "description": "Investment id for withdrawal",
+            "required": true,
             "schema": {
-              "type": "number"
+              "type": "string"
             }
           }
         ],
@@ -214,12 +230,12 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "id": {
-                        "type": "string"
-                      },
-                      "id_investor": {
-                        "type": "string"
+                      "withdrawn_at": {
+                        "type": "Date"
                       }
+                    },
+                    "example": {
+                      "withdrawn_at": "2021-12-31T12:12:20.631Z"
                     }
                   }
                 }

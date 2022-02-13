@@ -84,9 +84,38 @@ class InvestimentoTest extends TestCase {
     public function test_resgate_investimento() {
         $investimento = DB::table('investimento')->first();
         
-        $response = $this->post("/api/resgatar", ['id_investimento' => $investimento->id]);
+        $response = $this->post("/api/resgatar", [
+            'id_investimento' => $investimento->id,
+            'data_resgate' => date('Y-m-d')
+        ]);
 
         $response->assertStatus(200);
+        $response->assertJson($response->json());
+    }
+
+    public function test_resgate_investimento_data_futura() {
+        $investimento = DB::table('investimento')->first();
+        
+        $date = new DateTime();
+        $response = $this->post("/api/resgatar", [
+            'id_investimento' => $investimento->id,
+            'data_resgate' => $date->modify('1 day')->format('Y-m-d')
+        ]);
+
+        $response->assertStatus(400);
+        $response->assertJson($response->json());
+    }
+
+    public function test_resgate_investimento_data_resgate_inferior() {
+        $investimento = DB::table('investimento')->first();
+        
+        $date = new DateTime($investimento->data);
+        $response = $this->post("/api/resgatar", [
+            'id_investimento' => $investimento->id,
+            'data_resgate' => $date->modify('-1 day')->format('Y-m-d')
+        ]);
+
+        $response->assertStatus(400);
         $response->assertJson($response->json());
     }
 }

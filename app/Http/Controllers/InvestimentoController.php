@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Investimento;
+use App\Services\CalculadoraInvestimento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -25,5 +26,25 @@ class InvestimentoController extends Controller
         $investimento->save();
 
         return response()->json($investimento, 201);
+    }
+
+    public function show(Request $request) {
+        $id_investimento = $request->route('id_investimento');
+        
+        $investimento = Investimento::find($id_investimento);
+        if (!$investimento) {
+            return response()->json(['erro' => 'investimento não localizado'], 404);
+        }
+
+        $calculadora = new CalculadoraInvestimento();
+        $montanteInvestimento = $calculadora->obterMontanteInvestimento($investimento);
+
+        $informacaoInvestimento = [
+            'valor_inicial' => $investimento->valor,
+            'saldo_esperado' => $montanteInvestimento,
+            'cpf_investidor' => $investimento->cpf_investidor
+        ];
+
+        return response()->json($informacaoInvestimento, 200);
     }
 }

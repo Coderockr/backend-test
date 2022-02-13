@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/investimento', [InvestimentoController::class, 'store']);
+Route::get('/investimento/{id_investimento}', [InvestimentoController::class, 'show']);

@@ -6,9 +6,9 @@ use DateTime;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Support\Facades\DB;
 
-class InvestimentoTest extends TestCase
-{
+class InvestimentoTest extends TestCase {
     public function test_criar_investimento_data_atual() {
         $investimentoData = [
             'valor' => 1000.00,
@@ -59,6 +59,25 @@ class InvestimentoTest extends TestCase
         $response = $this->post('/api/investimento', $investimentoData);
 
         $response->assertStatus(400);
+        $response->assertJson($response->json());
+    }
+
+    public function test_visualizar_investimento() {
+        $investimento = DB::table('investimento')->first();
+        
+        $response = $this->get("/api/investimento/{$investimento->id}");
+
+        $response->assertStatus(200);
+        $response->assertJson($response->json());
+    }
+
+    public function test_visualizar_investimento_que_nao_existe() {
+        $investimento = DB::table('investimento')->first();
+        
+        $id = $investimento->id * -1;
+        $response = $this->get("/api/investimento/{$id}");
+
+        $response->assertStatus(404);
         $response->assertJson($response->json());
     }
 }

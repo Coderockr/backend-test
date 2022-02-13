@@ -20,5 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/investimento', [InvestimentoController::class, 'store']);
-Route::get('/investimento', [InvestimentoController::class, 'show']);
+Route::get('/investimento', [InvestimentoController::class, 'show'])->name('visuzalizar');
 Route::post('/resgatar', [InvestimentoController::class, 'resgatar']);

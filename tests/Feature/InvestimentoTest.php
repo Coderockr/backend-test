@@ -65,7 +65,7 @@ class InvestimentoTest extends TestCase {
     public function test_visualizar_investimento() {
         $investimento = DB::table('investimento')->first();
         
-        $response = $this->get("/api/investimento/{$investimento->id}");
+        $response = $this->get(route('visuzalizar', ['id_investimento' => $investimento->id]));
 
         $response->assertStatus(200);
         $response->assertJson($response->json());
@@ -75,9 +75,18 @@ class InvestimentoTest extends TestCase {
         $investimento = DB::table('investimento')->first();
         
         $id = $investimento->id * -1;
-        $response = $this->get("/api/investimento/{$id}");
+        $response = $this->get(route('visuzalizar', ['id_investimento' => $id]));
 
         $response->assertStatus(404);
+        $response->assertJson($response->json());
+    }
+
+    public function test_resgate_investimento() {
+        $investimento = DB::table('investimento')->first();
+        
+        $response = $this->post("/api/resgatar", ['id_investimento' => $investimento->id]);
+
+        $response->assertStatus(200);
         $response->assertJson($response->json());
     }
 }

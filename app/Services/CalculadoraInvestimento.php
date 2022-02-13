@@ -6,7 +6,7 @@ use App\Models\Investimento;
 use DateTime;
 
 class CalculadoraInvestimento {
-    private $taxaMensal = 0.0052;
+    const TAXA_MENSAL = 0.0052;
 
     public function obterMontanteInvestimento(Investimento $investimento):float {
         //obtém total de meses do investimento até hoje
@@ -16,7 +16,7 @@ class CalculadoraInvestimento {
         $totalDeMeses = $interval->m + $interval->y * 12;
         
         $capital = $investimento->valor;
-        $taxa = $this->taxaMensal;
+        $taxa = self::TAXA_MENSAL;
 
         $montante = $capital * pow((1 + $taxa), $totalDeMeses);
         

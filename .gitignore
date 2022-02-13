@@ -13,3 +13,8 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+Dockerfile
+docker-compose.yml
+.env.example
+VirtualHost.conf
+/scripts

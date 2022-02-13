@@ -12,9 +12,9 @@ class InvestimentoController extends Controller
         $requestData = $request->only(['valor', 'cpf_investidor', 'data']);
 
         $validator = Validator::make($requestData, [
-            'valor' => 'required|numeric',
+            'valor' => 'required|numeric|min:0.01',
             'cpf_investidor' => 'required|string',
-            'data' => 'required|date_format:Y-m-d',
+            'data' => 'required|date|before_or_equal:' . date('Y-m-d'),
         ]);
         
         if ($validator->fails()) {

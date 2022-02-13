@@ -12,7 +12,7 @@ class InvestimentoTest extends TestCase {
     public function test_criar_investimento_data_atual() {
         $investimentoData = [
             'valor' => 1000.00,
-            'cpf_investidor' => '032.047.300-77',
+            'cpf_investidor' => '892.517.440-50',
             'data' => date('Y-m-d'),
         ];
 
@@ -25,7 +25,7 @@ class InvestimentoTest extends TestCase {
     public function test_criar_investimento_formato_invalido() {
         $investimentoData = [
             'valor' => '1000.00a',
-            'cpf_investidor' => '032.047.300-77',
+            'cpf_investidor' => '892.517.440-50',
             'data' => date('Y-m-dd'),
         ];
 
@@ -39,7 +39,7 @@ class InvestimentoTest extends TestCase {
         $date = new DateTime();
         $investimentoData = [
             'valor' => '1000.00a',
-            'cpf_investidor' => '032.047.300-77',
+            'cpf_investidor' => '892.517.440-50',
             'data' => $date->modify('1 day')->format('Y-m-d'),
         ];
 
@@ -52,7 +52,7 @@ class InvestimentoTest extends TestCase {
     public function test_criar_investimento_valor_negativo() {
         $investimentoData = [
             'valor' => -10.00,
-            'cpf_investidor' => '032.047.300-77',
+            'cpf_investidor' => '892.517.440-50',
             'data' => date('Y-m-dd'),
         ];
 

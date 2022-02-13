@@ -29,8 +29,15 @@ class InvestimentoController extends Controller
     }
 
     public function show(Request $request) {
-        $id_investimento = $request->route('id_investimento');
+        $validator = Validator::make($request->all(), [
+            'id_investimento' => 'required|numeric',
+        ]);
         
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+        
+        $id_investimento = $request->get('id_investimento');
         $investimento = Investimento::find($id_investimento);
         if (!$investimento) {
             return response()->json(['erro' => 'investimento não localizado'], 404);
@@ -42,9 +49,35 @@ class InvestimentoController extends Controller
         $informacaoInvestimento = [
             'valor_inicial' => $investimento->valor,
             'saldo_esperado' => $montanteInvestimento,
-            'cpf_investidor' => $investimento->cpf_investidor
+            'cpf_investidor' => $investimento->cpf_investidor,
+            'data_investimento' => $investimento->data
         ];
 
         return response()->json($informacaoInvestimento, 200);
+    }
+
+    public function resgatar(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'id_investimento' => 'required|numeric',
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+        
+        $id_investimento = $request->get('id_investimento');
+        $investimento = Investimento::find($id_investimento);
+        if (!$investimento) {
+            return response()->json(['erro' => 'investimento não localizado'], 404);
+        }
+
+        $calculadora = new CalculadoraInvestimento();
+        $valoresResgate = $calculadora->obterValoresResgate($investimento);
+        $valoresResgate['cpf_investidor'] = $investimento->cpf_investidor;
+        $valoresResgate['data_investimento'] = $investimento->data;
+
+        $investimento->sacado = true;
+        
+        return response()->json($valoresResgate, 200);
     }
 }

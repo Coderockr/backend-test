@@ -70,8 +70,14 @@ class InvestimentoController extends Controller
         }
         
         $investimento = Investimento::find($requestData['id_investimento']);
+
+        //validações
         if (!$investimento) {
             return response()->json(['erro' => 'investimento não localizado'], 404);
+        }
+
+        if ($investimento->resgatado === true) {
+            return response()->json(['erro' => 'Saldo já sacado'], 400);
         }
         
         $dataInvestimento = new DateTime($investimento->data);
@@ -85,7 +91,8 @@ class InvestimentoController extends Controller
         $valoresResgate['cpf_investidor'] = $investimento->cpf_investidor;
         $valoresResgate['data_investimento'] = $investimento->data;
 
-        $investimento->sacado = true;
+        $investimento->resgatado = true;
+        $investimento->save();
         
         return response()->json($valoresResgate, 200);
     }

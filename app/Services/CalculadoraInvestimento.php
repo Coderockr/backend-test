@@ -17,7 +17,6 @@ class CalculadoraInvestimento {
         $rendimento = $montante - $investimento->valor;
         $valorImposto = $this->obterValorDoImposto($investimento,  $rendimento, $data_resgate);
 
-        
         $valoresResgate = [
             'valor_total' => $montante,
             'valor_imposto' => $valorImposto,

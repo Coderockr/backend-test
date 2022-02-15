@@ -16,7 +16,6 @@ class InvestimentoController extends Controller
         $validator = Validator::make($requestData, [
             'page_number' => 'required|numeric',
             'cpf_investidor' => 'required|string',
-            'page_limit' => 'required|numeric'
         ]);
 
         if ($validator->fails()) {
@@ -31,7 +30,7 @@ class InvestimentoController extends Controller
             'resgatado'
         ];
         $investimentos = Investimento::where('cpf_investidor', '=', $requestData['cpf_investidor'])
-            ->paginate($requestData['page_limit'], $columns, null, $requestData['page_number'])
+            ->paginate(10, $columns, null, $requestData['page_number'])
             ->toArray();
 
         return response()->json($investimentos['data'], 200);

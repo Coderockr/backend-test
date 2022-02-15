@@ -10,6 +10,33 @@ use DateTime;
 
 class InvestimentoController extends Controller
 {
+    public function index(Request $request) {
+        $requestData = $request->only(['cpf_investidor', 'page_number', 'page_limit']);
+
+        $validator = Validator::make($requestData, [
+            'page_number' => 'required|numeric',
+            'cpf_investidor' => 'required|string',
+            'page_limit' => 'required|numeric'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $columns = [
+            'id',
+            'valor',
+            'cpf_investidor',
+            'data',
+            'resgatado'
+        ];
+        $investimentos = Investimento::where('cpf_investidor', '=', $requestData['cpf_investidor'])
+            ->paginate($requestData['page_limit'], $columns, null, $requestData['page_number'])
+            ->toArray();
+
+        return response()->json($investimentos['data'], 200);
+    }
+
     public function store(Request $request) {
         $requestData = $request->only(['valor', 'cpf_investidor', 'data']);
 

@@ -12,10 +12,10 @@ class CalculadoraInvestimento {
     const IMPOSTO_INVESTIMENTO_DE_UM_HA_DOIS_ANOS = 0.185;
     const IMPOSTO_INVESTIMENTO_MAIOR_DE_DOIS_ANOS = 0.15;
     
-    public function obterValoresResgate(Investimento $investimento):array {
-        $montante = $this->obterMontanteInvestimento($investimento);
+    public function obterValoresResgate(Investimento $investimento, $data_resgate = null):array {
+        $montante = $this->obterMontanteInvestimento($investimento, $data_resgate);
         $rendimento = $montante - $investimento->valor;
-        $valorImposto = $this->obterValorDoImposto($investimento,  $rendimento);
+        $valorImposto = $this->obterValorDoImposto($investimento,  $rendimento, $data_resgate);
 
         
         $valoresResgate = [
@@ -27,8 +27,8 @@ class CalculadoraInvestimento {
         return $valoresResgate;
     }
 
-    public function obterMontanteInvestimento(Investimento $investimento):float {
-        $totalDeMeses = $this->obterTotalDeMesesDoInvestimento($investimento->data);
+    public function obterMontanteInvestimento(Investimento $investimento, $data_resgate = null):float {
+        $totalDeMeses = $this->obterTotalDeMesesDoInvestimento($investimento->data, $data_resgate);
         $capital = $investimento->valor;
         $taxa = self::TAXA_MENSAL;
 
@@ -37,8 +37,8 @@ class CalculadoraInvestimento {
         return round($montante, 2);
     }
 
-    private function obterValorDoImposto(Investimento $investimento,  float $rendimento) {
-        $totalDeMeses = $this->obterTotalDeMesesDoInvestimento($investimento->data);
+    private function obterValorDoImposto(Investimento $investimento,  float $rendimento, $data_resgate = null) {
+        $totalDeMeses = $this->obterTotalDeMesesDoInvestimento($investimento->data, $data_resgate);
         $anos = $totalDeMeses / 12;
        
         if ($anos < 1.0) {
@@ -52,8 +52,8 @@ class CalculadoraInvestimento {
         return round($rendimento * $taxaImposto, 2);
     }
 
-    private function obterTotalDeMesesDoInvestimento($dataInvestimento):int {
-        $dataAtual = new DateTime();
+    private function obterTotalDeMesesDoInvestimento($dataInvestimento, $data_resgate = null):int {
+        $dataAtual = new DateTime($data_resgate);
         $dataOrigem = new DateTime($dataInvestimento);
         $interval = $dataAtual->diff($dataOrigem);
         $totalDeMeses = $interval->m + $interval->y * 12;

@@ -6,6 +6,7 @@ use App\Models\Investimento;
 use App\Services\CalculadoraInvestimento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use DateTime;
 
 class InvestimentoController extends Controller
 {
@@ -57,22 +58,30 @@ class InvestimentoController extends Controller
     }
 
     public function resgatar(Request $request) {
-        $validator = Validator::make($request->all(), [
+        $requestData = $request->only(['id_investimento', 'data_resgate']);
+
+        $validator = Validator::make($requestData, [
             'id_investimento' => 'required|numeric',
+            'data_resgate' => 'required|date|before_or_equal:' . date('Y-m-d'),
         ]);
         
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
         
-        $id_investimento = $request->get('id_investimento');
-        $investimento = Investimento::find($id_investimento);
+        $investimento = Investimento::find($requestData['id_investimento']);
         if (!$investimento) {
             return response()->json(['erro' => 'investimento não localizado'], 404);
         }
+        
+        $dataInvestimento = new DateTime($investimento->data);
+        $dataResgate = new DateTime($requestData['data_resgate']);
+        if ($dataResgate < $dataInvestimento) {
+            return response()->json(['erro' => 'A data doi resgate não pode ser inferior a data do investimento.'], 400);
+        }
 
         $calculadora = new CalculadoraInvestimento();
-        $valoresResgate = $calculadora->obterValoresResgate($investimento);
+        $valoresResgate = $calculadora->obterValoresResgate($investimento, $requestData['data_resgate']);
         $valoresResgate['cpf_investidor'] = $investimento->cpf_investidor;
         $valoresResgate['data_investimento'] = $investimento->data;
 

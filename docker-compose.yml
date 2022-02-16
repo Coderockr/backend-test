@@ -1,0 +1,58 @@
+version: '3'
+services:
+    db:
+        image: postgres:13
+        ports:
+            - "5433:5432"
+        environment:
+            TZ: America/Sao_Paulo
+            PGTZ: America/Sao_Paulo
+            POSTGRES_MULTIPLE_DATABASES: backend,backend_test
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: postgres
+        volumes:
+            - ./scripts/postgres:/docker-entrypoint-initdb.d
+        networks:
+            - postgres-network
+
+    app:
+        build: .
+        volumes:
+            - ./:/var/www/html/backend/
+        working_dir: /var/www/html/backend/
+        ports:
+            - "8000:80"
+            - "3000:3000"
+        extra_hosts:
+            - "backend:127.0.0.1"
+        links:
+            - db
+        environment:
+            - TZ=America/Sao_Paulo
+            - PGPASSWORD=postgres
+            - PGUSER=postgres
+            - PGDATABASE=backend
+            - PGHOST=db
+            - PGPORT=5432
+        depends_on:
+            - db
+        command: >
+            bash -c "composer install &&
+            composer dumpautoload &&
+            php artisan cache:clear --env=testing &&
+            php artisan config:clear --env=testing &&
+            php artisan migrate --seed --env=testing &&
+            php artisan cache:clear &&
+            php artisan config:clear &&
+            php artisan migrate --seed &&
+            chmod -R 777 storage bootstrap/cache &&
+            apachectl -D FOREGROUND"
+        networks:
+            - postgres-network
+
+volumes:
+    postgresql: {}
+
+networks:
+    postgres-network:
+        driver: bridge

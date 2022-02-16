@@ -12,6 +12,14 @@ class CalculadoraInvestimento {
     const IMPOSTO_INVESTIMENTO_DE_UM_HA_DOIS_ANOS = 0.185;
     const IMPOSTO_INVESTIMENTO_MAIOR_DE_DOIS_ANOS = 0.15;
     
+    /**
+     * Obtém os valores do resgate de um investimento
+     * 
+     *  @method obterValoresResgate
+     *  @param Investimento $investimento
+     *  @param $data_resgate
+     *  @return array
+     */
     public function obterValoresResgate(Investimento $investimento, $data_resgate = null):array {
         $montante = $this->obterMontanteInvestimento($investimento, $data_resgate);
         $rendimento = $montante - $investimento->valor;
@@ -27,6 +35,14 @@ class CalculadoraInvestimento {
         return $valoresResgate;
     }
 
+    /**
+     * Obtém o valor montante do investimento
+     * 
+     * @method obterMontanteInvestimento
+     * @param Investimento $investimento
+     * @param $data_resgate
+     * @return float
+     */
     public function obterMontanteInvestimento(Investimento $investimento, $data_resgate = null):float {
         $totalDeMeses = $this->obterTotalDeMesesDoInvestimento($investimento->data, $data_resgate);
         $capital = $investimento->valor;
@@ -37,6 +53,14 @@ class CalculadoraInvestimento {
         return round($montante, 2);
     }
 
+    /**
+     * Obtém valor do imposto a ser cobrado do rendimento
+     * 
+     * @method obterValorDoImposto
+     * @param Investimento $investimento
+     * @param float $rendimento
+     * @param $data_resgate
+     */
     private function obterValorDoImposto(Investimento $investimento,  float $rendimento, $data_resgate = null) {
         $totalDeMeses = $this->obterTotalDeMesesDoInvestimento($investimento->data, $data_resgate);
         $anos = $totalDeMeses / 12;
@@ -52,6 +76,14 @@ class CalculadoraInvestimento {
         return round($rendimento * $taxaImposto, 2);
     }
 
+    /**
+     * Obtém período do investimento
+     * 
+     * @method obterTotalDeMesesDoInvestimento
+     * @param $dataInvestimento
+     * @param $data_resgate
+     * @return int
+     */
     private function obterTotalDeMesesDoInvestimento($dataInvestimento, $data_resgate = null):int {
         $dataAtual = new DateTime($data_resgate);
         $dataOrigem = new DateTime($dataInvestimento);

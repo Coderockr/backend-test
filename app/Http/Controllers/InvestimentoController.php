@@ -9,7 +9,11 @@ use Illuminate\Support\Facades\Validator;
 use DateTime;
 
 class InvestimentoController extends Controller
-{
+{   
+    /**
+     * Lista todos os investimentos de um investido
+     * 
+     */
     public function index(Request $request) {
         $requestData = $request->only(['cpf_investidor', 'page_number', 'page_limit']);
 
@@ -36,6 +40,9 @@ class InvestimentoController extends Controller
         return response()->json($investimentos['data'], 200);
     }
 
+    /**
+     * Cria um investimento
+     */
     public function store(Request $request) {
         $requestData = $request->only(['valor', 'cpf_investidor', 'data']);
 
@@ -55,6 +62,9 @@ class InvestimentoController extends Controller
         return response()->json($investimento, 201);
     }
 
+    /**
+     * Obtém um investimento
+     */
     public function show(Request $request) {
         $validator = Validator::make($request->all(), [
             'id_investimento' => 'required|numeric',
@@ -83,6 +93,9 @@ class InvestimentoController extends Controller
         return response()->json($informacaoInvestimento, 200);
     }
 
+    /**
+     * Realiza o resgate de um investimento
+     */
     public function resgatar(Request $request) {
         $requestData = $request->only(['id_investimento', 'data_resgate']);
 

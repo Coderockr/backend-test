@@ -30,9 +30,9 @@ the server will run on `http://localhost:8000`
 
 ## Investor
 ---
-###GET ALL INVESTORS
+### GET ALL INVESTORS
 ![](https://img.shields.io/badge//api/v1/investor-gray?label=POST&labelColor=green)
-####Example URI
+#### Example URI
 `GET http://localhost:8000/api/v1/investor`
 #### URI Paramenters
 #### Request

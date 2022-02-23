@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Klorofil | API Documentation</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<!-- VENDOR CSS -->
+	<link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="assets/vendor/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="assets/vendor/linearicons/style.css">
+	<!-- MAIN CSS -->
+	<link rel="stylesheet" href="assets/css/main.css">
+	<!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+	<link rel="stylesheet" href="assets/css/demo.css">
+	<!-- GOOGLE FONTS -->
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+	<!-- ICONS -->
+	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+	<link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+</head>
+
+<body>
+	<!-- WRAPPER -->
+	<div id="wrapper">
+		<!-- NAVBAR -->
+		<nav class="navbar navbar-default navbar-fixed-top">
+			<div class="brand">
+				<a href="index.html"><img src="" alt="MAFRA Investments" class="img-responsive logo"></a>
+			</div>
+			<div class="container-fluid">
+				<div class="navbar-btn">
+					<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+				</div>
+			</div>
+		</nav>
+		<!-- END NAVBAR -->
+		<!-- LEFT SIDEBAR -->
+		<div id="sidebar-nav" class="sidebar">
+			<div class="sidebar-scroll">
+				<nav>
+					<ul class="nav">
+						<li><a href="../investment" class=""><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
+						<li>
+							<a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>Investment</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
+							<div id="subPages" class="collapse ">
+								<ul class="nav">
+									<li><a href="#new" class="">New investment &nbsp; <span class="label label-primary">POST</span></a></li>
+									<li><a href="#list" class="">List of investments &nbsp;<span class="label label-primary">POST</span></a></li>
+									<li><a href="#view" class="">View investment &nbsp;<span class="label label-success">GET</span></a></li>
+									<li><a href="#withdrawal" class="">Withdrawal &nbsp;<span class="label label-success">GET</span></a></li>
+								</ul>
+							</div>
+						</li>
+						
+						
+					</ul>
+				</nav>
+			</div>
+		</div>
+		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
+		<div class="main" id="new">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<h3 class="page-title">Endpoint</h3>
+					<h4 class="page-title">to use this api you must use the follow endpoint: <small class="panel-title"><b>http://projects.excenbit.com/api/</b></small></h4>
+					 <br>
+					 <br>
+					
+					
+
+
+					<h3 class="page-title">New investment</h3> 					
+					<h4 class="page-title">this resource allows you to create a new investment</h4>
+					<div class="row">
+						<div class="col-lg-8 text-left">  
+							<!-- TABLE HOVER -->
+							<div class="panel">
+								<div class="panel-heading">
+									<h4>Request headers</h4>									
+								</div>								
+								<div class="panel-body">
+									<table class="table table-hover">										
+										<tbody>
+											<tr>
+												<td>accept</td>												
+												<td></td>
+												<td></td>
+												<td>application/json</td>
+											</tr>
+											<tr>
+												
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="panel-heading">
+									<h4>Body format</h4>
+								</div>								
+								<div class="panel-body">
+									<table class="table table-hover">										
+										<tbody>											
+											<tr>
+												<td>name</td>
+												<td><code>string</code></td>												
+												<td><code>Required</code></td>
+												<td>name of investment owner </td>
+											</tr>
+											<tr>
+												<td>invest_date</td>
+												<td><code>string</code></td>												
+												<td><code>Required</code></td>
+												<td>date of investment creation in format dd/mm/YYYY</td>
+											</tr>
+											<tr>
+												<td>amount</td>
+												<td><code>double</code></td>												
+												<td><code>Required</code></td>
+												<td>amount in format 0.000,00</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+																	
+							</div>
+							<!-- END TABLE HOVER -->
+							
+					  </div>
+					 
+					  <div class="col-lg-4 text-left">
+					 
+						<!-- TABLE HOVER -->
+							<div class="panel">
+							<div class="panel-heading">
+								<span class="label label-primary">	POST</span>
+								<br>
+								<small class="panel-title"><b>/investment/new/</b></small>
+								<br>
+								<br>
+								<h3 class="panel-title">Example of body</h3>
+							</div>
+							<div class="panel-body">
+								<pre>{
+	"name": jonh wick,
+	"invest_date": "02/02/2022",
+	"amount": "5.000,00"
+}</pre>
+							</div>
+						</div>
+						<!-- END TABLE HOVER -->
+			
+					  </div>
+					</div>
+					<div class="row">
+						<div class="col-lg-8 text-left">  
+							<!-- TABLE HOVER -->
+							<div class="panel">
+								
+								<div class="panel-heading">
+									<h4>Response</h4>
+								</div>								
+								<div class="panel-body">
+									<table class="table table-hover">										
+										<tbody>											
+											<tr>
+												<td>status</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>result of transaction </td>
+											</tr>
+											<tr>
+												<td>name</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>name of owner</td>
+											</tr>
+											<tr>
+												<td>creation date</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>date of creation </td>
+											</tr>
+											<tr>
+												<td>aount</td>
+												<td><code>double</code></td>
+												<td></td>
+												<td></td>
+												<td>amount invested </td>
+											</tr>
+											<tr>
+												<td>investment id</td>
+												<td><code>integer</code></td>
+												<td></td>
+												<td></td>
+												<td>id of investment </td>
+											</tr>
+										</tbody>
+									</table>
+								</div>										
+							</div>
+							<!-- END TABLE HOVER -->
+							
+					  </div>
+					 
+					  <div class="col-lg-4 text-left">
+					 
+						<!-- TABLE HOVER -->
+							<div class="panel">
+							<div class="panel-heading">
+								<h3 class="panel-title">Example response</h3>												
+							</div>							
+							<div class="panel-body">
+								<small><b>HTTP/1.1 200 OK</b>								
+								</small>
+								<br>
+								<small><b>Content-Type: application/json</b></small>
+								<br>
+								<pre>{
+	"status": "ok",
+	"name": jonh wick,
+	"creation date": "02/02/2022",
+	"amount": 1000.00,
+	"investment id"	: 876
+}</pre>
+							</div>
+						</div>
+						<!-- END TABLE HOVER -->
+			
+					  </div>
+					</div>        
+		
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+			<div class="main" id="list">				
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<h3 class="page-title">List of investment</h3> 
+					<h4 class="page-title">this resource brings a list of all investments made</h4>
+					<div class="row">
+						<div class="col-lg-8 text-left">  
+							<!-- TABLE HOVER -->
+							<div class="panel">
+								<div class="panel-heading">
+									<h4>Request headers</h4>
+								</div>								
+								<div class="panel-body">
+									<table class="table table-hover">										
+										<tbody>
+											<tr>
+												<td>accept</td>												
+												<td></td>
+												<td></td>
+												<td>application/json</td>
+											</tr>
+											<tr>
+												
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="panel-heading">
+									<h4>Body format</h4>
+								</div>								
+								<div class="panel-body">
+									<table class="table table-hover">										
+										<tbody>											
+											<tr>
+												<td>name</td>
+												<td><code>string</code></td>												
+												<td><code>Required</code></td>
+												<td>name of investment owner </td>
+											</tr>
+											<tr>
+												<td>page</td>
+												<td><code>integer</code></td>												
+												<td><code>Optional</code></td>
+												<td>page number(limited to with 10 results per page)</td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>
+																	
+							</div>
+							<!-- END TABLE HOVER -->
+							
+					  </div>
+					 
+					  <div class="col-lg-4 text-left">
+					 
+						<!-- TABLE HOVER -->
+							<div class="panel">
+							<div class="panel-heading">
+								<span class="label label-primary">	POST</span>
+								<br>
+								<small class="panel-title"><b>/investment/list/</b></small>
+								<br>
+								<br>
+								<h3 class="panel-title">Example of body</h3>
+							</div>
+							<div class="panel-body">
+								<pre>{
+	"name": jonh wick,
+	"page": "1"
+}</pre>
+							</div>
+						</div>
+						<!-- END TABLE HOVER -->
+			
+					  </div>
+					</div>
+					<div class="row">
+						<div class="col-lg-8 text-left">  
+							<!-- TABLE HOVER -->
+							<div class="panel">
+								
+								<div class="panel-heading">
+									<h4>Response</h4>
+								</div>								
+								<div class="panel-body">
+									<table class="table table-hover">										
+										<tbody>	
+											<tr>
+												<td>investment id</td>
+												<td><code>integer</code></td>
+												<td></td>
+												<td></td>
+												<td>id of investment </td>
+											</tr>										
+											<tr>
+												<td>name</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>name of owner</td>
+											</tr>
+											<tr>
+												<td>amount</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>invested amount</td>
+											</tr>
+											<tr>
+												<td>date of creation</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>date of creation</td>
+											</tr>
+											<tr>
+												<td>status</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>status can be "active" or "withdrawn"</td>
+											</tr>
+											<tr>
+												<td>date of withdrawal</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>if it has not benn withdrawal is "null"</td>
+											</tr>
+											<tr>
+												<td>withdrawal amount</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>amount withdrawn</td>
+											</tr>
+											
+										</tbody>
+									</table>
+								</div>										
+							</div>
+							<!-- END TABLE HOVER -->
+							
+					  </div>
+					 
+					  <div class="col-lg-4 text-left">
+					 
+						<!-- TABLE HOVER -->
+							<div class="panel">
+							<div class="panel-heading">
+								<h3 class="panel-title">Example response</h3>												
+							</div>							
+							<div class="panel-body">
+								<small><b>HTTP/1.1 200 OK</b>								
+								</small>
+								<br>
+								<small><b>Content-Type: application/json</b></small>
+								<br>
+								<pre>[{
+	"investment id": "10",
+	"name": "josé mane",
+	"amount": "450.00",
+	"date of creation": "2020-02-17 00:00:00",
+	"status": "active",
+	"date of withdrawal": null,
+	"withdrawn amount": "0.00"
+},
+...]</pre>
+							</div>
+						</div>
+						<!-- END TABLE HOVER -->
+			
+					  </div>
+					</div>        
+		
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>	
+		<!-- END MAIN -->
+				<!-- MAIN -->
+				<div class="main" id="view">
+					<!-- MAIN CONTENT -->
+					<div class="main-content">
+						<div class="container-fluid">
+							<h3 class="page-title">View investment</h3> 
+							<h4 class="page-title">this resource shows the details of an investment</h4>
+							<div class="row">
+								<div class="col-lg-8 text-left">  
+									<!-- TABLE HOVER -->
+									<div class="panel">										
+										<div class="panel-heading">
+											<h4>Query parameters</h4>
+										</div>								
+										<div class="panel-body">
+											<table class="table table-hover">										
+												<tbody>											
+													<tr>
+														<td>id</td>
+														<td></td>												
+														<td></td>
+														<td>id of investment </td>
+													</tr>													
+												</tbody>
+											</table>
+										</div>
+																			
+									</div>
+									<!-- END TABLE HOVER -->
+									
+							  </div>
+							 
+							  <div class="col-lg-4 text-left">
+							 
+								<!-- TABLE HOVER -->
+									<div class="panel">
+									<div class="panel-heading">
+										<span class="label label-success">	GET</span>
+										<br>
+										<small class="panel-title"><b>/investment/view</b></small>
+										<br>
+										<br>
+										<h3 class="panel-title">Request example</h3>
+									</div>
+									<div class="panel-body">
+										
+										<pre>
+http://endpoint/investment/view?id=45
+</pre>
+									</div>
+								</div>
+								<!-- END TABLE HOVER -->
+					
+							  </div>
+							</div>
+							<div class="row">
+								<div class="col-lg-8 text-left">  
+									<!-- TABLE HOVER -->
+									<div class="panel">
+										
+										<div class="panel-heading">
+											<h4>Response</h4>
+										</div>								
+										<div class="panel-body">
+											<table class="table table-hover">										
+												<tbody>											
+													<tr>
+														<td>name of owner</td>
+														<td><code>string</code></td>
+														<td></td>
+														<td></td>
+														<td>name of owner </td>
+													</tr>
+													<tr>
+														<td>investment id</td>
+														<td><code>string</code></td>
+														<td></td>
+														<td></td>
+														<td>id of investment </td>
+													</tr>
+													<tr>
+														<td>status</td>
+														<td><code>string</code></td>
+														<td></td>
+														<td></td>
+														<td>status can be "active" or "withdrawn"</td>
+													</tr>
+													<tr>
+														<td>investiment date</td>
+														<td><code>string</code></td>
+														<td></td>
+														<td></td>
+														<td>date of creation </td>
+													</tr>
+													<tr>
+														<td>initial amount</td>
+														<td><code>string</code></td>
+														<td></td>
+														<td></td>
+														<td>amount invested </td>
+													</tr>
+													<tr>
+														<td>compound gain</td>
+														<td><code>string</code></td>
+														<td></td>
+														<td></td>
+														<td>tax that investment will pay every month </td>
+													</tr>
+													<tr>
+														<td>months invested</td>
+														<td><code>string</code></td>
+														<td></td>
+														<td></td>
+														<td>months since initial date</td>
+													</tr>
+													<tr>
+														<td>profit total</td>
+														<td><code>string</code></td>
+														<td></td>
+														<td></td>
+														<td>profit without tax </td>
+													</tr>
+													<tr>
+														<td>withdrawal tax</td>
+														<td><code>string</code></td>
+														<td></td>
+														<td></td>
+														<td>tax aplied to profit </td>
+													</tr>
+													<tr>
+														<td>tax total</td>
+														<td><code>string</code></td>
+														<td></td>
+														<td></td>
+														<td>total of tax over profit </td>
+													</tr>
+													<tr>
+														<td>free profit</td>
+														<td><code>string</code></td>
+														<td></td>
+														<td></td>
+														<td>profit final </td>
+													</tr>
+													<tr>
+														<td>amount total </td>
+														<td><code>string</code></td>
+														<td></td>
+														<td></td>
+														<td>total to withdrawal</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>										
+									</div>
+									<!-- END TABLE HOVER -->
+									
+							  </div>
+							 
+							  <div class="col-lg-4 text-left">
+							 
+								<!-- TABLE HOVER -->
+									<div class="panel">
+									<div class="panel-heading">
+										<h3 class="panel-title">Example response</h3>												
+									</div>							
+									<div class="panel-body">
+										<small><b>HTTP/1.1 200 OK</b>								
+										</small>
+										<br>
+										<small><b>Content-Type: application/json</b></small>
+										<br>
+										<pre>{
+	"name of owner": "josé mane",
+	"investment id": "20",
+	"status": "active",
+	"investment date": "17-12-2020",
+	"withdrawn date": "",
+	"initial amount": "450.00",
+	"compound gain": "0.52%",
+	"months invested": 14,
+	"profit total": "33.89",
+	"withdrawal tax": "18.5%",
+	"tax total": "6.27",
+	"free profit": "27.62",
+	"amount total": "511.51"
+}</pre>
+									</div>
+								</div>
+								<!-- END TABLE HOVER -->
+					
+							  </div>
+							</div>        
+				
+						</div>
+					</div>
+					<!-- END MAIN CONTENT -->
+				</div>
+						<!-- MAIN -->
+		<div class="main" id="withdrawal">
+			<!-- MAIN CONTENT -->
+			<div class="main-content">
+				<div class="container-fluid">
+					<h3 class="page-title">Withdrawal investment</h3> 
+					<h4 class="page-title">this resource allows you to withdraw your investment </h4>
+					<div class="row">
+						<div class="col-lg-8 text-left">  
+							<!-- TABLE HOVER -->
+							<div class="panel">
+								
+								<div class="panel-heading">
+									<h4>Query parameters</h4>
+								</div>								
+								<div class="panel-body">
+									<table class="table table-hover">										
+										<tbody>											
+											<tr>
+												<td>id</td>
+												<td><code>integer</code></td>												
+												<td><code>Required</code></td>
+												<td>id of investment</td>
+											</tr>
+											<tr>
+												<td>date</td>
+												<td><code>string</code></td>												
+												<td><code>Optional</code></td>
+												<td>date of withdrawal in format dd/mm/YYYY</td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>																	
+							</div>
+							<!-- END TABLE HOVER -->
+							
+					  </div>
+					 
+					  <div class="col-lg-4 text-left">
+					 
+						<!-- TABLE HOVER -->
+						<div class="panel">
+							<div class="panel-heading">
+								<span class="label label-success">	GET</span>
+								<br>
+								<small class="panel-title"><b>/investment/withdrawal</b></small>
+								<br>
+								<br>
+								<h3 class="panel-title">Request example</h3>
+							</div>
+							<div class="panel-body">
+								
+								<pre>
+http://endpoint/investment/withdrawal?id=45&date=01/01/2011
+</pre>
+							</div>
+						</div>
+						<!-- END TABLE HOVER -->
+			
+					  </div>
+					</div>
+					<div class="row">
+						<div class="col-lg-8 text-left">  
+							<!-- TABLE HOVER -->
+							<div class="panel">
+								
+								<div class="panel-heading">
+									<h4>Response</h4>
+								</div>								
+								<div class="panel-body">
+									<table class="table table-hover">										
+										<tbody>											
+											<tr>
+												<td>name of owner</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>name of owner </td>
+											</tr>
+											<tr>
+												<td>investment id</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>id of investment </td>
+											</tr>
+											<tr>
+												<td>status</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>status can be "active" or "withdrawn"</td>
+											</tr>
+											<tr>
+												<td>investiment date</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>date of creation </td>
+											</tr>
+											<tr>
+												<td>initial amount</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>amount invested </td>
+											</tr>
+											<tr>
+												<td>compound gain</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>tax that investment will pay every month </td>
+											</tr>
+											<tr>
+												<td>months invested</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>months since initial date</td>
+											</tr>
+											<tr>
+												<td>profit total</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>profit without tax </td>
+											</tr>
+											<tr>
+												<td>withdrawal tax</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>tax aplied to profit </td>
+											</tr>
+											<tr>
+												<td>tax total</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>total of tax over profit </td>
+											</tr>
+											<tr>
+												<td>free profit</td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>profit final </td>
+											</tr>
+											<tr>
+												<td>amount total </td>
+												<td><code>string</code></td>
+												<td></td>
+												<td></td>
+												<td>total to withdrawal</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>										
+							</div>
+							<!-- END TABLE HOVER -->
+							
+					  </div>
+					 
+					  <div class="col-lg-4 text-left">
+					 
+						<!-- TABLE HOVER -->
+							<div class="panel">
+							<div class="panel-heading">
+								<h3 class="panel-title">Example response</h3>												
+							</div>							
+							<div class="panel-body">
+								<small><b>HTTP/1.1 200 OK</b>								
+								</small>
+								<br>
+								<small><b>Content-Type: application/json</b></small>
+								<br>
+								<pre>{	
+	"name of owner": "josé mane",
+	"investment id": "10",
+	"status": "paid",
+	"investment date": "17-02-2020",
+	"withdrawn date": "23-02-2022",
+	"initial amount": "450.00",
+	"compound gain": "0.52%",
+	"months invested": 24,
+	"profit total": "59.65",
+	"withdrawal tax": "18.5%",
+	"tax total": "11.04",
+	"free profit": "48.61",
+	"amount total": "558.26"
+}</pre>
+							</div>
+						</div>
+						<!-- END TABLE HOVER -->
+			
+					  </div>
+					</div>        
+		
+				</div>
+			</div>
+			<!-- END MAIN CONTENT -->
+		</div>
+		<div class="clearfix"></div>
+		<footer>
+			<div class="container-fluid">
+				<p class="copyright">&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme I Need</a>. All Rights Reserved.</p>
+			</div>
+		</footer>
+	</div>
+	<!-- END WRAPPER -->
+	<!-- Javascript -->
+	<script>
+	$(document).ready(function() {
+	  $('pre code').each(function(i, block) {
+		hljs.highlightBlock(block);
+	  });
+	});
+	</script>
+	<script src="assets/vendor/jquery/jquery.min.js"></script>
+	<script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="assets/scripts/klorofil-common.js"></script>
+</body>
+
+</html>

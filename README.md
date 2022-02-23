@@ -27,9 +27,8 @@ the server will run on `http://localhost:8000`
 
 ### endpoints
 
-
-## Investor
 ---
+## Investor
 ### GET ALL INVESTORS
 #### Example URI
 `GET http://localhost:8000/api/v1/investor`
@@ -40,15 +39,16 @@ the server will run on `http://localhost:8000`
 #### Response
 ```json
 {
-	"message": "success",
-	"error": false,
-	"data": [
-		{
-			"id": "9d352490-7938-46b1-aca4-6d71f527903f",
-			"name": "Jonh",
-			"created_at": "2022-02-20T21:55:56.000000Z",
-			"updated_at": "2022-02-20T21:55:56.000000Z"
-		},
+    "message": "success",
+    "error": false,
+    "data": [
+	{
+	    "id": "9d352490-7938-46b1-aca4-6d71f527903f",
+	    "name": "Jonh",
+	    "created_at": "2022-02-20T21:55:56.000000Z",
+	    "updated_at": "2022-02-20T21:55:56.000000Z"
+	}
+    ]
 }
 ```
 

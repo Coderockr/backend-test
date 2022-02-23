@@ -33,7 +33,8 @@ the server will run on `http://localhost:8000`
 
 
 
-![](https://img.shields.io/badge/POST-yellow) `/api/v1/investor`
+
+![](https://img.shields.io/badge//api/v1/investor-gray?label=POST&labelColor=green)
  
 ---
 

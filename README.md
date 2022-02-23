@@ -4,7 +4,7 @@ You should see this challenge as an opportunity to create an application followi
 
 ## Scope
 
-test
+test2
 
 1. __Creation__ of an investment with an owner, a creation date and an amount.
     1. The creation date of an investment can be today or a date in the past.

@@ -2,14 +2,14 @@
 
 ## Libraries used
 ### Lumen
-just Lumen, which is a micro php framework derived from Laravel.
+Just Lumen, which is a micro php framework derived from Laravel.
 I really like the structure of Laravel and its well done documentation. Since the framework has a lot of ready-made stuff that speeds up the work, such as the connection to the database, and the ORM, as well as configurations for tests.
 ## how to build
-to terminal run the command below
+To terminal run the command below
 ```bash
   docker-compose up -d
 ```
-with the containers running, access the php container and install the composer dependencies
+With the containers running, access the php container and install the composer dependencies
 
 ```bash
   docker exec -it investment_portfolio_app bash
@@ -17,13 +17,13 @@ with the containers running, access the php container and install the composer d
 ```bash
   composer install
 ```
-if you need, permission in the log directory that is inside the storage
+If you need, permission in the log directory that is inside the storage
 
 ```bash
   chmod -R 777 storage/log
 ```
 ## Api documentation
-the server will run on `http://localhost:8000` 
+The server will run on `http://localhost:8000` 
 
 ### Endpoints
 

@@ -29,10 +29,10 @@ the server will run on `http://localhost:8000`
 
 
 ---
-**NOTE**
+*** investor ***
 
-`GET` api/v1/investor
-
+`GET api/v1/investor`
+ 
 ---
 
 **Investor**

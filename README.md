@@ -4,7 +4,7 @@ You should see this challenge as an opportunity to create an application followi
 
 ## Scope
 
-In this challenge you should build an API for an application that stores and manages investments, it should have the following features:
+test
 
 1. __Creation__ of an investment with an owner, a creation date and an amount.
     1. The creation date of an investment can be today or a date in the past.

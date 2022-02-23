@@ -115,10 +115,11 @@ the server will run on `http://localhost:8000`
 ```
 ### CREATE A INVESTOR
 #### Example URI
-`POST http://localhost:8000/api/v1/investor/{investor_id}/investment/{investiment_id}`
+`POST http://localhost:8000/api/v1/investor/{investor_id}/investment/{investment_id}`
 #### URI Paramenters
 `investor_id string`
-`investiment_id string`
+<br/>
+`investment_id string`
 #### Headers 
 `Content-Type: application/json`
 #### Request

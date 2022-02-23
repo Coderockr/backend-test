@@ -87,7 +87,7 @@ the server will run on `http://localhost:8000`
 #### Example URI
 `GET http://localhost:8000/api/v1/investor/{investor_id}/investiment`
 #### URI Paramenters
-` **investor_id ** string`
+` **investor_id** string`
 #### Headers 
 `Content-Type: application/json`
 #### Request
@@ -95,6 +95,7 @@ the server will run on `http://localhost:8000`
 {
     "amount": 222.2
 }
+```
 #### Response
 ```json
 {
@@ -140,4 +141,4 @@ the server will run on `http://localhost:8000`
 }
 ```
 ---
-
+__bold text__

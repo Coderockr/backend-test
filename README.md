@@ -59,7 +59,7 @@ the server will run on `http://localhost:8000`
 #### Request
 ```json
 {
-    "name"
+    "name": "John"
 }
 ```
 #### Response
@@ -70,7 +70,7 @@ the server will run on `http://localhost:8000`
     "data": [
         {
 	    "id": "ab57280c-decf-4f33-9d00-07e85e5667b7",
-	    "name": "paulo henrique",
+	    "name": "John",
 	    "updated_at": "2022-02-22T23:05:21.000000Z",
 	    "created_at": "2022-02-22T23:05:21.000000Z"
 	}

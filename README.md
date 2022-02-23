@@ -1,24 +1,78 @@
-# Lumen PHP Framework
+# Back End Test Project CODEROCKR
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://img.shields.io/packagist/dt/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://img.shields.io/packagist/v/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://img.shields.io/packagist/l/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
+## libraries used
+### Lumen
+just Lumen, which is a micro php framework derived from Laravel.
+I really like the structure of Laravel and its well done documentation. Since the framework has a lot of ready-made stuff that speeds up the work, such as the connection to the database, and the ORM, as well as configurations for tests.
+## how to build
+to terminal run the command below
+```bash
+  docker-compose up -d
+```
+with the containers running, access the php container and install the composer dependencies
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+```bash
+  docker exec -it investment_portfolio_app bash
+```
+```bash
+  composer install
+```
+if you need, permission in the log directory that is inside the storage
 
-## Official Documentation
+```bash
+  chmod -R 777 storage/log
+```
+## api documentation
+the server will run on `http://localhost:8000` 
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+### endpoints
 
-## Contributing
+**Show User**
+----
+  Returns json data about a single user.
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+* **URL**
 
-## Security Vulnerabilities
+  /users/:id
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+* **Method:**
 
-## License
+  `GET`
+  
+*  **URL Params**
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+   **Required:**
+ 
+   `id=[integer]`
+
+* **Data Params**
+
+  None
+
+* **Success Response:**
+
+  * **Code:** 200 <br />
+    **Content:** `{ id : 12, name : "Michael Bloom" }`
+ 
+* **Error Response:**
+
+  * **Code:** 404 NOT FOUND <br />
+    **Content:** `{ error : "User doesn't exist" }`
+
+  OR
+
+  * **Code:** 401 UNAUTHORIZED <br />
+    **Content:** `{ error : "You are unauthorized to make this request." }`
+
+* **Sample Call:**
+
+  ```javascript
+    $.ajax({
+      url: "/users/1",
+      dataType: "json",
+      type : "GET",
+      success : function(r) {
+        console.log(r);
+      }
+    });
+  ```

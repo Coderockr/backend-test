@@ -168,5 +168,29 @@ the server will run on `http://localhost:8000`
     ]
 }
 ```
+### WITHDRAW INVESTMENT
+#### Example URI
+`DELETE http://localhost:8000/api/v1/investor/{investor_id}/investment/{investment_id}`
+#### URI Paramenters
+`investor_id string`
+<br/>
+`investment_id string`
+#### Headers 
+`Content-Type: application/json`
+#### Request
+```json
+{
+    "withdrawalValue": 222.2,
+    "date": "2022/02/12"
+}
+```
+#### Response
+```json
+{
+    "message": "The withdrawal amount has to be equal to the amount in the wallet!",
+    "error": false,
+    "data": null
+}
+```
 ---
 

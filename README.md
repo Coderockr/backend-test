@@ -27,9 +27,17 @@ the server will run on `http://localhost:8000`
 
 ### endpoints
 
-**Show User**
+
+---
+**NOTE**
+
+`GET` api/v1/investor
+
+---
+
+**Investor**
 ----
-  Returns json data about a single user.
+  .
 
 * **URL**
 

@@ -34,7 +34,6 @@ the server will run on `http://localhost:8000`
 `GET http://localhost:8000/api/v1/investor`
 #### URI Paramenters
 #### Headers 
-`Content-Type: application/json`
 #### Request
 #### Response
 ```json
@@ -51,6 +50,32 @@ the server will run on `http://localhost:8000`
     ]
 }
 ```
-
+### CREATE A INVESTOR
+#### Example URI
+`POST http://localhost:8000/api/v1/investor`
+#### URI Paramenters
+#### Headers 
+`Content-Type: application/json`
+#### Request
+```json
+{
+    "name"
+}
+```
+#### Response
+```json
+{
+    "message": "investor successfully created!",
+    "error": false,
+    "data": [
+        {
+	    "id": "ab57280c-decf-4f33-9d00-07e85e5667b7",
+	    "name": "paulo henrique",
+	    "updated_at": "2022-02-22T23:05:21.000000Z",
+	    "created_at": "2022-02-22T23:05:21.000000Z"
+	}
+    ]
+}
+```
 ---
 

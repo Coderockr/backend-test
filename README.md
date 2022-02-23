@@ -31,7 +31,8 @@ the server will run on `http://localhost:8000`
 ---
 *** investor ***
 
-`GET api/v1/investor`
+
+![](https://img.shields.io/badge/post-green?style=for-the-badge)
  
 ---
 

@@ -32,7 +32,8 @@ the server will run on `http://localhost:8000`
 *** investor ***
 
 
-![](https://img.shields.io/badge/post-green?style=for-the-badge) `/api/v1/investor`
+
+![](https://img.shields.io/badge/POST-yellow) `/api/v1/investor`
  
 ---
 

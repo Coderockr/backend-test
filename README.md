@@ -99,7 +99,7 @@ the server will run on `http://localhost:8000`
 #### Response
 ```json
 {
-    "message": "success",
+    "message": "investment successfully created!",
     "error": false,
     "data": [
         {
@@ -113,7 +113,7 @@ the server will run on `http://localhost:8000`
     ]
 }
 ```
-### CREATE A INVESTOR
+### MAKE A INVESTMENT
 #### Example URI
 `POST http://localhost:8000/api/v1/investor/{investor_id}/investment/{investment_id}`
 #### URI Paramenters
@@ -131,7 +131,7 @@ the server will run on `http://localhost:8000`
 #### Response
 ```json
 {
-    "message": "investor successfully created!",
+    "message": "Successful investment!",
     "error": false,
     "data": [
         {
@@ -141,6 +141,29 @@ the server will run on `http://localhost:8000`
 	    "created_at": "2022-02-22T23:09:02.000000Z",
 	    "updated_at": "2022-02-23T15:08:05.000000Z",
 	    "investor_id": "ab57280c-decf-4f33-9d00-07e85e5667b7"
+	}
+    ]
+}
+```
+
+### SEE A INVESTMENT
+#### Example URI
+`GET http://localhost:8000/api/v1/investor/{investor_id}/investment/{investment_id}`
+#### URI Paramenters
+`investor_id string`
+<br/>
+`investment_id string`
+#### Headers 
+#### Request
+#### Response
+```json
+{
+    "message": "success",
+    "error": false,
+    "data": [
+        {
+	    "initial_investment": "222.2",
+	    "current_investment_value": "222.2"
 	}
     ]
 }

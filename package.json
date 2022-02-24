@@ -1,0 +1,27 @@
+{
+    "name": "backend-test",
+    "version": "1.0.0",
+    "description": "Application that stores and manages investments.",
+    "main": "index.js",
+    "scripts": {
+        "test": "nodemon ./server.js",
+        "start": "node ./server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/lrNas/backend-test.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/lrNas/backend-test/issues"
+    },
+    "homepage": "https://github.com/lrNas/backend-test#readme",
+    "devDependencies": {
+        "nodemon": "^2.0.15"
+    },
+    "dependencies": {
+        "express": "^4.17.3"
+    }
+}

@@ -1,0 +1,13 @@
+POST http://localhost:3000/createinvestment
+Content-Type: application/json
+
+{
+    "owner":"owner",
+    "creationDate":1645688782839,
+    "amount":"amount"
+}
+
+#####
+GET http://localhost:3000/documentation
+Content-Type: application/json
+####

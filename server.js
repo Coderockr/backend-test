@@ -1,12 +1,7 @@
-import { Investment } from "./Investment";
 const express = require("express");
-const res = require("express/lib/response");
 const app = express();
-
+const { Owner, Investment } = require("./Classes");
 app.use(express.json())
-
-
-
 
 
 app.post("/createinvestment", (req, res) => {
@@ -14,6 +9,19 @@ app.post("/createinvestment", (req, res) => {
         req.body.owner,
         req.body.creationDate,
         req.body.amount)
+
+    res.send(investiment)
+
+
+})
+
+app.post("/createowner", (req, res) => {
+    const owner = new Owner(
+        req.body.firstName,
+        req.body.lastName,
+        req.body.email,
+        req.body.phoneNumber)
+
     res.send(investiment)
 
 

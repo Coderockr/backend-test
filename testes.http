@@ -1,13 +1,28 @@
 POST http://localhost:3000/createinvestment
 Content-Type: application/json
 
-{
-    "owner":"owner",
-    "creationDate":1645688782839,
-    "amount":"amount"
+{   
+    "_creationDate": "2022-02-24T08:12:56.671Z",
+    "idOwner":1,
+    "amount":15000.21
 }
 
 #####
 GET http://localhost:3000/documentation
 Content-Type: application/json
 ####
+
+
+GET http://localhost:3000/owner/1
+Content-Type: application/json
+####
+
+POST http://localhost:3000/createowner
+Content-Type: application/json
+
+{
+    "firstName":"Lucas",
+    "lastName":"Nascimento",
+    "email":"email@fake.com",
+    "phoneNumber":11963258874
+}

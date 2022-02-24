@@ -1,5 +1,6 @@
-/**Enhance Class Owner */
 class Owner {
+    static counter = 0
+    _ownerId = null
     _firstName = null;
     _lastName = null;
     _email = null;
@@ -7,6 +8,15 @@ class Owner {
 
 
     /**Getters */
+    get ownerId() {
+        return this._ownerId
+    }
+    get lastName() {
+        return this._lastName
+    }
+    get firstName() {
+        return this._firstName
+    }
     get email() {
         return this._email
     }
@@ -16,15 +26,21 @@ class Owner {
 
     /**Setters */
     set firstName(firstName) {
-        const re = / ^(?=.*?[A-Za-z])[A-Za-z+]+$/;
+        const re = /^([a-zA-ZÀ-ÿ\u00f1\u00d1]*)+$/;
         if (re.test(firstName)) {
             this._firstName = firstName
         }
 
     }
+    set lastName(lastName) {
+        const re = /^([a-zA-ZÀ-ÿ\u00f1\u00d1]*)+$/;
+        if (re.test(lastName)) {
+            this._lastName = lastName
+        }
+
+    }
     set email(email) {
-        /**Enhance this regex to prevent sqlinjection or other threats */
-        const re = / ^((?!\.)[\w_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$ /;
+        const re = /^((?!\.)[\w_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
         if (re.test(email)) {
             this._email = email
         }
@@ -33,10 +49,26 @@ class Owner {
             if (number instanceof Number) {
                 /**Lead with Float */
                 this._phoneNumber = number
+            } else {
+                const re = /^[0-9]+$/
+                if (re.test(number)) {
+                    this._phoneNumber = parseInt(number)
+                }
             }
         }
         /**Constructor */
     constructor(firstName, lastName, email, phoneNumber) {
+        this.firstName = firstName
+        this.lastName = lastName
+        this.email = email
+        this.phoneNumber = phoneNumber
+        if (this._firstName === null || this._lastName === null ||
+            this._email === null || this._phoneNumber === null) {
+            return null
+                /**Should I Retrieve a creation error? */
+        }
+        Owner.counter++
+            this._ownerId = Owner.counter
 
     }
 
@@ -60,7 +92,8 @@ class Investment {
     }
 
     set creationDate(date) {
-        if (date instanceof Date && date.getTime() <= Date.now().getTime()) {
+        const dateNow = new Date(Date.now())
+        if (date instanceof Date && date.getTime() <= dateNow.getTime()) {
             this._creationDate = date;
         } else {
             /**Should I Retrieve a creation error? */
@@ -68,8 +101,13 @@ class Investment {
     }
 
     set initialAmount(amount) {
-        if (amount instanceof Number && this._initialAmount == 0 && amount > 0) {
+        const dateNow = new Date(Date.now())
+        const re = /^\d+(?:[.]\d{1,2}|$)$/
+        if ((re.test(amount) || amount instanceof Number) &&
+            this._initialAmount == 0 && amount > 0) {
             this._initialAmount = amount
+            this._atualAmount = this.viewExpectedBalance(dateNow)
+            this._atualAmount = amount
         } else {
             this._initialAmount = null;
             /**Should I Retrieve a creation error? */
@@ -102,8 +140,7 @@ class Investment {
     /**Functions */
     getInvestmentAge(date) {
         let age = (this._creationDate.getTime() - date.getTime()) / (1000 * 3600 * 24)
-        return age > 0 ? age : 0
-            /**Should I Retrieve a querry error? */
+        return age
     }
 
     viewExpectedBalance(date) {
@@ -124,10 +161,11 @@ class Investment {
         let withdraw = this._amount;
         const profit = this._amount - this._initialAmount;
         let taxes = 0;
-        /**Verifica se data de saque é maior que a data de criação*/
-        if (this._creationDate.getTime() < date.getTime() && date.getTime() <= Date.now().getTime()) {
+        /**Checking if withdraw date is greater than creation date*/
+        const dateNow = new Date(Date.now())
+        if (this._creationDate.getTime() < date.getTime() && date.getTime() <= dateNow.getTime()) {
             let investmentAge = this.getInvestmentAge(date)
-                /** Colocar o valor das taxas e períodos em variáveis para editar depois? */
+                /** Should we make this time windows and taxes value settable? */
             if (investmentAge < 365) {
                 taxes = profit * 0.225
 
@@ -150,8 +188,6 @@ class Investment {
         this.owner = owner;
         this.creationDate = creationDate;
         this.initialAmount = amount;
-        /**Se ao final do constructor algum campo der null, retornar erro. */
-        /** */
         if (this.owner === null || this.creationDate === null || this.amount === null) {
             return null
                 /**Should I Retrieve a creation error? */
@@ -160,3 +196,10 @@ class Investment {
     }
 }
 module.exports = { Owner, Investment }
+    /**To do:
+     * Enhance Regex'es
+     * Retrieve creation errors for classes on constructors
+     * Retrieve creation errors for setters
+     * Retrieve Withdraw error
+     * Choose the best default of Date do return
+     */

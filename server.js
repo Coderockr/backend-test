@@ -3,19 +3,22 @@ const app = express();
 const { Owner, Investment } = require("./Classes");
 app.use(express.json())
 let owners = []
+let investments = []
 
 
 /**Adjust problems with the date format (2022-02-24T08:12:56.671Z) */
 app.post("/createinvestment", (req, res) => {
-    const owner = owners[req.body.idOwner - 1]
-    date = new Date(Date.now())
+
+    const date = new Date(req.body.creationDate)
+
     const investment = new Investment(
-        owner, date,
+        req.body.ownerId, date,
         req.body.amount)
-    res.send(investment)
+
+    investments.push(investment)
+        /*req.status(201)*/
+    res.send(investments)
 })
-
-
 
 
 app.post("/createowner", (req, res) => {

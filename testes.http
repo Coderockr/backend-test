@@ -2,18 +2,20 @@ POST http://localhost:3000/createinvestment
 Content-Type: application/json
 
 {   
-    "_creationDate": "2022-02-24T08:12:56.671Z",
-    "idOwner":1,
+    "creationDate": "2022-01-25T08:12Z",
+    "ownerId":1,
     "amount":15000.21
 }
-
+### aceita datas yyyy-mm-ddThh:mmz 
+##z = zone, Z for Zero, zulu, GMT-0. 
+###-0100 for gmt-1, GMT+3 = +0300 etc
 #####
 GET http://localhost:3000/documentation
 Content-Type: application/json
 ####
 
 
-GET http://localhost:3000/owner/1
+GET http://localhost:3000/owner/2
 Content-Type: application/json
 ####
 
@@ -24,5 +26,5 @@ Content-Type: application/json
     "firstName":"Lucas",
     "lastName":"Nascimento",
     "email":"email@fake.com",
-    "phoneNumber":11963258874
+    "phoneNumber":"11963258874"
 }

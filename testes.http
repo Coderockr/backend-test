@@ -27,8 +27,8 @@ GET http://localhost:3000/withdraw
 Content-Type: application/json
 
 {
-    "investmentId":4,
-    "date":"2010-01-05T08:12Z"
+    "investmentId":1,
+    "date":"2022-01-05T08:12Z"
 }
 #### Get a page with 10 investments ###
 GET http://localhost:3000/investment/?page=1
@@ -39,7 +39,7 @@ Content-Type: application/json
 }
 
 ######## Get Investment by id ####
-get http://localhost:3000/investment/?id=3
+get http://localhost:3000/investment/?id=4
 Content-Type: application/json
 ###### Get a Owner by id #####
 

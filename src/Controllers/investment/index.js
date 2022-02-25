@@ -1,6 +1,6 @@
-const { Data } = require("../../Controllers/data")
-const { Investment } = require("../../models/Investment")
-const { Response } = require("../../models/Response")
+const { Data } = require("../../Controllers/data");
+const { Investment } = require("../../models/Investment");
+const { Response } = require("../../models/Response");
 
 function controllerInvestment(req) {
     let lastResponse = new Response();
@@ -12,16 +12,16 @@ function controllerInvestment(req) {
             const date = new Date(req.body.creationDate);
             const investment = new Investment(
                 ownerId, date,
-                req.body.amount)
+                req.body.amount);
             if (investment.error) {
                 lastResponse.setError(406, "Class Level Error", investment.errorList);
             } else {
                 Data.investments.push(investment);
                 lastResponse.setSuccess(201, "Investment Sucessfuly Created", investment);
-            }
+            };
         } else {
             lastResponse.setError(400, "Request Level Error", "13 - Invalid userId for set an investment.");
-        }
+        };
         return lastResponse;
     } else {
         if (req.method == "GET") {
@@ -31,7 +31,7 @@ function controllerInvestment(req) {
                     lastResponse.setError(406, "Request Level Error", "15 - Investment not found.");
                 } else {
                     lastResponse.setSuccess(200, "Investment Sucessfully Loaded", Data.investments[index]);
-                }
+                };
             } else {
                 if (req.query.page != null) {
                     const page = parseInt(req.query.page);
@@ -43,17 +43,17 @@ function controllerInvestment(req) {
                             lastResponse.setSuccess(200, `Investments Page Sucessfully Loaded`, ownerInvestments.slice(firstItem, lastItem));
                         } else {
                             lastResponse.setError(406, "Request Level Error", "19 - Out of Investment Bounds.");
-                        }
+                        };
                     } else {
                         lastResponse.setError(406, "Request Level Error", "20 - Page must be greater than zero.");
-                    }
-                }
-            }
+                    };
+                };
+            };
             return lastResponse;
         } else {
             /**Invalid method */
-        }
-    }
-}
+        };
+    };
+};
 
 module.exports = { controllerInvestment };

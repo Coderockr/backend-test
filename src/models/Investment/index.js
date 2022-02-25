@@ -1,4 +1,4 @@
-const { Error } = require("../../Controllers/error")
+const { Error } = require("../../Controllers/error");
 class Investment {
     static counter = 0;
     _investmentId = null;
@@ -12,25 +12,25 @@ class Investment {
     /**Getters */
     get investmentId() {
         return this._investmentId;
-    }
+    };
     get ownerId() {
         return this._ownerId;
-    }
+    };
     get creationDate() {
         return this._creationDate;
-    }
+    };
     get initialAmount() {
         return this._initialAmount;
-    }
+    };
     get atualAmount() {
         return this._atualAmount;
-    }
+    };
     get withdrawDate() {
         return this._withdrawDate;
-    }
+    };
     get withdrawValue() {
         return this._withdrawValue;
-    }
+    };
 
     /**Setters */
 
@@ -40,8 +40,8 @@ class Investment {
             this._ownerId = parseInt(ownerId);
         } else {
             this.setError("06 - Invalid Owner ID Format");
-        }
-    }
+        };
+    };
 
     set creationDate(date) {
         const dateNow = new Date(Date.now());
@@ -53,8 +53,8 @@ class Investment {
         } else {
             this._creationDate = new Date(Date.now());
             this.setError("07 - Invalid Setting of Creation Date");
-        }
-    }
+        };
+    };
 
     set initialAmount(amount) {
         const dateNow = new Date(Date.now());
@@ -80,7 +80,7 @@ class Investment {
 
     /**Functions */
     setError(message) {
-        const timeStamp = new Date(Date.now())
+        const timeStamp = new Date(Date.now());
         if (!this.error) {
             this.errorList = [];
             this.error = true;
@@ -137,8 +137,8 @@ class Investment {
                         taxes = profit * 0.185;
                     } else {
                         taxes = profit * 0.15;
-                    }
-                }
+                    };
+                };
                 this._withdrawDate = date;
                 withdraw -= taxes;
                 this._withdrawValue = withdraw.toFixed(2);
@@ -147,9 +147,9 @@ class Investment {
                 return this._withdrawValue;
             } else {
                 this.setError("11 - Cannot withdraw to past from creation date or in future from now");
-            }
-        }
-    }
+            };
+        };
+    };
 
     /**Class constructor */
     constructor(owner, creationDate, amount) {
@@ -160,10 +160,9 @@ class Investment {
             this.setError("12 - Invalid parameters format to create a Investment");
 
         } else {
-            Investment.counter++
-                this._investmentId = Investment.counter;
-        }
-
-    }
-}
+            Investment.counter++;
+            this._investmentId = Investment.counter;
+        };
+    };
+};
 module.exports = { Investment };

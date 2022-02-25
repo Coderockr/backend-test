@@ -1,4 +1,4 @@
-const { Error } = require("../../Controllers/error")
+const { Error } = require("../../Controllers/error");
 class Response {
     error = false;
     message = null;
@@ -9,7 +9,7 @@ class Response {
         if (!this.error) {
             this.errorList = [];
             this.error = true;
-        }
+        };
 
         this.message = message;
         this.status = status;
@@ -17,11 +17,11 @@ class Response {
 
             this.errorList.push(...errorList);
         } else {
-            const timeStamp = new Date(Date.now())
-            const error = new Error(timeStamp, errorList)
+            const timeStamp = new Date(Date.now());
+            const error = new Error(timeStamp, errorList);
             this.errorList.push(error);
-        }
-    }
+        };
+    };
     setSuccess(status, message, objects) {
         this.status = status;
         this.message = message;
@@ -30,7 +30,7 @@ class Response {
             this.objects.push(...objects);
         } else {
             this.objects.push(objects);
-        }
-    }
-}
+        };
+    };
+};
 module.exports = { Response };

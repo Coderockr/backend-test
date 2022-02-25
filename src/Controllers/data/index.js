@@ -1,7 +1,7 @@
 class Data {
-    static investments = []
-    static owners = []
+    static investments = [];
+    static owners = [];
 }
 
-module.exports = { Data }
-    /**It calls for a database */
+module.exports = { Data };
+/**It calls for a database */

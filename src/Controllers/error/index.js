@@ -3,8 +3,8 @@ class Error {
     message = "";
 
     constructor(timestamp, message) {
-        this.timestamp = timestamp
-        this.message = message
-    }
+        this.timestamp = timestamp;
+        this.message = message;
+    };
 }
-module.exports = { Error }
+module.exports = { Error };

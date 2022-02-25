@@ -17,7 +17,7 @@ function controllerOwner(req, method) {
         } else {
             Data.owners.push(owner);
             lastResponse.setSuccess(201, "Owner Sucessfylly Created", owner);
-        }
+        };
         return lastResponse;
     } else {
         if (req.method == "GET") {
@@ -27,7 +27,7 @@ function controllerOwner(req, method) {
                     lastResponse.setError(406, "Request Level Error", "21- Owner not Found.");
                 } else {
                     lastResponse.setSuccess(200, "Owner Sucessfully Loaded", Data.owners[req.query.id - 1]);
-                }
+                };
             } else {
                 if (req.query.page != null) {
                     const page = parseInt(req.query.page);
@@ -35,24 +35,23 @@ function controllerOwner(req, method) {
                         const firstItem = (req.query.page * 10) - 9;
                         if (Data.owners.length > firstItem + 9 || Data.owners.length > firstItem) {
                             const lastItem = firstItem + 9 > Data.owners.length ? Data.owners.length : firstItem + 9;
-
                             lastResponse.setSuccess(200, `Owners Page Sucessfully Loaded`, Data.owners.slice(firstItem - 1, lastItem));
                         } else {
                             lastResponse.setError(406, "Request Level Error", "22 - Owners array out of Bounds.");
-                        }
+                        };
                     } else {
                         lastResponse.setError(406, "Request Level Error", "23 - Page must be greater than zero.");
-                    }
+                    };
                 } else {
                     lastResponse.setSuccess(200, "All Owners Sucessfully Loaded", Data.owners);
-                }
+                };
                 /**Paginate this */
-            }
+            };
             return lastResponse;
 
         } else {
             /**Invalid Method */
-        }
+        };
     }
 }
 module.exports = { controllerOwner };

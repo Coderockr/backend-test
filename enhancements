@@ -1,9 +1,28 @@
 /*DOCUMENT THE API!!*/
+
+
 /*Use path method?*/
-/**; or not ; that's the question :)*/
+
+
 /**Adjust problems with the date format (2022-02-24T08:12:56.671Z) */
+
+
 /*Implement a database to keep the data?*/
+
+
 /*Username and password to access data?*/
+
+
 /*The regex are good enough?*/
+
+
+/*Prevent duplicity*/
+
+
 /*All the invalid inputs are mapped?*/
+
+
 /*Round or truncate the "Profit"?*/
+
+
+/** Remove "apendices" code***/

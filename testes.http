@@ -1,25 +1,5 @@
-POST http://localhost:3000/createinvestment
-Content-Type: application/json
-
-{   
-    "creationDate": "2022-01-25T08:12Z",
-    "ownerId":10,
-    "amount":15000.21
-}
-### aceita datas yyyy-mm-ddThh:mmz 
-##z = zone, Z for Zero, zulu, GMT-0. 
-###-0100 for gmt-1, GMT+3 = +0300 etc
-#####
-GET http://localhost:3000/documentation
-Content-Type: application/json
 ####
-
-
-GET http://localhost:3000/owner/2
-Content-Type: application/json
-####
-
-POST http://localhost:3000/createowner
+POST http://localhost:3000/owner
 Content-Type: application/json
 
 {
@@ -28,3 +8,57 @@ Content-Type: application/json
     "email":"email@fake.com",
     "phoneNumber":"11963258874"
 }
+
+#####
+POST http://localhost:3000/investment
+Content-Type: application/json
+
+{   
+    "creationDate": "2021-01-20T10:12Z",
+    "ownerId":1,
+    "amount":15000.21
+}
+####
+
+GET http://localhost:3000/withdraw
+Content-Type: application/json
+
+{
+    "investmentId":1,
+    "date":"2022-02-20T08:12Z"
+}
+### aceita datas yyyy-mm-ddThh:mmz 
+##z = zone, Z for Zero, zulu, GMT-0. 
+###-0100 for gmt-1, GMT+3 = +0300 etc
+
+GET http://localhost:3000/investment/?page=1
+Content-Type: application/json
+
+{
+    "ownerId":1
+}
+########
+
+get http://localhost:3000/investment/?id=1
+Content-Type: application/json
+#####
+
+GET http://localhost:3000/owner/?id=1
+Content-Type: application/json
+#####
+
+
+GET http://localhost:3000/owner
+Content-Type: application/json
+#####
+
+GET http://localhost:3000/owner/?page=1
+Content-Type: application/json
+#####
+
+#####
+GET http://localhost:3000/documentation
+Content-Type: application/json
+####
+
+get http://localhost:3000/investment/?id=1

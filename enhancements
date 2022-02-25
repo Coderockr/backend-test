@@ -1,0 +1,18 @@
+/*DOCUMENT THE API!!*/
+/**Create a class model to return messages */
+/*Use path method?*/
+/*Paginate app.get("owner")*/
+/**; or not ; that's the question :)*/
+/**Instead of many res.status(), a var with the status, and only one call at the end */
+/**Adjust problems with the date format (2022-02-24T08:12:56.671Z) */
+/*Implement a database to keep the data?*/
+/*Username and password to access data?*/
+/*Reduce code redundance*/
+/*What's the response to send after a sucessfull post?*/
+/*Am I using the best HTTP methods for the request?*/
+/*The regex are good enough?*/
+/*Warnings?*/
+/*All the invalid inputs are mapped?*/
+/*Round or truncate the "Profit"?*/
+/*Timeprinting to errors*/
+/*Invest on dynamic var creation*/

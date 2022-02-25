@@ -1,7 +1,5 @@
 # Back End Test Project <img src="https://coderockr.com/assets/images/coderockr.svg" align="right" height="50px" />
 
-You should see this challenge as an opportunity to create an application following modern development best practices (given the stack of your choice), but also feel free to use your own architecture preferences (coding standards, code organization, third-party libraries, etc). It’s perfectly fine to use vanilla code or any framework or libraries.
-
 ## Scope
 
 In this challenge you should build an API for an application that stores and manages investments, it should have the following features:
@@ -9,8 +7,12 @@ In this challenge you should build an API for an application that stores and man
 1. __Creation__ of an investment with an owner, a creation date and an amount.
     1. The creation date of an investment can be today or a date in the past.
     2. An investment should not be or become negative.
+    ##OK!
+
 2. __View__ of an investment with its initial amount and expected balance.
     1. Expected balance should be the sum of the invested amount and the [gains][].
+    ##OK!
+    
 3. __Withdrawal__ of a investment.
     1. The withdraw will always be the sum of the initial amount and its gains,
        partial withdrawn is not supported.

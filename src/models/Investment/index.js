@@ -5,12 +5,17 @@ class Investment {
     _creationDate = null;
     _initialAmount = 0;
     _atualAmount = null;
+    _withdrawDate = null
+    _withdrawValue = null;
     error = false
     errorList = []
 
 
 
     /**Getters */
+    get investmentId() {
+        return this._investmentId;
+    }
     get ownerId() {
         return this._ownerId;
     }
@@ -22,6 +27,12 @@ class Investment {
     }
     get atualAmount() {
         return this._atualAmount;
+    }
+    get withdrawDate() {
+        return this._withdrawDate
+    }
+    get withdrawValue() {
+        return this._withdrawValue
     }
 
     /**Setters */
@@ -36,10 +47,15 @@ class Investment {
     }
 
     set creationDate(date) {
+        console.log(date)
         const dateNow = new Date(Date.now())
-        if (date instanceof Date && date.getTime() <= dateNow.getTime() && this._creationDate == null) {
+        if ((!(isNaN(date))) &&
+            date instanceof Date &&
+            date.getTime() <= dateNow.getTime() &&
+            this._creationDate == null) {
             this._creationDate = date;
         } else {
+            this._creationDate = new Date(Date.now())
             this.setError("07 - Invalid Setting of Creation Date")
         }
     }
@@ -74,7 +90,7 @@ class Investment {
 
     getInvestmentAge(date) {
 
-        let age = (this._creationDate.getTime() - date.getTime()) / (1000 * 3600 * 24)
+        let age = (date.getTime() - this._creationDate.getTime()) / (1000 * 3600 * 24)
         if (age < 0) {
             this.setError("10 - Invalid Investment Age, bad param passed.")
         }
@@ -83,12 +99,12 @@ class Investment {
 
     viewExpectedBalance(date) {
         /**May the taxes must be counted on This? */
-        var monthsAfter;
+        let monthsAfter;
         monthsAfter = (date.getFullYear() - this._creationDate.getFullYear()) * 12;
         monthsAfter -= this._creationDate.getMonth();
         monthsAfter += date.getMonth();
-
         date.getDate() < this._creationDate.getDate() ? monthsAfter -= 1 : null
+
 
         let expectedBalance = this._initialAmount
         if (monthsAfter > 0) {
@@ -100,28 +116,37 @@ class Investment {
     }
 
     withdraw(date) {
-        this._atualAmount = this.viewExpectedBalance(date)
-        let withdraw = this._amount;
-        const profit = this._amount - this._initialAmount;
-        let taxes = 0;
-        /**Checking if withdraw date is greater than creation date*/
-        const dateNow = new Date(Date.now())
-        if (this._creationDate.getTime() < date.getTime() && date.getTime() <= dateNow.getTime()) {
-            let investmentAge = this.getInvestmentAge(date)
-                /** Should we make this time windows and taxes value settable? */
-            if (investmentAge < 365) {
-                taxes = profit * 0.225
-
-            } else if ((investmentAge < 730)) {
-                taxes = profit * 0.185
-            } else {
-                taxes = profit * 0.15
-            }
-            this.amount = 0;
-            withdraw -= taxes;
-            return withdraw
+        if (this._withdrawDate !== null) {
+            this.setError("15- Unable to withdraw previous withdrawn investment")
         } else {
-            this.setError("12 - Cannot withdraw to past from creation date or in future from now")
+            this._atualAmount = this.viewExpectedBalance(date)
+            let withdraw = this._atualAmount;
+            const profit = this._atualAmount - this._initialAmount;
+            let taxes = 0;
+            /**Checking if withdraw date is greater than creation date*/
+            const dateNow = new Date(Date.now())
+            if (this._creationDate.getTime() < date.getTime() && date.getTime() <= dateNow.getTime()) {
+                let investmentAge = this.getInvestmentAge(date)
+                    /** Should we make this time windows and taxes value settable? */
+                if (profit > 0) {
+                    if (investmentAge < 365) {
+                        taxes = profit * 0.225
+
+                    } else if ((investmentAge < 730)) {
+                        taxes = profit * 0.185
+                    } else {
+                        taxes = profit * 0.15
+                    }
+                }
+                this._withdrawDate = date;
+                withdraw -= taxes;
+                this._withdrawValue = withdraw.toFixed(2)
+                    /**Round or truncate? */
+
+                return this._withdrawValue
+            } else {
+                this.setError("12 - Cannot withdraw to past from creation date or in future from now")
+            }
         }
     }
 
@@ -129,7 +154,6 @@ class Investment {
     constructor(owner, creationDate, amount) {
         this.ownerId = owner;
         this.creationDate = creationDate;
-        /**Check for invalid date input */
         this.initialAmount = amount;
         if (this.owner === null || this.creationDate === null || this.amount === null) {
             this.setError("13 - Invalid parameters format to create a Investment")

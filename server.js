@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
-const { Owner, Investment } = require("./Classes");
+const { Investment } = require("./Investment")
+const { Owner } = require("./Owner");
 app.use(express.json())
 let owners = []
 let investments = []
@@ -8,15 +9,26 @@ let investments = []
 
 /**Adjust problems with the date format (2022-02-24T08:12:56.671Z) */
 app.post("/createinvestment", (req, res) => {
-
-    const date = new Date(req.body.creationDate)
-
-    const investment = new Investment(
-        req.body.ownerId, date,
-        req.body.amount)
-
-    investments.push(investment)
-        /*req.status(201)*/
+    const ownerId = req.body.ownerId
+    if (owners.filter(owner => owner.ownerId == ownerId).length == 1) {
+        const date = new Date(req.body.creationDate)
+        const investment = new Investment(
+            ownerId, date,
+            req.body.amount)
+        if (investment.error) {
+            res.status(406)
+                /**How is the best way to show this response? */
+            res.send(investment.errorList)
+        } else {
+            res.status(201)
+            investments.push(investment)
+        }
+        /**Temporary to keep investments */
+    } else {
+        res.status(400)
+            /**How is the best way to show this response? */
+        res.send("14 - Invalid userId for set an investment.")
+    }
     res.send(investments)
 })
 
@@ -27,8 +39,17 @@ app.post("/createowner", (req, res) => {
             req.body.lastName,
             req.body.email,
             req.body.phoneNumber)
-        /**Temporary to keep owners */
-    owners.push(owner)
+        /**Check for unique identifiers */
+    if (owner.error) {
+        res.status(406)
+            /**How is the best way to show this response? */
+        res.send(owner.errorList)
+
+    } else {
+        res.status(201)
+            /**Temporary to keep owners */
+        owners.push(owner)
+    }
 
     res.send(owners)
 })

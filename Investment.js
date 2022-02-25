@@ -1,94 +1,3 @@
-class Owner {
-    static counter = 0
-    static reString = /^([a-zA-ZÀ-ÿ\u00f1\u00d1]*)+$/;
-    static reEmail = /^((?!\.)[\w_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
-    static reNumber = /^[0-9]+$/
-    _ownerId = null
-    _firstName = null;
-    _lastName = null;
-    _email = null;
-    _phoneNumber = null;
-    error = false
-    errorList = []
-
-
-    /**Getters */
-    get ownerId() {
-        return this._ownerId
-    }
-    get firstName() {
-        return this._firstName
-    }
-    get lastName() {
-        return this._lastName
-    }
-    get email() {
-        return this._email
-    }
-    get phoneNumber() {
-        return this._phoneNumber
-    }
-
-    /**Setters */
-    set firstName(firstName) {
-        if (Owner.reString.test(firstName) && firstName != undefined) {
-            this._firstName = firstName
-        } else {
-            this.setError("01 - Invalid Owner First Name Format")
-        }
-
-    }
-    set lastName(lastName) {
-        if (Owner.reString.test(lastName) && lastName != undefined) {
-            this._lastName = lastName
-        } else {
-            this.setError("02 - Invalid Owner Last Name Format")
-        }
-
-
-    }
-    set email(email) {
-        if (Owner.reEmail.test(email)) {
-            this._email = email
-        } else {
-            this.setError("03 - Invalid Owner Email Format")
-        }
-
-    }
-    set phoneNumber(number) {
-        if (Owner.reNumber.test(number) || number instanceof Number) {
-            this._phoneNumber = parseInt(number)
-        } else {
-            this.setError("04 - Invalid Owner Phone Number Format")
-        }
-
-    }
-
-    /**Function */
-    setError(message) {
-        this.error = true
-        this.errorList.push(message)
-    }
-
-    /**Constructor */
-    constructor(firstName, lastName, email, phoneNumber) {
-        this.firstName = firstName
-        this.lastName = lastName
-        this.email = email
-        this.phoneNumber = phoneNumber
-        if (this.error) {
-            this.setError("05 - Invalid parameters format to create a Owner")
-        } else {
-            Owner.counter++
-                this._ownerId = Owner.counter
-        }
-
-    }
-
-
-}
-
-/** Check for unnecessary validations inside getters and setters */
 class Investment {
     static counter = 0;
     _investmentId = null;
@@ -99,6 +8,21 @@ class Investment {
     error = false
     errorList = []
 
+
+
+    /**Getters */
+    get ownerId() {
+        return this._ownerId;
+    }
+    get creationDate() {
+        return this._creationDate;
+    }
+    get initialAmount() {
+        return this._initialAmount;
+    }
+    get atualAmount() {
+        return this._atualAmount;
+    }
 
     /**Setters */
 
@@ -142,20 +66,6 @@ class Investment {
         }
     }
 
-    /**Getters */
-    get ownerId() {
-        return this._ownerId;
-    }
-    get creationDate() {
-        return this._creationDate;
-    }
-    get initialAmount() {
-        return this._initialAmount;
-    }
-    get atualAmount() {
-        return this._atualAmount;
-    }
-
     /**Functions */
     setError(message) {
         this.error = true
@@ -179,14 +89,13 @@ class Investment {
         monthsAfter += date.getMonth();
 
         date.getDate() < this._creationDate.getDate() ? monthsAfter -= 1 : null
+
         let expectedBalance = this._initialAmount
         if (monthsAfter > 0) {
             for (monthsAfter; monthsAfter > 0; monthsAfter--) {
                 expectedBalance += expectedBalance * 0.0052
             }
-        } else {
-            this.setError("11 - No expected gain Yet")
-        }
+        } /**Set warning for no expected gain yet? */
         return expectedBalance
     }
 
@@ -220,9 +129,10 @@ class Investment {
     constructor(owner, creationDate, amount) {
         this.ownerId = owner;
         this.creationDate = creationDate;
+        /**Check for invalid date input */
         this.initialAmount = amount;
         if (this.owner === null || this.creationDate === null || this.amount === null) {
-            this.setError("05 - Invalid parameters format to create a Investment")
+            this.setError("13 - Invalid parameters format to create a Investment")
 
         } else {
             Investment.counter++
@@ -231,4 +141,4 @@ class Investment {
 
     }
 }
-module.exports = { Owner, Investment }
+module.exports = { Investment }

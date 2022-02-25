@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {   
     "creationDate": "2022-01-25T08:12Z",
-    "ownerId":1,
+    "ownerId":10,
     "amount":15000.21
 }
 ### aceita datas yyyy-mm-ddThh:mmz 

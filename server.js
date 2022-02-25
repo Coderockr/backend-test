@@ -6,8 +6,8 @@ app.use(express.json())
 let owners = []
 let investments = []
 
-
 /**Adjust problems with the date format (2022-02-24T08:12:56.671Z) */
+
 app.post("/createinvestment", (req, res) => {
     const ownerId = req.body.ownerId
     if (owners.filter(owner => owner.ownerId == ownerId).length == 1) {
@@ -21,9 +21,9 @@ app.post("/createinvestment", (req, res) => {
             res.send(investment.errorList)
         } else {
             res.status(201)
+                /**Temporary to keep investments */
             investments.push(investment)
         }
-        /**Temporary to keep investments */
     } else {
         res.status(400)
             /**How is the best way to show this response? */

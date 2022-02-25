@@ -7,8 +7,6 @@ class Investment {
     _atualAmount = null;
     _withdrawDate = null
     _withdrawValue = null;
-    error = false
-    errorList = []
 
 
 
@@ -84,8 +82,13 @@ class Investment {
 
     /**Functions */
     setError(message) {
+        this.errorList = []
         this.error = true
-        this.errorList.push(message)
+        const error = {
+            "timestamp": new Date(Date.now()),
+            "message": message
+        }
+        this.errorList.push(error)
     }
 
     getInvestmentAge(date) {

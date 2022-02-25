@@ -8,8 +8,7 @@ class Owner {
     _lastName = null;
     _email = null;
     _phoneNumber = null;
-    error = false
-    errorList = []
+
 
 
     /**Getters */
@@ -66,6 +65,7 @@ class Owner {
 
     /**Function */
     setError(message) {
+        this.errorList = []
         this.error = true
         this.errorList.push(message)
     }
@@ -82,9 +82,6 @@ class Owner {
             Owner.counter++
                 this._ownerId = Owner.counter
         }
-
     }
-
-
 }
 module.exports = { Owner }

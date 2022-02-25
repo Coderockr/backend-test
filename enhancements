@@ -18,6 +18,8 @@
 
 /*Prevent duplicity*/
 
+/* Set page size on paged requests*/
+
 
 /*All the invalid inputs are mapped?*/
 

@@ -6,7 +6,9 @@ function controllerWithdraw(req) {
     if (req.method == "GET") {
         let lastResponse = new Response();
         const dateNow = new Date(Date.now());
-        const index = Data.investments.findIndex(i => i.investmentId === req.body.investmentId);
+        console.log(req.body.investmentId)
+        const index = Data.investments.findIndex(i => i.investmentId == req.body.investmentId);
+        console.log(index)
         if (index < 0) {
             lastResponse.setError(406, "Request Level Error", "16 - Investment not found.");
         } else {

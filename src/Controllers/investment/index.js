@@ -6,7 +6,8 @@ function controllerInvestment(req) {
     let lastResponse = new Response();
     if (req.method == "POST") {
         let ownerId = req.body.ownerId;
-        ownerId == null ? ownerId = 0 : null;
+        ownerId == null ? ownerId = 1 : null;
+
         if (Data.owners.filter(owner => owner.ownerId == ownerId).length == 1) {
             const date = new Date(req.body.creationDate);
             const investment = new Investment(
@@ -19,15 +20,15 @@ function controllerInvestment(req) {
                 lastResponse.setSuccess(201, "Investment Sucessfuly Created", investment);
             }
         } else {
-            lastResponse.setError(400, "Request Level Error", "14 - Invalid userId for set an investment.");
+            lastResponse.setError(400, "Request Level Error", "13 - Invalid userId for set an investment.");
         }
         return lastResponse;
     } else {
         if (req.method == "GET") {
             if (req.query.id != null) {
                 const index = Data.investments.findIndex(i => i.investmentId == req.query.id);
-                if (index > 0) {
-                    lastResponse.setError(406, "Request Level Error", "18 - Investment not found.");
+                if (index < 0) {
+                    lastResponse.setError(406, "Request Level Error", "15 - Investment not found.");
                 } else {
                     lastResponse.setSuccess(200, "Investment Sucessfully Loaded", Data.investments[index]);
                 }
@@ -39,8 +40,7 @@ function controllerInvestment(req) {
                         const firstItem = (req.query.page * 10) - 10;
                         if (ownerInvestments.length > firstItem + 10 || ownerInvestments.length > firstItem) {
                             const lastItem = firstItem + 10 > ownerInvestments.length ? ownerInvestments.length : firstItem + 10;
-
-                            lastResponse.setSuccess(200, `Investments Page Sucessfully Loaded`, ownerInvestments.slice(firstItem - 1, lastItem));
+                            lastResponse.setSuccess(200, `Investments Page Sucessfully Loaded`, ownerInvestments.slice(firstItem, lastItem));
                         } else {
                             lastResponse.setError(406, "Request Level Error", "19 - Out of Investment Bounds.");
                         }

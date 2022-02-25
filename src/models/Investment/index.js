@@ -1,3 +1,4 @@
+const { Error } = require("../../Controllers/error")
 class Investment {
     static counter = 0;
     _investmentId = null;
@@ -5,8 +6,6 @@ class Investment {
     _creationDate = null;
     _initialAmount = 0;
     _atualAmount = null;
-    _withdrawDate = null
-    _withdrawValue = null;
 
 
 
@@ -81,12 +80,12 @@ class Investment {
 
     /**Functions */
     setError(message) {
-        this.errorList = []
-        this.error = true
-        const error = {
-            "timestamp": new Date(Date.now()),
-            "message": message
-        }
+        const timeStamp = new Date(Date.now())
+        if (!this.error) {
+            this.errorList = [];
+            this.error = true;
+        };
+        const error = new Error(timeStamp, message);
         this.errorList.push(error);
     }
 
@@ -118,8 +117,8 @@ class Investment {
     }
 
     withdraw(date) {
-        if (this._withdrawDate !== null) {
-            this.setError("15- Unable to withdraw previous withdrawn investment");
+        if (!isNaN(this._withdrawDate)) {
+            this.setError("14- Unable to withdraw previous withdrawn investment");
         } else {
             this._atualAmount = this.viewExpectedBalance(date);
             let withdraw = this._atualAmount;
@@ -147,7 +146,7 @@ class Investment {
 
                 return this._withdrawValue;
             } else {
-                this.setError("12 - Cannot withdraw to past from creation date or in future from now");
+                this.setError("11 - Cannot withdraw to past from creation date or in future from now");
             }
         }
     }
@@ -158,7 +157,7 @@ class Investment {
         this.creationDate = creationDate;
         this.initialAmount = amount;
         if (this.owner === null || this.creationDate === null || this.amount === null) {
-            this.setError("13 - Invalid parameters format to create a Investment");
+            this.setError("12 - Invalid parameters format to create a Investment");
 
         } else {
             Investment.counter++

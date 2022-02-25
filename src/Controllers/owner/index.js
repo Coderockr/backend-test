@@ -2,6 +2,7 @@ const { Data } = require("../../Controllers/data");
 const { Response } = require("../../models/Response");
 const { Owner } = require("../../models/Owner");
 
+
 function controllerOwner(req, method) {
     if (req.method == "POST") {
         let lastResponse = new Response();
@@ -22,8 +23,8 @@ function controllerOwner(req, method) {
         if (req.method == "GET") {
             let lastResponse = new Response();
             if (req.query.id != null) {
-                if (req.query.id > Data.owners.length) {
-                    lastResponse.setError(406, "Request Level Error", "22- Owner array out of bound.");
+                if (req.query.id > Data.owners.length || req.query.id < 0) {
+                    lastResponse.setError(406, "Request Level Error", "21- Owner not Found.");
                 } else {
                     lastResponse.setSuccess(200, "Owner Sucessfully Loaded", Data.owners[req.query.id - 1]);
                 }
@@ -37,13 +38,13 @@ function controllerOwner(req, method) {
 
                             lastResponse.setSuccess(200, `Owners Page Sucessfully Loaded`, Data.owners.slice(firstItem - 1, lastItem));
                         } else {
-                            lastResponse.setError(406, "Request Level Error", "23 - Out of Owners arrat Bounds.");
+                            lastResponse.setError(406, "Request Level Error", "22 - Owners array out of Bounds.");
                         }
                     } else {
-                        lastResponse.setError(406, "Request Level Error", "24 - Page must be greater than zero.");
+                        lastResponse.setError(406, "Request Level Error", "23 - Page must be greater than zero.");
                     }
                 } else {
-                    lastResponse.setSuccess(200, "All Owners Page Sucessfully Loaded", Data.owners);
+                    lastResponse.setSuccess(200, "All Owners Sucessfully Loaded", Data.owners);
                 }
                 /**Paginate this */
             }

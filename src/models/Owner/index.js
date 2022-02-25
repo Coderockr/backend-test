@@ -1,3 +1,4 @@
+const { Error } = require("../../Controllers/error")
 class Owner {
     static counter = 0;
     static reString = /^([a-zA-ZÀ-ÿ\u00f1\u00d1]*)+$/;
@@ -65,13 +66,13 @@ class Owner {
 
     /**Function */
     setError(message) {
-        this.errorList = []
-        this.error = true
-        const error = {
-            "timestamp": new Date(Date.now()),
-            "message": message
-        }
-        this.errorList.push(error)
+        const timeStamp = new Date(Date.now())
+        if (!this.error) {
+            this.errorList = [];
+            this.error = true;
+        };
+        const error = new Error(timeStamp, message)
+        this.errorList.push(error);
     }
 
     /**Constructor */

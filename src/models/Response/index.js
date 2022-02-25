@@ -1,18 +1,26 @@
+const { Error } = require("../../Controllers/error")
 class Response {
     error = false;
     message = null;
     status = null;
 
     setError(status, message, errorList) {
+
+        if (!this.error) {
+            this.errorList = [];
+            this.error = true;
+        }
+
         this.message = message;
         this.status = status;
-        this.errorList = [];
         if (errorList instanceof Array) {
+
             this.errorList.push(...errorList);
         } else {
-            this.errorList.push(errorList);
+            const timeStamp = new Date(Date.now())
+            const error = new Error(timeStamp, errorList)
+            this.errorList.push(error);
         }
-        this.error = true;
     }
     setSuccess(status, message, objects) {
         this.status = status;

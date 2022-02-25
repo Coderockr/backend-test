@@ -39,7 +39,7 @@ class Investment {
         if (re.test(ownerId) || ownerId instanceof Number) {
             this._ownerId = parseInt(ownerId);
         } else {
-            this.setError("06 - Invalid Owner ID Format");
+            this.setError("06 - Invalid owner id format.");
         };
     };
 
@@ -52,7 +52,7 @@ class Investment {
             this._creationDate = date;
         } else {
             this._creationDate = new Date(Date.now());
-            this.setError("07 - Invalid Setting of Creation Date");
+            this.setError("07 - Invalid setting of creation date.");
         };
     };
 
@@ -66,7 +66,7 @@ class Investment {
             this._atualAmount = amount;
         } else {
             this._initialAmount = null;
-            this.setError("08 - Invalid Setting of Initial Amount");
+            this.setError("08 - Invalid setting of snitial amount.");
         }
     }
 
@@ -74,7 +74,7 @@ class Investment {
         if (amount instanceof Number && amount > 0) {
             this._atualAmount = amount;
         } else {
-            this.setError("09 - Invalid Setting of Atual Amount");
+            this.setError("09 - Invalid setting of atual amount.");
         }
     }
 
@@ -93,7 +93,7 @@ class Investment {
 
         let age = (date.getTime() - this._creationDate.getTime()) / (1000 * 3600 * 24);
         if (age < 0) {
-            this.setError("10 - Invalid Investment Age, bad param passed.");
+            this.setError("10 - Invalid investment Age, bad param passed.");
         }
         return age;
     }
@@ -118,7 +118,7 @@ class Investment {
 
     withdraw(date) {
         if (!isNaN(this._withdrawDate)) {
-            this.setError("14- Unable to withdraw previous withdrawn investment");
+            this.setError("14 - Unable to withdraw previous withdrawn investment.");
         } else {
             this._atualAmount = this.viewExpectedBalance(date);
             let withdraw = this._atualAmount;
@@ -146,7 +146,7 @@ class Investment {
 
                 return this._withdrawValue;
             } else {
-                this.setError("11 - Cannot withdraw to past from creation date or in future from now");
+                this.setError("11 - Cannot withdraw to past from creation date or in future from now.");
             };
         };
     };
@@ -157,7 +157,7 @@ class Investment {
         this.creationDate = creationDate;
         this.initialAmount = amount;
         if (this.owner === null || this.creationDate === null || this.amount === null) {
-            this.setError("12 - Invalid parameters format to create a Investment");
+            this.setError("12 - Invalid parameters format to create an investment.");
 
         } else {
             Investment.counter++;

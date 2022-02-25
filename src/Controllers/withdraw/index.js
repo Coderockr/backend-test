@@ -8,9 +8,8 @@ function controllerWithdraw(req) {
 
         } else {
             /**Invalid method */
-        }
-
-    }
-}
+        };
+    };
+};
 
 module.exports = { controllerWithdraw };

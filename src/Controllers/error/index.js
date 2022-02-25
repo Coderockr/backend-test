@@ -6,5 +6,5 @@ class Error {
         this.timestamp = timestamp;
         this.message = message;
     };
-}
+};
 module.exports = { Error };

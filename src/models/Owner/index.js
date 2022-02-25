@@ -34,7 +34,7 @@ class Owner {
         if (Owner.reString.test(firstName) && firstName != undefined) {
             this._firstName = firstName;
         } else {
-            this.setError("01 - Invalid Owner First Name Format");
+            this.setError("01 - Invalid owner first name format.");
         };
     };
 
@@ -42,14 +42,14 @@ class Owner {
         if (Owner.reString.test(lastName) && lastName != undefined) {
             this._lastName = lastName;
         } else {
-            this.setError("02 - Invalid Owner Last Name Format");
+            this.setError("02 - Invalid owner last name format.");
         };
     };
     set email(email) {
         if (Owner.reEmail.test(email)) {
             this._email = email;
         } else {
-            this.setError("03 - Invalid Owner Email Format");
+            this.setError("03 - Invalid owner email format.");
         }
 
     }
@@ -57,7 +57,7 @@ class Owner {
         if (Owner.reNumber.test(number) || number instanceof Number) {
             this._phoneNumber = parseInt(number);
         } else {
-            this.setError("04 - Invalid Owner Phone Number Format");
+            this.setError("04 - Invalid owner phone number format.");
         };
 
     };
@@ -80,7 +80,7 @@ class Owner {
         this.email = email;
         this.phoneNumber = phoneNumber;
         if (this.error) {
-            this.setError("05 - Invalid parameters format to create a Owner");
+            this.setError("05 - Invalid parameters format to create a owner.");
         } else {
             Owner.counter++;
             this._ownerId = Owner.counter;

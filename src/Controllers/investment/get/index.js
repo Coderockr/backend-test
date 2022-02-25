@@ -1,4 +1,4 @@
-const { Data } = require("../../../Controllers/data");
+const { Data } = require("../../data");
 const { Response } = require("../../../models/Response");
 
 function get(req) {
@@ -6,9 +6,9 @@ function get(req) {
     if (req.query.id != null) {
         const index = Data.investments.findIndex(i => i.investmentId == req.query.id);
         if (index < 0) {
-            lastResponse.setError(406, "Request Level Error", "15 - Investment not found.");
+            lastResponse.setError(406, "Request level error", "15 - Investment not found.");
         } else {
-            lastResponse.setSuccess(200, "Investment Sucessfully Loaded", Data.investments[index]);
+            lastResponse.setSuccess(200, "Investment sucessfully loaded", Data.investments[index]);
         };
     } else {
         if (req.query.page != null) {
@@ -18,12 +18,12 @@ function get(req) {
                 const firstItem = (req.query.page * 10) - 10;
                 if (ownerInvestments.length > firstItem + 10 || ownerInvestments.length > firstItem) {
                     const lastItem = firstItem + 10 > ownerInvestments.length ? ownerInvestments.length : firstItem + 10;
-                    lastResponse.setSuccess(200, `Investments Page Sucessfully Loaded`, ownerInvestments.slice(firstItem, lastItem));
+                    lastResponse.setSuccess(200, `Investments page sucessfully loaded`, ownerInvestments.slice(firstItem, lastItem));
                 } else {
-                    lastResponse.setError(406, "Request Level Error", "19 - Out of Investment Bounds.");
+                    lastResponse.setError(406, "Request level error", "19 - Out of investment bounds.");
                 };
             } else {
-                lastResponse.setError(406, "Request Level Error", "20 - Page must be greater than zero.");
+                lastResponse.setError(406, "Request level error", "20 - Page must be greater than zero.");
             };
         };
     };

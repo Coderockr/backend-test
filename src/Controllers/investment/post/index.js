@@ -1,4 +1,4 @@
-const { Data } = require("../../../Controllers/data");
+const { Data } = require("../../data");
 const { Investment } = require("../../../models/Investment");
 const { Response } = require("../../../models/Response");
 
@@ -13,13 +13,13 @@ function post(req) {
             ownerId, date,
             req.body.amount);
         if (investment.error) {
-            lastResponse.setError(406, "Class Level Error", investment.errorList);
+            lastResponse.setError(406, "Class level error", investment.errorList);
         } else {
             Data.investments.push(investment);
-            lastResponse.setSuccess(201, "Investment Sucessfuly Created", investment);
+            lastResponse.setSuccess(201, "Investment sucessfuly created", investment);
         };
     } else {
-        lastResponse.setError(400, "Request Level Error", "13 - Invalid userId for set an investment.");
+        lastResponse.setError(400, "Request level error", "13 - Invalid userId for set an investment.");
     };
     return lastResponse;
 };

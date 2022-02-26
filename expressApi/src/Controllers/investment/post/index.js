@@ -19,7 +19,7 @@ function post(req) {
             lastResponse.setSuccess(201, "Investment sucessfuly created", investment);
         };
     } else {
-        lastResponse.setError(400, "Request level error", "20 - Invalid userId for set an investment.");
+        lastResponse.setError(400, "Request level error", "13 - Invalid user id for set an investment.");
     };
     return lastResponse;
 };

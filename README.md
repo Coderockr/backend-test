@@ -1,90 +1,109 @@
-# Back End Test Project <img src="https://coderockr.com/assets/images/coderockr.svg" align="right" height="50px" />
+# Back End Test
+This is a RESTful SOLID API!
+## Libraries used
+### Docker
+lorem ipsum
+#### docker-compose
+### Express
+lorem ipsum
 
-## Scope
+### React
+lorem ipsum (In fact not yet)
 
-In this challenge you should build an API for an application that stores and manages investments, it should have the following features:
+### DATABASE (Not selected)
+lorem
 
-1. __Creation__ of an investment with an owner, a creation date and an amount.
-    1. The creation date of an investment can be today or a date in the past.
-    2. An investment should not be or become negative.
-    ##OK!
+## How to run?
 
-2. __View__ of an investment with its initial amount and expected balance.
-    1. Expected balance should be the sum of the invested amount and the [gains][].
-    ##OK!
-    
-3. __Withdrawal__ of a investment.
-    1. The withdraw will always be the sum of the initial amount and its gains,
-       partial withdrawn is not supported.
-    2. Withdrawals can happen in the past or today, but can't happen before the investment creation or the future.
-    3. [Taxes][taxes] need to be applied to the withdrawals before showing the
-       final value.
-4. __List__ of a person's investments
-    1. This list should have pagination.
+At first, clone the repo:
 
-__NOTE:__ the implementation of an interface will not be evaluated.
+```bash
+git clone https://github.com/lrNas/backend-test
+```
+Then, install docker (documentation on https://docs.docker.com/engine/install/ubuntu/)
 
-### Gain Calculation
+it whould be necessary to have docker-compose. Install it with the following:
 
-The investment will pay 0.52% every month in the same day of the investment creation.
+```bash
+sudo apt install docker-compose
+```
 
-Given that the gain is paid every month, it should be treated as [compound gain][], which means that every new period (month) the amount gained will become part of the investment balance for the next payment.
+Move on the cloned repo folder, then:
 
-### Taxation
+```bash
+docker build -t dockernode 
+docker run --network-alias=THEADDRESYOUWISH -p 3000:3000 -p 3030:3030 -d THENAMEYOUWISH
+```
 
-When money is withdrawn, tax is triggered. Taxes apply only to the profit/gain portion of the money withdrawn. For example, if the initial investment was 1000.00, the current balance is 1200.00, then the taxes will be applied to the 200.00.
+To stop the execution :
+```bash
+docker ps
+```
+Find on the output the CONTAINER ID, then:
+```bash
+docker stop CONTAINERID
+```
 
-The tax percentage changes according to the age of the investment:
-* If it is less than one year old, the percentage will be 22.5% (tax = 45.00).
-* If it is between one and two years old, the percentage will be 18.5% (tax = 37.00).
-* If older than two years, the percentage will be 15% (tax = 30.00).
+## Api documentation
+The server will run on the adress you specify on the docker run command. If you just copy and pasted, it will be `http://THEADDRESSYOUWISH:3030`. Let's assume that for the next examples.
 
-## Requirements
-1. Create project using any technology of your preference. It’s perfectly OK to use vanilla code or any framework or libraries;
-2. Although you can use as many dependencies as you want, you should manage them wisely;
-3. It is not necessary to send the notification emails, however, the code required for that would be welcome;
-4. The API must be documented in some way.
+### Endpoints
+`http://THEADDRESSYOUWISH:3030/investment` 
+`http://THEADDRESSYOUWISH:3030/owner` 
+`http://THEADDRESSYOUWISH:3030/withdraw` 
+---
 
-## Deliverables
-The project source code and dependencies should be made available in GitHub. Here are the steps you should follow:
-1. Fork this repository to your GitHub account (create an account if you don't have one, you will need it working with us).
-2. Create a "development" branch and commit the code to it. Do not push the code to the main branch.
-3. Include a README file that describes:
-    - Special build instructions, if any
-    - List of third-party libraries used and short description of why/how they were used
-    - A link to the API documentation.
-4. Once the work is complete, create a pull request from "development" into "main" and send us the link.
-5. Avoid using huge commits hiding your progress. Feel free to work on a branch and use `git rebase` to adjust your commits before submitting the final version.
+## OWNER
+### GET ALL OWNERS
+#### Example URI
+`GET http://THEADDRESSYOUWISH:3030/owner`
 
-## Coding Standards
-When working on the project be as clean and consistent as possible.
+#### Response
+```json
+{
+  "error": false,
+  "message": "All owners sucessfully loaded",
+  "status": 200,
+  "objects": [
+    {
+      "_ownerId": 1,
+      "_firstName": "User",
+      "_lastName": "First",
+      "_email": "email@fake.com",
+      "_phoneNumber": 11963258874
+    },{
+      "_ownerId": 2,
+      "_firstName": "Another",
+      "_lastName": "User",
+      "_email": "email2@fake.com",
+      "_phoneNumber": 21954487654
+    },
+  ]
+}
+```
 
-## Project Deadline
-Ideally you'd finish the test project in 5 days. It shouldn't take you longer than a entire week.
+### GET A OWNER BY ID
+#### Example URI
+`GET http://THEADDRESSYOUWISH/?id={investor_id}
+#### URI Paramenters
+` investor_id number`
+#### Headers 
+`Content-Type: application/json`
 
-## Quality Assurance
-Use the following checklist to ensure high quality of the project.
+#### Response
+```json
+"error": false,
+  "message": "Owner sucessfully loaded",
+  "status": 200,
+  "objects": [
+    {
+      "_ownerId": 1,
+      "_firstName": "Lucas",
+      "_lastName": "Nascimento",
+      "_email": "email@fake.com",
+      "_phoneNumber": 11963258874
+    }
+  ]
+```
 
-### General
-- First of all, the application should run without errors.
-- Are all requirements set above met?
-- Is coding style consistent?
-- The API is well documented?
-- The API has unit tests?
 
-## Submission
-1. A link to the Github repository.
-2. Briefly describe how you decided on the tools that you used.
-
-## Have Fun Coding 🤘
-- This challenge description is intentionally vague in some aspects, but if you need assistance feel free to ask for help.
-- If any of the seems out of your current level, you may skip it, but remember to tell us about it in the pull request.
-
-## Credits
-
-This coding challenge was inspired on [kinvoapp/kinvo-back-end-test](https://github.com/kinvoapp/kinvo-back-end-test/blob/2f17d713de739e309d17a1a74a82c3fd0e66d128/README.md)
-
-[gains]: #gain-calculation
-[taxes]: #taxation
-[interest]: #interest-calculation
-[compound gain]: https://www.investopedia.com/terms/g/gain.asp

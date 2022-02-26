@@ -62,14 +62,14 @@ function get(req) {
                 return paginator(page, investmentArray, message)
 
             } else {
-                lastResponse.setError(406, "Request level error", "20 - Invalid page number.");
+                lastResponse.setError(406, "Request level error", "18 - Invalid page number.");
             };
         } else {
             lastResponse.objects = []
             lastResponse.objects.push(...investmentArray);
         }
     } else {
-        lastResponse.setError(406, "Request level error", "21 - No investments found.");
+        lastResponse.setError(406, "Request level error", "19 - No investments found.");
     };
 
     return lastResponse;

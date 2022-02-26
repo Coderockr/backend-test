@@ -1,9 +1,7 @@
 const { Error } = require("../../Controllers/error");
+const { validator } = require("../../Controllers/validator");
 class Owner {
     static counter = 0;
-    static reString = /^([a-zA-ZÀ-ÿ\u00f1\u00d1]*)+$/;
-    static reEmail = /^((?!\.)[\w_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
-    static reNumber = /^[0-9]+$/;
     _ownerId = null;
     _firstName = null;
     _lastName = null;
@@ -31,7 +29,7 @@ class Owner {
 
     /**Setters */
     set firstName(firstName) {
-        if (Owner.reString.test(firstName) && firstName != undefined) {
+        if (validator("text", firstName)) {
             this._firstName = firstName;
         } else {
             this.setError("01 - Invalid owner first name format.");
@@ -39,14 +37,14 @@ class Owner {
     };
 
     set lastName(lastName) {
-        if (Owner.reString.test(lastName) && lastName != undefined) {
+        if (validator("text", lastName)) {
             this._lastName = lastName;
         } else {
             this.setError("02 - Invalid owner last name format.");
         };
     };
     set email(email) {
-        if (Owner.reEmail.test(email)) {
+        if (validator("email", email)) {
             this._email = email;
         } else {
             this.setError("03 - Invalid owner email format.");
@@ -54,7 +52,7 @@ class Owner {
 
     }
     set phoneNumber(number) {
-        if (Owner.reNumber.test(number) || number instanceof Number) {
+        if (validator("number", number)) {
             this._phoneNumber = parseInt(number);
         } else {
             this.setError("04 - Invalid owner phone number format.");
@@ -80,7 +78,7 @@ class Owner {
         this.email = email;
         this.phoneNumber = phoneNumber;
         if (this.error) {
-            this.setError("05 - Invalid parameters format to create a owner.");
+            this.setError("05 - Invalid parameters format to create an owner.");
         } else {
             Owner.counter++;
             this._ownerId = Owner.counter;

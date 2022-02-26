@@ -1,0 +1,31 @@
+Erros da classe Owner
+this.setError("01 - Invalid owner first name format.");
+this.setError("02 - Invalid owner last name format.");
+this.setError("03 - Invalid owner email format.");
+this.setError("04 - Invalid owner phone number format.");
+this.setError("05 - Invalid parameters format to create an owner.");
+
+Erros da classe investment
+this.setError("06 - Invalid owner id format.");
+this.setError("07 - Invalid setting of creation date.");
+this.setError("08 - Invalid setting of initial amount.");
+this.setError("09 - Invalid setting of atual amount.");
+this.setError("10 - Invalid investment Age, bad param passed.");
+this.setError("11 - Unable to withdraw previous withdrawn investment.");
+this.setError("12 - Cannot withdraw to past from creation date or in future from now.")
+this.setError("13 - Invalid parameters format to create an investment.");
+
+GET investment:
+lastResponse.setError(406, "Request level error", "14 - Investment not found.");
+lastResponse.setError(406, "Request level error", "15 - Invalid investment id.");
+lastResponse.setError(406, "Request level error", "16 - No investments for this Owner.");
+lastResponse.setError(406, "Request level error", "17 - Invalid owner id.");
+lastResponse.setError(406, "Request level error", "20 - Invalid page number.");
+lastResponse.setError(406, "Request level error", "21 - No investments found.");
+
+POST investment
+lastResponse.setError(400, "Request level error", "22 - Invalid userId for set an investment.");
+
+GET owners
+lastResponse.setError(406, "Request level error", "23 - No owners found.");
+

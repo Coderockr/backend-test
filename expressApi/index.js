@@ -29,6 +29,6 @@ app.get("/documentation", (req, res) => {
     /**It's a Lie, lets do this docs! */
 });
 
-app.listen(3000, () => {
+app.listen(3030, () => {
     console.log("Server is Running!");
 });

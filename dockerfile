@@ -13,7 +13,7 @@ RUN docker-composer up
 
 COPY . ./
 
-
 EXPOSE 3000
+EXPOSE 3030
 
 CMD ["npm","start","--prefix","./expressApi"]

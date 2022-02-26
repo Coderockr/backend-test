@@ -1,7 +1,7 @@
 const { post } = require("./post");
 const { get } = require("./get");
 
-function controllerOwner(req, method) {
+function controllerOwner(req) {
     if (req.method == "POST") {
         return post(req)
     } else {

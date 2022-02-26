@@ -1,25 +1,17 @@
 {
-    "name": "backend-test",
+    "name": "expressapi",
     "version": "1.0.0",
-    "description": "## Scope",
+    "description": "",
+    "main": "index.js",
     "scripts": {
-        "start": "node ."
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/lrNas/backend-test.git"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "nodemon ."
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/lrNas/backend-test/issues"
-    },
-    "homepage": "https://github.com/lrNas/backend-test#readme",
     "dependencies": {
-        "express": "^4.17.3"
-    },
-    "devDependencies": {
+        "express": "^4.17.3",
         "nodemon": "^2.0.15"
     }
 }

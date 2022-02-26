@@ -48,9 +48,10 @@ docker stop CONTAINERID
 The server will run on the adress you specify on the docker run command. If you just copy and pasted, it will be `http://THEADDRESSYOUWISH:3030`. Let's assume that for the next examples.
 
 ### Endpoints
-`http://THEADDRESSYOUWISH:3030/investment` 
-`http://THEADDRESSYOUWISH:3030/owner` 
-`http://THEADDRESSYOUWISH:3030/withdraw` 
+
+#### `http://THEADDRESSYOUWISH:3030/investment` 
+#### `http://THEADDRESSYOUWISH:3030/owner` 
+#### `http://THEADDRESSYOUWISH:3030/withdraw` 
 ---
 
 ## OWNER
@@ -84,7 +85,7 @@ The server will run on the adress you specify on the docker run command. If you 
 
 ### GET A OWNER BY ID
 #### Example URI
-`GET http://THEADDRESSYOUWISH/?id={investor_id}
+`GET http://THEADDRESSYOUWISH/?id={investor_id}`
 #### URI Paramenters
 ` investor_id number`
 #### Headers 

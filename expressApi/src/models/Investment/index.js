@@ -75,6 +75,10 @@ class Investment {
     }
 
     /**Functions */
+    update() {
+        let dateNow = new Date(Date.now())
+        this.todayExpected = parseFloat(this.viewExpectedBalance(dateNow).toFixed(2))
+    }
     setError(message) {
         const timeStamp = new Date(Date.now());
         if (!this.error) {
@@ -96,14 +100,16 @@ class Investment {
 
     viewExpectedBalance(date) {
         /**May the taxes must be counted on This? */
+        let expectedBalance = this._initialAmount;
         let monthsAfter;
-        monthsAfter = (date.getFullYear() - this._creationDate.getFullYear()) * 12;
+        let yearsInterval = date.getFullYear() - this._creationDate.getFullYear()
+        monthsAfter = yearsInterval > 0 ? yearsInterval * 12 : 0;
         monthsAfter -= this._creationDate.getMonth();
         monthsAfter += date.getMonth();
+
         date.getDate() < this._creationDate.getDate() ? monthsAfter -= 1 : null;
 
 
-        let expectedBalance = this._initialAmount;
         if (monthsAfter > 0) {
             for (monthsAfter; monthsAfter > 0; monthsAfter--) {
                 expectedBalance += expectedBalance * 0.0052;
@@ -116,6 +122,7 @@ class Investment {
         if (!isNaN(this._withdrawDate)) {
             this.setError("11 - Unable to withdraw previous withdrawn investment.");
         } else {
+
             this._atualAmount = this.viewExpectedBalance(date);
             let withdraw = this._atualAmount;
             const profit = this._atualAmount - this._initialAmount;
@@ -149,9 +156,11 @@ class Investment {
 
     /**Class constructor */
     constructor(owner, creationDate, amount) {
+        let dateNow = new Date(Date.now())
         this.ownerId = owner;
         this.creationDate = creationDate;
         this.initialAmount = amount;
+        this.update()
         if (this.owner === null || this.creationDate === null || this.amount === null) {
             this.setError("13 - Invalid parameters format to create an investment.");
 
@@ -160,5 +169,6 @@ class Investment {
             this._investmentId = Investment.counter;
         };
     };
+    s
 };
 module.exports = { Investment };

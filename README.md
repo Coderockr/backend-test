@@ -1,6 +1,6 @@
 # Back End Test
 This is a RESTful SOLID API!
-## Libraries used
+## Dependencies
 ### Docker
 lorem ipsum
 #### docker-compose
@@ -35,7 +35,7 @@ docker build -t dockernode
 docker run --network-alias=THEADDRESYOUWISH -p 3000:3000 -p 3030:3030 -d THENAMEYOUWISH
 ```
 
-To stop the execution :
+#### TO STOP THE EXECUTION
 ```bash
 docker ps
 ```
@@ -85,7 +85,7 @@ The server will run on the adress you specify on the docker run command. If you 
 
 ### GET A OWNER BY ID
 #### Example URI
-`GET http://THEADDRESSYOUWISH/?id={ownerId}`
+`GET http://THEADDRESSYOUWISH/owner/?id={ownerId}`
 #### URI Paramenters
 ` ownerId =  number`
 #### Headers 
@@ -108,7 +108,7 @@ The server will run on the adress you specify on the docker run command. If you 
 ```
 ### GET A PAGE OF OWNERS
 #### Example URI
-`GET http://THEADDRESSYOUWISH/?page={pageNumber}`
+`GET http://THEADDRESSYOUWISH/owner/?page={pageNumber}`
 #### URI Paramenters
 ` pageNumber = number`
 #### Headers 
@@ -190,6 +190,112 @@ The server will run on the adress you specify on the docker run command. If you 
       "_phoneNumber": 23954495461
     }
   ]
+
+```
+## INVESTMENT
+
+### GET A ALL INVESTMENTS
+#### Example URI
+`GET http://THEADDRESSYOUWISH/investment`
+#### Response
+```json
+
+  "error": false,
+  "message": "All investments sucessfully loaded",
+  "status": 200,
+  "objects": [
+    {
+      "_investmentId": 1,
+      "_ownerId": 1,
+      "_creationDate": "2022-01-27T08:12:00.000Z",
+      "_initialAmount": 179.21,
+      "_atualAmount": 179.21,
+      "todayExpected": 179.21
+    },
+    {
+      "_investmentId": 2,
+      "_ownerId": 1,
+      "_creationDate": "2022-01-27T08:12:00.000Z",
+      "_initialAmount": 179.21,
+      "_atualAmount": 179.21,
+      "todayExpected": 179.21
+    },
+    {
+      "_investmentId": 3,
+      "_ownerId": 1,
+      "_creationDate": "2022-01-27T08:12:00.000Z",
+      "_initialAmount": 179.21,
+      "_atualAmount": 179.21,
+      "todayExpected": 179.21
+    },
+    {
+      "_investmentId": 4,
+      "_ownerId": 1,
+      "_creationDate": "2022-01-27T08:12:00.000Z",
+      "_initialAmount": 179.21,
+      "_atualAmount": 179.21,
+      "todayExpected": 179.21
+    },
+    {
+      "_investmentId": 5,
+      "_ownerId": 1,
+      "_creationDate": "2022-01-27T08:12:00.000Z",
+      "_initialAmount": 179.21,
+      "_atualAmount": 179.21,
+      "todayExpected": 179.21
+    },
+    {
+      "_investmentId": 6,
+      "_ownerId": 1,
+      "_creationDate": "2022-01-27T08:12:00.000Z",
+      "_initialAmount": 179.21,
+      "_atualAmount": 179.21,
+      "todayExpected": 179.21
+    },
+    {
+      "_investmentId": 7,
+      "_ownerId": 1,
+      "_creationDate": "2022-01-27T08:12:00.000Z",
+      "_initialAmount": 179.21,
+      "_atualAmount": 179.21,
+      "todayExpected": 179.21
+    },
+    {
+      "_investmentId": 8,
+      "_ownerId": 1,
+      "_creationDate": "2022-01-27T08:12:00.000Z",
+      "_initialAmount": 179.21,
+      "_atualAmount": 179.21,
+      "todayExpected": 179.21
+    },
+    {
+      "_investmentId": 9,
+      "_ownerId": 1,
+      "_creationDate": "2022-01-27T08:12:00.000Z",
+      "_initialAmount": 179.21,
+      "_atualAmount": 179.21,
+      "todayExpected": 179.21
+    },
+    {
+      "_investmentId": 10,
+      "_ownerId": 1,
+      "_creationDate": "2022-01-27T08:12:00.000Z",
+      "_initialAmount": 179.21,
+      "_atualAmount": 179.21,
+      "todayExpected": 179.21
+    },
+    {
+      "_investmentId": 11,
+      "_ownerId": 1,
+      "_creationDate": "2022-01-27T08:12:00.000Z",
+      "_initialAmount": 179.21,
+      "_atualAmount": 179.21,
+      "todayExpected": 179.21
+    },...
+  ]
+
+  
+
 
 ```
 

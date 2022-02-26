@@ -1,4 +1,5 @@
 const express = require("express");
+const { Data } = require("./src/Controllers/data");
 const app = express();
 const { controllerInvestment } = require("./src/Controllers/investment");
 const { controllerOwner } = require("./src/Controllers/owner");
@@ -7,6 +8,7 @@ const { controllerWithdraw } = require("./src/Controllers/withdraw");
 app.use(express.json());
 
 app.all("/investment", (req, res) => {
+
     let lastResponse = controllerInvestment(req);
     res.status(lastResponse.status);
     res.send(lastResponse);

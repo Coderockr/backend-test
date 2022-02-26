@@ -6,10 +6,10 @@ POST http://localhost:3030/owner
 Content-Type: application/json
 
 {
-    "firstName":"Lucas",
-    "lastName":"Nascimento",
-    "email":"email@fake.com",
-    "phoneNumber":"11963258874"
+    "firstName":"Rich",
+    "lastName":"Guy",
+    "email":"super@email.com",
+    "phoneNumber":"13978987874"
 }
 
 ##### Investment Creation####
@@ -18,8 +18,8 @@ Content-Type: application/json
 
 {   
     "ownerId":1,
-    "creationDate":"2021-02-20T08:12Z",
-    "amount":15000.21
+    "creationDate":"2001-01-27T08:12Z",
+    "amount":179.21
 }
 ##### Withdraw a investment####
 
@@ -185,7 +185,7 @@ GET http://localhost:3000/owner/?page=12000
 Content-Type: application/json
 ############ Error 23  -page must be greater than zero
 
-GET http://localhost:3030/owner/?page=1
+GET http://localhost:3030/investment
 
 
 

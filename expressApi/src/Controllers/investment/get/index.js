@@ -9,10 +9,7 @@ function get(req) {
 
     let investmentId = req.query.id;
     let page = req.query.page;
-    console.log(page);
     const ownerId = req.body.ownerId;
-    console.log(ownerId);
-
     if (Data.investments.length > 0) {
 
         if (validator("any", investmentId)) {

@@ -1,14 +1,14 @@
 {
     "name": "expressapi",
     "version": "1.0.0",
-    "description": "",
+    "description": "Api for backend test on Coderockr",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon ."
+        "test": "nodemon .",
+        "start": "node ."
     },
     "keywords": [],
-    "author": "",
+    "author": "Lucas Rodrigues do Nascimento - lr.nas1894@gmail.com",
     "license": "ISC",
     "dependencies": {
         "express": "^4.17.3",

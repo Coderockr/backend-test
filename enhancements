@@ -1,33 +1,12 @@
 /*DOCUMENT THE API!!*/
-
-
-/*Use path method?*/
-
-
-/**Adjust problems with the date format (2022-02-24T08:12:56.671Z) */
-
-
 /*Implement a database to keep the data?*/
-
-
 /*Username and password to access data?*/
-
-/*manual define adderss and port server*/
-
-/*The regex are good enough?*/
-
-
 /*Prevent duplicity*/
 
 /* Set page size on paged requests?*/
 
-
-/*All the invalid inputs are mapped?*/
-
+/*The regex are good enough?*/
 
 /*Round or truncate the "Profit"?*/
 
-
-/** Remove "apendices" code***/
-
-/*Refactor Owner controller*/
+/* Make a withdraw preview*/

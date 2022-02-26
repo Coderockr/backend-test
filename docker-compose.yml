@@ -3,7 +3,8 @@ services:
   express:
     build: .
     command: npm start --prefix ./expressApi/
+    hostname: "localhost"
     ports:
-    - "3000:3000"
+    - "127.0.0.1:3000:3000"
     volumes:
     - .:/user/app/expressApi

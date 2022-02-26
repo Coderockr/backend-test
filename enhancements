@@ -1,7 +1,10 @@
-/*DOCUMENT THE API!!*/
+/* GUI in react*/
+
 /*Implement a database to keep the data?*/
+
 /*Username and password to access data?*/
-/*Prevent duplicity*/
+
+/*Prevent duplicity?*/
 
 /* Set page size on paged requests?*/
 
@@ -10,3 +13,5 @@
 /*Round or truncate the "Profit"?*/
 
 /* Make a withdraw preview*/
+
+/*MongoDB, Sqlite3*/

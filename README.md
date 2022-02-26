@@ -2,16 +2,17 @@
 This is a RESTful SOLID API!
 ## Dependencies
 ### Docker
-lorem ipsum
+Using docker to maximize the compatibility and make the build easyer.
 #### docker-compose
+Needed to allow multiple services (containers) running, as React (for the GUI), Express (in the API) and some Database that I've not chosen yet.
 ### Express
-lorem ipsum
+For route the API requests and responses.
 
 ### React
-lorem ipsum (In fact not yet)
+For render the frontend (GUI) *not implemented yet*
 
 ### Database(Not selected)
-lorem
+For keep the owners and investment data. *not implemented yet*
 
 ## How to run?
 
@@ -29,30 +30,51 @@ sudo apt install docker-compose
 ```
 
 Move on the cloned repo folder, then:
+#### To docker-compose
 
 ```bash
-docker build -t dockernode 
-docker run --network-alias=THEADDRESYOUWISH -p 3000:3000 -p 3030:3030 -d THENAMEYOUWISH
+docker-compose build
+docker-compose up
 ```
 
-#### To stop the execution
+**To stop**
+Use the key combination
+`CTRL+C`
+and then
+
 ```bash
-docker ps
+docker-compose down
 ```
-Find on the output the CONTAINER ID, then:
-```bash
-docker stop CONTAINERID
-```
+
+
 __________________________________________________________________________________________________
 
 ## Api documentation
-The server will run on the adress you specify on the docker run command. If you just copy and pasted, it will be `http://THEADDRESSYOUWISH:3030`. Let's assume that for the next examples.
+The server will run on the adress you specify on the docker-compose file.
+It comes for default with:
+```yaml
+version: '3'
+services:
+  express:
+    build: .
+    command: npm start --prefix ./expressApi/
+    hostname: "localhost"
+    ports:
+    - "127.0.0.1:3000:3000"
+    volumes:
+    - .:/user/app/expressApi
+
+``` 
+
+
+
+If you just follow the steps with no editions, the url will be `http://localhost:3000`. Let's assume that for the next examples.
 
 ### Endpoints
 
-#### `http://THEADDRESSYOUWISH:3030/investment` 
-#### `http://THEADDRESSYOUWISH:3030/owner` 
-#### `http://THEADDRESSYOUWISH:3030/withdraw` 
+#### `http://localhost:3000/investment` 
+#### `http://localhost:3000/owner` 
+#### `http://localhost:3000/withdraw` 
 ## Response default
 
 All the responses from API have the following format:
@@ -97,7 +119,7 @@ All the responses from API have the following format:
 ## Owner
 ### Get all owners
 #### Example URI
-`GET http://THEADDRESSYOUWISH:3030/owner`
+`GET http://localhost:3000/owner`
 #### Response
 ```json
 {
@@ -118,7 +140,7 @@ All the responses from API have the following format:
 
 ### Get a owner by ID
 #### Example URI
-`GET http://THEADDRESSYOUWISH/owner/?id={ownerId}`
+`GET http://localhost:3000/owner/?id={ownerId}`
 #### URI Paramenters
 ` ownerId =  number`
 #### Headers 
@@ -141,7 +163,7 @@ All the responses from API have the following format:
 ```
 ### Get a page of owners
 #### Example URI
-`GET http://THEADDRESSYOUWISH/owner/?page={pageNumber}`
+`GET http://localhost:3000/owner/?page={pageNumber}`
 #### URI Paramenters
 ` pageNumber = number`
 #### Headers 
@@ -167,7 +189,7 @@ All the responses from API have the following format:
 
 ### Get all investments
 #### Example URI
-`GET http://THEADDRESSYOUWISH/investment`
+`GET http://localhost:3000/investment`
 #### Response
 ```json
 
@@ -188,7 +210,7 @@ All the responses from API have the following format:
 
 ### Get all investments from a user
 #### Example URI
-`GET http://THEADDRESSYOUWISH/investment`
+`GET http://localhost:3000/investment`
 #### Headers 
 `Content-Type: application/json`
 #### Request
@@ -201,7 +223,7 @@ All the responses from API have the following format:
 
 ### Get a investment page
 #### Example URI
-`GET http://THEADDRESSYOUWISH/investment/?page={pageNumber}`
+`GET http://localhost:3000/investment/?page={pageNumber}`
 #### URI Paramenters
 ` pageNumber =  number`
 #### Headers 
@@ -229,7 +251,7 @@ All the responses from API have the following format:
 
 ### Get a investment page from a user
 #### Example URI
-`GET http://THEADDRESSYOUWISH/investment/?page={pageNumber}`
+`GET http://localhost:3000/investment/?page={pageNumber}`
 #### URI Paramenters
 ` pageNumber =  number`
 #### Headers 
@@ -283,7 +305,7 @@ All the responses from API have the following format:
 
 ### Get a investment by ID
 #### Example URI
-`GET http://THEADDRESSYOUWISH/investment/?id={investmentId}`
+`GET http://localhost:3000/investment/?id={investmentId}`
 #### URI Paramenters
 ` investmentId =  number`
 #### Headers 
@@ -308,7 +330,7 @@ All the responses from API have the following format:
 ## Withdraw
 ### Get a withdraw
 #### Example URI
-`GET http://THEADDRESSYOUWISH/withdraw`
+`GET http://localhost:3000/withdraw`
 #### Headers 
 `Content-Type: application/json`
 #### Request

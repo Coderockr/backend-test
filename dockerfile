@@ -8,9 +8,6 @@ RUN npm install --prefix ./expressApi
 RUN npm install --prefix express ./expressApi
 
 
-RUN docker-composer build
-RUN docker-composer up
-
 COPY . ./
 
 EXPOSE 3000

@@ -70,8 +70,8 @@ The server will run on the adress you specify on the docker run command. If you 
       "_ownerId": 1,
       "_firstName": "User",
       "_lastName": "First",
-      "_email": "email@fake.com",
-      "_phoneNumber": 11963258874
+      "_email": "data@fake.com",
+      "_phoneNumber": 23912424161
     },{
       "_ownerId": 2,
       "_firstName": "Another",
@@ -85,9 +85,9 @@ The server will run on the adress you specify on the docker run command. If you 
 
 ### GET A OWNER BY ID
 #### Example URI
-`GET http://THEADDRESSYOUWISH/?id={investor_id}`
+`GET http://THEADDRESSYOUWISH/?id={ownerId}`
 #### URI Paramenters
-` investor_id number`
+` ownerId =  number`
 #### Headers 
 `Content-Type: application/json`
 
@@ -99,12 +99,98 @@ The server will run on the adress you specify on the docker run command. If you 
   "objects": [
     {
       "_ownerId": 1,
-      "_firstName": "Lucas",
-      "_lastName": "Nascimento",
-      "_email": "email@fake.com",
-      "_phoneNumber": 11963258874
+      "_firstName": "User",
+      "_lastName": "First",
+      "_email": "dek@fake.com",
+      "_phoneNumber": 2351201215
     }
   ]
+```
+### GET A PAGE OF OWNERS
+#### Example URI
+`GET http://THEADDRESSYOUWISH/?page={pageNumber}`
+#### URI Paramenters
+` pageNumber = number`
+#### Headers 
+`Content-Type: application/json`
+#### Response
+```json
+  "error": false,
+  "message": "Owners page sucessfully loaded",
+  "status": 200,
+  "objects": [
+    {
+      "_ownerId": 1,
+      "_firstName": "Ann",
+      "_lastName": "Grace",
+      "_email": "lasd@fake.com",
+      "_phoneNumber": 23946545215
+    },
+    {
+      "_ownerId": 2,
+      "_firstName": "Carlos",
+      "_lastName": "Rodrigues",
+      "_email": "lasdoep@fake.com",
+      "_phoneNumber": 29988545215
+    },
+    {
+      "_ownerId": 3,
+      "_firstName": "Jhonny",
+      "_lastName": "Bass",
+      "_email": "fooos@fake.com",
+      "_phoneNumber": 11988545215
+    },
+    {
+      "_ownerId": 4,
+      "_firstName": "Melvin",
+      "_lastName": "Roth",
+      "_email": "keka@fake.com",
+      "_phoneNumber": 11988415215
+    },
+    {
+      "_ownerId": 5,
+      "_firstName": "Guy",
+      "_lastName": "Lee",
+      "_email": "sossc@fake.com",
+      "_phoneNumber": 11983615215
+    },
+    {
+      "_ownerId": 6,
+      "_firstName": "Hank",
+      "_lastName": "Shreder",
+      "_email": "scllas@fake.com",
+      "_phoneNumber": 11936178954
+    },
+    {
+      "_ownerId": 7,
+      "_firstName": "Marina",
+      "_lastName": "White",
+      "_email": "epllas@fake.com",
+      "_phoneNumber": 1155946351
+    },
+    {
+      "_ownerId": 8,
+      "_firstName": "Anna",
+      "_lastName": "Braga",
+      "_email": "jetd@fake.com",
+      "_phoneNumber": 1158696351
+    },
+    {
+      "_ownerId": 9,
+      "_firstName": "Jessica",
+      "_lastName": "Ramos",
+      "_email": "apske@fake.com",
+      "_phoneNumber": 21997895461
+    },
+    {
+      "_ownerId": 10,
+      "_firstName": "Debby",
+      "_lastName": "Key",
+      "_email": "dat@fake.com",
+      "_phoneNumber": 23954495461
+    }
+  ]
+
 ```
 
 

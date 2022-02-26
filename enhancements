@@ -12,6 +12,7 @@
 
 /*Username and password to access data?*/
 
+/*manual define adderss and port server*/
 
 /*The regex are good enough?*/
 
@@ -28,3 +29,5 @@
 
 
 /** Remove "apendices" code***/
+
+/* Docker?*/

@@ -2,10 +2,8 @@
     "name": "backend-test",
     "version": "1.0.0",
     "description": "## Scope",
-    "main": "server.js",
     "scripts": {
-        "test": "nodemon ./server.js",
-        "start": "node server.js"
+        "start": "node ."
     },
     "repository": {
         "type": "git",

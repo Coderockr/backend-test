@@ -2,7 +2,7 @@
 #### All data OK ###########
 
 #### Owner Creation ########
-POST http://localhost:3000/owner
+POST http://0.0.0.0:3000/owner
 Content-Type: application/json
 
 {
@@ -13,7 +13,7 @@ Content-Type: application/json
 }
 
 ##### Investment Creation####
-POST http://localhost:3000/investment
+POST http://0.0.0.0:3000/investment
 Content-Type: application/json
 
 {   
@@ -23,7 +23,7 @@ Content-Type: application/json
 }
 ##### Withdraw a investment####
 
-GET http://localhost:3000/withdraw
+GET http://0.0.0.0:3000/withdraw
 Content-Type: application/json
 
 {
@@ -31,7 +31,7 @@ Content-Type: application/json
     "date":"2022-01-05T08:12Z"
 }
 #### Get a page with 10 investments ###
-GET http://localhost:3000/investment/?page=1
+GET http://0.0.0.0:3000/investment/?page=1
 Content-Type: application/json
 
 {
@@ -39,22 +39,22 @@ Content-Type: application/json
 }
 
 ######## Get Investment by id ####
-get http://localhost:3000/investment/?id=4
+get http://0.0.0.0:3000/investment/?id=4
 Content-Type: application/json
 ###### Get a Owner by id #####
 
-GET http://localhost:3000/owner/?id=1
+GET http://0.0.0.0:3000/owner/?id=1
 Content-Type: application/json
 ##### Get all owners ###
-GET http://localhost:3000/owner
+GET http://0.0.0.0:3000/owner
 Content-Type: application/json
 ##### Get a 10 owners page ####
 
-GET http://localhost:3000/owner/?page=1
+GET http://0.0.0.0:3000/owner/?page=1
 Content-Type: application/json
 
 ##### get the documentation ####
-GET http://localhost:3000/documentation
+GET http://0.0.0.0:3000/documentation
 Content-Type: application/json
 ######################################
 ####################################
@@ -62,7 +62,7 @@ Content-Type: application/json
 #### All data Invalid #######
 #### Errors 01- 05, you've inputted something 
 # wrong and the creation of a owner failed
-POST http://localhost:3000/owner
+POST http://0.0.0.0:3000/owner
 Content-Type: application/json
 
 {
@@ -73,7 +73,7 @@ Content-Type: application/json
 }
 
 #### The data inputed must follow the default bellow ########
-POST http://localhost:3000/owner
+POST http://0.0.0.0:3000/owner
 Content-Type: application/json
 
 {
@@ -88,7 +88,7 @@ Content-Type: application/json
 ######Error 07 and 08 Only 
 #######happens when you have a valid owner.
 ##### Investment Creation####
-POST http://localhost:3000/investment
+POST http://0.0.0.0:3000/investment
 Content-Type: application/json
 
 {   
@@ -106,7 +106,7 @@ Content-Type: application/json
 
 
 #####11 - Cannot withdraw to past from creation date or in future from now"
-GET http://localhost:3000/withdraw
+GET http://0.0.0.0:3000/withdraw
 Content-Type: application/json
 
 {
@@ -120,7 +120,7 @@ Content-Type: application/json
 
 
 ############ Error 13
-POST http://localhost:3000/investment
+POST http://0.0.0.0:3000/investment
 Content-Type: application/json
 
 {   
@@ -131,7 +131,7 @@ Content-Type: application/json
 #####
 ####"14- Unable to withdraw previous withdrawn investment
 
-GET http://localhost:3000/withdraw
+GET http://0.0.0.0:3000/withdraw
 Content-Type: application/json
 
 {
@@ -140,7 +140,7 @@ Content-Type: application/json
 }
 
 ######"15 - Investment not found."
-GET http://localhost:3000/investment/?id=70
+GET http://0.0.0.0:3000/investment/?id=70
 Content-Type: application/json
 
 {
@@ -150,7 +150,7 @@ Content-Type: application/json
 
 
 ######"16 - Investment not found." 
-GET http://localhost:3000/withdraw
+GET http://0.0.0.0:3000/withdraw
 Content-Type: application/json
 
 {
@@ -162,7 +162,7 @@ Content-Type: application/json
 #######
 ##########"17 - Invalid date to Withdraw."
 ########(must hade a valid investment)
-GET http://localhost:3000/withdraw
+GET http://0.0.0.0:3000/withdraw
 Content-Type: application/json
 
 {
@@ -172,21 +172,21 @@ Content-Type: application/json
 
 ##########
 ####19 - Out of Investment Bounds
-get http://localhost:3000/investment/?page=50000
+get http://0.0.0.0:3000/investment/?page=50000
 Content-Type: application/json
 ###########20 - Page must be greater than zero."
-get http://localhost:3000/investment/?page=-1
+get http://0.0.0.0:3000/investment/?page=-1
 Content-Type: application/json
 ###"21- Owner not found."
-GET http://localhost:3000/owner/?id=-1
+GET http://0.0.0.0:3000/owner/?id=-1
 Content-Type: application/json
 
 ############ Error 22 Owners array out of bounds
-GET http://localhost:3000/owner/?page=12000
+GET http://0.0.0.0:3000/owner/?page=12000
 Content-Type: application/json
 ############ Error 23  -page must be greater than zero
 
-GET http://localhost:3000/owner/?page=-1
+GET http://0.0.0.0:3000/owner/?page=-1
 Content-Type: application/json
 
 

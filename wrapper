@@ -1,0 +1,7 @@
+#!/bin/bash
+cd ./expressApi & # your first application
+P1=$!
+npm start & # your second application
+P2=$!
+wait $P1 $P2
+

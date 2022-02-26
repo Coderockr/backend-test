@@ -2,6 +2,9 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
+use Illuminate\Support\Facades\Route;
+
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -16,3 +19,21 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+// API PREFIX ROUTES
+Route::post('login', 'AuthController@login');
+Route::post('logout', 'AuthController@logout');
+
+// ROUTES WITH AUTH
+Route::group(['middleware' => 'auth:api'], function(){
+    
+    //ACCOUNT ROUTES
+    Route::group([
+        'namespace' => 'Account',
+        'as' => 'account'
+    ], function(){
+        
+        Route::get('user', [ 'as' => 'user', 'uses' => 'UserController@user' ]);
+    });
+});
+

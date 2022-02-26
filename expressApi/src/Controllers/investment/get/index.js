@@ -33,7 +33,7 @@ function get(req) {
                     const ownerInvestments = Data.investments.filter(investment => investment.ownerId == ownerId);
                     if (ownerInvestments.length > 0) {
                         investmentArray.push(...ownerInvestments)
-                        lastResponse.setSuccess(200, "Owner investments sucessfully loaded", []);
+                        lastResponse.setSuccess(200, "Owner investments sucessfully loaded", );
                     } else {
                         lastResponse.setError(406, "Request level error", "16 - No investments for this Owner.");
                     }
@@ -42,7 +42,7 @@ function get(req) {
                 };
             } else {
                 investmentArray.push(...Data.investments)
-                lastResponse.setSuccess(200, "All investments sucessfully loaded", []);
+                lastResponse.setSuccess(200, "All investments sucessfully loaded", );
             }
         }
 

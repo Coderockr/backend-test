@@ -10,7 +10,7 @@ lorem ipsum
 ### React
 lorem ipsum (In fact not yet)
 
-### DATABASE (Not selected)
+### Database(Not selected)
 lorem
 
 ## How to run?
@@ -35,7 +35,7 @@ docker build -t dockernode
 docker run --network-alias=THEADDRESYOUWISH -p 3000:3000 -p 3030:3030 -d THENAMEYOUWISH
 ```
 
-#### TO STOP THE EXECUTION
+#### To stop the execution
 ```bash
 docker ps
 ```
@@ -52,7 +52,46 @@ The server will run on the adress you specify on the docker run command. If you 
 #### `http://THEADDRESSYOUWISH:3030/investment` 
 #### `http://THEADDRESSYOUWISH:3030/owner` 
 #### `http://THEADDRESSYOUWISH:3030/withdraw` 
----
+## Response default
+
+All the responses from API have the following format:
+
+` boolean`
+` string`
+` number`
+` Array`
+
+### Sucessfull
+
+```json
+  "error": false,
+  "message": "Some Positive Message",
+  "status": 200,
+  "objects": [
+   ...
+  ]
+
+```
+` error = boolean`
+` message = string`
+` status = number`
+` objects = Array`
+
+### Fail:
+
+```json
+"error": true,
+  "message": "Some Negative Message",
+  "status": 406,
+  "errorList": [
+          ...
+  ]
+```
+` error = boolean`
+` message = string`
+` status = number`
+` errorList = Array from Error`
+
 
 ## OWNER
 ### GET ALL OWNERS
@@ -72,13 +111,7 @@ The server will run on the adress you specify on the docker run command. If you 
       "_lastName": "First",
       "_email": "data@fake.com",
       "_phoneNumber": 23912424161
-    },{
-      "_ownerId": 2,
-      "_firstName": "Another",
-      "_lastName": "User",
-      "_email": "email2@fake.com",
-      "_phoneNumber": 21954487654
-    },
+    },...
   ]
 }
 ```
@@ -125,70 +158,8 @@ The server will run on the adress you specify on the docker run command. If you 
       "_lastName": "Grace",
       "_email": "lasd@fake.com",
       "_phoneNumber": 23946545215
-    },
-    {
-      "_ownerId": 2,
-      "_firstName": "Carlos",
-      "_lastName": "Rodrigues",
-      "_email": "lasdoep@fake.com",
-      "_phoneNumber": 29988545215
-    },
-    {
-      "_ownerId": 3,
-      "_firstName": "Jhonny",
-      "_lastName": "Bass",
-      "_email": "fooos@fake.com",
-      "_phoneNumber": 11988545215
-    },
-    {
-      "_ownerId": 4,
-      "_firstName": "Melvin",
-      "_lastName": "Roth",
-      "_email": "keka@fake.com",
-      "_phoneNumber": 11988415215
-    },
-    {
-      "_ownerId": 5,
-      "_firstName": "Guy",
-      "_lastName": "Lee",
-      "_email": "sossc@fake.com",
-      "_phoneNumber": 11983615215
-    },
-    {
-      "_ownerId": 6,
-      "_firstName": "Hank",
-      "_lastName": "Shreder",
-      "_email": "scllas@fake.com",
-      "_phoneNumber": 11936178954
-    },
-    {
-      "_ownerId": 7,
-      "_firstName": "Marina",
-      "_lastName": "White",
-      "_email": "epllas@fake.com",
-      "_phoneNumber": 1155946351
-    },
-    {
-      "_ownerId": 8,
-      "_firstName": "Anna",
-      "_lastName": "Braga",
-      "_email": "jetd@fake.com",
-      "_phoneNumber": 1158696351
-    },
-    {
-      "_ownerId": 9,
-      "_firstName": "Jessica",
-      "_lastName": "Ramos",
-      "_email": "apske@fake.com",
-      "_phoneNumber": 21997895461
-    },
-    {
-      "_ownerId": 10,
-      "_firstName": "Debby",
-      "_lastName": "Key",
-      "_email": "dat@fake.com",
-      "_phoneNumber": 23954495461
-    }
+    },...
+  ]
   ]
 
 ```
@@ -206,86 +177,6 @@ The server will run on the adress you specify on the docker run command. If you 
   "objects": [
     {
       "_investmentId": 1,
-      "_ownerId": 1,
-      "_creationDate": "2022-01-27T08:12:00.000Z",
-      "_initialAmount": 179.21,
-      "_atualAmount": 179.21,
-      "todayExpected": 179.21
-    },
-    {
-      "_investmentId": 2,
-      "_ownerId": 1,
-      "_creationDate": "2022-01-27T08:12:00.000Z",
-      "_initialAmount": 179.21,
-      "_atualAmount": 179.21,
-      "todayExpected": 179.21
-    },
-    {
-      "_investmentId": 3,
-      "_ownerId": 1,
-      "_creationDate": "2022-01-27T08:12:00.000Z",
-      "_initialAmount": 179.21,
-      "_atualAmount": 179.21,
-      "todayExpected": 179.21
-    },
-    {
-      "_investmentId": 4,
-      "_ownerId": 1,
-      "_creationDate": "2022-01-27T08:12:00.000Z",
-      "_initialAmount": 179.21,
-      "_atualAmount": 179.21,
-      "todayExpected": 179.21
-    },
-    {
-      "_investmentId": 5,
-      "_ownerId": 1,
-      "_creationDate": "2022-01-27T08:12:00.000Z",
-      "_initialAmount": 179.21,
-      "_atualAmount": 179.21,
-      "todayExpected": 179.21
-    },
-    {
-      "_investmentId": 6,
-      "_ownerId": 1,
-      "_creationDate": "2022-01-27T08:12:00.000Z",
-      "_initialAmount": 179.21,
-      "_atualAmount": 179.21,
-      "todayExpected": 179.21
-    },
-    {
-      "_investmentId": 7,
-      "_ownerId": 1,
-      "_creationDate": "2022-01-27T08:12:00.000Z",
-      "_initialAmount": 179.21,
-      "_atualAmount": 179.21,
-      "todayExpected": 179.21
-    },
-    {
-      "_investmentId": 8,
-      "_ownerId": 1,
-      "_creationDate": "2022-01-27T08:12:00.000Z",
-      "_initialAmount": 179.21,
-      "_atualAmount": 179.21,
-      "todayExpected": 179.21
-    },
-    {
-      "_investmentId": 9,
-      "_ownerId": 1,
-      "_creationDate": "2022-01-27T08:12:00.000Z",
-      "_initialAmount": 179.21,
-      "_atualAmount": 179.21,
-      "todayExpected": 179.21
-    },
-    {
-      "_investmentId": 10,
-      "_ownerId": 1,
-      "_creationDate": "2022-01-27T08:12:00.000Z",
-      "_initialAmount": 179.21,
-      "_atualAmount": 179.21,
-      "todayExpected": 179.21
-    },
-    {
-      "_investmentId": 11,
       "_ownerId": 1,
       "_creationDate": "2022-01-27T08:12:00.000Z",
       "_initialAmount": 179.21,

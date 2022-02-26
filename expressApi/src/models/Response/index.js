@@ -20,16 +20,16 @@ class Response {
         };
     };
     setSuccess(status, message, objects) {
-        if (this.error = false) {
-            this.status = status;
-            this.message = message;
-            this.objects = [];
-            if (objects instanceof Array) {
-                this.objects.push(...objects);
-            } else {
-                this.objects.push(objects);
-            };
+
+        this.status = status;
+        this.message = message;
+        this.objects = [];
+        if (objects instanceof Array) {
+            this.objects.push(...objects);
+        } else {
+            this.objects.push(objects);
         };
+
     };
 };
 module.exports = { Response };

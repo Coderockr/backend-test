@@ -10,12 +10,15 @@ function post(req) {
         req.body.email,
         req.body.phoneNumber);
     /**Check for unique identifiers */
+
     if (owner.error) {
         lastResponse.setError(406, "Class Level Error", owner.errorList);
     } else {
         Data.owners.push(owner);
-        lastResponse.setSuccess(201, "Owner Sucessfylly Created", owner);
+        lastResponse.setSuccess(201, "Owner Sucessfully Created", owner);
     };
+
+
     return lastResponse;
 }
 module.exports = { post };

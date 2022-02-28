@@ -99,7 +99,6 @@ exports.findOne = (req,res) => {
       if (!data)
         res.status(404).send({ message: "Not found Investiment with id " + id });
         else {
-<<<<<<< HEAD
           var d = new Date(data.dateInvest)
     	  d.setHours(0,0,0,0);
 
@@ -110,15 +109,7 @@ exports.findOne = (req,res) => {
 
           data1 = new Date(d.getTime() + (3600000*(-3)))
     	  now = new Date(di.getTime() + (3600000*(-3)))          
-=======
-          
-          data1 = new Date(data.dateInvest.getTime() + (3600000*(-3)))
-          data2 = dataWithdrawn ? new Date(dataWithdrawn.substr(0,30)) : new Date((new Date().getTime() + (3600000*(-3)))) // data com fuso horario corrigido
-          now = new Date(new Date().getTime() + (3600000*(-3)))
 
-          
-          
->>>>>>> 2e10ef60d7fee58b5b91d9d2b33e03fc0bbb1ceb
           if( data2 > now || data2 < data1){
             res.status(400).send({ message: "Data de retirada do investimento inválida! Obs: a data deve ser maior que a data de lançamento e menor ou igual ao dia de hoje."});
             return;

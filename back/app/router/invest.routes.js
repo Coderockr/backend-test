@@ -22,8 +22,6 @@ module.exports = app => {
   
     router2.get("/list", owner.findAll);
   
-    router2.get("/:id", owner.findOne);
-  
     app.use("/api/owner", router2);
 
 

@@ -1,0 +1,17 @@
+{
+  "name": "backend-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^27.5.1",
+    "mongoose": "^6.2.3",
+    "supertest": "^6.2.2"
+  }
+}

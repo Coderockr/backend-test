@@ -4,7 +4,7 @@ namespace App\Models\User;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
-use App\Casts\{ Money, PreventFutureDate };
+use App\Casts\{ Money, PreventFutureDate, WithdrawnDate };
 
 class Investment extends Model
 {
@@ -26,8 +26,9 @@ class Investment extends Model
     ];
 
     protected $casts = [
-        'created_at' => PreventFutureDate::class,
-        'value' => Money::class,
+        'created_at'    => PreventFutureDate::class,
+        'value'         => Money::class,
+        'withdrawn_at'  => WithdrawnDate::class,
     ];
 
     protected $appends = [
@@ -40,8 +41,8 @@ class Investment extends Model
 
     public function getAgeInMonthsAttribute(): int
     {
-        $now = Carbon::now()->toDateTimeString();
-        return Carbon::parse($this->attributes['created_at'])->diffInMonths($now);
+        $ageParam = $this->withdrawn ? $this->withdrawn_at : Carbon::now()->toDateTimeString();
+        return Carbon::parse($this->attributes['created_at'])->diffInMonths($ageParam);
     }
 
     public function getCurrentValueAttribute(): string
@@ -62,7 +63,18 @@ class Investment extends Model
     public function getWithdrawnTaxPercentageAttribute(): string
     {
        return $this->verifyWithdrawnTaxPercentage().'%';
-    }   
+    }
+    
+    public function setAsWithdrawn(?string $dateTime = null): bool
+    {
+        if($this->withdrawn)
+            return false;
+
+        $this->withdrawn = true;
+        $this->withdrawn_at = $dateTime ?? Carbon::now()->toDateTimeString();
+
+        return $this->save();
+    }
 
     private function calcCurrentValue(): float
     {

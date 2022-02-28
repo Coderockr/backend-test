@@ -19,7 +19,7 @@ class InvestmentCreateTest extends TestCase
 
     public function testCreate()
     {
-        $response = $this->actingAs($this->user)->call('POST', '/investment', [
+        $response = $this->actingAs($this->user)->call('POST', '/investments', [
             "value" => 150.00,
         ]);
 
@@ -34,7 +34,7 @@ class InvestmentCreateTest extends TestCase
 
     public function testCreateWithFutureDate()
     {
-        $response = $this->actingAs($this->user)->call('POST', '/investment', [
+        $response = $this->actingAs($this->user)->call('POST', '/investments', [
             "value" => 150.00,
             "created_at" => $this->futureDate
         ]);
@@ -50,7 +50,7 @@ class InvestmentCreateTest extends TestCase
 
     public function testCreateWithNegativeValue()
     {
-        $response = $this->actingAs($this->user)->call('POST', '/investment', [
+        $response = $this->actingAs($this->user)->call('POST', '/investments', [
             "value" => -2,
         ]);
 

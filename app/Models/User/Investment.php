@@ -92,17 +92,15 @@ class Investment extends Model
 
         switch ($age) {
 
-            case ($age < 12):
-                $currentTax = $taxes['LESS_THAN_ONE'];
-                break;
+            case ($age >= 24):
+                $currentTax = $taxes['OLDER_THAN_TWO'];
 
             case ($age >= 12 && $age < 24):
                 $currentTax = $taxes['BETWEEN_ONE_AND_TWO'];
-                break;
 
             default:
-                $currentTax = $taxes['OLDER_THAN_TWO'];
-                break;
+                $currentTax = $taxes['LESS_THAN_ONE'];
+                
         }
 
         return $currentTax;

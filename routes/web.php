@@ -16,24 +16,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
-
-// API PREFIX ROUTES
 Route::post('login', 'AuthController@login');
 Route::post('logout', 'AuthController@logout');
+
 
 // ROUTES WITH AUTH
 Route::group(['middleware' => 'auth:api'], function(){
     
-    //ACCOUNT ROUTES
+    // Route::get('user', [ 'as' => 'user', 'uses' => 'UserController@user' ]);
+    
     Route::group([
-        'namespace' => 'Account',
-        'as' => 'account'
+        'prefix' => 'investment',
+        'as' => 'investment'
     ], function(){
+
+        Route::post('/', [ 
+            'as' => 'store', 
+            'uses' => 'InvestmentController@store' 
+        ]);
         
-        Route::get('user', [ 'as' => 'user', 'uses' => 'UserController@user' ]);
     });
 });
 

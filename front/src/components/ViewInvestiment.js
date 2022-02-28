@@ -11,6 +11,7 @@ function ViewInvestiment(){
     var props = useLocation();
     var nome = (props.state.nome);
     var row = (props.state.row);
+<<<<<<< HEAD
 	var dataW = new Date(row.dateWithdrawn.substr(0,10))
 	dataW.setDate(dataW.getDate() + 1)
 	dataW.setHours(0,0,0,0)
@@ -20,6 +21,13 @@ function ViewInvestiment(){
         var investiments = await fetch("http://localhost:8080/api/invest/"+row.id+"?dataWithdrawn="+row.dateWithdrawn)
         var res = await investiments.json()
 	console.log(res)
+=======
+    const [ret,setRet] = useState([]);
+
+    useEffect(async()=>{
+        var investiments = await fetch("http://localhost:8080/api/invest/"+row.id+"?dataWithdrawn="+row.dateWithdrawn)
+        var res = await investiments.json()
+>>>>>>> 2e10ef60d7fee58b5b91d9d2b33e03fc0bbb1ceb
         setRet(res);
     },[])
 
@@ -66,9 +74,15 @@ function ViewInvestiment(){
                         <LocalizationProvider dateAdapter={AdapterDateFns} locale={ptBR}>
                         <h3>Data da retirada:</h3>
                         <DatePicker
+<<<<<<< HEAD
                             label={dataW.toLocaleString().substr(0,10)}
                             disabled
                             value={dataW.toLocaleString().substr(0,10)}
+=======
+                            label={row.dateWithdrawn}
+                            disabled
+                            value={row.dateWithdrawn}
+>>>>>>> 2e10ef60d7fee58b5b91d9d2b33e03fc0bbb1ceb
                             
                             renderInput={(params) => <TextField {...params} />}
                         />

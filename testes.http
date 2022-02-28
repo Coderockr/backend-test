@@ -103,7 +103,7 @@ Content-Type: application/json
 
 
 #####11 - Cannot withdraw to past from creation date or in future from now"
-GET http://localhost:3000/withdraw
+GET http://localhost:3030/withdraw
 Content-Type: application/json
 
 {
@@ -117,18 +117,18 @@ Content-Type: application/json
 
 
 ############ Error 13
-POST http://localhost:3000/investment
+POST http://localhost:3030/investment
 Content-Type: application/json
 
 {   
-    "ownerId":0,
-    "creationDate":"201-02-20T08:12Z",
+    "ownerId":1,
+    "creationDate":"2015-02-20T08:12Z",
     "amount":15000.21
 }
 #####
 ####"14- Unable to withdraw previous withdrawn investment
 
-GET http://localhost:3000/withdraw
+GET http://localhost:3030/withdraw
 Content-Type: application/json
 
 {
@@ -137,7 +137,7 @@ Content-Type: application/json
 }
 
 ######"15 - Investment not found."
-GET http://localhost:3000/investment/?id=70
+GET http://localhost:3030/investment/?id=70
 Content-Type: application/json
 
 {
@@ -147,7 +147,7 @@ Content-Type: application/json
 
 
 ######"16 - Investment not found." 
-GET http://localhost:3000/withdraw
+GET http://localhost:3030/withdraw
 Content-Type: application/json
 
 {
@@ -159,7 +159,7 @@ Content-Type: application/json
 #######
 ##########"17 - Invalid date to Withdraw."
 ########(must hade a valid investment)
-GET http://localhost:3000/withdraw
+GET http://localhost:3030/withdraw
 Content-Type: application/json
 
 {

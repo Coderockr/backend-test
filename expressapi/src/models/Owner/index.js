@@ -1,5 +1,5 @@
-const { Error } = require("../../Controllers/error");
-const { validator } = require("../../Controllers/validator");
+const { Error } = require("../../Controllers/data/error");
+const { validator } = require("../../Controllers/data/validator");
 class Owner {
     static counter = 0;
     _ownerId = null;

@@ -1,7 +1,7 @@
 const { Data } = require("../../data");
 const { Response } = require("../../../models/Response");
-const { validator } = require("../../validator");
-const { paginator } = require("../../paginator");
+const { paginator } = require("../../data/paginator")
+const { validator } = require("../../data/validator");
 
 function get(req) {
     let lastResponse = new Response();

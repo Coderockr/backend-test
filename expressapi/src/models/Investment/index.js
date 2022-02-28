@@ -1,5 +1,5 @@
-const { Error } = require("../../Controllers/error");
-const { validator } = require("../../Controllers/validator");
+const { Error } = require("../../Controllers/data/error");
+const { validator } = require("../../Controllers/data/validator");
 class Investment {
     static counter = 0;
     _investmentId = null;
@@ -77,7 +77,7 @@ class Investment {
     /**Functions */
     update() {
         let dateNow = new Date(Date.now())
-        this.todayExpected = parseFloat(this.viewExpectedBalance(dateNow).toFixed(2))
+        this.todayExpected = parseFloat(this.viewExpectedBalance(dateNow)).toFixed(2)
     }
     setError(message) {
         const timeStamp = new Date(Date.now());

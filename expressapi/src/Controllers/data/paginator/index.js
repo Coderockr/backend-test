@@ -1,4 +1,4 @@
-const { Response } = require("../../models/Response")
+const { Response } = require("../../../models/Response")
 
 function paginator(page, arrayToMap, String) {
     const lastResponse = new Response();

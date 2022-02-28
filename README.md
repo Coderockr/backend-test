@@ -4,16 +4,12 @@ This is a RESTful SOLID API!
 ### Docker
 Using docker to maximize the compatibility and make the build easyer.
 #### docker-compose
-Needed to allow multiple services (containers) running, as React (for the GUI), Express (in the API) and some Database that I've not chosen yet.
+Needed to allow multiple services (containers) running. Allows me to escalonate the API and create apps or DB's for it.
 ### Express
-For route the API requests and responses.
+Running the javascript API.
 
-### React
-For render the frontend (GUI) *not implemented yet*
-
-### Database(Not selected)
-For keep the owners and investment data. *not implemented yet*
-
+## Ideas
+Use React JS and Axios as interface to improve frontend skills, and insert a database for persistence.
 ## How to run?
 
 At first, clone the repo:
@@ -57,18 +53,18 @@ version: '3'
 services:
   express:
     build: .
-    command: npm start --prefix ./expressApi/
+    command: npm start --prefix ./expressapi/
     hostname: "localhost"
     ports:
     - "127.0.0.1:3000:3000"
     volumes:
-    - .:/user/app/expressApi
+    - .:/user/app/expressapi
 
 ``` 
 
 
 
-If you just follow the steps with no editions, the url will be `http://localhost:3000`. Let's assume that for the next examples.
+If you just follow the steps with no editions, the url will be `http://localhost:3000`. Let's assume that for the next examples. To test, I've used **humao.rest-client**. Just install it on **VS CODE** and use the http files to test it as REST api.
 
 ### Endpoints
 

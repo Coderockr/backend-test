@@ -1,6 +1,6 @@
 const { Response } = require("../../../models/Response");
-const { validator } = require("../../../Controllers/validator");
-const { paginator } = require("../../../Controllers/paginator");
+const { validator } = require("../../data/validator");
+const { paginator } = require("../../../Controllers/data/paginator");
 const { Data } = require("../../data");
 
 function get(req) {

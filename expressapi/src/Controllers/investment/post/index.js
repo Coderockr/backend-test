@@ -3,12 +3,15 @@ const { Investment } = require("../../../models/Investment");
 const { Response } = require("../../../models/Response");
 
 function post(req) {
+    console.log(req.body)
     let lastResponse = new Response();
     let ownerId = req.body.ownerId;
     ownerId == null ? ownerId = 1 : null;
 
     if (Data.owners.filter(owner => owner.ownerId == ownerId).length == 1) {
+
         const date = new Date(req.body.creationDate);
+
         const investment = new Investment(
             ownerId, date,
             req.body.amount);

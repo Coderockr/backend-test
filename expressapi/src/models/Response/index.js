@@ -1,4 +1,4 @@
-const { Error } = require("../../Controllers/error");
+const { Error } = require("../../Controllers/data/error");
 class Response {
     error = false;
     message = null;

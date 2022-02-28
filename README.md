@@ -62,9 +62,7 @@ services:
 
 ``` 
 
-
-
-If you just follow the steps with no editions, the url will be `http://localhost:3000`. Let's assume that for the next examples. To test, I've used **humao.rest-client**. Just install it on **VS CODE** and use the http files to test it as REST api.
+If you just follow the steps with no editions, the url will be `http://localhost:3000`. Let's assume that for the next examples. To test, I've used **humao.rest-client**. Just install it on **VS CODE** and use the http files to test it as REST api. Soon, there'll be a interface for you :). 
 
 ### Endpoints
 

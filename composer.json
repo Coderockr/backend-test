@@ -1,0 +1,9 @@
+{
+    "name": "lucasv-bs/coderocker-backend-test",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Tests\\": "tests/"
+        }
+    }
+}

@@ -11,6 +11,7 @@ function ViewInvestiment(){
     var props = useLocation();
     var nome = (props.state.nome);
     var row = (props.state.row);
+    console.log(row);
     const [ret,setRet] = useState([]);
     
     useEffect(async()=>{

@@ -102,13 +102,19 @@ exports.findOne = (req,res) => {
           var d = new Date(data.dateInvest)
     	  d.setHours(0,0,0,0);
 
-          data2 = dataWithdrawn ? new Date(dataWithdrawn.substr(0,30)) : new Date((new Date().getTime() + (3600000*(-3)))) // data com fuso horario corrigido
-
-	  var di = new Date();
+        if(dataWithdrawn == "null" || dataWithdrawn == undefined){
+          var di = new Date();
+          di.setHours(0,0,0,0);
+          data2 = new Date(di.getTime() + (3600000*(-3))) 
+          
+        }else{
+            data2 = new Date(dataWithdrawn.substr(0,30))
+        }
+	       var di = new Date();
           di.setHours(0,0,0,0);
 
           data1 = new Date(d.getTime() + (3600000*(-3)))
-    	  now = new Date(di.getTime() + (3600000*(-3)))          
+    	    now = new Date(di.getTime() + (3600000*(-3)))          
 
           if( data2 > now || data2 < data1){
             res.status(400).send({ message: "Data de retirada do investimento inválida! Obs: a data deve ser maior que a data de lançamento e menor ou igual ao dia de hoje."});

@@ -20,6 +20,7 @@ class CreateInvestmentsTable extends Migration
             $table->string('name')->nullable();
             $table->boolean('withdrawn')->default(false);
             $table->decimal('value',15,2);
+            $table->timestamp('withdrawn_at')->nullable();
             $table->timestamps();
         });
     }

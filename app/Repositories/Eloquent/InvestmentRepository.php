@@ -17,4 +17,9 @@ class InvestmentRepository implements InvestmentContract
     {
         return $this->user->investments()->create($data);
     }
+
+    public function findByID(int $id): Investment
+    {
+        return $this->user->investments()->where('id', $id)->firstOrFail();
+    }
 }

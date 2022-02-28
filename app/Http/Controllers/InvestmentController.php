@@ -22,4 +22,9 @@ class InvestmentController extends Controller
 
         return $this->investment->create($request->all());
     }
+
+    public function show(int $id): ?Investment
+    {
+        return $this->investment->findByID($id);
+    }
 }

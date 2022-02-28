@@ -23,18 +23,21 @@ Route::post('logout', 'AuthController@logout');
 // ROUTES WITH AUTH
 Route::group(['middleware' => 'auth:api'], function(){
     
-    // Route::get('user', [ 'as' => 'user', 'uses' => 'UserController@user' ]);
-    
     Route::group([
-        'prefix' => 'investment',
-        'as' => 'investment'
+        'prefix' => 'investments',
+        'as' => 'investments'
     ], function(){
 
         Route::post('/', [ 
             'as' => 'store', 
             'uses' => 'InvestmentController@store' 
         ]);
-        
+
+        Route::get('/{id}', [
+            'as' => 'show',
+            'uses' => 'InvestmentController@show'
+        ]);
+
     });
 });
 

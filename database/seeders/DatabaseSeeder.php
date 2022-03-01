@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\User\Investment;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,6 +15,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call('UsersTableSeeder');
-        \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(10)
+        ->create()
+        ->each(function($user) {
+            $user->investments()->saveMany(Investment::factory(1)->make());
+        });
     }
 }

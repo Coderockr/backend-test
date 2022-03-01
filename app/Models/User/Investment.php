@@ -5,7 +5,12 @@ namespace App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Carbon\Carbon;
-use App\Casts\{ Money, PreventFutureDate, WithdrawnDate };
+use App\Casts\{ 
+    Money, 
+    PreventFutureDate, 
+    WithdrawnDate,
+    WithdrawnStatus
+};
 
 class Investment extends Model
 {
@@ -32,6 +37,7 @@ class Investment extends Model
         'created_at'    => PreventFutureDate::class,
         'value'         => Money::class,
         'withdrawn_at'  => WithdrawnDate::class,
+        'withdrawn'     => WithdrawnStatus::class,
     ];
 
     protected $appends = [

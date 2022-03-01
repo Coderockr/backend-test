@@ -38,6 +38,11 @@ Route::group(['middleware' => 'auth:api'], function(){
             'uses' => 'InvestmentController@show'
         ]);
 
+        Route::put('withdraw/{id}', [
+            'as' => 'withdraw',
+            'uses' => 'InvestmentController@withdraw'
+        ]);
+
     });
 });
 

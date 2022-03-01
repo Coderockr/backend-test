@@ -22,4 +22,9 @@ class InvestmentRepository implements InvestmentContract
     {
         return $this->user->investments()->where('id', $id)->firstOrFail();
     }
+
+    public function withdraw(Investment $investment, ?string $dateTime = null): bool
+    {
+        return $investment->setAsWithdrawn($dateTime);
+    }
 }

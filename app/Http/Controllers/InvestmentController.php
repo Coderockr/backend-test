@@ -27,4 +27,15 @@ class InvestmentController extends Controller
     {
         return $this->investment->findByID($id);
     }
+
+    public function withdraw(Request $request, int $id): bool
+    {
+        $investment = $this->investment->findByID($id);
+
+        $this->validate($request, [
+            'date' => 'date|date_format:Y-m-d H:i:s|before_or_equal:now|after:'.$investment->created_at
+        ]);
+
+        return $this->investment->withdraw( $investment, $request->get('date') );
+    }
 }

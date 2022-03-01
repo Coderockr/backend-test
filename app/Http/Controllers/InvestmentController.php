@@ -17,7 +17,8 @@ class InvestmentController extends Controller
     {
 
         $this->validate($request, [
-            'value' => 'required|numeric|min:1'
+            'value' => 'required|numeric|min:1',
+            'created_at' => 'date|date_format:Y-m-d H:i:s|before_or_equal:now'
         ]);
 
         return $this->investment->create($request->all());

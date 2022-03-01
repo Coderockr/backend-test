@@ -22,14 +22,9 @@ class InvestmentCreateTest extends TestCase
         $response = $this->actingAs($this->user)->call('POST', '/investments', [
             "value" => 150.00,
         ]);
-
-        $investment = Investment::where('value', 150.00)->first();
         
         //request ok
         $this->assertEquals(200, $response->status());
-
-        //checking owner
-        $this->assertTrue($investment->user_id == $this->user->id);
     }
 
     public function testCreateWithFutureDate()
@@ -38,14 +33,10 @@ class InvestmentCreateTest extends TestCase
             "value" => 150.00,
             "created_at" => $this->futureDate
         ]);
-
-        $investment = Investment::where('value', 150.00)->first();
-
-        //request ok
-        $this->assertEquals(200, $response->status());
-
-        //checking date after pass a future value (expected date now)
-        $this->assertEquals(Carbon::now()->toDateTimeString(), $investment->created_at);
+        
+        //response status with validations errors
+        $this->assertEquals(422, $response->status());
+        $response->assertJsonValidationErrors('created_at', null);
     }
 
     public function testCreateWithNegativeValue()

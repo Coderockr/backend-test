@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         \App\Models\User::factory(10)
         ->create()
         ->each(function($user) {
-            $user->investments()->saveMany(Investment::factory(1)->make());
+            $user->investments()->saveMany(Investment::factory(30)->make());
         });
     }
 }

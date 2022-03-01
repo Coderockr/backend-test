@@ -28,6 +28,11 @@ Route::group(['middleware' => 'auth:api'], function(){
         'as' => 'investments'
     ], function(){
 
+        Route::get('/', [
+            'as' => 'index',
+            'uses' => 'InvestmentController@index'
+        ]);
+
         Route::post('/', [ 
             'as' => 'store', 
             'uses' => 'InvestmentController@store' 

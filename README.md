@@ -48,7 +48,8 @@ The project source code and dependencies should be made available in GitHub. Her
 1. Fork this repository to your GitHub account (create an account if you don't have one, you will need it working with us).
 2. Create a "development" branch and commit the code to it. Do not push the code to the main branch.
 3. Include a README file that describes:
-    - Build instructions, showing each commands to setup and run the application.
+    - Build instructions, showing each commands to setup and run the application (ex.: run `php -S localhost:8080` on root folder).
+        - A link to that tool/language default process is also valid.
     - List of third-party libraries used and short description of why/how they were used
     - A link to the API documentation.
 4. Once the work is complete, create a pull request from "development" into "main" and send us the link.

@@ -10,7 +10,7 @@ trait HasCompoundInterestCalc
         return 0;
     }
 
-    private function verifyWithdrawnTaxPercentage(): float
+    private function verifyWithdralTaxPercentage(): float
     {
         return 0.00;
     }
@@ -35,13 +35,13 @@ trait HasCompoundInterestCalc
         return $this->calcCurrentValue() - $this->valueField();
     }
 
-    private function calcWithdrawnValue(): float
+    private function calcWithdralValue(): float
     {
-        return $this->calcCurrentValue() - $this->calcWithdrawnTaxes();        
+        return $this->calcCurrentValue() - $this->calcWithdralTaxes();        
     }
 
-    private function calcWithdrawnTaxes(): float
+    private function calcWithdralTaxes(): float
     {
-        return ($this->verifyWithdrawnTaxPercentage() / 100) * $this->calcInterestIncome();
+        return ($this->verifyWithdralTaxPercentage() / 100) * $this->calcInterestIncome();
     }
 }

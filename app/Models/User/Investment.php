@@ -45,9 +45,9 @@ class Investment extends Model
         'age_in_months',
         'current_value',
         'interest_income',
-        'withdrawn_value',
-        'withdrawn_tax_percentage',
-        'withdrawn_tax',
+        'withdral_value',
+        'withdral_tax_percentage',
+        'withdral_tax',
         'interest_rate_percent',
     ];
 
@@ -79,19 +79,19 @@ class Investment extends Model
         return number_format($this->calcInterestIncome(), 2, ',', '.');
     }
 
-    public function getWithdrawnValueAttribute(): string
+    public function getWithdralValueAttribute(): string
     {
-        return number_format($this->calcWithdrawnValue(), 2, ',', '.');
+        return number_format($this->calcWithdralValue(), 2, ',', '.');
     }
 
-    public function getWithdrawnTaxPercentageAttribute(): string
+    public function getWithdralTaxPercentageAttribute(): string
     {
-       return $this->verifyWithdrawnTaxPercentage().'%';
+       return $this->verifyWithdralTaxPercentage().'%';
     }
 
-    public function getWithdrawnTaxAttribute(): string
+    public function getWithdralTaxAttribute(): string
     {
-        return number_format($this->calcWithdrawnTaxes(), 2, ',', '.');
+        return number_format($this->calcWithdralTaxes(), 2, ',', '.');
     }
 
     public function getInterestRatePercentAttribute(): string
@@ -110,7 +110,7 @@ class Investment extends Model
         return $this->save();
     }
 
-    private function verifyWithdrawnTaxPercentage(): float
+    private function verifyWithdralTaxPercentage(): float
     {
         $age = $this->ageInMonths;
         $taxes = self::WITHDRAWN_TAX_PERCENTAGE;

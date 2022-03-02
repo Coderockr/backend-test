@@ -4,6 +4,7 @@ namespace App\Models\User;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Traits\HasCompoundInterestCalc;
 use Carbon\Carbon;
 use App\Casts\{ 
     Money, 
@@ -15,7 +16,7 @@ use App\Casts\{
 class Investment extends Model
 {
 
-    use HasFactory;
+    use HasFactory, HasCompoundInterestCalc;
 
     const UPDATED_AT = null;
 
@@ -107,26 +108,6 @@ class Investment extends Model
         $this->withdrawn_at = $dateTime ?? Carbon::now()->toDateTimeString();
 
         return $this->save();
-    }
-
-    private function calcCurrentValue(): float
-    {
-        return $this->attributes['value'] * pow((1 + ($this->interest_rate / 100)), $this->ageInMonths);
-    }
-
-    private function calcInterestIncome(): float
-    {
-        return $this->calcCurrentValue() - $this->attributes['value'];
-    }
-
-    private function calcWithdrawnValue(): float
-    {
-        return $this->calcCurrentValue() - $this->calcWithdrawnTaxes();        
-    }
-
-    private function calcWithdrawnTaxes(): float
-    {
-        return ($this->verifyWithdrawnTaxPercentage() / 100) * $this->calcInterestIncome();
     }
 
     private function verifyWithdrawnTaxPercentage(): float

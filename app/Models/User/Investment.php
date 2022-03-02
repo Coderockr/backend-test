@@ -9,7 +9,8 @@ use App\Casts\{
     Money, 
     PreventFutureDate, 
     WithdrawnDate,
-    WithdrawnStatus
+    WithdrawnStatus,
+    InterestRatePercent
 };
 
 class Investment extends Model
@@ -19,7 +20,7 @@ class Investment extends Model
 
     const UPDATED_AT = null;
 
-    const MONTHLY_GAIN_PERCENT = 0.0052; //0.52% montly gain
+    const INTEREST_RATE = 0.52; // %
 
     const WITHDRAWN_TAX_PERCENTAGE = [
         'LESS_THAN_ONE'         => 22.5, 
@@ -38,15 +39,30 @@ class Investment extends Model
         'value'         => Money::class,
         'withdrawn_at'  => WithdrawnDate::class,
         'withdrawn'     => WithdrawnStatus::class,
+        'interest_rate' => InterestRatePercent::class,
     ];
 
     protected $appends = [
         'age_in_months',
         'current_value',
-        'real_gain',
+        'interest_income',
         'withdrawn_value',
-        'withdrawn_tax_percentage'
+        'withdrawn_tax_percentage',
+        'withdrawn_tax',
+        'interest_rate_percent',
     ];
+
+    protected $hidden = [
+        'interest_rate'
+    ];
+
+    protected static function boot() {
+        parent::boot();
+
+        static::creating(function($model) {
+            $model->interest_rate = $model::INTEREST_RATE;
+        });
+    }
 
     public function getAgeInMonthsAttribute(): int
     {
@@ -59,9 +75,9 @@ class Investment extends Model
         return number_format($this->calcCurrentValue(), 2, ',', '.');
     }
 
-    public function getRealGainAttribute(): string
+    public function getInterestIncomeAttribute(): string
     {
-        return number_format($this->calcRealGain(), 2, ',', '.');
+        return number_format($this->calcInterestIncome(), 2, ',', '.');
     }
 
     public function getWithdrawnValueAttribute(): string
@@ -72,6 +88,16 @@ class Investment extends Model
     public function getWithdrawnTaxPercentageAttribute(): string
     {
        return $this->verifyWithdrawnTaxPercentage().'%';
+    }
+
+    public function getWithdrawnTaxAttribute(): string
+    {
+        return number_format($this->calcWithdrawnTaxes(), 2, ',', '.');
+    }
+
+    public function getInterestRatePercentAttribute(): string
+    {
+        return ($this->interest_rate * 100).'%';
     }
     
     public function setAsWithdrawn(?string $dateTime = null): bool
@@ -87,10 +113,10 @@ class Investment extends Model
 
     private function calcCurrentValue(): float
     {
-        return $this->attributes['value'] * pow((1 + self::MONTHLY_GAIN_PERCENT), $this->ageInMonths);
+        return $this->attributes['value'] * pow((1 + $this->interest_rate), $this->ageInMonths);
     }
 
-    private function calcRealGain(): float
+    private function calcInterestIncome(): float
     {
         return $this->calcCurrentValue() - $this->attributes['value'];
     }
@@ -102,7 +128,7 @@ class Investment extends Model
 
     private function calcWithdrawnTaxes(): float
     {
-        return ($this->verifyWithdrawnTaxPercentage() / 100) * $this->calcRealGain();
+        return ($this->verifyWithdrawnTaxPercentage() / 100) * $this->calcInterestIncome();
     }
 
     private function verifyWithdrawnTaxPercentage(): float

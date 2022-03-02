@@ -33,7 +33,7 @@ class InvestmentShowTest extends TestCase
 
         $this->assertEquals($data['id'], $this->investment->id);
         $this->assertEquals($data['value'], $this->investment->value);
-        $this->assertEquals($data['real_gain'], $this->investment->realGain);
+        $this->assertEquals($data['interest_income'], $this->investment->interest_income);
         $this->assertEquals($data['withdrawn_tax_percentage'], '15%'); // older than two tax
     }
 }

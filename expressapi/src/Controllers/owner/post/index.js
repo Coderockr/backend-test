@@ -3,7 +3,6 @@ const { Owner } = require("../../../models/Owner");
 const { Data } = require("../../data");
 
 function post(req) {
-    console.log(req.body)
     let lastResponse = new Response();
     const owner = new Owner(
         req.body.firstName,

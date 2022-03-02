@@ -3,7 +3,6 @@ const { Investment } = require("../../../models/Investment");
 const { Response } = require("../../../models/Response");
 
 function post(req) {
-    console.log(req.body)
     let lastResponse = new Response();
     let ownerId = req.body.ownerId;
     ownerId == null ? ownerId = 1 : null;

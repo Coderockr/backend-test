@@ -21,7 +21,7 @@ class CreateInvestmentsTable extends Migration
             $table->boolean('withdrawn')->default(false);
             $table->decimal('value',15,2);
             $table->timestamp('withdrawn_at')->nullable();
-            $table->decimal('interest_rate', 4, 4);
+            $table->decimal('interest_rate');
             $table->timestamps();
         });
     }

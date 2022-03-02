@@ -10,7 +10,6 @@ use App\Casts\{
     PreventFutureDate, 
     WithdrawnDate,
     WithdrawnStatus,
-    InterestRatePercent
 };
 
 class Investment extends Model
@@ -39,7 +38,6 @@ class Investment extends Model
         'value'         => Money::class,
         'withdrawn_at'  => WithdrawnDate::class,
         'withdrawn'     => WithdrawnStatus::class,
-        'interest_rate' => InterestRatePercent::class,
     ];
 
     protected $appends = [
@@ -97,7 +95,7 @@ class Investment extends Model
 
     public function getInterestRatePercentAttribute(): string
     {
-        return ($this->interest_rate * 100).'%';
+        return $this->interest_rate.'%';
     }
     
     public function setAsWithdrawn(?string $dateTime = null): bool
@@ -113,7 +111,7 @@ class Investment extends Model
 
     private function calcCurrentValue(): float
     {
-        return $this->attributes['value'] * pow((1 + $this->interest_rate), $this->ageInMonths);
+        return $this->attributes['value'] * pow((1 + ($this->interest_rate / 100)), $this->ageInMonths);
     }
 
     private function calcInterestIncome(): float

@@ -7,8 +7,6 @@ use App\Models\User;
 class InvestmentShowTest extends TestCase
 {
 
-    use DatabaseMigrations;
-
     protected function setUp(): void 
     {
         parent::setUp();

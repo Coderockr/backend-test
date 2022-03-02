@@ -8,8 +8,6 @@ use App\Models\User\Investment;
 class InvestmentIndexTest extends TestCase
 {
 
-    use DatabaseMigrations;
-
     protected function setUp(): void 
     {
         parent::setUp();

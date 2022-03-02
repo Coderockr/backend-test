@@ -8,8 +8,7 @@ use Carbon\Carbon;
 
 class InvestmentCreateTest extends TestCase
 {
-    use DatabaseMigrations;
-
+    
     protected function setUp(): void 
     {
         parent::setUp();

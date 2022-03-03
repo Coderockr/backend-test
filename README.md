@@ -1,24 +1,72 @@
-# Lumen PHP Framework
+# API para gerenciar investimentos de proprietários.
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://img.shields.io/packagist/dt/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://img.shields.io/packagist/v/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://img.shields.io/packagist/l/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
+## Requisitos:
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+- PHP ^7.3
+- MySQL ~8.0.27
+- Lumen Framework ^8.3.1
 
-## Official Documentation
+## Instalação e configuração
 
-Documentation for the framework can be found on the [Lumen website](https://lumen.laravel.com/docs).
+1. Após o pull, instale as dependências rodando no terminal: 
+    ```composer install```
+    
+2. Crie um arquivo ```.env``` na raíz do projeto, siga o arquivo ```.env.example```.
 
-## Contributing
+3. A chave da aplicação precisa ser gerada, para isso, execute no terminal: ```php artisan key:generate```
 
-Thank you for considering contributing to Lumen! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+4. Gere também o segredo de token, utilizado pela biblioteca responsável pela autenticação de proprietários:
+    ```php artisan jwt:secret```
+    
+Ao finalizar estas quatro etapas, seu arquivo **.env** deve se parecer com isto:
+```
+APP_NAME="Backend Test"
+APP_ENV=local
+APP_KEY={YOUR_KEY_GENERATED_ON_STEP_3}
+APP_DEBUG=true
+APP_URL=http://localhost
+APP_TIMEZONE="America/Sao_Paulo"
 
-## Security Vulnerabilities
+LOG_CHANNEL=stack
+LOG_SLACK_WEBHOOK_URL=
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE={YOUR_DB}
+DB_USERNAME={YOUR_USER}
+DB_PASSWORD={YOUR_PASS}
 
-## License
+CACHE_DRIVER=file
+QUEUE_CONNECTION=sync
 
-The Lumen framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+JWT_SECRET={YOUR_TOKEN_GENERATED_ON_STEP_4}
+```
+
+5. Esta API não possui uma interface HTTP para criar e gerenciar diretamente os usuários(propriétarios), portanto tenha seu banco de dados populado com os mesmos... Para fazer isso basta migrar o banco com o parametro *--seed*:
+```php artisan migrate:fresh --seed```
+
+Se as informações de seu banco de dados estarem corretas, tudo deve ocorrer bem e você ja está pronto para consumir a API.
+
+[Consulte aqui](https://github.com/luciano-eber/backend-test/wiki) a documentação.
+
+## Execução
+
+No terminal, execute: `php artisan serve` ou o servidor embutido do php `php -S localhost:8080 -t public` se preferir, para rodar o server.
+
+## Testando 
+
+Para executar os testes basta rodar: `./vendor/bin/phpunit` na raíz.
+Se você deseja rodar os testes em um banco de dados diferente, sugiro utilizar um arquivo `.env.testing`, com os valores do banco de teste.
+
+## Por que o Lumen?
+
+Porque o lumen pode oferecer um projeto simples e uma API consistente, tanto se comunicando com o banco de dados, quanto no retorno de respostas http seguindo diversos padrões, graças ao [Eloquent ORM](https://laravel.com/docs/8.x/eloquent) e ao laravel com seu sistema de injeção de dependência poderoso mas sem todo aquele peso extra de features desnecessárias para uma simples API. 
+
+## Biblioteca de autenticação de proprietários
+
+Os recursos de investimentos da API são autenticados pelo proprietário dos mesmos, para isso escolhi a autenticação via JWT e a biblioteca https://github.com/tymondesigns/jwt-auth, acredito ser de confiança e é muito fácil de acoplar ou desacoplar da aplicação.
+
+## Lumen Framework Docs:
+
+[Lumen website](https://lumen.laravel.com/docs).

@@ -1,0 +1,18 @@
+version: '3'
+services:
+  express:
+    build: .
+    command: npm start --prefix ./expressapi/
+    hostname: "localhost"
+    ports:
+    - "127.0.0.1:3030:3030"
+    volumes:
+    - .:/user/app/expressspi
+#  react:
+#    build: .
+#    command: npm start --prefix ./reactfront/
+#    hostname: "localhost"
+#    ports:
+#    - "127.0.0.1:3000:3000"
+#    volumes:
+#    - .:/user/app/reactfront

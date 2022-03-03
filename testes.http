@@ -1,0 +1,199 @@
+
+#### All data OK ###########
+
+#### Owner Creation ########
+POST http://localhost:3030/owner
+Content-Type: application/json
+
+{
+    "firstName":"Rich",
+    "lastName":"Guy",
+    "email":"super@email.com",
+    "phoneNumber":"13978987874"
+}
+
+##### Investment Creation####
+POST http://localhost:3030/investment
+Content-Type: application/json
+
+{   
+    "ownerId":1,
+    "creationDate":"2001-01-27T08:12Z",
+    "amount":179.21
+}
+##### Withdraw a investment####
+
+GET http://localhost:3030/withdraw
+Content-Type: application/json
+
+{
+    "investmentId":1,
+    "date":"2022-01-05T08:12Z"
+}
+#### Get a page with 10 investments ###
+
+#############
+GET http://localhost:3030/investment/
+
+####################
+######## Get Investment by id ####
+
+get http://localhost:3030/investment/?id=1
+Content-Type: application/json
+###### Get an Owner by id #####
+
+GET http://localhost:3030/owner/?id=1
+Content-Type: application/json
+##### Get all owners ###
+GET http://localhost:3030/owner
+Content-Type: application/json
+##### Get a 10 owners page ####
+
+GET http://localhost:3030/owner/?page=1
+Content-Type: application/json
+
+##### get the documentation ####
+GET http://localhost:3030/documentation
+Content-Type: application/json
+######################################
+####################################
+###################################
+#### All data Invalid #######
+#### Errors 01- 05, you've inputted something 
+# wrong and the creation of an owner failed
+POST http://localhost:3030/owner
+Content-Type: application/json
+
+{
+    "firstName":"Lu!cas",
+    "lastName":"Nascim!ento",
+    "email":"email@fa!ke.com",
+    "phoneNumber":"11!963258874"
+}
+
+#### The data inputed must follow the default bellow ########
+POST http://localhost:3030/owner
+Content-Type: application/json
+
+{
+    "firstName":"Lucas",
+    "lastName":"Nascimento",
+    "email":"email@fake.com",
+    "phoneNumber":"11963258874"
+}
+
+######### Error 06  - Invalid Owner Id Format
+#######is rare. Possible that only pops on new features.
+######Error 07 and 08 Only 
+#######happens when you have a valid owner.
+##### Investment Creation####
+GET http://localhost:3030/investment/
+Content-Type: application/json
+
+{   
+    "ownerId":1
+}
+
+###############
+##09 - Invalid Setting of Atual Amount
+#Possible that only pops on new features.
+##### Withdraw a investment####
+###"10 - Invalid Investment Age, bad param passed.
+###Possible that only pops on new features.
+
+
+#####11 - Cannot withdraw to past from creation date or in future from now"
+GET http://localhost:3030/withdraw
+Content-Type: application/json
+
+{
+    "investmentId":1,
+    "date":"2010-02-20T08:12Z"
+}
+#################
+
+#"12 - Invalid parameters format to create a Investment
+###Possible that only pops on new features.
+
+
+############ Error 13
+POST http://localhost:3030/investment
+Content-Type: application/json
+
+{   
+    "ownerId":1,
+    "creationDate":"2015-02-20T08:12Z",
+    "amount":15000.21
+}
+#####
+####"14- Unable to withdraw previous withdrawn investment
+
+GET http://localhost:3030/withdraw
+Content-Type: application/json
+
+{
+    "investmentId":4,
+    "date":"2010-01-05T08:12Z"
+}
+
+######"15 - Investment not found."
+GET http://localhost:3030/investment/?id=70
+Content-Type: application/json
+
+{
+    "investmentId":1,
+    "date":"201110-01-05T08:12Z"
+}
+
+
+######"16 - Investment not found." 
+GET http://localhost:3030/withdraw
+Content-Type: application/json
+
+{
+    "investmentId":1,
+    "date":"2010-01-05T08:12Z"
+}
+
+
+#######
+##########"17 - Invalid date to Withdraw."
+########(must hade a valid investment)
+GET http://localhost:3030/withdraw
+Content-Type: application/json
+
+{
+    "investmentId":1,
+    "date":"20-01-05T08:12Z"
+}
+
+##########
+####19 - Out of Investment Bounds
+get http://localhost:3030/investment/?page=50000
+Content-Type: application/json
+###########20 - Page must be greater than zero."
+get http://localhost:3030/investment/?page=-1
+Content-Type: application/json
+###"21- Owner not found."
+GET http://localhost:3030/owner/?id=-1
+Content-Type: application/json
+
+############ Error 22 Owners array out of bounds
+GET http://localhost:3030/owner/?page=12000
+Content-Type: application/json
+############ Error 23  -page must be greater than zero
+
+GET http://localhost:3030/investment/?id=1
+
+
+
+
+
+
+
+
+### aceita datas yyyy-mm-ddThh:mmz 
+##z = zone, Z for Zero, zulu, GMT-0. 
+###-0100 for gmt-1, GMT+3 = +0300 etc
+
+

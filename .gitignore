@@ -1,0 +1,7 @@
+### Composer template
+composer.phar
+/vendor/
+
+### Dotenv
+.env
+.idea

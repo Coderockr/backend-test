@@ -59,9 +59,9 @@ class Investment
             'idInvestor' => $this->idInvestor,
             'amount' => $this->amount,
             'withdrew' => $this->withdrew,
-            'investmentDate' => $this->investmentDate,
-            'createdAt' => new DateTime(),
-            'updatedAt' => new DateTime()
+            'investmentDate' => $this->investmentDate->format('Y-m-d'),
+            'createdAt' => (new DateTime())->format('Y-m-d H:i:s'),
+            'updatedAt' => (new DateTime())->format('Y-m-d H:i:s')
         ]);
 
         return $this->id ? $this->id : false;

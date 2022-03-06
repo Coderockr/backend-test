@@ -32,6 +32,17 @@ class Investment
     }
 
 
+    public static function calcExpectedAmount($currentAmount, $interval = 1)
+    {
+        $expectedAmount = 0;
+
+        // The period for calculating expected gains is one month by default 
+        $expectedAmount = $currentAmount * (1 + (0.52/100) * $interval);
+
+        return $expectedAmount;
+    }
+
+
     public function insert()
     {
         $this->id = (new Repository('investment'))->insert([

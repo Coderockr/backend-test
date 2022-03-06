@@ -32,6 +32,16 @@ class Investment
     }
 
 
+    public static function getInvestmentOverview($where = null, $order = null, $limit = null, $fields = '*')
+    {
+        Transaction::open();
+        $result = (new Repository('vw_investment_overview'))->select($where, $order, $limit, $fields);
+        Transaction::close();
+
+        return $result;
+    }
+
+
     public static function calcExpectedAmount($currentAmount, $interval = 1)
     {
         $expectedAmount = 0;

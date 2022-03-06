@@ -5,7 +5,7 @@ use App\Controller\Api\Investment;
 
 
 $router->get(
-    '/api/v1/investments',
+    '/api/v1/investment',
     [
         function($request) 
         {
@@ -16,7 +16,7 @@ $router->get(
 
 
 $router->get(
-    '/api/v1/investments/{id}',
+    '/api/v1/investment/{id}',
     [
         function($request, $id) 
         {

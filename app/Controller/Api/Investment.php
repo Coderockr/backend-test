@@ -4,22 +4,32 @@ namespace App\Controller\Api;
 
 use App\Model\Entity\Investment as EntityInvestment;
 use App\Model\Entity\Balance as EntityBalance;
+
 use Database\Transaction;
+use Database\Pagination;
 
 use DateInterval;
 use DateTime;
 use Exception;
 
-class Investment
+class Investment extends Api
 {
-    public static function getInvestmentList($request)
+    public static function getInvestmentRecords($request, &$pagination)
     {
-        $investmentList = [];
-        $results = EntityInvestment::getInvestmentList();
-        
+        $investments = [];
+        $investmentsQuantity = EntityInvestment::getInvestmentList(
+            null, null, null, 'COUNT(*) as quantity'
+        )->fetchObject()->quantity;
+
+        $queryParams = $request->getQueryParams();
+        $currentPage = $queryParams['page'] ?? 1;
+        $pagination = new Pagination($investmentsQuantity, $currentPage, 5);
+
+        $results = EntityInvestment::getInvestmentList(null, 'id DESC', $pagination->getLimit());
+
         while($investment = $results->fetchObject(EntityInvestment::class))
         {
-            $investmentList[] = [
+            $investments[] = [
                 'id' => (int) $investment->id,
                 'idInvestor' => (int) $investment->idInvestor,
                 'amount' => $investment->amount,
@@ -27,7 +37,17 @@ class Investment
                 'investmentDate' => (new DateTime($investment->investmentDate))->format('Y-m-d')
             ];
         }
-        return $investmentList;
+
+        return $investments;
+    }
+    
+    
+    public static function getInvestmentList($request)
+    {
+        return [
+            'investments' => self::getInvestmentRecords($request, $pagination),
+            'pagination' => parent::getPagination($request, $pagination)
+        ];
     }
 
 

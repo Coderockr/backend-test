@@ -2,7 +2,18 @@
 
 use App\Http\Response;
 use App\Controller\Api\Investment;
+use App\Controller\Api\Api;
 
+
+$router->get(
+    '/',
+    [
+        function($request) 
+        {
+            return new Response(200, Api::getDetails($request));
+        }
+    ]
+);
 
 $router->get(
     '/api/v1/investment',

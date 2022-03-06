@@ -13,3 +13,14 @@ $router->get(
         }
     ]
 );
+
+
+$router->get(
+    '/api/v1/investments/{id}',
+    [
+        function($request, $id) 
+        {
+            return new Response(200, Investment::getInvestmentOverview($request, $id));
+        }
+    ]
+);

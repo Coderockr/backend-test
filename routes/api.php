@@ -14,6 +14,15 @@ $router->get(
     ]
 );
 
+$router->post(
+    '/api/v1/investment',
+    [
+        function($request) 
+        {
+            return new Response(200, Investment::setNewInvestment($request));
+        }
+    ]
+);
 
 $router->get(
     '/api/v1/investment/{id}',

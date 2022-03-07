@@ -56,3 +56,13 @@ $router->get(
         }
     ]
 );
+
+$router->post(
+    '/api/v1/withdrawal/investment/{id}',
+    [
+        function($request, $id) 
+        {
+            return new Response(200, Investment::setInvestmentWithdrawal($request, $id));
+        }
+    ]
+);

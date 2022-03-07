@@ -182,4 +182,73 @@ class Investment extends Api
         }
         
     }
+
+
+    public static function setInvestmentWithdrawal($request, $id)
+    {
+        self::checkAutentication($request);
+
+        $idInvestor = $request->investor->id;
+        $investment = EntityInvestment::getInvestment($id, $idInvestor);
+        $investmentOverview = EntityInvestment::getInvestmentOverview($id, $idInvestor);
+
+        try 
+        {
+            Transaction::open();
+
+            $investment->withdrew = 1;
+            $investment->investmentDate = new DateTime($investment->investmentDate);
+            $investment->update();
+
+            $investmentOverview = $investmentOverview->fetch(\PDO::FETCH_ASSOC);
+            $lastInvestmentUpdate = new DateTime($investmentOverview['lastInvestmentUpdate']);
+            $currentDate = new DateTime();
+            $interval = (int) ($lastInvestmentUpdate->diff($currentDate))->m;
+
+            $balance = new EntityBalance;
+            $balance->idInvestor = $investment->idInvestor;
+            $balance->idInvestment = $investment->id;
+
+            if($interval > 0)            
+            {                
+                $balance->currentBalance = $investmentOverview['currentAmount'];
+                $balance->balanceDate = $lastInvestmentUpdate;
+
+                for($i = 1; $i <= $interval; $i++)
+                {
+                    $initialAmount = $balance->currentBalance;
+                    $balance->currentBalance = $investment->calcExpectedAmount($balance->currentBalance);
+                    $balance->gain = $balance->currentBalance - $initialAmount;
+                    $balance->balanceDate = $balance->balanceDate->add(new DateInterval('P1M'));
+                    $balance->insert();
+                }
+            }
+
+            $investment->amount = (float) number_format($balance->currentBalance, 2, '.', '');
+
+            $balance->currentBalance = 0;
+            $balance->gain = 0;
+            $balance->balanceDate = new DateTime();            
+            $balance->insert();
+
+            Transaction::close();
+
+            return [
+                'id' => $investment->id,
+                'idInvestor' => $investment->idInvestor,
+                'amount' => $investment->amount,
+                'withdrew' => (bool) $investment->withdrew,
+                'investmentDate' => $investment->investmentDate->format('Y-m-d'),
+                'investmentOverview' => $_SERVER['APP_URL']."/api/v1/investment/{$investment->id}"
+            ];
+        }
+        catch (Exception $e) {
+            Transaction::rollback();
+
+            throw new Exception(
+                "The withdrawal could not be registered. {$e->getMessage()}"
+                , 500
+            );
+        }
+    }
 }

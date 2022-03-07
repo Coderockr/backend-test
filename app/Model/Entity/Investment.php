@@ -66,4 +66,17 @@ class Investment
 
         return $this->id ? $this->id : false;
     }
+
+
+    public function update()
+    {
+        return (new Repository('investment'))->update("id = {$this->id}", [
+            'idInvestor' => $this->idInvestor,
+            'amount' => $this->amount,
+            'withdrew' => $this->withdrew,
+            'investmentDate' => $this->investmentDate->format('Y-m-d'),
+            'createdAt' => $this->createdAt,
+            'updatedAt' => (new DateTime())->format('Y-m-d H:i:s')
+        ]);
+    }
 }

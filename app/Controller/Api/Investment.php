@@ -70,12 +70,10 @@ class Investment extends Api
         $investmentOverViewList = [];
         $idInvestor = $request->investor->id;
 
-        $results = EntityInvestment::getInvestmentOverview(
-            "idInvestor = {$idInvestor} AND idInvestment = {$id}"
-        );        
+        $results = EntityInvestment::getInvestmentOverview($id, $idInvestor);
         
         while($investment = $results->fetch(\PDO::FETCH_ASSOC))
-        {            
+        {
             $investmentDate = new DateTime($investment['investmentDate']);
             $lastInvestmentUpdate = new DateTime($investment['lastInvestmentUpdate']);
             $initialAmount = (float) number_format($investment['initialAmount'], 2, '.', '');
@@ -122,7 +120,7 @@ class Investment extends Api
 
         if ($investmentDate > $currentDate)
         {
-            throw new \Exception('The investment date cannot be later than today', 400);
+            throw new Exception('The investment date cannot be later than today', 400);
         }
 
         $interval = $investmentDate->diff($currentDate);

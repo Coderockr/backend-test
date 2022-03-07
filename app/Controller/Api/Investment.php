@@ -2,6 +2,8 @@
 
 namespace App\Controller\Api;
 
+use App\Controller\Api\BasicAuth;
+
 use App\Model\Entity\Investment as EntityInvestment;
 use App\Model\Entity\Balance as EntityBalance;
 
@@ -14,18 +16,26 @@ use Exception;
 
 class Investment extends Api
 {
-    public static function getInvestmentRecords($request, &$pagination)
+    private static function checkAutentication(&$request)
+    {
+        return BasicAuth::basicAuth($request);
+    }
+
+
+    private static function getInvestmentRecords($request, &$pagination)
     {
         $investments = [];
+        $idInvestor = $request->investor->id;
+
         $investmentsQuantity = EntityInvestment::getInvestmentList(
-            null, null, null, 'COUNT(*) as quantity'
+            'idInvestor = '.$idInvestor, null, null, 'COUNT(*) as quantity'
         )->fetchObject()->quantity;
 
         $queryParams = $request->getQueryParams();
         $currentPage = $queryParams['page'] ?? 1;
         $pagination = new Pagination($investmentsQuantity, $currentPage, 5);
 
-        $results = EntityInvestment::getInvestmentList(null, 'id DESC', $pagination->getLimit());
+        $results = EntityInvestment::getInvestmentList('idInvestor = '.$idInvestor, 'id DESC', $pagination->getLimit());
 
         while($investment = $results->fetchObject(EntityInvestment::class))
         {
@@ -44,6 +54,8 @@ class Investment extends Api
     
     public static function getInvestmentList($request)
     {
+        self::checkAutentication($request);
+
         return [
             'investments' => self::getInvestmentRecords($request, $pagination),
             'pagination' => parent::getPagination($request, $pagination)
@@ -53,8 +65,14 @@ class Investment extends Api
 
     public static function getInvestmentOverview($request, $id)
     {
+        self::checkAutentication($request);
+
         $investmentOverViewList = [];
-        $results = EntityInvestment::getInvestmentOverview("idInvestment = {$id}");
+        $idInvestor = $request->investor->id;
+
+        $results = EntityInvestment::getInvestmentOverview(
+            "idInvestor = {$idInvestor} AND idInvestment = {$id}"
+        );        
         
         while($investment = $results->fetch(\PDO::FETCH_ASSOC))
         {            
@@ -83,12 +101,20 @@ class Investment extends Api
                 'withdrew' => (bool) $investment['withdrew']
             ];
         }
+        
+        if(!$investmentOverViewList)
+        {
+            throw new Exception("Data not found", 404);
+        }
+
         return $investmentOverViewList;
     }
 
 
     public static function setNewInvestment($request)
     {
+        self::checkAutentication($request);
+        
         $postVars = $request->getPostVars();
 
         $investmentDate = new DateTime($postVars['investmentDate']);
@@ -103,7 +129,7 @@ class Investment extends Api
         $interval = (int) $interval->m;
 
         $investment = new EntityInvestment;
-        $investment->idInvestor = $postVars['idInvestor'];
+        $investment->idInvestor = $request->investor->id;
         $investment->amount = $postVars['amount'];
         $investment->withdrew = 0;
         $investment->investmentDate = $investmentDate;

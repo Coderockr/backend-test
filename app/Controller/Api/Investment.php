@@ -161,6 +161,15 @@ class Investment extends Api
             }
             
             Transaction::close();
+
+            return [
+                'id' => $investment->id,
+                'idInvestor' => $investment->idInvestor,
+                'amount' => $investment->amount,
+                'withdrew' => (bool) $investment->withdrew,
+                'investmentDate' => $investment->investmentDate->format('Y-m-d'),
+                'investmentOverview' => $request->getRouter()->getCurrentUrl()."/{$investment->id}"
+            ];
         }
         catch(Exception $e)
         {

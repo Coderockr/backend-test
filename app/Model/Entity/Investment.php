@@ -26,16 +26,18 @@ class Investment
     }
 
 
-    public static function getInvestment($id)
+    public static function getInvestment($idInvestment, $idInvestor)
     {
-        return self::getInvestmentList('id = '.$id)->fetchObject(self::class);
+        return self::getInvestmentList("id = {$idInvestment} AND idInvestor = {$idInvestor}")
+            ->fetchObject(self::class);
     }
 
 
-    public static function getInvestmentOverview($where = null, $order = null, $limit = null, $fields = '*')
+    public static function getInvestmentOverview($idInvestment, $idInvestor)
     {
         Transaction::open();
-        $result = (new Repository('vw_investment_overview'))->select($where, $order, $limit, $fields);
+        $result = (new Repository('vw_investment_overview'))
+            ->select("idInvestment = {$idInvestment} AND idInvestor = {$idInvestor}");
         Transaction::close();
 
         return $result;

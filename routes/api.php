@@ -42,7 +42,7 @@ $router->post(
     [
         function($request) 
         {
-            return new Response(200, Investment::setNewInvestment($request));
+            return new Response(201, Investment::setNewInvestment($request));
         }
     ]
 );

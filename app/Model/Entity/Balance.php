@@ -32,6 +32,15 @@ class Balance
         return self::getBalanceList('id = '.$id)->fetchObject(self::class);
     }
 
+
+    public static function getBalanceByInvestment($idInvestment, $idInvestor)
+    {
+        return self::getBalanceList(
+            "idInvestment = {$idInvestment} AND idInvestor = {$idInvestor}"
+            , 'balanceDate DESC', '1'
+        )->fetchObject(self::class);
+    }
+
     
     public function insert()
     {

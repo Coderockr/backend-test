@@ -1,12 +1,19 @@
 # Invest API
+Dependências usadas:
+- [PHP Dotenv](https://github.com/vlucas/phpdotenv) - Para ter a leitura do arquivo .env e aceitar variáveis de ambiente no projeto 
+- [ Simple Database Manager](https://github.com/william-costa/database-manager) - Uma pequena classe PHP para gerenciar bancos dados MySQL, que foi desenvolvido em live no YouTube.
+- [Simple Route PHP](https://github.com/steampixel/simplePHPRouter) - Facilita a criação de rotas e os trabalhos com Request e Response das aplicações PHP
 ### Requisitos:
-* PHP 7.6+
+* PHP 8+
+* [Composer 2.+](https://getcomposer.org/)
 * Banco de dados MySQL 8+
 ## Instalação
 ```shell
 git clone https://github.com/misterioso013/backend-test.git
 
 cd backend-test
+
+composer install
 
 php -S localhost:8080
 ```

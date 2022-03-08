@@ -28,3 +28,22 @@ Alguns dos conceitos e técnicas implentadas no projeto, ainda que de forma simp
 - MySQL: <img align="center" height="30" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/mysql/mysql.png">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 - PHPUnit <img align="center" height="15" src="https://phpunit.de/img/phpunit.svg">
+
+## Documentação da API
+
+Link da documentação da API, gerada via Postman:
+https://documenter.getpostman.com/view/12600470/UVsEV91b
+
+## Como instalar e executar
+
+- Passo 1: Faça um fork deste projeto;
+- Passo 2: Faça um clone para o seu local, à partir do fork realizado no passo 1;
+    - Passo 2.1: Caso esteja usando apache, faça o clone no diretório /var/www/html/ ou em um diretório de virtual host, caso tenha configurado um;
+- Passo 3: Crie uma nova base de dados no MySQL;
+- Passo 4: Execute os scripts disponíveis na pasta dbScripts, na base de dados criada no passo anterior;
+    - Passo 4.1: Primeiro execute o script DDL 
+    - Passo 4.2: Por fim execute o script o DML;
+- Passo 5: Faça uma copia do arquivo .env.example na raiz do projeto e o renomeie para .env;
+- Passo 6: Configure o arquivo .env preenchendo os parâmetros solicitados, de acordo com o seu ambiente;
+    - Passo 6.1: Atente-se ao valor fornecido para o parâmetro APP_URL, caso você esteja executando o projeto com o servidor embutido do PHP;
+- Passo 7: Acesse a URL do projeto de acordo com as configurações realizadas para o seu ambiente, por exemplo: http://localhost/projeto ou http://localhost:8000/projeto ou http://meuvirtualhost.local/projeto

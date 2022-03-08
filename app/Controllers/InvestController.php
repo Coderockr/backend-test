@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Models\Investments;
 use App\Models\Users;
 use DateTime;
+use WilliamCosta\DatabaseManager\Database;
+use WilliamCosta\DatabaseManager\Pagination;
 
 class InvestController
 {
@@ -99,12 +101,54 @@ class InvestController
                 'message' => 'The withdrawal date is invalid'
             ];
         }
+        $withdrawal = Investments::getInvestmentCurrent($id, 'withdrawal');
+        Investments::withdrawal($id);
         return [
             'status' => 'ok',
             'message' => 'Withdrawal successful',
             'initial_investment' => $getInvestment->value,
-            'withdrawal' => Investments::getInvestmentCurrent($id, 'withdrawal')
-
+            'withdrawal' => $withdrawal
         ];
+    }
+
+    public function list($page = 1): array
+    {
+        if(!Users::validateToken($this->id, $this->token)){
+            return [
+                'status' => false,
+                'message' => 'Invalid user ID or token'
+            ];
+        }
+
+        $qtd = Investments::getAllInvestmentsById($this->id);
+
+        $itemsPerPage = 5;
+
+        //PAGINATION
+        $obPagination = new Pagination($qtd,$page,$itemsPerPage);
+
+        $obinvestment = new Database('investments');
+
+        $results= $obinvestment->select('user_id = '. $this->id,null,$obPagination->getLimit());
+        //PAGES (array)
+        $pages = $obPagination->getPages();
+
+        $return = [
+            'status' => 'ok',
+            'pages' => count($pages)
+        ];
+
+        while ($result = $results->fetchObject()) {
+
+            $return["results"][] = [
+                'id' => $result->id,
+                'initial_investment' => $result->value,
+                'current_investment' => Investments::getInvestmentCurrent($result->id),
+                'income' => Investments::getInvestmentCurrent($result->id, 'income'),
+                'withdrawal' => Investments::getInvestmentCurrent($result->id, 'withdrawal')
+
+            ];
+        }
+        return $return;
     }
 }

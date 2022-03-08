@@ -64,6 +64,12 @@ class Investments
        return $res->fetchObject(self::class);
     }
 
+    public static function getAllInvestmentsById(int  $user_id)
+    {
+        $obinvestment = new Database('investments');
+        return $obinvestment->select('user_id = '. $user_id,null,null,'COUNT(*) as total')->fetchObject()->total;
+    }
+
     public static function getInvestmentCurrent(int  $id, $type = null): string
     {
         $obinvestment = new Database('investments');
@@ -90,8 +96,6 @@ class Investments
         if($type == "withdrawal") {
             $year = floor($days/30/12);
 
-            self::withdrawal($id);
-
             if($year > 2){
                 return number_format($arg + $balance - 15/100 * $arg, 2, '.','');
             }elseif($year >= 1) {
@@ -104,7 +108,7 @@ class Investments
         return number_format($arg + $balance, 2, '.','');
     }
 
-    private static function withdrawal($id): bool
+    public static function withdrawal($id): bool
     {
         $obinvestment = new Database('investments');
         return $res = $obinvestment->delete('id ='. $id);

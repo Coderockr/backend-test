@@ -24,6 +24,12 @@ Route::add('/investment/view',  function () {
     echo json_encode($createInvestment->view($_POST["id"]));
 },'post');
 
+Route::add('/investment/list',  function () {
+    $createInvestment = new InvestController($_POST['user_id'], $_POST['token']);
+
+    echo json_encode($createInvestment->list($_POST["page"]??1));
+},'post');
+
 
 Route::add('/investment/withdrawal',  function () {
     $createInvestment = new InvestController($_POST['user_id'], $_POST['token']);
@@ -31,7 +37,11 @@ Route::add('/investment/withdrawal',  function () {
     echo json_encode($createInvestment->Withdrawal($_POST["id"], $date));
 },'post');
 
-
-
+Route::add('/(.*)', function() {
+    echo json_encode([
+        'status' => false,
+        'message' => 'unsupported method'
+    ]);
+},'get');
 // Run the router
 Route::run('/');

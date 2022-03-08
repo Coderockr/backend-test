@@ -45,6 +45,18 @@ class Investments
         return false;
     }
 
+
+    public static function isOwner($id, $user_id): bool
+    {
+        $obinvestments = new Database('investments');
+
+        $res = $obinvestments->select("id = '$id' AND user_id = '$user_id'");
+        if($res->fetchObject(self::class)) {
+            return true;
+        }
+        return false;
+    }
+
     public static function getInvestmentById(int  $id)
     {
         $obinvestment = new Database('investments');
@@ -72,9 +84,29 @@ class Investments
         }
         if($type == "income") {
 
-            return number_format($arg,2);
+            return number_format($arg,2, '.','');
         }
 
+        if($type == "withdrawal") {
+            $year = floor($days/30/12);
+
+            self::withdrawal($id);
+
+            if($year > 2){
+                return number_format($arg + $balance - 15/100 * $arg, 2, '.','');
+            }elseif($year >= 1) {
+                return number_format($arg + $balance - 18.5/100 * $arg, 2, '.','');
+            }else{
+                return number_format($arg + $balance - 22.5/100 * $arg, 2, '.','');
+            }
+
+        }
         return number_format($arg + $balance, 2, '.','');
+    }
+
+    private static function withdrawal($id): bool
+    {
+        $obinvestment = new Database('investments');
+        return $res = $obinvestment->delete('id ='. $id);
     }
 }

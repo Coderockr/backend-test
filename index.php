@@ -24,5 +24,14 @@ Route::add('/investment/view',  function () {
     echo json_encode($createInvestment->view($_POST["id"]));
 },'post');
 
+
+Route::add('/investment/withdrawal',  function () {
+    $createInvestment = new InvestController($_POST['user_id'], $_POST['token']);
+    $date = $_POST['date'] ?? date("Y-m-d H:i:s");
+    echo json_encode($createInvestment->Withdrawal($_POST["id"], $date));
+},'post');
+
+
+
 // Run the router
 Route::run('/');

@@ -13,9 +13,15 @@ Route::add('/createUser',  function () {
 },'post');
 
 Route::add('/investment/create',  function () {
-    $createInvestment = new InvestController();
+    $createInvestment = new InvestController($_POST['user_id'], $_POST['token']);
     $date = $_POST['date'] ?? date("Y-m-d H:i:s");
-    echo json_encode($createInvestment->Create($_POST['user_id'], $_POST['value'], $date));
+    echo json_encode($createInvestment->Create($_POST['value'], $date));
+},'post');
+
+Route::add('/investment/view',  function () {
+    $createInvestment = new InvestController($_POST['user_id'], $_POST['token']);
+
+    echo json_encode($createInvestment->view($_POST["id"]));
 },'post');
 
 // Run the router

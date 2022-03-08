@@ -36,7 +36,7 @@ class Users
         ];
     }
 
-    public static function isUser($id)
+    public static function isUser($id): bool
     {
         $obUser = new Database('users');
 
@@ -46,4 +46,17 @@ class Users
         }
         return false;
     }
+
+    public static function validateToken($id, $token): bool
+    {
+        $obUser = new Database('users');
+
+        $res = $obUser->select('id ='. $id.' AND token= "'.$token.'"');
+        if($res->fetchObject(self::class)) {
+            return true;
+        }
+        return false;
+
+    }
+    
 }

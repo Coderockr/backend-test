@@ -34,10 +34,47 @@ class Investments
         ];
     }
 
-    public function getInvestmentById(int  $id)
+    public static function isInvestment($id): bool
+    {
+        $obinvestments = new Database('investments');
+
+        $res = $obinvestments->select('id ='. $id);
+        if($res->fetchObject(self::class)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function getInvestmentById(int  $id)
     {
         $obinvestment = new Database('investments');
         $res = $obinvestment->select('id ='. $id);
        return $res->fetchObject(self::class);
+    }
+
+    public static function getInvestmentCurrent(int  $id, $type = null): string
+    {
+        $obinvestment = new Database('investments');
+        $res = $obinvestment->select('id ='. $id);
+        $result = $res->fetchObject(self::class);
+
+        $balance = $result->value;
+
+        $dateinitial = strtotime($result->created_at);
+
+        $difference = strtotime(date('Y-m-d')) - $dateinitial;
+        $days = floor($difference / (60 * 60 * 24));
+        $calcule = floor($days/30);
+        $arg = 0;
+
+        for( ; 0 < $calcule; $calcule--) {
+            $arg += 0.52/100 * $balance;
+        }
+        if($type == "income") {
+
+            return number_format($arg,2);
+        }
+
+        return number_format($arg + $balance, 2, '.','');
     }
 }

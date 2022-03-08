@@ -12,7 +12,8 @@
   "require": {
     "steampixel/simple-php-router": "^0.7.0",
     "vlucas/phpdotenv": "^5.4",
-    "william-costa/database-manager": "^0.1.0"
+    "william-costa/database-manager": "^0.1.0",
+    "ext-gmp": "*"
   },
   "autoload": {
     "psr-4": {

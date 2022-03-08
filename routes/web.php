@@ -24,4 +24,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('investors/{id}', ['uses' => 'InvestorController@showOneInvestor']);
     $router->put('investors/{id}', ['uses' => 'InvestorController@updateInvestor']);
 
+    $router->post('investments', ['uses' => 'InvestmentController@createInvestment']);
+    $router->get('investments', ['uses' => 'InvestmentController@showAllInvestments']);
+
 });

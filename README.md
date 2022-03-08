@@ -1,88 +1,182 @@
-# Back End Test Project <img src="https://coderockr.com/assets/images/coderockr.svg" align="right" height="50px" />
+# Invest API
+Dependências usadas:
+- [PHP Dotenv](https://github.com/vlucas/phpdotenv) - Para ter a leitura do arquivo .env e aceitar variáveis de ambiente no projeto 
+- [ Simple Database Manager](https://github.com/william-costa/database-manager) - Uma pequena classe PHP para gerenciar bancos dados MySQL, que foi desenvolvido em live no YouTube.
+- [Simple Route PHP](https://github.com/steampixel/simplePHPRouter) - Facilita a criação de rotas e os trabalhos com Request e Response das aplicações PHP
+### Requisitos:
+* PHP 8+
+* [Composer 2.+](https://getcomposer.org/)
+* Banco de dados MySQL 8+
+## Instalação
+```shell
+git clone https://github.com/misterioso013/backend-test.git
 
-You should see this challenge as an opportunity to create an application following modern development best practices (given the stack of your choice), but also feel free to use your own architecture preferences (coding standards, code organization, third-party libraries, etc). It’s perfectly fine to use vanilla code or any framework or libraries.
+cd backend-test
 
-## Scope
+composer install
 
-In this challenge you should build an API for an application that stores and manages investments, it should have the following features:
+php -S localhost:8080
+```
+- Importe o arquivo `Database.sql` no seu banco de dados
+- Agora é só renomear o arquivo `.env.example` para .`env` e alterar seus valores de acordo com o seu banco de dados MySQL.
 
-1. __Creation__ of an investment with an owner, a creation date and an amount.
-    1. The creation date of an investment can be today or a date in the past.
-    2. An investment should not be or become negative.
-2. __View__ of an investment with its initial amount and expected balance.
-    1. Expected balance should be the sum of the invested amount and the [gains][].
-3. __Withdrawal__ of a investment.
-    1. The withdraw will always be the sum of the initial amount and its gains,
-       partial withdrawn is not supported.
-    2. Withdrawals can happen in the past or today, but can't happen before the investment creation or the future.
-    3. [Taxes][taxes] need to be applied to the withdrawals before showing the
-       final value.
-4. __List__ of a person's investments
-    1. This list should have pagination.
+## Documentação
+- O único método aceito nas requisições é *POST*
+- Exemplo de URL da API padrão: `localhost:8080/`
+### Exemplo de uso:
+```shell
+curl -X POST http://localhost:8080/createUser -H "Content-Type: application/x-www-form-urlencoded" -d "name=Name+Aqui&cpf=12345678900"
+```
+### /createUser
+Método resposável pela criação de um usuário no sistema
 
-__NOTE:__ the implementation of an interface will not be evaluated.
+| Parâmetro| Tipo| Obrigatório | Descrição |
+|----------|-----|----------|-----------------|
+| name| string | Sim      | Nome do cliente |
+| cpf | number/string | Sim | CPF válido do cliente |
 
-### Gain Calculation
+  #### Resultado:
+```json
+{
+  "status": "ok",
+  "message": "User created successfully",
+  "credentials": {
+    "id": "1",
+    "token": "db953f68da472h7be995db04b4186dfg"
+  }
+}
+```
+#### Sobre os campos
+| Campo               | Descrição                                               |
+|---------------------|---------------------------------------------------------|
+| credentials > id    | Indetificador único do usuário                          |
+| credentials > token | Chave de acesso para acessar os ivestimentos do usuário |
 
-The investment will pay 0.52% every month in the same day of the investment creation.
+### /investment/create
+Método resposável pela criação do investimento
 
-Given that the gain is paid every month, it should be treated as [compound gain][], which means that every new period (month) the amount gained will become part of the investment balance for the next payment.
+| Parâmetro| Tipo | Obrigatório | Descrição |
+|----------|-------|--|--------------------------------------------------------------------|
+| user_id | integer | Sim | Identificador do usuário                                           |
+| token | string | Sim | Token para validar a autenticação do usuário                       |
+| value | float | Sim | Valor do investimento. Exemplo, para `R$1.234,56` digite `1234.56` |
+| date | timestamp | Opcional | Data da criação do investimento. exemplo: 2022-03-06 21:20:37 |
 
-### Taxation
+#### Resultado:
+```json
+{
+  "status":"ok",
+  "message":"Investment created successfully",
+  "details":{
+    "investment_id":"1",
+    "created_at":"2022-03-07 21:21:37"
+  }
+}
+```
+#### Sobre os campos
+| Campo                   | Descrição                           |
+|-------------------------|-------------------------------------|
+| details > investment_id | Indetificador único do investimento |
+| details > created_at    | Data da criação do investimento     |
 
-When money is withdrawn, tax is triggered. Taxes apply only to the profit/gain portion of the money withdrawn. For example, if the initial investment was 1000.00, the current balance is 1200.00, then the taxes will be applied to the 200.00.
 
-The tax percentage changes according to the age of the investment:
-* If it is less than one year old, the percentage will be 22.5% (tax = 45.00).
-* If it is between one and two years old, the percentage will be 18.5% (tax = 37.00).
-* If older than two years, the percentage will be 15% (tax = 30.00).
+### /investment/view
+Este método retornará detalhes sobre um investimento
 
-## Requirements
-1. Create project using any technology of your preference. It’s perfectly OK to use vanilla code or any framework or libraries;
-2. Although you can use as many dependencies as you want, you should manage them wisely;
-3. It is not necessary to send the notification emails, however, the code required for that would be welcome;
-4. The API must be documented in some way.
+| Parâmetro| Tipo  | Obrigatório | Descrição                                                          |
+|----------|-------|--|--------------------------------------------------------------------|
+| user_id | integer | Sim | Identificador do usuário                                           |
+| token | string | Sim | Token para validar a autenticação do usuário                       |
+| id | integer | Sim | ID do investimento, que poderá ser recuperado através do método [listar](#/investment/list) |
 
-## Deliverables
-The project source code and dependencies should be made available in GitHub. Here are the steps you should follow:
-1. Fork this repository to your GitHub account (create an account if you don't have one, you will need it working with us).
-2. Create a "development" branch and commit the code to it. Do not push the code to the main branch.
-3. Include a README file that describes:
-    - Special build instructions, if any
-    - List of third-party libraries used and short description of why/how they were used
-    - A link to the API documentation.
-4. Once the work is complete, create a pull request from "development" into "main" and send us the link.
-5. Avoid using huge commits hiding your progress. Feel free to work on a branch and use `git rebase` to adjust your commits before submitting the final version.
+#### Resultado:
 
-## Coding Standards
-When working on the project be as clean and consistent as possible.
+```json
+{
+  "status":"ok",
+  "id":"54",
+  "initial_investment":"20000.00",
+  "current_investment":"21248.00",
+  "income":"1248.00",
+  "withdrawal":"21017.12"
+}
+```
+#### Sobre os campos
 
-## Project Deadline
-Ideally you'd finish the test project in 5 days. It shouldn't take you longer than a entire week.
+| Campo              | Descrição                                           |
+|--------------------|-----------------------------------------------------|
+| id                 | Indetificador único do investimento                 |
+ | initial_investment | Valor inicial do investimento                       |
+| current_investment | Valor atual do investimento com juros acrescentados |
+| income             | Valor da renda total gerada até o momento           |
+| withdrawal         | Valor disponível para a retirada                    |
 
-## Quality Assurance
-Use the following checklist to ensure high quality of the project.
+### /investment/list
+Este método retornará uma lista com todos os investimentos
 
-### General
-- First of all, the application should run without errors.
-- Are all requirements set above met?
-- Is coding style consistent?
-- The API is well documented?
-- The API has unit tests?
+| Parâmetro| Tipo  | Obrigatório | Descrição                                                          |
+|----------|-------|--|--------------------------------------------------------------------|
+| user_id | integer | Sim | Identificador do usuário                                           |
+| token | string | Sim | Token para validar a autenticação do usuário                       |
+| page | integer | Opcional | Número da página que deseja acessar, são exibidos 5 resultados por página |
 
-## Submission
-1. A link to the Github repository.
-2. Briefly describe how you decided on the tools that you used.
+#### Resultado:
 
-## Have Fun Coding 🤘
-- This challenge description is intentionally vague in some aspects, but if you need assistance feel free to ask for help.
-- If any of the seems out of your current level, you may skip it, but remember to tell us about it in the pull request.
+```json
+{
+  "status":"ok",
+  "pages":8,
+  "results":[
+    {
+      "id":"54",
+      "initial_investment":"20000.00",
+      "current_investment":"21248.00",
+      "income":"1248.00",
+      "withdrawal":"21017.12"
+    },
+    {
+      "id":"55",
+      "initial_investment":"100000.00",
+      "current_investment":"100000.00",
+      "income":"0.00",
+      "withdrawal":"100000.00"
+    }
+  ]
+}
+```
+#### Sobre os campos
 
-## Credits
+| Campo                               | Descrição                                            |
+|-------------------------------------|------------------------------------------------------|
+| pages                               | Número de páginas disponíveis                        |
+| result                              | Retonar um Array com os detalhes de cada investimeto |
+| result > valor > initial_investment | Valor inicial do investimento                        |
+| result > valor > current_investment | Valor atual do investimento com juros acrescentados  |
+| result > valor > income             | Valor da renda total gerada até o momento            |
+| result > valor > withdrawal         | Valor disponível para a retirada                     |
 
-This coding challenge was inspired on [kinvoapp/kinvo-back-end-test](https://github.com/kinvoapp/kinvo-back-end-test/blob/2f17d713de739e309d17a1a74a82c3fd0e66d128/README.md)
+### investment/withdrawal
+Método resposável por fazer a retirada de um investimento
 
-[gains]: #gain-calculation
-[taxes]: #taxation
-[interest]: #interest-calculation
-[compound gain]: https://www.investopedia.com/terms/g/gain.asp
+| Parâmetro| Tipo | Obrigatório | Descrição |
+|---------|-------|--|------------------------------------|
+| user_id | integer | Sim | Identificador do usuário |
+| token | string | Sim | Token para validar a autenticação do usuário  |
+| id | integer | Sim | ID do investimento que deseja retirar |
+| date | timestamp | Opcional | Data da retirada do investimento. Exemplo: 2022-03-06 21:20:37 |
+
+
+#### Resultado:
+```json
+{
+ "status":"ok",
+ "message":"Withdrawal successful",
+ "initial_investment":"100000.00",
+ "withdrawal":"121216.00"
+}
+```
+#### Sobre os campos
+| Campo              | Descrição                                      |
+|--------------------|------------------------------------------------|
+| initial_investment | Valor do investimento inical                   |
+| withdrawal         | Valor da retirada já com os impostos aplicados |

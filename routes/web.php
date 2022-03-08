@@ -16,3 +16,12 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->group(['prefix' => 'api'], function () use ($router) {
+
+    $router->post('investors', ['uses' => 'InvestorController@createInvestor']);
+    $router->get('investors',  ['uses' => 'InvestorController@showAllInvestors']);
+    $router->get('investors/{id}', ['uses' => 'InvestorController@showOneInvestor']);
+    $router->put('investors/{id}', ['uses' => 'InvestorController@updateInvestor']);
+
+});

@@ -44,6 +44,31 @@ class InvestmentController extends Controller
         return response()->json($investment, 201);
     }
 
+    public function withdrawInvestment($id, Request $request)
+    {
+        $investment = Investment::findOrFail($id);
+        $this->validate($request, [
+            'date_withdraw' => "required|date|before_or_equal:today|after_or_equal:{$investment['date_creation']}|date_format:Y-m-d",
+        ]);
+        if ($investment['withdrawn']) {
+            return response()->json(['error' => 'The investment was already withdraw'], 407);
+        }
+
+        $update = array();
+
+        $update['withdrawn'] = true;
+        $update['date_withdraw'] = $request['date_withdraw'];
+        $update['gain'] = $this->calculateGain($investment['amount_start'], $investment['date_creation'], $request['date_withdraw']);
+        $update['tax'] = $this->calculateTax($update['gain'], $investment['date_creation'], $request['date_withdraw']);
+        $update['amount_total'] = $this->formatMoney($update['gain'] + $investment['amount_start']);
+        $update['amount_withdrawn'] =  $this->formatMoney($update['amount_total'] - $update['tax']);
+
+        $investment->update($update);
+
+        return response()->json($investment, 200);
+
+    }
+
 
 
 
@@ -64,6 +89,22 @@ class InvestmentController extends Controller
         }
         return $this->formatMoney($amountWithGains - $amount);
     }
+
+    private function calculateTax($amount, $dateStart, $dateEnd)
+    {
+        $monthDiff = $this->monthDiff(new \DateTime($dateStart),  new \DateTime($dateEnd));
+        if ($monthDiff < 12) {
+            $taxRate = 0.225;
+        } elseif ($monthDiff < 24) {
+            $taxRate = 0.185;
+        } else {
+            $taxRate = 0.15;
+        }
+        return $this->formatMoney($amount * $taxRate);
+    }
+
+
+
 
 
     private function formatMoney($amount) {

@@ -28,4 +28,8 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('investments', ['uses' => 'InvestmentController@showAllInvestments']);
     $router->get('investments/{id}', ['uses' => 'InvestmentController@showOneInvestment']);
 
+    $router->post('investments/{id}/withdraw', ['uses' => 'InvestmentController@withdrawInvestment']);
+
+
+
 });

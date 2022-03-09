@@ -52,7 +52,8 @@ class InvestmentController extends Controller
         $investment = Investment::create($request->all());
         $investor = Investor::findOrFail($request['investor_id']);
 
-        SendMail::send('Criação de Investimento', $investor['email'], $investment->toArray());
+        // DESCOMENTAR LINHA ABAIXO PRA HABILITAR ENVIO DE EMAIL
+//        SendMail::send('Criação de Investimento', $investor['email'], $investment->toArray());
 
         return response()->json($investment, 201);
     }
@@ -77,9 +78,10 @@ class InvestmentController extends Controller
         $update['amount_withdrawn'] =  $this->formatMoney($update['amount_total'] - $update['tax']);
 
         $investment->update($update);
-
         $investor = Investor::findOrFail($investment['investor_id']);
-        SendMail::send('Resgate de Investimento', $investor['email'], $investment->toArray());
+
+        // DESCOMENTAR LINHA ABAIXO PRA HABILITAR ENVIO DE EMAIL
+//        SendMail::send('Resgate de Investimento', $investor['email'], $investment->toArray());
 
         return response()->json($investment, 200);
 

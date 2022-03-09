@@ -14,10 +14,14 @@ class SendMail
 
     private function sendMail($subject, $to, $body)
     {
+        $smtpHost = getenv('SMTP_HOST');
+        $smtpPort = getenv('SMTP_PORT');
+        $smtpUser = getenv('SMTP_USER');
+        $smtpPassword = getenv('SMTP_PASSWORD');
 
-        $transport = (new \Swift_SmtpTransport('ENDEREÇO SMTP', 'PORTA SMTP'))
-            ->setUsername('USUARIO')
-            ->setPassword('SENHA')
+        $transport = (new \Swift_SmtpTransport($smtpHost, $smtpPort))
+            ->setUsername($smtpUser)
+            ->setPassword($smtpPassword)
         ;
 
         $mailer = new \Swift_Mailer($transport);

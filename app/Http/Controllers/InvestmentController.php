@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Investment;
+use App\Investor;
+use App\SendMail;
 use Illuminate\Http\Request;
+
 
 class InvestmentController extends Controller
 {
@@ -47,6 +50,9 @@ class InvestmentController extends Controller
         ]);
 
         $investment = Investment::create($request->all());
+        $investor = Investor::findOrFail($request['investor_id']);
+
+        SendMail::send('Criação de Investimento', $investor['email'], $investment->toArray());
 
         return response()->json($investment, 201);
     }
@@ -61,7 +67,6 @@ class InvestmentController extends Controller
         if ($investment['withdrawn']) {
             return response()->json(['error' => 'The investment was already withdraw'], 407);
         }
-
         $update = array();
 
         $update['withdrawn'] = true;
@@ -73,11 +78,12 @@ class InvestmentController extends Controller
 
         $investment->update($update);
 
+        $investor = Investor::findOrFail($investment['investor_id']);
+        SendMail::send('Resgate de Investimento', $investor['email'], $investment->toArray());
+
         return response()->json($investment, 200);
 
     }
-
-
 
 
 

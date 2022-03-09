@@ -9,7 +9,7 @@ class Investor extends Model
 {
 
     protected $fillable = [
-        'name'
+        'name', 'email'
     ];
 
     protected $hidden = [];

@@ -21,7 +21,8 @@ class InvestorController extends Controller
     public function createInvestor(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:investors'
+            'name' => 'required|unique:investors',
+            'email' => 'required|email',
         ]);
 
         $investor = Investor::create($request->all());
@@ -33,7 +34,8 @@ class InvestorController extends Controller
     {
         $investor = Investor::findOrFail($id);
         $this->validate($request, [
-            'name' => 'required|unique:investors,name,' .$id
+            'name' => 'filled|unique:investors,name,' .$id,
+            'email' => 'filled|email',
         ]);
         $investor->update($request->all());
 

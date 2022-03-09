@@ -30,6 +30,6 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     $router->post('investments/{id}/withdraw', ['uses' => 'InvestmentController@withdrawInvestment']);
 
-
+    $router->get('investments/list/{investor_id}', ['uses' => 'InvestmentController@showAllInvestmentsByInvestor']);
 
 });

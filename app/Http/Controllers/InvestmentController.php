@@ -25,6 +25,13 @@ class InvestmentController extends Controller
     }
 
 
+    public function showAllInvestmentsByInvestor($investor_id)
+    {
+        $investments = Investment::where('investor_id', '=', $investor_id )->Paginate(3);
+        return response()->json($investments);
+    }
+
+
     public function createInvestment(Request $request)
     {
 
@@ -43,6 +50,7 @@ class InvestmentController extends Controller
 
         return response()->json($investment, 201);
     }
+
 
     public function withdrawInvestment($id, Request $request)
     {
@@ -68,11 +76,6 @@ class InvestmentController extends Controller
         return response()->json($investment, 200);
 
     }
-
-
-
-
-
 
 
 

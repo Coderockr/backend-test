@@ -2,47 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use Illuminate\Http\Request;
 use App\Models\Investment as Investment;
-use App\Http\Resources\Investment as InvestmentResource;
-use DateTime;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\Investment as InvestmentResource;
 
 class InvestmentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * List all investments
      *
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        $investments = Investment::paginate(15);
+        $investments = Investment::paginate(10);
         return InvestmentResource::collection($investments);
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * create a new investment with an owner, a creation date and an amount.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request){
+    public function creation(Request $request){
         $investments = new Investment;
         $investments->owner = $request->input('owner');
         $investments->amount = $request->input('amount');
-        $now = new DateTime("now");
         $investments->create_date = $request->input('create_date');
         
+        $now = new DateTime("now");
         $validate = Validator::make($request->all(), [
             'owner'         => 'required',
             'amount'        => 'required|numeric|gte:0',
@@ -60,47 +50,55 @@ class InvestmentController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * View of an investment with its initial amount and expected balance.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id){
-        $investments = Investment::findOrFail( $id );
-        return new InvestmentResource( $investments );
+    public function view($id){
+        try{
+            $investments = Investment::find($id);
+            $resource = new InvestmentResource($investments);
+            $expectedBalance = $this->calculateGains(Investment::find($id));
+            $investments['expected_balance'] = (float) number_format($expectedBalance, 2, '.', '');
+            return $resource->toArrayInvest($investments);
+        }catch(\Exception $e){
+            return $resource->toArrayNotFound($e);
+        }
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Calculate the gains each month, expected balance should be the sum of the invested amount and the gains.
+     * 
      */
-    public function edit($id)
-    {
-        //
+    public function calculateGains(Investment $investment){
+        $date = $this->getDates($investment);
+        if($investment->create_date == $date['balanceDate']->format("Y-m-d")){
+            return $investment->amount;
+        }
+        $expectedBalance = $investment->amount;
+        for($i = 0; $i < $date['months']; $i++){
+            $gain = $expectedBalance * (0.52 / 100);
+            $expectedBalance += $gain;
+        }
+        return $expectedBalance;
+        
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Get dates to use on function calculateGains and returns date of investment, date of balance and how much months of investment already passed
+     * 
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function getDates(Investment $investment){
+        $investDate = new DateTime($investment->create_date);
+        $balanceDate = new DateTime(date("Y-m-d"));
+        $interval = $investDate->diff($balanceDate);
+        $months = $interval->m;
+        $years = $interval->y;
+        if($years > 0){
+            $months += $years * 12;
+        }   
+        $date = array('investDate' => $investDate, 'balanceDate' => $balanceDate, 'months' => $months);
+        return $date;
     }
 }

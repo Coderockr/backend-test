@@ -19,11 +19,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// List artigos
+// List investments
 Route::get('investments', [InvestmentController::class, 'index']);
 
-// List single artigo
-Route::get('investment/{id}', [InvestmentController::class, 'show']);
+// List single investment
+Route::get('investment/{id}', [InvestmentController::class, 'view']);
 
-// Create new artigo
-Route::post('investment', [InvestmentController::class, 'store']);
+// Create new investment
+Route::post('investment', [InvestmentController::class, 'creation']);

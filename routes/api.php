@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InvestmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +18,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// List artigos
+Route::get('investments', [InvestmentController::class, 'index']);
+
+// List single artigo
+Route::get('investment/{id}', [InvestmentController::class, 'show']);
+
+// Create new artigo
+Route::post('investment', [InvestmentController::class, 'store']);

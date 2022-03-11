@@ -34,8 +34,28 @@ class Investment extends JsonResource
             'id' => $this->id,
             'owner' => $this->owner,
             'amount' => $this->amount,
-            'expected balance' => $this->expected_balance,
+            'expected balance' => $this->expectedBalance,
             'create date' => $this->create_date,
+        ];
+    }
+
+    /**
+     * Transform the resource into an array to list withdrawal by id.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     */
+    public function toArrayWithdrawal($investments)
+    {
+        return [
+            'id' => $this->id,
+            'owner' => $this->owner,
+            'initial amount' => $this->amount,
+            'create date' => $this->create_date,
+            'expected balance for today' => $this->expectedBalance,
+            'tax percent' => $this->taxPercent,
+            'withdrawal value' => $this->withdrawalValue,
+            'withdrawal date' => $this->withdrawalDate,
         ];
     }
 

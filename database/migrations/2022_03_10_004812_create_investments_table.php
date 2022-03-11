@@ -17,9 +17,7 @@ class CreateInvestmentsTable extends Migration
             $table->id();
             $table->date("create_date");
             $table->double("amount");
-
             $table->timestamps();
-
             $table->integer("owner")->unsigned();
             $table->foreign("owner")
                 ->references("id")->on("users")

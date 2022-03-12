@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     //
     /**
-     * Create a new user instance after a valid registration.
+     * Create a new user instance as investor.
      *
      * @param  Request $request
      * @return \App\Models\User
@@ -37,7 +37,7 @@ class UserController extends Controller
                             ->header('Content-Type', 'application/json');
         }
 
-        // save a new investment
+        // save a new investor
         if( $user->save() ){
           return new UserResource($user);
         }

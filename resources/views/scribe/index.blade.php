@@ -75,7 +75,7 @@
                 </li>
                                     <ul id="tocify-subheader-endpoints" class="tocify-subheader">
                                                     <li class="tocify-item level-2" data-unique="endpoints-POSTapi-user">
-                        <a href="#endpoints-POSTapi-user">Create a new user instance after a valid registration.</a>
+                        <a href="#endpoints-POSTapi-user">Create a new user instance as investor.</a>
                     </li>
                                     <li class="tocify-item level-2" data-unique="endpoints-POSTapi-investment">
                         <a href="#endpoints-POSTapi-investment">Create a new investment with an owner, a creation date and an amount.</a>
@@ -128,7 +128,7 @@ You can switch the language used with the tabs at the top right (or from the nav
 
     
 
-            <h2 id="endpoints-POSTapi-user">Create a new user instance after a valid registration.</h2>
+            <h2 id="endpoints-POSTapi-user">Create a new user instance as investor.</h2>
 
 <p>
 </p>
@@ -145,9 +145,9 @@ You can switch the language used with the tabs at the top right (or from the nav
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"bilzpfbybbzgplvarfastxglajskhnbiigkdtnqpepexjjdhcbyagtsqpdmyywclulcpbernwpgsklitdmgeuseplngttmeuebqwztpfnjewfhpskyqmksctnmqalwbxnshjiiivcrdcrpxgvjqntyyhjrbdzrromplcjvgnovjmqjrlbkwvtjvdytlnputnbxsdxsxjjukuudstk\",
-    \"email\": \"tnaxjzto\",
-    \"password\": \"zrupnpt\"
+    \"name\": \"petmeiuvlntnxybfewqjitortsmdgnhkceavcrtwlilmahlkcfhcudmxahpygmbygkshxdbbvunuqakyyzuefkjnackathnxrgtawkbkvcvlzbtwzcomtbhqukwzkkfirovcdswauehnyrwlgipykkxrxyyqcyzfbwqrvkiqqjpspzfsgungrczpgcvbiklbzdgwyaodiblnxooptiggfsxh\",
+    \"email\": \"utsjdilzvrcnjonqtjcsbdosffbfytfmpvudhdqzushibrhrblkdcvkqompykimfslznbmoxtiyxclbvxydamxxusblzvxstziiydhygamrasejwzqpqhkttwmjlhtllcsnftbbnxcnspzskniutwqexk\",
+    \"password\": \"erjtgp\"
 }"
 </code></pre></div>
 
@@ -163,9 +163,9 @@ const headers = {
 };
 
 let body = {
-    "name": "bilzpfbybbzgplvarfastxglajskhnbiigkdtnqpepexjjdhcbyagtsqpdmyywclulcpbernwpgsklitdmgeuseplngttmeuebqwztpfnjewfhpskyqmksctnmqalwbxnshjiiivcrdcrpxgvjqntyyhjrbdzrromplcjvgnovjmqjrlbkwvtjvdytlnputnbxsdxsxjjukuudstk",
-    "email": "tnaxjzto",
-    "password": "zrupnpt"
+    "name": "petmeiuvlntnxybfewqjitortsmdgnhkceavcrtwlilmahlkcfhcudmxahpygmbygkshxdbbvunuqakyyzuefkjnackathnxrgtawkbkvcvlzbtwzcomtbhqukwzkkfirovcdswauehnyrwlgipykkxrxyyqcyzfbwqrvkiqqjpspzfsgungrczpgcvbiklbzdgwyaodiblnxooptiggfsxh",
+    "email": "utsjdilzvrcnjonqtjcsbdosffbfytfmpvudhdqzushibrhrblkdcvkqompykimfslznbmoxtiyxclbvxydamxxusblzvxstziiydhygamrasejwzqpqhkttwmjlhtllcsnftbbnxcnspzskniutwqexk",
+    "password": "erjtgp"
 };
 
 fetch(url, {
@@ -223,7 +223,7 @@ fetch(url, {
                 <input type="text"
                name="name"
                data-endpoint="POSTapi-user"
-               value="bilzpfbybbzgplvarfastxglajskhnbiigkdtnqpepexjjdhcbyagtsqpdmyywclulcpbernwpgsklitdmgeuseplngttmeuebqwztpfnjewfhpskyqmksctnmqalwbxnshjiiivcrdcrpxgvjqntyyhjrbdzrromplcjvgnovjmqjrlbkwvtjvdytlnputnbxsdxsxjjukuudstk"
+               value="petmeiuvlntnxybfewqjitortsmdgnhkceavcrtwlilmahlkcfhcudmxahpygmbygkshxdbbvunuqakyyzuefkjnackathnxrgtawkbkvcvlzbtwzcomtbhqukwzkkfirovcdswauehnyrwlgipykkxrxyyqcyzfbwqrvkiqqjpspzfsgungrczpgcvbiklbzdgwyaodiblnxooptiggfsxh"
                data-component="body" hidden>
     <br>
 <p>Must not be greater than 255 characters.</p>
@@ -233,7 +233,7 @@ fetch(url, {
                 <input type="text"
                name="email"
                data-endpoint="POSTapi-user"
-               value="tnaxjzto"
+               value="utsjdilzvrcnjonqtjcsbdosffbfytfmpvudhdqzushibrhrblkdcvkqompykimfslznbmoxtiyxclbvxydamxxusblzvxstziiydhygamrasejwzqpqhkttwmjlhtllcsnftbbnxcnspzskniutwqexk"
                data-component="body" hidden>
     <br>
 <p>Must be a valid email address. Must not be greater than 255 characters.</p>
@@ -243,7 +243,7 @@ fetch(url, {
                 <input type="text"
                name="password"
                data-endpoint="POSTapi-user"
-               value="zrupnpt"
+               value="erjtgp"
                data-component="body" hidden>
     <br>
 <p>Must be at least 8 characters.</p>
@@ -267,8 +267,8 @@ fetch(url, {
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"owner\": 9,
-    \"amount\": 53438
+    \"owner\": 18,
+    \"amount\": 19960.792108681
 }"
 </code></pre></div>
 
@@ -284,8 +284,8 @@ const headers = {
 };
 
 let body = {
-    "owner": 9,
-    "amount": 53438
+    "owner": 18,
+    "amount": 19960.792108681
 };
 
 fetch(url, {
@@ -343,7 +343,7 @@ fetch(url, {
                 <input type="number"
                name="owner"
                data-endpoint="POSTapi-investment"
-               value="9"
+               value="18"
                data-component="body" hidden>
     <br>
 
@@ -353,7 +353,7 @@ fetch(url, {
                 <input type="number"
                name="amount"
                data-endpoint="POSTapi-investment"
-               value="53438"
+               value="19960.792108681"
                data-component="body" hidden>
     <br>
 
@@ -416,7 +416,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 59
+x-ratelimit-remaining: 55
 access-control-allow-origin: *
  </code></pre>
         </details>         <pre>
@@ -578,14 +578,14 @@ access-control-allow-origin: *
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8888/api/investment/14" \
+    --get "http://localhost:8888/api/investment/6" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8888/api/investment/14"
+    "http://localhost:8888/api/investment/6"
 );
 
 const headers = {
@@ -611,17 +611,17 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 58
+x-ratelimit-remaining: 54
 access-control-allow-origin: *
  </code></pre>
         </details>         <pre>
 
 <code class="language-json">{
-    &quot;id&quot;: 14,
-    &quot;owner&quot;: 1,
-    &quot;amount&quot;: 120,
-    &quot;expected balance&quot;: 120,
-    &quot;create date&quot;: &quot;2022-03-10&quot;
+    &quot;id&quot;: 6,
+    &quot;owner&quot;: 3,
+    &quot;amount&quot;: 2000,
+    &quot;expected balance&quot;: 2084.73,
+    &quot;create date&quot;: &quot;2021-06-25&quot;
 }</code>
  </pre>
     </span>
@@ -670,7 +670,7 @@ access-control-allow-origin: *
                 <input type="number"
                name="id"
                data-endpoint="GETapi-investment--id-"
-               value="14"
+               value="6"
                data-component="url" hidden>
     <br>
 <p>The ID of the investment.</p>
@@ -690,14 +690,14 @@ access-control-allow-origin: *
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8888/api/withdrawal/praesentium" \
+    --get "http://localhost:8888/api/withdrawal/aut" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8888/api/withdrawal/praesentium"
+    "http://localhost:8888/api/withdrawal/aut"
 );
 
 const headers = {
@@ -723,13 +723,13 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 57
+x-ratelimit-remaining: 53
 access-control-allow-origin: *
  </code></pre>
         </details>         <pre>
 
 <code class="language-json">{
-    &quot;message&quot;: &quot;No query results for model [App\\Models\\Investment] praesentium&quot;,
+    &quot;message&quot;: &quot;No query results for model [App\\Models\\Investment] aut&quot;,
     &quot;exception&quot;: &quot;Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException&quot;,
     &quot;file&quot;: &quot;/var/www/vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php&quot;,
     &quot;line&quot;: 385,
@@ -1203,7 +1203,7 @@ access-control-allow-origin: *
                 <input type="text"
                name="id"
                data-endpoint="GETapi-withdrawal--id-"
-               value="praesentium"
+               value="aut"
                data-component="url" hidden>
     <br>
 <p>The ID of the withdrawal.</p>
@@ -1223,14 +1223,14 @@ access-control-allow-origin: *
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8888/api/list/investments/2" \
+    --get "http://localhost:8888/api/list/investments/11" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8888/api/list/investments/2"
+    "http://localhost:8888/api/list/investments/11"
 );
 
 const headers = {
@@ -1256,35 +1256,22 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 60
-x-ratelimit-remaining: 56
+x-ratelimit-remaining: 52
 access-control-allow-origin: *
  </code></pre>
         </details>         <pre>
 
 <code class="language-json">{
-    &quot;data&quot;: [
-        {
-            &quot;id&quot;: 3,
-            &quot;owner&quot;: 2,
-            &quot;amount&quot;: 900,
-            &quot;create date&quot;: &quot;2020-03-10&quot;
-        },
-        {
-            &quot;id&quot;: 4,
-            &quot;owner&quot;: 2,
-            &quot;amount&quot;: 300,
-            &quot;create date&quot;: &quot;2021-05-03&quot;
-        }
-    ],
+    &quot;data&quot;: [],
     &quot;links&quot;: {
-        &quot;first&quot;: &quot;http://localhost/api/list/investments/2?page=1&quot;,
-        &quot;last&quot;: &quot;http://localhost/api/list/investments/2?page=1&quot;,
+        &quot;first&quot;: &quot;http://localhost/api/list/investments/11?page=1&quot;,
+        &quot;last&quot;: &quot;http://localhost/api/list/investments/11?page=1&quot;,
         &quot;prev&quot;: null,
         &quot;next&quot;: null
     },
     &quot;meta&quot;: {
         &quot;current_page&quot;: 1,
-        &quot;from&quot;: 1,
+        &quot;from&quot;: null,
         &quot;last_page&quot;: 1,
         &quot;links&quot;: [
             {
@@ -1293,7 +1280,7 @@ access-control-allow-origin: *
                 &quot;active&quot;: false
             },
             {
-                &quot;url&quot;: &quot;http://localhost/api/list/investments/2?page=1&quot;,
+                &quot;url&quot;: &quot;http://localhost/api/list/investments/11?page=1&quot;,
                 &quot;label&quot;: &quot;1&quot;,
                 &quot;active&quot;: true
             },
@@ -1303,10 +1290,10 @@ access-control-allow-origin: *
                 &quot;active&quot;: false
             }
         ],
-        &quot;path&quot;: &quot;http://localhost/api/list/investments/2&quot;,
+        &quot;path&quot;: &quot;http://localhost/api/list/investments/11&quot;,
         &quot;per_page&quot;: 10,
-        &quot;to&quot;: 2,
-        &quot;total&quot;: 2
+        &quot;to&quot;: null,
+        &quot;total&quot;: 0
     }
 }</code>
  </pre>
@@ -1356,7 +1343,7 @@ access-control-allow-origin: *
                 <input type="number"
                name="owner"
                data-endpoint="GETapi-list-investments--owner-"
-               value="2"
+               value="11"
                data-component="url" hidden>
     <br>
 

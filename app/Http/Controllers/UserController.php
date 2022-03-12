@@ -26,9 +26,9 @@ class UserController extends Controller
         
         // validation to create a new investor
         $validate = Validator::make($request->all(), [
-            'name'         => 'required',
-            'email'        => 'required|email',
-            'password'   => 'required'
+            'name'         => 'required|string|max:255',
+            'email'        => 'required|string|email|unique:users|max:255',
+            'password'   => 'required|string|min:8|confirmed'
         ]);
 
         // show a error in case of validation fail

@@ -37,7 +37,7 @@ class InvestmentController extends Controller
         // validation to create a new investment
         $now = new DateTime("now");
         $validate = Validator::make($request->all(), [
-            'owner'         => 'required',
+            'owner'         => 'required|integer|gt:0',
             'amount'        => 'required|numeric|gte:0',
             'create_date'   => 'required|date|before_or_equal:' . $now->format("Y-m-d")
         ]);

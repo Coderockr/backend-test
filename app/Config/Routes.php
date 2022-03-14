@@ -31,7 +31,21 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+$routes->get('/home', 'Home::index');
+
+$routes->get('/investments', 'Api\Investments::index');
+$routes->post('/investments', 'Api\Investments::create');
+
+$routes->post('/simulate','Api\Simulate::index');
+
+$routes->get('/products', 'Api\Products::index');
+
+$routes->get('/withdrawal', 'Api\Withdrawal::index');
+$routes->post('/withdrawal', 'Api\Withdrawal::create');
+
+$routes->get('/historico', 'Api\Historico::index');
+
+
 
 /*
  * --------------------------------------------------------------------

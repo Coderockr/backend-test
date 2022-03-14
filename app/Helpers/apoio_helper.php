@@ -9,20 +9,32 @@ function show_array($data, $exit = true)
         exit;
     }
 }
-function isMobileHelper() {
-    return preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]);
+
+/**
+ * @param $json
+ * @param int $httpCode
+ * @return void
+ */
+function responseJson($json, int $httpCode = 200) :void
+{
+    $content = json_encode($json, JSON_PRETTY_PRINT);
+    header('content-type: application/json; charset: utf-8');
+    http_response_code($httpCode);
+    ob_start((true ? 'ob_gzhandler' : null));
+    echo $content;
+    ob_end_flush();
+    $content = null;
+    exit();
+}
+function validateDate($date, $format = 'Y-m-d'): bool
+{
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) === $date;
 }
 function moneyReal($valor)
 {
     $retorno = number_format($valor, 2, ",", ".");
-
     return $retorno;
-
-}
-function textoLimite($string,$maxCharacter)
-{
-    return mb_strimwidth($string,0,$maxCharacter,'...');
-
 }
 function getToken($length){
     $token = "";
@@ -37,74 +49,14 @@ function getToken($length){
 
     return strtoupper($token);
 }
-function isEmail($email)
+
+function diffDates($date_1,$date_2, $format = 'Y-m-d'): array
 {
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL) === false) {
-        return true;
-    }
-    return false;
+    $date1 = date_create_from_format($format, $date_1);
+    $date2 = date_create_from_format($format, $date_2);
+    return (array) date_diff($date1, $date2);
 }
-function responseJson($json, $httpCode = 200)
+function calcJurosCompostos($capital,$taxa, $meses)
 {
-    $content = json_encode($json, JSON_PRETTY_PRINT);
-    header('content-type: application/json; charset: utf-8');
-    http_response_code($httpCode);
-    ob_start((true ? 'ob_gzhandler' : null));
-    echo $content;
-    ob_end_flush();
-    $content = null;
-    exit();
-}
-
-function viewDevice()
-{
-    if (isMobileHelper()):
-        return "_mobile";
-    else:
-        return "_desktop";
-    endif;
-
-}
-function validPhone($phone): bool
-{
-
-    $regex = '/^(?:(?:\+|00)?(55)\s?)?(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/';
-    if (preg_match($regex, $phone) == false){
-        return false;
-    }else{
-        return true;
-    }
-}
-function brazilianPhoneParser(string $phoneString, bool $forceOnlyNumber = true) : ?array
-{
-    $phoneString = preg_replace('/[()]/', '', $phoneString);
-    if (preg_match('/^(?:(?:\+|00)?(55)\s?)?(?:\(?([0-0]?[0-9]{1}[0-9]{1})\)?\s?)??(?:((?:9\d|[2-9])\d{3}\-?\d{4}))$/', $phoneString, $matches) === false) {
-        return null;
-    }
-
-    $ddi = $matches[1] ?? '';
-    $ddd = preg_replace('/^0/', '', $matches[2] ?? '');
-    $number = $matches[3] ?? '';
-    if ($forceOnlyNumber === true) {
-        $number = preg_replace('/-/', '', $number);
-    }
-
-    return ['ddi' => $ddi, 'ddd' => $ddd , 'number' => $number];
-}
-
-function slugThis($str)
-{
-    $str = mb_strtolower($str); //Vai converter todas as letras maiúsculas pra minúsculas
-    $str = preg_replace('/(â|á|ã)/', 'a', $str);
-    $str = preg_replace('/(ê|é)/', 'e', $str);
-    $str = preg_replace('/(í|Í)/', 'i', $str);
-    $str = preg_replace('/(ú)/', 'u', $str);
-    $str = preg_replace('/(ó|ô|õ|Ô)/', 'o',$str);
-    $str = preg_replace('/(_|\/|!|\?|#)/', '',$str);
-    $str = preg_replace('/( )/', '-',$str);
-    $str = preg_replace('/ç/','c',$str);
-    $str = preg_replace('/(-[-]{1,})/','-',$str);
-    $str = preg_replace('/(,)/','-',$str);
-    $str=strtolower($str);
-    return $str;
+    return $capital * pow((1 + $taxa), $meses);
 }

@@ -1,0 +1,145 @@
+swagger: '2.0'
+info:
+  description: Recurso para gerenciamento de investimentos e retiradas de valores.
+  version: 1.0.0
+  title: Investiments Api
+basePath: /
+tags:
+  - name: Investiment
+    description: Recurso para o gerenciamento de investimentos
+
+paths:
+  /investiments:
+    get:
+      tags:
+        - Investiments
+      summary: Lista todos os investimentos
+      description: 'Operação utilizada para listar todos os investimentos com paginação.'
+      operationId: investimentsList
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200': 
+          description: successful operation
+        '400':
+          description: Bad request
+  /investiment/{id}:
+    get:
+      tags:
+        - Investiment
+      summary: Detalha um investimento
+      operationId: InvestimentCreate
+      description: Operação utilizada para verificar o rendimento de um investimento.
+      consumes:
+      - application/json
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Id do investimento"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        201:
+          description: item created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing item already exists
+  /investiment:
+    post:
+      tags:
+        - Investiment
+      summary: Cadastra um investimento
+      operationId: InvestimentCreate
+      description: Operação utilizada para cadastrar um investimento.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: Criar Investimento
+        description: Cadastrar um investimento
+        schema:
+          $ref: '#/definitions/CreateInvestiment'
+      responses:
+        201:
+          description: item created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing item already exists
+  /withdrawal:
+    post:
+      tags:
+        - Withdrawal
+      summary: Realizar uma retirada de valores
+      operationId: addInventory
+      description: Operação utilizada para realizar uma retirada de valores.
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      parameters:
+      - in: body
+        name: Retirada
+        description: Realizar uma retirada
+        schema:
+          $ref: '#/definitions/CreateWithdrawal'
+      responses:
+        201:
+          description: item created
+        400:
+          description: invalid input, object invalid
+        409:
+          description: an existing item already exists
+definitions:
+  CreateInvestiment:
+    type: object
+    required:
+    - user_id
+    - investiment_id
+    - investiment_date
+    properties:
+      user_id:
+        type: integer
+        format: integer
+        example: 1
+      value:
+        type: float
+        format: float
+        example: 1000.50
+      investiment_date:
+        type: string
+        format: string
+        example: "2022-03-10"
+  CreateWithdrawal:
+    type: object
+    required:
+    - user_id
+    - investiment_id
+    - withdraw_date
+    properties:
+      user_id:
+        type: integer
+        format: integer
+        example: 3
+      investiment_id:
+        type: integer
+        format: integer
+        example: 1
+      withdraw_date:
+        type: string
+        format: string
+        example: "2022-03-02"
+     
+# securityDefinitions:
+#   api_key:
+#     type: apiKey
+#     name: Authorization
+#     in: header
+
+

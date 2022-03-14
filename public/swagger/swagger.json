@@ -1,0 +1,75 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Investiments Api",
+    "version": "v1"
+  },
+  "paths": {
+    "/investiments": {
+      "get": {
+        "operationId": "listVersionsv2",
+        "tags": [
+          "Investiment"
+        ],
+        "summary": "Lista todos os investimentos",
+        "description": "Operação utilizada para listar todos os investimentos com paginação.",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "200 300 response",
+            "examples": {
+              "application/json": "{\n \"user_id\": 1,\n \"investiment_id\": 1,\n \"withdraw_date\": \"2022-03-01\",          \n}"
+            }
+          },
+          "300": {
+            "description": "200 300 response",
+            "examples": {
+              "application/json": "{\n \"user_id\": 1,\n \"investiment_id\": 1,\n \"withdraw_date\": \"2022-03-01\",          \n}"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Investiment"
+        ],
+        "summary": "Lista todos os investimentos",
+        "description": "Operação utilizada para listar todos os investimentos com paginação.",
+        "parameters": {
+          
+            "application/json": "{\n \"user_id\": 1,\n \"investiment_id\": 1,\n \"withdraw_date\": \"2022-03-01\",          \n}"
+         }
+        },
+        "produces": [
+          "application/json"
+        ],
+        "parameters":[  
+					{  
+						"in":"body",
+						"name":"planItemExecuteRequest",
+						"description":"planItemExecuteRequest",
+						"required":true,
+						"schema":{  
+							"application/json": "{\n \"user_id\": 1,\n \"investiment_id\": 1,\n \"withdraw_date\": \"2022-03-01\",          \n}"
+						}
+					}
+        ],
+        "responses": {
+          "200": {
+            "description": "200 300 response",
+            "examples": {
+              "application/json": "{\n \"user_id\": 1,\n \"investiment_id\": 1,\n \"withdraw_date\": \"2022-03-01\",          \n}"
+            }
+          },
+          "300": {
+            "description": "200 300 response",
+            "examples": {
+              "application/json": "{\n \"user_id\": 1,\n \"investiment_id\": 1,\n \"withdraw_date\": \"2022-03-01\",          \n}"
+            }
+          }
+        }
+      }
+    }
+}

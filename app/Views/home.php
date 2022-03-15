@@ -38,14 +38,28 @@
             <br>
             Caso o investimento tenha mais de 24 meses, a taxa sobre o lucro será de 15%
         </p>
+        <p>
+            <b>Iniciar o sistema</b>
+            <br>
+            Abra o terminal na raiz do projeto e digite o seguinte comando:
+            <br>
+            <b>php spark serve</b>
+        </p>
+        <p>
+            <b>Seed</b>
+            <br>
+            Paga gerar um usuário de teste basta ainda na raiz do projeto digitar o seguinte comando:
+            <br>
+            <b>php spark db:seed</b>
+        </p>
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <h3>Investiments types</h3>
+            <h3 class="text-primary">Investimentos disponíveis</h3>
             <p>
                 URL: <span class="text-danger"><?= base_url("investiments") ?></span>
             </p>
-            <h3>Resource Information</h3>
+            <h3>Informação</h3>
             <table class="table table-striped">
                 <tr>
                     <td>
@@ -73,80 +87,75 @@
                         GET
                     </td>
                     <td>
-                        Get All Investiments types
+                        Retorna todos investimentos disponíveis
                     </td>
                 </tr>
             </table>
         </div>
     </div>
-    <div class="row mt-5">
+    <hr>
+    <div class="row">
         <div class="col-sm-12">
-            <h3>Transactions ( investment )</h3>
+            <h3 class="text-primary">Simulação</h3>
             <p>
-                URL: <span class="text-danger"><?= base_url("transactions") ?></span>
+                URL: <span class="text-danger"><?= base_url("simulate") ?></span>
             </p>
-            <h3>Resource Information</h3>
+            <p>
+                Simula investimento e saque
+            </p>
+            <h2>Informação</h2>
             <table class="table table-striped">
                 <tr>
                     <td>
-                        Resource format
+                        product_id
                     </td>
                     <td>
-                        JSON
+                        Obrigatório
+                    </td>
+                    <td>
+                        1,2,3
                     </td>
                 </tr>
                 <tr>
-                    <td>Authentication</td>
-                    <td>No</td>
+                    <td>data_start</td>
+                    <td>Obrigatório</td>
+                    <td>YYYY-mm-dd > 2015-01-01</td>
                 </tr>
                 <tr>
-                    <td>limited</td>
-                    <td>No</td>
+                    <td>data_end</td>
+                    <td>Obrigatório</td>
+                    <td>YYYY-mm-dd > 2015-01-01 <br> YYYY-mm-dd < 2030-31-12</td>
+                </tr>
+                <tr>
+                    <td>ammount</td>
+                    <td>Obrigatório</td>
+                    <td>150.30</td>
                 </tr>
             </table>
         </div>
         <div class="col-sm-12">
-            <h3>Methods</h3>
+            <h3>Method</h3>
             <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">TYPE</th>
-                    <th scope="col">DESCRIPTION</th>
-                    <th scope="col">PARAMETERS REQUIRED</th>
-                </tr>
-                </thead>
                 <tr>
                     <td>
                         POST
                     </td>
                     <td>
-                        Create an investment
-                    </td>
-                    <td>
-                        Investimento ID, investment date create ("dd-mm-YYYY")
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        GET
-                    </td>
-                    <td>
-                        Get All user transactions
-                    </td>
-                    <td>
-
+                        Retorna um objeto.
                     </td>
                 </tr>
             </table>
         </div>
     </div>
-    <div class="row mt-5">
+    <hr>
+    <div class="row">
         <div class="col-sm-12">
-            <h3>Transactions ( withdrawn )</h3>
+            <h3 class="text-primary">Histórico</h3>
             <p>
-                URL: <span class="text-danger"><?= base_url("transactions") ?></span>
+                URL: <span class="text-danger"><?= base_url("historico") ?></span>
             </p>
-            <h3>Resource Information</h3>
+
+            <h2>Informação</h2>
             <table class="table table-striped">
                 <tr>
                     <td>
@@ -167,36 +176,80 @@
             </table>
         </div>
         <div class="col-sm-12">
-            <h3>Methods</h3>
+            <h3>Method</h3>
             <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th scope="col">TYPE</th>
-                    <th scope="col">DESCRIPTION</th>
-                    <th scope="col">PARAMETERS REQUIRED</th>
-                </tr>
-                </thead>
-                <tr>
-                    <td>
-                        POST
-                    </td>
-                    <td>
-                        Create an withdrawn
-                    </td>
-                    <td>
-                        Transaction ID, withdrawn date ("dd-mm-YYYY")
-                    </td>
-                </tr>
                 <tr>
                     <td>
                         GET
                     </td>
                     <td>
-                        Get All user transactions
+                        Retorna histórico de todas transações
+    
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="text-primary">Investimento</h3>
+            <p>
+                URL: <span class="text-danger"><?= base_url("investments") ?></span>
+            </p>
+            <p>
+                Cria um investimento
+            </p>
+            <h2>Informação</h2>
+            <table class="table table-striped">
+                <tr>
+                    <td>
+                        product_id
                     </td>
                     <td>
-
+                        Obrigatório
                     </td>
+                    <td>
+                        1,2,3
+                    </td>
+                </tr>
+                <tr>
+                    <td>data_start</td>
+                    <td>Obrigatório</td>
+                    <td>YYYY-mm-dd > 2015-01-01</td>
+                </tr>
+                <tr>
+                    <td>ammount</td>
+                    <td>Obrigatório</td>
+                    <td>150.30</td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-12">
+            <h3 class="text-primary">Saque</h3>
+            <p>
+                URL: <span class="text-danger"><?= base_url("investments") ?></span>
+            </p>
+            <p>
+                Cria um saque total do investimento indicado
+            </p>
+            <h2>Informação</h2>
+            <table class="table table-striped">
+                <tr>
+                    <td>
+                        investiment_id
+                    </td>
+                    <td>
+                        Obrigatório
+                    </td>
+                    <td>
+                        89APO
+                    </td>
+                </tr>
+                <tr>
+                    <td>data_withdrawal</td>
+                    <td>Obrigatório</td>
+                    <td>A data dever superior a data do investimento e nunca superior a data atual.</td>
                 </tr>
             </table>
         </div>

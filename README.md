@@ -48,3 +48,10 @@ __TODO:__ Description
 
 __TODO:__ Description
 
+# Help
+
+1. I'm using "php artisan make\:\$something", it creates the specified\, but i get "BadMethodCallException\: Method ${class} does not exist":
+- Do "composer dump-autoload"
+
+2. I get "Warning: require(/app/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /app/public/index.php on line 34" on deploy/testing:
+- Do "composer install"

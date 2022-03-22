@@ -16,7 +16,7 @@ class Admin extends Controller
         if($rd->user == "mocked" && $rd->password == "with mock data"){
             $status = 0; // No error
             $http_code = 200; // Success
-            $token = \App\Services\JWT::encode(['id' => 1, 'mock' => 1]);
+            $token = \App\Services\JWT::encode(['id' => -1, 'mock' => 1]);
         }else{
             $status = 3; // Invalid user or password
             $http_code = 401; // Unauthorized

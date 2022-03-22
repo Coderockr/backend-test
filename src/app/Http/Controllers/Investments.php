@@ -11,17 +11,11 @@ class Investments extends Controller
 
         $status = -1; // Generic error
         $http_code = 501; // Not implemented by default
-        $token = null; // Dont have a token
+
+        $status = 0; // Ok
+        $http_code = 200; // Ok
         
-        if($rd->user == "mocked" && $rd->password == "with mock data"){
-            $status = 0; // No error
-            $http_code = 200; // Success
-            $token = \App\Services\JWT::encode(['id' => 1, 'mock' => 1]);
-        }else{
-            $status = 3; // Invalid user or password
-            $http_code = 401; // Unauthorized
-        }
-        return response()->json(["status" => $status, "token" => $token], $http_code);
+        return response()->json(["status" => $status], $http_code);
     }
 
     public function View(Request $request) {
@@ -29,17 +23,11 @@ class Investments extends Controller
 
         $status = -1; // Generic error
         $http_code = 501; // Not implemented by default
-        $token = null; // Dont have a token
+
+        $status = 0; // Ok
+        $http_code = 200; // Ok
         
-        if($rd->user == "mocked" && $rd->password == "with mock data"){
-            $status = 0; // No error
-            $http_code = 200; // Success
-            $token = \App\Services\JWT::encode(['id' => 1, 'mock' => 1]);
-        }else{
-            $status = 3; // Invalid user or password
-            $http_code = 401; // Unauthorized
-        }
-        return response()->json(["status" => $status, "token" => $token], $http_code);
+        return response()->json(["status" => $status], $http_code);
     }
     
     public function Withdrawal(Request $request) {
@@ -47,16 +35,10 @@ class Investments extends Controller
 
         $status = -1; // Generic error
         $http_code = 501; // Not implemented by default
-        $token = null; // Dont have a token
+
+        $status = 0; // Ok
+        $http_code = 200; // Ok
         
-        if($rd->user == "mocked" && $rd->password == "with mock data"){
-            $status = 0; // No error
-            $http_code = 200; // Success
-            $token = \App\Services\JWT::encode(['id' => 1, 'mock' => 1]);
-        }else{
-            $status = 3; // Invalid user or password
-            $http_code = 401; // Unauthorized
-        }
-        return response()->json(["status" => $status, "token" => $token], $http_code);
+        return response()->json(["status" => $status], $http_code);
     }
 }

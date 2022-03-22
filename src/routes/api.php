@@ -18,15 +18,16 @@ Route::prefix('v1')->group(function () {
     Route::prefix('admin')->group(function () {
         Route::post('login', [\App\Http\Controllers\Admin::class, 'Login']);
     });
-
+    
     Route::prefix('investments')->middleware('filterNonAuthenticatedAPIRequests')->group(function () {
         Route::prefix('user')->group(function () {
+
             Route::put('create', [\App\Http\Controllers\Investments\User::class, 'Create']);
-            Route::get('investments/list', [\App\Http\Controllers\Investments\User::class, 'ListInvestments']);
+            Route::post('investments/list', [\App\Http\Controllers\Investments\User::class, 'ListInvestments']);
         });
         
         Route::put('create', [\App\Http\Controllers\Investments::class, 'Create']);
-        Route::get('view', [\App\Http\Controllers\Investments::class, 'View']);
+        Route::post('view', [\App\Http\Controllers\Investments::class, 'View']);
         Route::post('withdrawal', [\App\Http\Controllers\Investments::class, 'Withdrawal']);
     });
     

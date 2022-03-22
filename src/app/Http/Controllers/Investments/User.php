@@ -12,7 +12,9 @@ class User extends Controller
 
         $status = -1; // Generic error
         $http_code = 501; // Not implemented by default
-        $token = null; // Dont have a token
+
+        $status = 0; // Ok
+        $http_code = 200; // Ok
         
         return response()->json(["status" => $status], $http_code);
     }
@@ -22,7 +24,9 @@ class User extends Controller
 
         $status = -1; // Generic error
         $http_code = 501; // Not implemented by default
-        $token = null; // Dont have a token
+
+        $status = 0; // Ok
+        $http_code = 200; // Ok
         
         return response()->json(["status" => $status], $http_code);
     }

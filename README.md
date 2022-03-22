@@ -40,6 +40,12 @@ make cross-side API Development with the Front-End Engineer.
 
 3. Setup Laravel 9 and start coding. 
 
+## Testing
+
+To test the application, you need to go to the "tests" folder and run "npm run test".
+If the server hostname is wrong, you need to
+change it on the code.
+
 ## Deploy instructions with docker image
 
 __TODO:__ Description

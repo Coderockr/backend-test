@@ -40,11 +40,25 @@ make cross-side API Development with the Front-End Engineer.
 
 3. Setup Laravel 9 and start coding. 
 
+## Setup for development
+
+1. Open root project folder on VS Code (that contains src, test and this README.md file)
+2. Press F1, run ">Remote-Containers: Reopen in Container"
+3. Open terminal in container
+4. Run:
+
+    cd app
+
+    composer install
+
+    php artisan develop:reset
+
+
 ## Testing
 
-To test the application, you need to go to the "tests" folder and run "npm run test".
-If the server hostname is wrong, you need to
-change it on the code.
+To test the application, you need to go to the "tests" folder and run "npm i" and after "npm run test".
+If the server hostname is wrong, you need to change it on the code.
+If you cannot had Node.JS installed, use VS Code Devcontainer (described on Setup for development).
 
 ## Deploy instructions with docker image
 

@@ -11,11 +11,25 @@ class Investments extends Controller
 
         $status = -1; // Generic error
         $http_code = 501; // Not implemented by default
+        $id = null;
 
-        $status = 0; // Ok
-        $http_code = 200; // Ok
+        try {
+            $investment = new \App\Models\Investment;
+            $investment->value = \App\Services\FinancialValueNodeTransformer::fromNodeToDatabaseInt($rd->investment_value);;
+            $investment->investment_timestamp = \App\Services\DateTimeNodeTransformer::fromNodeToDateTime($rd->creation_date);
+            $investment->investor_user_id = $rd->owner_id;
+            $investment->save();
+            $id = $investment->id;
+            $status = 0; // Ok
+            $http_code = 200; // Ok
+        }catch(\Throwable $e){
+            //throw $e;
+            $status = -1; // Generic error
+            $http_code = 500; // Internal error
+        }
         
-        return response()->json(["status" => $status], $http_code);
+        
+        return response()->json(["status" => $status, "investment_id" => $id], $http_code);
     }
 
     public function View(Request $request) {

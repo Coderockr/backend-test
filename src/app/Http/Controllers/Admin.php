@@ -12,15 +12,18 @@ class Admin extends Controller
         $status = -1; // Generic error
         $http_code = 501; // Not implemented by default
         $token = null; // Dont have a token
+
+        $curentUser = \App::make(\App\Services\CurrentUser::class);
         
-        if($rd->user == "mocked" && $rd->password == "with mock data"){
+        if($curentUser->Login($rd->user, $rd->password)){
             $status = 0; // No error
             $http_code = 200; // Success
-            $token = \App\Services\JWT::encode(['id' => -1, 'mock' => 1]);
+            $token = $curentUser->GetToken();
         }else{
             $status = 3; // Invalid user or password
             $http_code = 401; // Unauthorized
         }
+        
         return response()->json(["status" => $status, "token" => $token], $http_code);
     }
 }

@@ -16,8 +16,12 @@ class InvestmentFactory extends Factory
      */
     public function definition()
     {
+        $faker = \Faker\Factory::create();
         return [
-            //
+            'value' => $faker->numberBetween(100, 1000000),
+            'investment_timestamp' => $faker->dateTime(),
+            'withdraw_timestamp' => $faker->randomElement([null, new \DateTime()]),
+            'investor_user_id' => \App\Models\InvestorUser::all()->random(1)->first()->id,
         ];
     }
 }

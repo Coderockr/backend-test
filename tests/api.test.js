@@ -1,12 +1,12 @@
 const { expect } = require("@jest/globals");
 const request = require("supertest");
 
-const base_url = "http://localhost";
+const base_url = "http://172.30.64.1"; //172.30.64.1 == Default WSL IP
 var admin_jwt = "";
-var investment_user_id = 1;
-var investment_id = 1;
+var investment_user_id = "";
+var investment_id = "";
 
-describe('/api/v1/admin', () => {
+describe('Admin user endpoint', () => {
 	test('shold be a unsuccessful login', async () => {
 
 		const response = await request(base_url)
@@ -35,7 +35,7 @@ describe('/api/v1/admin', () => {
 });
 
 
-describe('/api/v1/investments/user', () => {
+describe('Investor user endpoint', () => {
 	test('shold create a user', async () => {
 		const response = await request(base_url)
 			.put("/api/v1/investments/user/create")
@@ -59,7 +59,7 @@ describe('/api/v1/investments/user', () => {
 });
 
 
-describe('/api/v1/investments', () => {
+describe('Investments endpoint', () => {
 	test('shold create a investment', async () => {
 		const response = await request(base_url)
 			.put("/api/v1/investments/create")
@@ -70,11 +70,11 @@ describe('/api/v1/investments', () => {
 				owner_id: investment_user_id,
 				creation_date: {
 					format: "TIMESTAMP",
-					value: 0
+					value: 19595
 				},
 				investment_value: {
 					decimals: 2,
-					value: 100000
+					value: 1000
 				}
 			})
 			.set('Accept', 'application/json')
@@ -104,5 +104,17 @@ describe('/api/v1/investments', () => {
 			.expect(200);
 		expect(response.body.status).toBe(0);
 	});
+});
 
+
+describe('Testing results', () => {
+	test('shold have one investment', async () => {
+		const response = await request(base_url)
+			.post("/api/v1/investments/user/investments/list")
+			.send({_credentials: {token: admin_jwt}, user_id: investment_user_id, format: "TIMESTAMP", decimals: 2})
+			.set('Accept', 'application/json')
+			.expect('Content-Type', /json/)
+			.expect(200);
+		expect(response.body.status).toBe(0);
+	});
 });

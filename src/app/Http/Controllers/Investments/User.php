@@ -12,11 +12,21 @@ class User extends Controller
 
         $status = -1; // Generic error
         $http_code = 501; // Not implemented by default
+        $id = null;
 
-        $status = 0; // Ok
-        $http_code = 200; // Ok
+        try {
+            $product = new \App\Models\InvestorUser;
+            $product->name = $rd->name;
+            $product->save();
+            $id = $product->id;
+            $status = 0; // Ok
+            $http_code = 200; // Ok
+        }catch(\Throwable $e){
+            $status = -1; // Generic error
+            $http_code = 500; // Internal error
+        }
         
-        return response()->json(["status" => $status], $http_code);
+        return response()->json(["status" => $status, "owner_id" => $id], $http_code);
     }
     
     public function ListInvestments(Request $request) {
@@ -24,10 +34,19 @@ class User extends Controller
 
         $status = -1; // Generic error
         $http_code = 501; // Not implemented by default
+        $investments = [];
 
-        $status = 0; // Ok
-        $http_code = 200; // Ok
+        try {
+            $investments = \App\Models\Investment::where("investor_user_id", $rd->user_id)->get()->transformWith(new \App\Transformers\InvestmentTransformer())->toArray()['data'];
+            $status = 0; // Ok
+            $http_code = 200; // Ok
+        }catch(\Throwable $e){
+            throw $e;
+            $status = -1; // Generic error
+            $http_code = 500; // Internal error
+        }
         
-        return response()->json(["status" => $status], $http_code);
+        
+        return response()->json(["status" => $status, "investments" => $investments], $http_code);
     }
 }

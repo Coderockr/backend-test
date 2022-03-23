@@ -1,0 +1,7 @@
+{
+  "name": "REST Tests",
+  "dockerComposeFile": "docker-compose.yaml",
+  "service": "app",
+  "workspaceFolder": "/",
+  "shtdownAction": "stopCompose"
+}

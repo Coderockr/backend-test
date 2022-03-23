@@ -15,6 +15,11 @@ return new class extends Migration
     {
         Schema::create('investments', function (Blueprint $table) {
             $table->id();
+            $table->integer('value');
+            $table->timestamp('investment_timestamp');
+            $table->timestamp('withdraw_timestamp')->nullable();
+            $table->unsignedBigInteger('investor_user_id');
+            $table->foreign('investor_user_id')->references('id')->on('investor_users');
             $table->timestamps();
         });
     }

@@ -41,6 +41,11 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+
+$app->singleton(\App\Services\CurrentUser::class, function ($app) {
+    return new \App\Services\CurrentUser();
+});
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application

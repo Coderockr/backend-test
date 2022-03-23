@@ -14,7 +14,18 @@ class DateTimeNodeTransformer {
         }
     }
 
-    public static function fromDateTimeToNode($dateTime, $mode = "TIMESTAMP") {
-        return ["format" => "TIMESTAMP", "value" => 0];
+    public static function fromDateTimeStringToNode($dateTime, $mode = "TIMESTAMP") {
+        switch ($mode) {
+            case "TIMESTAMP":
+                return $dateTime == null ? null : ["format" => "TIMESTAMP", "value" => (new \DateTime($dateTime))->getTimestamp()];
+                break;
+            default:
+                throw Exception("Unknown DateTime node type");
+        }
+    }
+
+    
+    public static function fromDateTimeStringToDateTime($dateTime) {
+        return new \DateTime($dateTime);
     }
 }

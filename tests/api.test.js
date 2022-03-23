@@ -7,7 +7,7 @@ var investment_user_id = "";
 var investment_id = "";
 
 describe('Admin user endpoint', () => {
-	test('shold be a unsuccessful login', async () => {
+	test('should be a unsuccessful login', async () => {
 
 		const response = await request(base_url)
 			.post("/api/v1/admin/login")
@@ -18,11 +18,12 @@ describe('Admin user endpoint', () => {
 		expect(response.body.status).toBe(3); // Code for wrong user or password
 	});
 
-	test('shold be a successful login', async () => {
+	test('should be a successful login', async () => {
 		//The user and password is the default for mock data, 
 		//if you want to test with a real user, don't do it
 		//Don't change the user and password
 
+		
 		const response = await request(base_url)
 			.post("/api/v1/admin/login")
 			.send({user: 'mocked', password: 'with mock data'})
@@ -35,8 +36,9 @@ describe('Admin user endpoint', () => {
 });
 
 
+
 describe('Investor user endpoint', () => {
-	test('shold create a user', async () => {
+	test('should create a user', async () => {
 		const response = await request(base_url)
 			.put("/api/v1/investments/user/create")
 			.send({_credentials: {token: admin_jwt}, name: "kyle"})
@@ -47,7 +49,7 @@ describe('Investor user endpoint', () => {
 		investment_user_id = response.body.owner_id;
 	});
 
-	test('shold return a empty investments list', async () => {
+	test('should return a empty investments list', async () => {
 		const response = await request(base_url)
 			.post("/api/v1/investments/user/investments/list")
 			.send({_credentials: {token: admin_jwt}, user_id: investment_user_id, format: "TIMESTAMP", decimals: 2})
@@ -60,7 +62,7 @@ describe('Investor user endpoint', () => {
 
 
 describe('Investments endpoint', () => {
-	test('shold create a investment', async () => {
+	test('should create a investment', async () => {
 		const response = await request(base_url)
 			.put("/api/v1/investments/create")
 			.send({
@@ -84,7 +86,7 @@ describe('Investments endpoint', () => {
 		investment_id = response.body.investment_id;
 	});
 
-	test('shold return a investment to view', async () => {
+	test('should return a investment', async () => {
 		const response = await request(base_url)
 			.post("/api/v1/investments/view")
 			.send({_credentials: {token: admin_jwt}, investment_id: investment_id, format: "TIMESTAMP", decimals: 2})
@@ -94,8 +96,24 @@ describe('Investments endpoint', () => {
 		expect(response.body.status).toBe(0);
 	});
 
+	
+	test('check created investment initial data', async () => {
+		const response = await request(base_url)
+			.post("/api/v1/investments/view")
+			.send({_credentials: {token: admin_jwt}, investment_id: investment_id, format: "TIMESTAMP", decimals: 2})
+			.set('Accept', 'application/json')
+			.expect('Content-Type', /json/)
+			.expect(200);
+		expect(response.body.status).toBe(0);
+		expect(response.body.already_withdrawed).toBe(false);
+		expect(response.body.creation_date.format).toBe("TIMESTAMP");
+		expect(response.body.creation_date.value).toBe(19595);
+		expect(response.body.initial_amount.decimals).toBe(2);
+		expect(response.body.initial_amount.value).toBe(1000);
+	});
 
-	test('shold withdrawal a investment and return the values', async () => {
+
+	test('should withdrawal a investment and return the values', async () => {
 		const response = await request(base_url)
 			.post("/api/v1/investments/withdrawal")
 			.send({_credentials: {token: admin_jwt}, investment_id: investment_id, format: "TIMESTAMP", decimals: 2})
@@ -104,11 +122,23 @@ describe('Investments endpoint', () => {
 			.expect(200);
 		expect(response.body.status).toBe(0);
 	});
+
+	
+	test('check withdrawed investment data', async () => {
+		const response = await request(base_url)
+			.post("/api/v1/investments/view")
+			.send({_credentials: {token: admin_jwt}, investment_id: investment_id, format: "TIMESTAMP", decimals: 2})
+			.set('Accept', 'application/json')
+			.expect('Content-Type', /json/)
+			.expect(200);
+		expect(response.body.status).toBe(0);
+		expect(response.body.already_withdrawed).toBe(true);
+	});
 });
 
 
 describe('Testing results', () => {
-	test('shold have one investment', async () => {
+	test('should have one investment', async () => {
 		const response = await request(base_url)
 			.post("/api/v1/investments/user/investments/list")
 			.send({_credentials: {token: admin_jwt}, user_id: investment_user_id, format: "TIMESTAMP", decimals: 2})
@@ -116,5 +146,18 @@ describe('Testing results', () => {
 			.expect('Content-Type', /json/)
 			.expect(200);
 		expect(response.body.status).toBe(0);
+		expect(response.body.investments.length).toBe(1);
+	});
+
+	
+	test('investment needs to be withdrawed status', async () => {
+		const response = await request(base_url)
+			.post("/api/v1/investments/user/investments/list")
+			.send({_credentials: {token: admin_jwt}, user_id: investment_user_id, format: "TIMESTAMP", decimals: 2})
+			.set('Accept', 'application/json')
+			.expect('Content-Type', /json/)
+			.expect(200);
+		expect(response.body.status).toBe(0);
+		expect(response.body.investments[0].already_withdrawed).toBe(true);
 	});
 });

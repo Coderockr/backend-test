@@ -53,20 +53,44 @@ make cross-side API Development with the Front-End Engineer.
 
     php artisan develop:reset
 
+And you will get the terminal like the example below:
+
+![Terminal example](imgs/correct_development_environment_reset.png)
+
 
 ## Testing
 
 To test the application, you need to go to the "tests" folder and run "npm i" and after "npm run test".
 If the server hostname is wrong, you need to change it on the code.
 If you cannot had Node.JS installed, use VS Code Devcontainer (described on Setup for development).
+If the tests are successful, you get a terminal like below:
 
-## Deploy instructions with docker image
-
-__TODO:__ Description
+![Terminal example](imgs/correct_tests_message.png)
 
 ## Deploy instructions with source code
 
-__TODO:__ Description
+1. Copy the source code to the server
+2. Configure the website root (DocumentRoot on Apache) to "src/public/" folder (example for apache on .devcontainer/sites.conf)
+3. Configure Laravel environment
+    - APP_KEY
+        - Generate the Laravel key with "php artisan key:generate"
+        - Ex: base64:JJgFsfditj9eqr5859085pokasdfOHo=
+    - APP_URL
+        - Website domain
+        - Ex: https://www.google.com
+    - DB_DATABASE
+        - MySQL Connection string
+        - Ex: mysql://localhost:3306/
+    - DB_USERNAME
+        - MySQL Username
+        - Ex: admin
+    - DB_PASSWORD
+        - MySQL Password
+        - Ex: 123
+4. Run "composer install"
+5. Run "php artisan migrate"
+6. Run "php artisan user:admin:create ${username} ${password}" to create admin to be used with API
+7. Run tests to check if anything is running well
 
 # Help
 

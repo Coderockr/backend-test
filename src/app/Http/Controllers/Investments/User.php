@@ -37,15 +37,14 @@ class User extends Controller
         $investments = [];
 
         try {
-            $investments = \App\Models\Investment::where("investor_user_id", $rd->user_id)->get()->transformWith(new \App\Transformers\InvestmentTransformer())->toArray()['data'];
+            $investments = \App\Models\Investment::where("investor_user_id", $rd->user_id)->get()->transformWith(new \App\Transformers\InvestmentTransformer($rd->decimals, $rd->format, true, true))->toArray()['data'];
             $status = 0; // Ok
             $http_code = 200; // Ok
         }catch(\Throwable $e){
-            throw $e;
+            //throw $e;
             $status = -1; // Generic error
             $http_code = 500; // Internal error
         }
-        
         
         return response()->json(["status" => $status, "investments" => $investments], $http_code);
     }

@@ -21,11 +21,11 @@ class FinancialValueNodeTransformer {
                     Make a algorithm to make a conversible precision like below
         */
         if($node->decimals == self::DATABASE_VALUE_PRECISION){
-            return $node->value;
+            return intval($node->value);
         }elseif($node->decimals > self::DATABASE_VALUE_PRECISION){ //if 2 > 4 go to else, because the node precision is under the database definition
-            return $node->value / 10 ** ($node->decimals - self::DATABASE_VALUE_PRECISION);
+            return intval($node->value / 10 ** ($node->decimals - self::DATABASE_VALUE_PRECISION));
         }else{ //Ex: Will 
-            return $node->value * 10 ** (self::DATABASE_VALUE_PRECISION - $node->decimals); 
+            return intval($node->value * 10 ** (self::DATABASE_VALUE_PRECISION - $node->decimals)); 
             // The number needs to be multiplied, because:
             // 10.00 when precision == 2,
             // but 10.0000 when precision == 4
@@ -33,21 +33,27 @@ class FinancialValueNodeTransformer {
         }
     }
     
-    public static function fromDatabaseIntToNode($int, $decimals) {
-        if($node->decimals == self::DATABASE_VALUE_PRECISION){
-            return $node->value;
-        }elseif($node->decimals > self::DATABASE_VALUE_PRECISION){
-            return $node->value / 10 ** ($node->decimals - self::DATABASE_VALUE_PRECISION);
+    public static function fromDatabaseIntToNode($int, $decimals = 2) {
+        if($decimals == self::DATABASE_VALUE_PRECISION){
+            return ["decimals" => $decimals, "value" => $int];
+        }elseif($decimals > self::DATABASE_VALUE_PRECISION){
+            // decimals == 2
+            // DATABASE_VALUE_PRECISION == 4
+            // US$ 10.00 == 100000 on database
+            // US$ 10.00 == 1000 on node
+            // 100000 / 10 ** (2 - 4)
+            return ["decimals" => $decimals, "value" => intval($int / 10 ** (self::DATABASE_VALUE_PRECISION - $decimals))];
         }else{
-            return $node->value * 10 ** (self::DATABASE_VALUE_PRECISION - $node->decimals); 
+            // decimals == 6
+            // DATABASE_VALUE_PRECISION == 4
+            // US$ 10.00 == 100000 on database
+            // US$ 10.00 == 10000000 on node
+            // 100000 * 10 ** (6 - 4)
+            return ["decimals" => $decimals, "value" => intval($int * 10 ** ($decimals - self::DATABASE_VALUE_PRECISION))];
         }
     }
 
     public static function fromNodeToDouble($node) {
         return 0;
-    }
-
-    public static function fromDateTimeToNode($dateTime, $mode = "TIMESTAMP") {
-        return ["decimals" => 2, "value" => 0];
     }
 }

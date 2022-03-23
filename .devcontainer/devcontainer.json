@@ -1,0 +1,7 @@
+{
+  "name": "Back-End Test",
+  "dockerComposeFile": "docker-compose.yaml",
+  "service": "app",
+  "workspaceFolder": "/",
+  "shtdownAction": "stopCompose"
+}

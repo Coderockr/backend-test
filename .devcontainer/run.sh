@@ -1,0 +1,1 @@
+docker-php-entrypoint apache2-foreground

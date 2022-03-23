@@ -1,0 +1,33 @@
+version: '3'
+services:
+  app:
+    build: ../src/
+    links:
+      - db
+    ports:
+      - 80:80
+    volumes:
+      - ../src/:/app
+      - .env:/app/.env
+      - ./sites-enabled:/etc/apache2/sites-enabled
+  db:
+    image: mysql:8.0.28
+    platform: linux/x86_64
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: app_development
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.1.2
+    links:
+      - db
+    ports:
+      - 8080:80
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: example

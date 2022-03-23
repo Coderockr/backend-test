@@ -1,88 +1,101 @@
-# Back End Test Project <img src="https://coderockr.com/assets/images/coderockr.svg" align="right" height="50px" />
+# Back-End Engineer Technical Test Project
 
-You should see this challenge as an opportunity to create an application following modern development best practices (given the stack of your choice), but also feel free to use your own architecture preferences (coding standards, code organization, third-party libraries, etc). It’s perfectly fine to use vanilla code or any framework or libraries.
+These is a technical test for CodeRockr Back-End Engineer.
 
-## Scope
+## Considerations
 
-In this challenge you should build an API for an application that stores and manages investments, it should have the following features:
+### About the used technology (Why i used Laravel/PHP and Jest/Node.JS for tests)
 
-1. __Creation__ of an investment with an owner, a creation date and an amount.
-    1. The creation date of an investment can be today or a date in the past.
-    2. An investment should not be or become negative.
-2. __View__ of an investment with its initial amount and expected balance.
-    1. Expected balance should be the sum of the invested amount and the [gains][].
-3. __Withdrawal__ of a investment.
-    1. The withdraw will always be the sum of the initial amount and its gains,
-       partial withdrawn is not supported.
-    2. Withdrawals can happen in the past or today, but can't happen before the investment creation or the future.
-    3. [Taxes][taxes] need to be applied to the withdrawals before showing the
-       final value.
-4. __List__ of a person's investments
-    1. This list should have pagination.
+In a few words: I care about the code maintenance. 
+This is not a very complex project. Just it. And by another way
+LAMP is the most common web setup i ever seen and this makes easy to found
+someone to work with this project.
 
-__NOTE:__ the implementation of an interface will not be evaluated.
+#### Laravel/PHP
 
-### Gain Calculation
+Laravel and PHP is a very solid technology, it's easy to found someone to
+maintain the source code. If you are thinking about PHP are slower, you just
+make it wrong. The right way to implement the hard work/complex proccess
+is to implement microservices using a compiled language with RPC like interface.
 
-The investment will pay 0.52% every month in the same day of the investment creation.
+#### Jest/Node.JS
 
-Given that the gain is paid every month, it should be treated as [compound gain][], which means that every new period (month) the amount gained will become part of the investment balance for the next payment.
+I used Jest/Node.JS to make easy for the Front-End make changes on the API.
+If the Front-End needs something new, he can write the endpoints and can 
+send it to the Back-End to develop as fast as we can.
 
-### Taxation
+#### MySQL
 
-When money is withdrawn, tax is triggered. Taxes apply only to the profit/gain portion of the money withdrawn. For example, if the initial investment was 1000.00, the current balance is 1200.00, then the taxes will be applied to the 200.00.
+Easy to setup, any Laravel coder can handle this easily with 
+Eloquent/Migrations/Seeds/Fakes and PHPMyAdmin.
 
-The tax percentage changes according to the age of the investment:
-* If it is less than one year old, the percentage will be 22.5% (tax = 45.00).
-* If it is between one and two years old, the percentage will be 18.5% (tax = 37.00).
-* If older than two years, the percentage will be 15% (tax = 30.00).
+## Development roadmap
 
-## Requirements
-1. Create project using any technology of your preference. It’s perfectly OK to use vanilla code or any framework or libraries;
-2. Although you can use as many dependencies as you want, you should manage them wisely;
-3. It is not necessary to send the notification emails, however, the code required for that would be welcome;
-4. The API must be documented in some way.
+1. First, we need to setup our development stack. I'll start 
+setting up VS Code Devcontainer for an easy and shared 
+(shared between collaborator's) development setup.
 
-## Deliverables
-The project source code and dependencies should be made available in GitHub. Here are the steps you should follow:
-1. Fork this repository to your GitHub account (create an account if you don't have one, you will need it working with us).
-2. Create a "development" branch and commit the code to it. Do not push the code to the main branch.
-3. Include a README file that describes:
-    - Special build instructions, if any
-    - List of third-party libraries used and short description of why/how they were used
-    - A link to the API documentation.
-4. Once the work is complete, create a pull request from "development" into "main" and send us the link.
-5. Avoid using huge commits hiding your progress. Feel free to work on a branch and use `git rebase` to adjust your commits before submitting the final version.
+2. Setup a REST API Tests, for TDD. I'll use Jest/Node.JS to
+make cross-side API Development with the Front-End Engineer.
 
-## Coding Standards
-When working on the project be as clean and consistent as possible.
+3. Setup Laravel 9 and start coding. 
 
-## Project Deadline
-Ideally you'd finish the test project in 5 days. It shouldn't take you longer than a entire week.
+## Setup for development
 
-## Quality Assurance
-Use the following checklist to ensure high quality of the project.
+1. Open root project folder on VS Code (that contains src, test and this README.md file)
+2. Press F1, run ">Remote-Containers: Reopen in Container"
+3. Open terminal in container
+4. Run:
 
-### General
-- First of all, the application should run without errors.
-- Are all requirements set above met?
-- Is coding style consistent?
-- The API is well documented?
-- The API has unit tests?
+    cd app
 
-## Submission
-1. A link to the Github repository.
-2. Briefly describe how you decided on the tools that you used.
+    composer install
 
-## Have Fun Coding 🤘
-- This challenge description is intentionally vague in some aspects, but if you need assistance feel free to ask for help.
-- If any of the seems out of your current level, you may skip it, but remember to tell us about it in the pull request.
+    php artisan develop:reset
 
-## Credits
+And you will get the terminal like the example below:
 
-This coding challenge was inspired on [kinvoapp/kinvo-back-end-test](https://github.com/kinvoapp/kinvo-back-end-test/blob/2f17d713de739e309d17a1a74a82c3fd0e66d128/README.md)
+![Terminal example](imgs/correct_development_environment_reset.png)
 
-[gains]: #gain-calculation
-[taxes]: #taxation
-[interest]: #interest-calculation
-[compound gain]: https://www.investopedia.com/terms/g/gain.asp
+
+## Testing
+
+To test the application, you need to go to the "tests" folder and run "npm i" and after "npm run test".
+If the server hostname is wrong, you need to change it on the code.
+If you cannot had Node.JS installed, use VS Code Devcontainer (described on Setup for development).
+If the tests are successful, you get a terminal like below:
+
+![Terminal example](imgs/correct_tests_message.png)
+
+## Deploy instructions with source code
+
+1. Copy the source code to the server
+2. Configure the website root (DocumentRoot on Apache) to "src/public/" folder (example for apache on .devcontainer/sites.conf)
+3. Configure Laravel environment
+    - APP_KEY
+        - Generate the Laravel key with "php artisan key:generate"
+        - Ex: base64:JJgFsfditj9eqr5859085pokasdfOHo=
+    - APP_URL
+        - Website domain
+        - Ex: https://www.google.com
+    - DB_DATABASE
+        - MySQL Connection string
+        - Ex: mysql://localhost:3306/
+    - DB_USERNAME
+        - MySQL Username
+        - Ex: admin
+    - DB_PASSWORD
+        - MySQL Password
+        - Ex: 123
+4. Run "composer install"
+5. Run "php artisan migrate"
+6. Run "php artisan user:admin:create ${username} ${password}" to create admin to be used with API
+7. Run tests to check if anything is running well
+
+# Help
+
+1. I'm using "php artisan make\:\$something", it creates the specified\, but i get "BadMethodCallException\: Method ${class} does not exist":
+- Do "composer dump-autoload"
+
+2. I get "Warning: require(/app/public/../vendor/autoload.php): Failed to open stream: No such file or directory in /app/public/index.php on line 34" on deploy/testing:
+- Do "composer install"

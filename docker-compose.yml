@@ -1,0 +1,52 @@
+version: "3.7"
+services:
+  app:
+    build:
+      args:
+        user: john
+        uid: 1000
+      context: ./
+      dockerfile: Dockerfile
+    image: investment-api
+    container_name: api
+    restart: unless-stopped
+    depends_on:
+      - db
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - investment-api
+  db:
+    image: postgres
+    container_name: api-pgsql
+    restart: unless-stopped
+    user: postgres
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres:/data/postgres
+    networks:
+      - investment-api
+  nginx:
+    image: nginx
+    container_name: api-nginx
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www
+      - ./docker-compose/nginx:/etc/nginx/conf.d
+    networks:
+      - investment-api
+networks:
+  investment-api:
+    driver: bridge
+volumes:
+  postgres:

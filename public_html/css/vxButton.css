@@ -1,0 +1,86 @@
+.vx-button.large:not(.includeIconOnly) {
+    padding: 1rem 2.5rem;
+}
+.vx-button-primary.vx-button-filled:hover {
+    -webkit-box-shadow: 0 8px 25px -8px var(--primary);
+    box-shadow: 0 8px 25px -8px var(--primary);
+}
+.vx-button.large, .vx-button.large .vx-button--icon {
+    font-size: 1.25rem;
+}
+.vx-button-primary.vx-button-filled {
+    background: var(--primary)!important;
+}
+.vx-button-filled:hover {
+    -webkit-box-shadow: 0 9px 28px -9px;
+    box-shadow: 0 9px 28px -9px;
+}
+.vx-button.large {
+    padding: 12px;
+    font-size: 1em;
+}
+[type=reset], [type=submit], button, html [type=button] {
+    -webkit-appearance: button;
+}
+button:focus {
+    outline: none;
+}
+[type=reset], [type=submit], button, html [type=button] {
+    -webkit-appearance: button;
+}
+.vx-button {
+    font-family: Montserrat,Helvetica,Arial,sans-serif;
+    font-size: 1rem;
+}
+.vx-button {
+    -webkit-transition: all .2s ease;
+    transition: all .2s ease;
+    padding: 10px;
+    border: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    background: transparent;
+}
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+button, select {
+    text-transform: none;
+}
+button, input, optgroup, select, textarea {
+    font-family: sans-serif;
+    font-size: 100%;
+    line-height: 1.15;
+    margin: 0;
+}
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+.vx-button--background {
+    border-radius: 50%;
+    width: 10px;
+    position: absolute;
+    height: 10px;
+    z-index: 0;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+    -webkit-box-shadow: inset 0 0 60px 0 hsl(0deg 0% 100% / 50%);
+    box-shadow: inset 0 0 60px 0 hsl(0deg 0% 100% / 50%);
+}
+.vx-button--text {
+    position: relative;
+    color: inherit;
+    display: inline-block;
+    -webkit-transition: all .25s ease;
+    transition: all .25s ease;
+}

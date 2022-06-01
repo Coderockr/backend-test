@@ -1,13 +1,13 @@
 ## Instalação
 
-docker-compose up -d --build
-docker-compose exec app cp .env.example .env
-docker-compose exec app composer install
-docker-compose exec app php artisan key:generate
-docker-compose exec app php artisan jwt:secret
-docker-compose exec app php artisan schema:create default
-docker-compose exec app php artisan migrator
-docker-compose exec app php artisan db:seed
+- docker-compose up -d --build
+- docker-compose exec app cp .env.example .env
+- docker-compose exec app composer install
+- docker-compose exec app php artisan key:generate
+- docker-compose exec app php artisan jwt:secret
+- docker-compose exec app php artisan schema:create default
+- docker-compose exec app php artisan migrator
+- docker-compose exec app php artisan db:seed
 
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>

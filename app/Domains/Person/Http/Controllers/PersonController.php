@@ -198,7 +198,7 @@ class PersonController extends Controller
             'type' => 'required',
             'person' => 'required',
             'name' => 'required',
-            'email' => 'required|email',
+            'email' => 'required|email'
         ], $this->messages());
         if ($validator->fails()) {
             $response = MessageEvent::dispatch([

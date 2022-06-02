@@ -2,6 +2,7 @@
 
 namespace App\Domains\Person\Services;
 
+use App\Domains\Person\Repositories\AccountRepository;
 use App\Units\Events\MessageEvent;
 use App\Units\Events\LogEvent;
 use App\Domains\Person\Repositories\PersonRepository;
@@ -10,6 +11,7 @@ use App\Domains\System\Repositories\AddressRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Str;
 
 class PersonService
 {
@@ -133,6 +135,10 @@ class PersonService
                 $data_whatsapp['person_id'] = $id;
                 $whatsapp->create($data_whatsapp);
             }
+            $repo = new AccountRepository();
+            $account['number'] = substr_replace(str_pad($id , 5 , '0' , STR_PAD_LEFT),'-', 4, 0);
+            $account['person_id'] = $id;
+            $repo->create($account);
             LogEvent::dispatch(["event"=>
                 [
                     "statusCode" => 201,

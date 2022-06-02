@@ -17,9 +17,27 @@ class LogController extends Controller
         $this->service = $service;
     }
 
-    /**
-     * 
-     * @return \Illuminate\Support\Collection
+     /**
+     * @OA\Get(
+     *      tags={"Logs"},
+     *      description="Exibir uma lista de registros.",
+     *      path="/logs",
+     *      security={{"bearerAuth":{}}},
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     * )
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response|\Illuminate\Support\Collection
      */
     public function getItems()
     {

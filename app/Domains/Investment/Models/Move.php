@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Move extends Model
 {
-    protected $table = 'investment.moves';
+    protected $table = "investment.moves";
 
-    protected $primaryKey = 'id';
+    protected $primaryKey = "id";
     
     /**
      * The attributes that are mass assignable.
@@ -16,6 +16,6 @@ class Move extends Model
      * @var array
      */
     protected $fillable = [
-        'active','type', 'number', 'person_id', 'company_id'
+        "type", "value", "account_id", "move_id"
     ];
 }

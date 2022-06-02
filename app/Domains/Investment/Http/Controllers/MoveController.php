@@ -94,8 +94,9 @@ class MoveController extends Controller
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(property="type", type="integer"),
-     *              @OA\Property(property="number", type="string"),
-     *              @OA\Property(property="person_id", type="integer"),
+     *              @OA\Property(property="value", type="string"),
+     *              @OA\Property(property="registered_at", type="string"),
+     *              @OA\Property(property="account_id", type="integer"),
      *          )
      *      ),
      *      @OA\Response(
@@ -116,6 +117,34 @@ class MoveController extends Controller
      */
     public function create(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            "type" => [
+                "required",
+                "integer",
+                "min:0",
+                "max:1"
+            ],
+            "value" => [
+                "required",
+                "numeric",
+                "min:0.1"
+            ],
+            "registered_at" => [
+                "required",
+                "date",
+                "date_format:Y-m-d",
+                "before:tomorrow"
+            ],
+            "account_id" => "required"
+        ], $this->messages());
+        if ($validator->fails()) {
+            $response = MessageEvent::dispatch([
+                "statusCode" => 400,
+                "action" => "Create",
+                "error" => $validator->errors()
+            ]);
+            return $response[0];
+        }
         return $this->service->create($request->all());
     }
 

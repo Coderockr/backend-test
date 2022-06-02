@@ -13,6 +13,7 @@ class Routes extends RouteFile
 
         $router->group(['prefix' => 'moves'], function() use ($router) {
             $router->get('/', 'MoveController@getItems');
+            $router->post('/gain', 'MoveController@gain');
             $router->get('/item/{id}', 'MoveController@getItem');
             $router->post('/create', 'MoveController@create');
             $router->put('/update', 'MoveController@update');

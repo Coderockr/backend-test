@@ -41,4 +41,9 @@ class Person extends Model
     {
         return $this->hasMany('App\Domains\Person\Models\Phone', 'person_id', 'id');
     }
+
+    public function account()
+    {
+        return $this->hasMany('App\Domains\Person\Models\Account', 'person_id', 'id');
+    }
 }

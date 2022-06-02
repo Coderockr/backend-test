@@ -26,7 +26,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         (new Routes([
             'namespace' => $this->namespace,
-            'prefix' => 'people',
+            'prefix' => 'investments',
             'group' => 'api',
             'middleware'=>'jwt.verify'
         ]))->register();

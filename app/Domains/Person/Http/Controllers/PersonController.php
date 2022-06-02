@@ -26,15 +26,6 @@ class PersonController extends Controller
      *      description="Exibir uma lista de registros.",
      *      path="/people",
      *      security={{"bearerAuth":{}}},
-     *      @OA\Parameter(
-     *          name="type",
-     *          description="Tipo de pessoa (0 user; 1 cliente)",
-     *          required=true,
-     *          in="query",
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
@@ -53,17 +44,6 @@ class PersonController extends Controller
      */
     public function getItems(Request $request)
     { 
-        $validator = Validator::make($request->all(), [
-            'type' => 'required',
-        ], $this->messages());
-        if ($validator->fails()) {
-            $response = MessageEvent::dispatch([
-                "statusCode" => 400,
-                "action" => "Get",
-                "error" => $validator->errors()
-            ]);
-            return $response[0];
-        }
         return $this->service->getItems($request->all());
     }
 
@@ -150,7 +130,6 @@ class PersonController extends Controller
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(property="type", type="integer"),
-     *              @OA\Property(property="person", type="boolean"),
      *              @OA\Property(property="name", type="string"),
      *              @OA\Property(property="nickname", type="string"),
      *              @OA\Property(property="email", type="string"),
@@ -196,7 +175,6 @@ class PersonController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'type' => 'required',
-            'person' => 'required',
             'name' => 'required',
             'email' => 'required|email'
         ], $this->messages());
@@ -223,7 +201,6 @@ class PersonController extends Controller
      *              type="object",
      *              @OA\Property(property="id", type="integer"),
      *              @OA\Property(property="type", type="integer"),
-     *              @OA\Property(property="person", type="boolean"),
      *              @OA\Property(property="name", type="string"),
      *              @OA\Property(property="email", type="string"),
      *              @OA\Property(property="reason_social", type="string"),

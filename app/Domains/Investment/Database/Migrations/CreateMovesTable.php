@@ -25,10 +25,13 @@ class CreateMovesTable extends Migration
             2 ganho;
             3 imposto;
             ');
-            $table->string('value')->unique()->comment('valor');
+            $table->string('value')->comment('valor');
             $table->integer('account_id')->comment('id da conta'); 
+            $table->integer('move_id')->nullable()->comment('id do deposito');
+            $table->date('registered_at')->comment('data do registro');
             
             $table->foreign('account_id')->references('id')->on('public.accounts');
+            $table->foreign('move_id')->references('id')->on('investment.moves')->cascadeOnDelete();
 
             $table->dateTime('created_at')->useCurrent();
             $table->dateTime('updated_at')->useCurrent();

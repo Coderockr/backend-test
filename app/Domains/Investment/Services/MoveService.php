@@ -6,6 +6,7 @@ use App\Domains\Investment\Repositories\MoveRepository;
 use App\Domains\Person\Repositories\AccountRepository;
 use App\Units\Events\LogEvent;
 use App\Units\Events\MessageEvent;
+use App\Units\Jobs\Gain;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -30,8 +31,11 @@ class MoveService
     {
         $user = JWTAuth::user();
         $repo = new AccountRepository();
-        $account = $repo->getItemByPersonId($user->id);
-        return $this->repo->getItems($data, $account);
+        $accounts = $repo->getItemByPersonId($user->id);
+        $accounts = $accounts->map(function($item){
+            return $item->id;
+        })->all();
+        return $this->repo->getItems($data, $accounts);
     }
 
     /**
@@ -56,12 +60,17 @@ class MoveService
         $user = JWTAuth::user();
         DB::beginTransaction();
         try {
-            $phone = $this->repo->create($data);
+            if($data["type"] === 0){
+                $move = $this->repo->create($data);
+            }else{
+                dd("saque");
+                $move = $this->repo->create($data);
+            }
             LogEvent::dispatch(["event"=>
                 [
                     "statusCode" => 201,
                     "action" => "Create",
-                    "table" => "public.phones",
+                    "table" => "public.moves",
                     "user" => [
                         "id" => $user->id,
                         "name" => $user->name,
@@ -70,10 +79,64 @@ class MoveService
                 ]
             ]);
             DB::commit();
+            Gain::dispatch($move->account_id, $move->id)->onQueue('gain')->delay(now()->addMinutes(1));
+            // Gain::dispatch($move->account_id, $move->id)->onQueue('gain')->delay(now()->addMonth());
             $response = MessageEvent::dispatch([
                 "statusCode" => 201,
                 "action" => "Create",
-                "data" => $phone
+                "data" => $move
+            ]);
+            return $response[0];
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            $response = MessageEvent::dispatch([
+                "statusCode" => 400,
+                "action" => "Create",
+                "error" => isset($th->errorInfo) && count($th->errorInfo) ? $th->errorInfo[count($th->errorInfo) -1] : (string) $th
+            ]);
+            return $response[0];
+        }
+    }
+
+    /**
+     * Armazenar um registro no banco de dados.
+     *
+     * @param  Array  $data
+     * @return \Illuminate\Http\Response
+     */
+    public function gain(int $account_id, int $move_id)
+    {
+        DB::beginTransaction();
+        try {
+            $data["type"] = 2;
+            $data["account_id"] = $account_id;
+            $data["move_id"] = $move_id;
+            $moves = $this->repo->getItems(
+                ["type" => [0, 2]], 
+                [$account_id]
+            );
+            $moves = $moves->filter(function($item) use ($move_id){
+                return $item->id === $move_id || $item->move_id === $move_id;
+            })->values();
+            $current_value = $moves->reduce(function ($carry, $item) {
+                return $carry + $item->value;
+            });
+            $data["value"] = $current_value*0.0052;
+            $move = $this->repo->create($data);
+            LogEvent::dispatch(["event"=>
+                [
+                    "statusCode" => 201,
+                    "action" => "Create",
+                    "table" => "public.moves"
+                ]
+            ]);
+            DB::commit();
+            Gain::dispatch($account_id, $move_id)->onQueue('gain')->delay(now()->addMinutes(1));
+            // Gain::dispatch($account_id, $move_id)->onQueue('gain')->delay(now()->addMonth(1));
+            $response = MessageEvent::dispatch([
+                "statusCode" => 201,
+                "action" => "Create",
+                "data" => $move
             ]);
             return $response[0];
         } catch (\Throwable $th) {
@@ -98,13 +161,13 @@ class MoveService
         $user = JWTAuth::user();
         DB::beginTransaction();
         try { 
-            $phone = $this->repo->findOne($data['id']);
-            $this->repo->update($phone, $data);
+            $move = $this->repo->findOne($data['id']);
+            $this->repo->update($move, $data);
             LogEvent::dispatch(["event"=>
                 [
                     "statusCode" => 200,
                     "action" => "Update",
-                    "table" => "public.phones",
+                    "table" => "public.moves",
                     "user" => [
                         "id" => $user->id,
                         "name" => $user->name,
@@ -116,7 +179,7 @@ class MoveService
             $response = MessageEvent::dispatch([
                 "statusCode" => 200,
                 "action" => "Update",
-                "data" => $phone
+                "data" => $move
             ]);
             return $response[0];
         } catch (\Throwable $th) {

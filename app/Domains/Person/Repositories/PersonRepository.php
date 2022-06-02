@@ -17,22 +17,10 @@ class PersonRepository extends Repository
      */
     public function getItems(array $filter)
     { 
-        $type = $filter['type'];
         $query = $this->newQuery()
                 ->with('address')
                 ->with('role')
                 ->with('phone');
-        if (isset($filter['active'])){
-            $query->where('active', $filter['active']);
-        }else{
-            $query->where('active', 1);
-        }
-        if(is_array($type)){
-            $type = implode(',', $type);
-            $query->whereRaw("type in (${type})");
-        }else{
-            $query->where("type", $type);
-        }
         if (isset($filter['search'])){
             $search = $filter['search'];
             // atalho para buscar somente pelo id
@@ -76,6 +64,7 @@ class PersonRepository extends Repository
                 ->with('role')
                 ->with('address')
                 ->with('phone')
+                ->with('account')
                 ->where('id', $id)
                 ->first();
     }

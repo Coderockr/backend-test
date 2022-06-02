@@ -4,7 +4,6 @@ namespace App\Domains\Investment\Repositories;
 
 use App\Domains\Investment\Models\Move;
 use App\Support\Database\Repository\Repository;
-use Illuminate\Support\Collection;
 
 class MoveRepository extends Repository
 {
@@ -17,13 +16,10 @@ class MoveRepository extends Repository
      * @param  Array  $filter
      * @return \Illuminate\Http\Response
      */
-    public function getItems(array $filter, Collection $accounts = null)
+    public function getItems(array $filter, array $accounts = null)
     { 
         $query = $this->newQuery();
         if($accounts){
-            $accounts->map(function($item){
-                return $item->id;
-            });
             $query->whereIn("account_id", $accounts);
         }
         if(isset($filter['type'])){

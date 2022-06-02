@@ -50,4 +50,4 @@ WORKDIR /var/www
 
 USER $user
 
-CMD php-fpm; /usr/bin/supervisord;
+CMD /usr/bin/supervisord; php-fpm;

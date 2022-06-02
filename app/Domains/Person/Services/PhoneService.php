@@ -134,7 +134,10 @@ class PhoneService
      */
     public function delete(array $ids)
     {
-        return $this->repo->delete($ids);
+        $ids = implode(',', $ids);
+        return $this->repo->newQuery()
+            ->whereRaw("id in (${ids})")
+            ->delete();
     }
     
 }

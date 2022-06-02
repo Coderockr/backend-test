@@ -14,7 +14,8 @@ class DropSchema extends Command
      */
     private $schema_default = [
         "log",
-        "public"
+        "public",
+        "investment"
     ];
 
     /**

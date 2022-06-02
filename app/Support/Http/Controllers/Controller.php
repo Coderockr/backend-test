@@ -21,27 +21,7 @@ use Illuminate\Routing\Controller as BaseController;
  *   url="http://nginx.org/LICENSE"
  *  )
  * )
- * 
- * @OA\Tag(
- *  name="People",
- *  description="Endpoints"
- * )
- * 
- * @OA\Tag(
- *  name="System",
- *  description="Endpoints"
- * )
- * 
- * @OA\Tag(
- *  name="Logs",
- *  description="Endpoints"
- * )
- * 
- * @OA\Tag(
- *  name="Auth",
- *  description="Endpoints"
- * )
- * 
+ *  
  * @OA\SecurityScheme(
  *  type="http",
  *  scheme="bearer",

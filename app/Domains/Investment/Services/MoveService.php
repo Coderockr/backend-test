@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Domains\Person\Services;
+namespace App\Domains\Investment\Services;
 
-use App\Domains\Person\Repositories\RoleRepository;
+use App\Domains\Investment\Repositories\MoveRepository;
+use App\Domains\Person\Repositories\AccountRepository;
 use App\Units\Events\LogEvent;
 use App\Units\Events\MessageEvent;
 use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class RoleService
+class MoveService
 {
     /**
-     * @var RoleRepository
+     * @var MoveRepository
      */
     private $repo;
 
-    public function __construct(RoleRepository $repository)
+    public function __construct(MoveRepository $repository)
     {
         $this->repo = $repository;
     }
@@ -25,9 +26,12 @@ class RoleService
      *
      * @return \Illuminate\Support\Collection
      */
-    public function getItems()
+    public function getItems(array $data)
     {
-        return $this->repo->getItems();
+        $user = JWTAuth::user();
+        $repo = new AccountRepository();
+        $account = $repo->getItemByPersonId($user->id);
+        return $this->repo->getItems($data, $account);
     }
 
     /**
@@ -38,7 +42,7 @@ class RoleService
      */
     public function getItem(int $id)
     {
-        return $this->repo->getItem($id);
+        return $this->repo->findOne($id);
     }
 
     /**
@@ -52,12 +56,12 @@ class RoleService
         $user = JWTAuth::user();
         DB::beginTransaction();
         try {
-            $role = $this->repo->create($data);
+            $phone = $this->repo->create($data);
             LogEvent::dispatch(["event"=>
                 [
                     "statusCode" => 201,
                     "action" => "Create",
-                    "table" => "public.roles",
+                    "table" => "public.phones",
                     "user" => [
                         "id" => $user->id,
                         "name" => $user->name,
@@ -69,7 +73,7 @@ class RoleService
             $response = MessageEvent::dispatch([
                 "statusCode" => 201,
                 "action" => "Create",
-                "data" => $role
+                "data" => $phone
             ]);
             return $response[0];
         } catch (\Throwable $th) {
@@ -94,13 +98,13 @@ class RoleService
         $user = JWTAuth::user();
         DB::beginTransaction();
         try { 
-            $role = $this->repo->findOne($data['id']);
-            $this->repo->update($role, $data);
+            $phone = $this->repo->findOne($data['id']);
+            $this->repo->update($phone, $data);
             LogEvent::dispatch(["event"=>
                 [
                     "statusCode" => 200,
                     "action" => "Update",
-                    "table" => "public.roles",
+                    "table" => "public.phones",
                     "user" => [
                         "id" => $user->id,
                         "name" => $user->name,
@@ -112,7 +116,7 @@ class RoleService
             $response = MessageEvent::dispatch([
                 "statusCode" => 200,
                 "action" => "Update",
-                "data" => $role
+                "data" => $phone
             ]);
             return $response[0];
         } catch (\Throwable $th) {

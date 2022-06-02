@@ -34,19 +34,4 @@ class RoleRepository extends Repository
                 ->first();
     }
 
-    /**
-     * Deletar registros especificado no banco de dados.
-     *
-     * @param  Array  $data
-     * @param  Int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function delete(array $ids)
-    {
-        $ids = implode(',', $ids);
-        return $this->newQuery()
-            ->whereRaw("id in (${ids})")
-            ->delete();
-    }
-
 }

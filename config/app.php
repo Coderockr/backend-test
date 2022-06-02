@@ -176,6 +176,7 @@ return [
         App\Units\Providers\RouteServiceProvider::class,
         App\Domains\System\Providers\DomainServiceProvider::class,
         App\Domains\Person\Providers\DomainServiceProvider::class,
+        App\Domains\Investment\Providers\DomainServiceProvider::class,
         App\Domains\Auth\Providers\DomainServiceProvider::class,
         App\Domains\Log\Providers\DomainServiceProvider::class,
         App\Domains\Home\Providers\DomainServiceProvider::class,

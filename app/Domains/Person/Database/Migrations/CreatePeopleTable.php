@@ -20,7 +20,7 @@ class CreatePeopleTable extends Migration
             $table->bigIncrements('id');
             $table->boolean('active')->default(true)->comment('registro ativo');
             $table->integer('type')->comment('tipo: 
-            0 usuário; 
+            0 usuario; 
             1 associado; 
             ');
             $table->boolean('person')->comment('pessoa: 

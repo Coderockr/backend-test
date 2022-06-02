@@ -13,6 +13,7 @@ class CreateSchema extends Command
      * @var array
      */
     private $schema_default = [
+        "investment",
         "log",
         "public"
     ];

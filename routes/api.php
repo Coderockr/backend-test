@@ -22,10 +22,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::get('welcome', function (Request $request) {
-    return json_encode('Hello World!');
+// Every route inside this block requires the sanctum authentication
+Route::group(['middleware' => ['auth:sanctum']], function() {
+    Route::get('/welcome-auth', function (Request $request) {
+        return json_encode('Hello World!');
+    });
 });
 
-Route::get('welcome-auth', function (Request $request) {
+Route::get('/welcome', function (Request $request) {
     return json_encode('Hello World!');
-})->middleware('auth:sanctum');
+});

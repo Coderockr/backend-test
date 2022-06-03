@@ -38,10 +38,10 @@
 		<vx-popup ref="popup" :title="title" :width="80" @input="submit">
 			<div v-if="show">
 				<div v-if="action === 0">
-					deposito
+					<form-move ref="formMove" @input="onSaveRegister" @change="onChange"></form-move>
 				</div>
 				<div v-if="action === 1">
-					<view-move :id="id"></view-move>
+					<view-move :id="id" @input="onSaveRegister"></view-move>
 				</div>
 			</div>
 		</vx-popup>
@@ -51,7 +51,7 @@
 				type="flat"
 				icon="add"
 				@click.prevent="onNew"
-			>Adicionar</vs-button>
+			>Depositar</vs-button>
 		</div>
 	</div>
 </template>
@@ -61,6 +61,7 @@
 	export default {
 		name: "investment",
 		components: {
+			FormMove: () => import("./components/forms/Move"),
 			ViewMove: () => import("./components/view/Move")
 		},
 		data: () => ({
@@ -209,41 +210,18 @@
 			},
 
 			submit() {
-				this.$refs.user.formValidate()
+				this.$refs.formMove.formValidate()
 			},
 
 			/**
 			 * Responsável por salvar as alterações dos registros
 			 */
-			async onSaveRegister(form, id) {
-				this.process = true
+			async onSaveRegister(form) {
+				this.$Loading.start()
 				this.isChecked = false
-				try {
-					if (!id) {
-						await this.$axios.post("people/create", form)
-					} else {
-						if (form.length) {
-							this.$Spin.show()
-							for (let index = 0; index < form.length ;index++) {
-								await this.$axios.put(`people/update`, form[index])
-							}
-							this.$Spin.hide()
-						} else {
-							await this.$axios.put(`people/update`, form)
-						}
-					}
-					this.$vx.notify({
-						title: "Sucesso",
-						text: "Dados salvos!",
-						color: "success",
-						time: 5000,
-						icon: "check"
-					})
-					this.page_info.page = 1
-					this.show = false
-					this.$refs.popup.active = false
-					this.getData()
-				} catch (error) {
+				const response = await this.$axios.post("investments/moves/create", form)
+				.catch((error) => {
+					this.$Loading.error()
 					this.$vx.notify({
 						title: "Erro",
 						text: error,
@@ -251,8 +229,31 @@
 						fixed: true,
 						icon: "error"
 					})
+				})
+				if (response.data && !response.data.error) {
+					this.page_info.page = 1
+					this.show = false
+					this.$refs.popup.close()
+					this.$vx.notify({
+						title:response.data.status,
+						text:response.data.message,
+						color:"success",
+						time:5000,
+						icon:"check"
+					})
+					this.getData()
+					this.$Loading.finish()
+				} else {
+					this.$Loading.error()
+					this.$vx.notify({
+						title:response.data.status,
+						text:response.data.error,
+						color:"danger",
+						time:5000,
+                        fixed: true,
+						icon:"error"
+					})
 				}
-				this.process = false
 			},
 
 			/**
@@ -272,7 +273,7 @@
 
 			onView(id) {
 				this.action = 1
-				this.title = `Movimentação investimento ${id}`
+				this.title = `Movimentação investimento #${id}`
 				this.id = id
 				this.show = true
 				this.$refs.popup.open()

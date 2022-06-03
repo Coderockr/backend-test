@@ -38,6 +38,7 @@ class PersonRepository extends Repository
                 )
                 ->with('address')
                 ->with('role')
+                ->with('account')
                 ->with('phone');
         if (isset($filter['search'])){
             $search = $filter['search'];
@@ -72,6 +73,7 @@ class PersonRepository extends Repository
                     "email",
                     "cpf_cnpj"
                 )
+                ->with('account')
                 ->where($key, $value)
                 ->first();
     }
@@ -85,6 +87,24 @@ class PersonRepository extends Repository
     public function getItem(int $id)
     { 
         return $this->newQuery()
+                ->select(
+                    "id",
+                    "active",
+                    "person",
+                    "name",
+                    "nickname",
+                    "photo",
+                    "reason_social",
+                    "cpf_cnpj",
+                    "date_birth",
+                    "gender",
+                    "email",
+                    "address_id",
+                    "name_dad",
+                    "name_mother",
+                    "note",
+                    "role_id",
+                )
                 ->with('role')
                 ->with('address')
                 ->with('phone')

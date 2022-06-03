@@ -36,7 +36,7 @@ class MoveRepository extends Repository
                 $query->where("type", $type);
             }
         }
-        $query->orderBy("id");
+        $query->orderBy("created_at", "desc");
         if(isset($filter["page"])){
             return $query->paginate($this->paginate);
         }

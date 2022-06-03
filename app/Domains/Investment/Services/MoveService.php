@@ -48,17 +48,33 @@ class MoveService
     public function getItem(int $id)
     {
         $initial_deposit = $this->repo->findOne($id);
+        $filters = [
+            "type" => [0, 1, 2, 3],
+            "move_id" => $id
+        ];
         $moves = $this->repo->getItems(
-            ["type" => [0, 1, 2, 3]],
+            $filters,
             [$initial_deposit->account_id]
         );
-        $moves = $moves->filter(function($item) use ($id){
-            return $item->id === $id || $item->move_id === $id;
-        })->values();
         $current_value = $moves->reduce(function ($carry, $item) {
             return $carry + $item->value;
         });
+        $gain = $moves->where("type", 2)->reduce(function ($carry, $item) {
+            return $carry + $item->value;
+        });
+        if(now() < date('Y-m-d', strtotime($initial_deposit->registered_at. ' + 1 years'))){
+            $tax = ($gain*0.225)*-1;
+        }else{
+            if(now() < date('Y-m-d', strtotime($initial_deposit->registered_at. ' + 2 years'))){
+                $tax = ($gain*0.185)*-1;
+            }else{
+                $tax = ($gain*0.15)*-1;
+            }
+        }
         $initial_deposit["current_value"] = $current_value;
+        $initial_deposit["gain"] = $gain;
+        $initial_deposit["tax"] = $tax;
+        $initial_deposit["balance"] = $current_value > 0 ? $current_value + $tax : 0;
         return $initial_deposit;
     }
 
@@ -80,15 +96,17 @@ class MoveService
                 $id = $data["id"];
                 $data["move_id"] = $id;
                 $initial_deposit = $this->repo->findOne($id);
+                $data["account_id"] = $initial_deposit->account_id;
                 if($data["registered_at"] >= $initial_deposit->registered_at){
                     // validar saldo
+                    $filters = [
+                        "type" => [0, 1, 2, 3],
+                        "move_id" => $id
+                    ];
                     $moves = $this->repo->getItems(
-                        ["type" => [0, 1, 2, 3]],
+                        $filters,
                         [$initial_deposit->account_id]
                     );
-                    $moves = $moves->filter(function($item) use ($id){
-                        return $item->id === $id || $item->move_id === $id;
-                    })->values();
                     $current_value = $moves->reduce(function ($carry, $item) {
                         return $carry + $item->value;
                     });
@@ -117,7 +135,7 @@ class MoveService
                         $data["value"] = $tax;
                         $move = $this->repo->create($data);
                         //saque
-                        $data["type"] = 2;
+                        $data["type"] = 1;
                         $data["value"] = ($current_value + $tax + $initial_deposit->value)*-1;
                         $move = $this->repo->create($data);
                     }else{
@@ -180,13 +198,14 @@ class MoveService
             $data["type"] = 2;
             $data["account_id"] = $account_id;
             $data["move_id"] = $move_id;
+            $filters = [
+                "type" => [0, 1, 2, 3],
+                "move_id" => $move_id
+            ];
             $moves = $this->repo->getItems(
-                ["type" => [0, 1, 2, 3]],
+                $filters,
                 [$account_id]
             );
-            $moves = $moves->filter(function($item) use ($move_id){
-                return $item->id === $move_id || $item->move_id === $move_id;
-            })->values();
             $current_value = $moves->reduce(function ($carry, $item) {
                 return $carry + $item->value;
             });

@@ -22,7 +22,7 @@ class CreateMovesTable extends Migration
             $table->integer('type')->comment('tipo: 
             0 deposito; 
             1 saque;
-            2 ganho;
+            2 rendimento;
             3 imposto;
             ');
             $table->string('value')->comment('valor');

@@ -1,0 +1,45 @@
+{
+  "name": "coderockr-test",
+  "version": "1.0.0",
+  "description": "",
+  "graphdoc": {
+    "endpoint": "http://localhost:3333/graphql",
+    "output": "./doc/schema"
+  },
+  "main": "index.js",
+  "scripts": {
+    "ts-build": "tsc",
+    "test": "jest",
+    "serve": "node dist/app.js",
+    "start": "ts-node-dev --transpile-only --ignore-watch node_modules src/app.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@typegoose/typegoose": "^9.8.1",
+    "apollo-server": "^3.8.1",
+    "apollo-server-express": "^3.8.1",
+    "class-validator": "^0.13.2",
+    "date-fns": "^2.28.0",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "graphql": "^15.3.0",
+    "mongoose": "^6.3.4",
+    "reflect-metadata": "^0.1.13",
+    "supertest": "^6.2.3",
+    "type-graphql": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/graphql": "^14.5.0",
+    "@types/jest": "^28.1.0",
+    "@types/node": "^17.0.36",
+    "@types/supertest": "^2.0.12",
+    "jest": "^28.1.0",
+    "nodemon": "^2.0.16",
+    "prettier": "^2.6.2",
+    "ts-jest": "^28.0.3",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.7.2"
+  }
+}

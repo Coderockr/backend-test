@@ -9,6 +9,7 @@ class Investment extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
     /**
      * The attributes that are mass assignable.
      *
@@ -16,7 +17,14 @@ class Investment extends Model
      */
     protected $fillable = [
         'amount',
-        'created_at',        
-        'user_id'
+        'inserted_at'
     ];
+
+    /**
+     * Get the user that owns the investment.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

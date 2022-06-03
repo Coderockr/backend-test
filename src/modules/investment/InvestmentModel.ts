@@ -2,7 +2,7 @@ import { Field, ID, ObjectType } from "type-graphql";
 import { Document } from 'mongoose'
 import { getModelForClass, prop as Property } from '@typegoose/typegoose'
 import { User } from "../user/UserModel";
-import { Ref } from "../../entities/types";
+import { Ref } from "../../types";
 import { differenceInMonths } from "date-fns";
 
 export const MONTLY_GAIN_FEE = 0.52

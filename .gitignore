@@ -2,7 +2,6 @@
 /storage/*.key
 /storage/api-docs
 /vendor
-/client
 /logs
 .env
 .env.backup

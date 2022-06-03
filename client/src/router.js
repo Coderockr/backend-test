@@ -3,42 +3,18 @@ import VueRouter from 'vue-router'
 import store from './store/store'
 import ViewUI from 'view-design'
 import {
-  Dashboard,
   User,
-  Customizer
 } from "./all-components"
 ViewUI.LoadingBar.config({
   color: 'var(--primary)',
   failedColor: 'var(--danger)',
 })
-const panel = {
-  label:'Painel',
-  url:'/',
-  icon:'HomeIcon',
-  index:0,
-  children:false
-}
 const records = {
   label:'Cadastros',
   url:'',
   icon:'FolderIcon',
   index:1,
   children:false
-}
-const setting = {
-  label:'Configurações',
-  url:'',
-  icon:'SettingsIcon',
-  index:1,
-  children:true,
-  options:[
-      {
-        icon:'SettingsIcon',
-        iconPath:'feather',
-        label:'Personalizar',
-        url:'/customize',
-      }
-  ]
 }
 Vue.use(VueRouter)
 const router = new VueRouter({
@@ -51,22 +27,6 @@ const router = new VueRouter({
           requiresAuth: true
         },
         children: [
-          {
-            path: '/',
-            meta:{
-              name: 'Painel',
-              breadcrumb:[
-                {
-                  label:'Painel',
-                  url:'',
-                  icon:'HomeIcon',
-                  index:0,
-                  children:false
-                }
-              ]
-            },
-            component: Dashboard,
-          },
           {
             path: '/users',
             meta:{
@@ -83,23 +43,6 @@ const router = new VueRouter({
               ],
             },
             component: User,
-          },
-          {
-            path: '/customize',
-            meta:{
-              name:'Personalizar',
-              breadcrumb:[
-                panel,
-                setting,
-                {
-                    label:'Personalizar',
-                    url:'',
-                    icon:'SettingsIcon',
-                    children:false
-                },
-              ],
-            },
-            component: Customizer,
           },
         ]
       },

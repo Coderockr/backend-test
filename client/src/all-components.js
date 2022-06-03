@@ -4,14 +4,10 @@ import Vue from 'vue'
  * Páginas
  */
 
-const Dashboard = () => import("./views/dashboard/Dashboard")
 const User = () => import("./views/users/User")
-const Customizer = () => import("./views/settings/Customizer")
 
 export {
-    Dashboard,
-    User,
-    Customizer
+    User
 }
 
 /**

@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    /*
+    public function __construct() {
+        request()->headers->set('Accept', 'application/json');
+    }
+    */
+    
     public function register(Request $request) {
         // Validating the request
         // When passing confirmed to validator, password_confirm is required too
@@ -36,5 +42,44 @@ class AuthController extends Controller
 
         // Returning the response with the corrected status
         return response($response, 201);
+    }
+
+    public function login(Request $request) {
+        // Validating the request
+        // When passing confirmed to validator, password_confirm is required too
+        $fields = $request->validate([
+            'email' => 'required|string',
+            'password' => 'required|string' 
+        ]);
+
+        // Check email
+        $user = User::where('email', $fields['email'])->first();
+
+        // Check password
+        if(!$user || !Hash::check($fields['password'], $user->password)) {
+            return response([
+                'message' => 'Bad creds'
+            ], 401);
+        }
+
+        // Creating a token assigned to the user
+        $token = $user->createToken('backend-test-token')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        // Returning the response with the corrected status
+        return response($response, 201);
+    }
+
+    public function logout(Request $request) {
+        // Deleting the authenticate user tokens
+        auth()->user()->tokens()->delete();
+
+        return [
+            'message' => 'Logged out'
+        ];
     }
 }

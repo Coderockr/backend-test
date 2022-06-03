@@ -1,5 +1,5 @@
 let colors = {
-    'primary'          : '#64C832',
+    'primary'          : '#662985',
     'info'             : '#46D7FF',
     'success'          : '#28C76F',
     'warning'          : '#FF9F43',

@@ -13,18 +13,11 @@
 				</badge>
 			</template>
 			<div slot="actions" v-if="selected.length">
-				<a @click="onDelete" class="ml-2">
-					<Icon type="md-trash" size="20" class="danger"/>
-				</a>
+				
 			</div>
 			<template slot="sidebar-body">
 				<div class="mt-2">
-					<h6>Cargos</h6>
-					<ul class="mt-4">
-						<li v-for="item in getRoles" :key="item.value" class="mt-1">
-							<vs-radio v-model="role" vs-name="role" :vs-value="item.value">{{item.label}}</vs-radio>
-						</li>
-					</ul>
+					
 				</div>
 			</template>
 			<template slot="sidebar-footer">
@@ -44,13 +37,12 @@
 		</vx-list-view>
 		<vx-popup ref="popup" :title="title" :width="80" @input="submit">
 			<div v-if="show">
-				<form-person
-					ref="user"
-					:id="id"
-					:type="0"
-					@change="onChange"
-					@input="onSaveRegister"
-				></form-person>
+				<div v-if="action === 0">
+					deposito
+				</div>
+				<div v-if="action === 1">
+					<view-move :id="id"></view-move>
+				</div>
 			</div>
 		</vx-popup>
 		<div class="floating-btn">
@@ -65,16 +57,16 @@
 </template>
 
 <script>
+	const { formatterCoin, moment  } = require("@/helpers/utils")
 	export default {
-		name: "user",
+		name: "investment",
 		components: {
-			FormPerson: () => import("../components/forms/FormPerson")
+			ViewMove: () => import("./components/view/Move")
 		},
 		data: () => ({
 			data: [],
 			columns: [],
 			selected:[],
-			role:null,
 			title: "",
 			id: null,
 			show: false,
@@ -84,26 +76,13 @@
 			loading: false,
 			process: false
 		}),
-		computed: {
-			getRoles() {
-				let roles = this.$store.getters["roles"].map(item => ({
-					value: item.id,
-					label: item.name
-				}))
-				roles.unshift({
-					value: 0,
-					label: "Todos"
-				})
-				return roles
-			}
-		},
 		methods: {
 			async getData(search = '') {
 				this.loading = true
 				this.page_info.page = this.page_info.page || 1
-				const { data } = await this.$axios.get("people", {
+				const { data } = await this.$axios.get("investments/moves", {
 					params: {
-						type: [0,3],
+						type:0,
 						page: this.page_info.page,
 						search: search
 					}
@@ -133,57 +112,75 @@
 						sortable: true
 					},
 					{
-						label: "Nome",
-						key: "name",
+						label: "Valor inicial",
+						key: "value",
+						align:"right",
 						sortable: true,
 						render: (h, params) => {
-							return h("div",
+							return h("vs-row",
+							[
+								h("vs-col",
 								{
-									class:'flex inline'
+									props:{
+										vsType:"flex",
+										vsW:"2"
+									}
 								},
 								[
-									h(
-										"div",
-										[
-											h(
-												"a",
-												{
-													class: "table-edit primary",
-													on: {
-														click: () => {
-															this.onUpdate(params.row.id)
-														}
-													}
-												},
-												[
-													params.row.name.substr(0, 30), 
-													params.row.name.length > 30 ? '...':'',
-													h("Icon", {
-														props: {
-															type: "md-create",
-															size: 20
-														}
-													})
-												]
-											)
-										]
-									)
+									'R$'
+								]),
+								h("vs-col",
+								{
+									props:{
+										vsType:"flex",
+										vsJustify:"flex-end",
+										vsW:"10"
+									}
+								},
+								[
+									formatterCoin(parseFloat(params.row.value))
+								])
+							])
+						}
+					},
+					{
+						label: "Data registro",
+						key: "registered_at",
+						sortable: true,
+						align:"center",
+						render: (h, params) => {
+							return h("span",
+								[
+									params.row.registered_at ? moment(params.row.registered_at).format("DD/MM/YYYY") : null
 								]
 							)
 						}
 					},
 					{
-						label: "Cargo",
-						key: "role",
+						label: "",
+						key: "actions",
 						sortable: true,
+						align:"center",
 						render: (h, params) => {
-							return h("span", [params.row.role ? params.row.role.name : ""])
+							return h("a",
+								{
+									class: "primary",
+									on: {
+										click: () => {
+											this.onView(params.row.id)
+										}
+									}
+								},
+								[
+									h("Icon", {
+										props: {
+											type: "md-open",
+											size: 20
+										}
+									})
+								]
+							)
 						}
-					},
-					{
-						label: "E-mail",
-						key: "email",
-						sortable: true
 					}
 				)
 			},
@@ -193,8 +190,7 @@
 			 */
 			async onNew() {
 				this.action = 0
-				this.title = `Novo usuário`
-				this.id = null
+				this.title = `Novo investimento`
 				this.show = true
 				this.$refs.popup.open()
 			},
@@ -274,45 +270,16 @@
 				this.getData(value)
 			},
 
-			async onDelete(){
-				try {
-					this.$vx.dialog({
-						type:'confirm',
-						color: 'danger',
-						title: `Exluir registro(s).`,
-						text: 'Deseja realmente excluir?',
-						acceptText:'Confirmar',
-						cancelText:'Cancelar',   
-						accept: async () => {
-							await this.$axios.put("people/delete", {
-								ids:this.selected
-							})
-							this.$vx.notify({
-								title: "Sucesso",
-								text: "Dados excluido!",
-								color: "success",
-								time: 5000,
-								icon: "check"
-							})
-							this.page_info.page = 1
-							this.show = false
-							this.$refs.popup.active = false
-							this.getData()
-						}
-					})
-				} catch (error) {
-					this.$vx.notify({
-						title: "Erro",
-						text: error,
-						color: "danger",
-						fixed: true,
-						icon: "error"
-					})
-				}
+			onView(id) {
+				this.action = 1
+				this.title = `Movimentação investimento ${id}`
+				this.id = id
+				this.show = true
+				this.$refs.popup.open()
 			},
 
 			clearFilters(){
-				this.role = null
+				
 			},
 
 			/**

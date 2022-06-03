@@ -174,8 +174,8 @@ class PersonController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'type' => 'required',
             'name' => 'required',
+            'cpf_cnpj' => 'required',
             'email' => 'required|email'
         ], $this->messages());
         if ($validator->fails()) {

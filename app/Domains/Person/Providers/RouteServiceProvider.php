@@ -28,7 +28,6 @@ class RouteServiceProvider extends ServiceProvider
             'namespace' => $this->namespace,
             'prefix' => 'people',
             'group' => 'api',
-            'middleware'=>'jwt.verify'
         ]))->register();
     }
 }

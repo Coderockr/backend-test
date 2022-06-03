@@ -11,7 +11,7 @@
   </transition>
 </template>
 <script>
-  const {view} = require("../../helpers/utils.js")
+  const { view  } = require("@/helpers/utils")
   export default {
     name:'VxView',
     props:{

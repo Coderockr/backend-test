@@ -28,19 +28,18 @@
                                           type="password" v-model="form.password" @keypress="keyEnter"
                                           v-validate="'required|min:6'"/>
                                 <span class="text-danger">{{ errors.first('password') }}</span>
-                                <div class="flex flex-wrap justify-end my-5">
-                                    <vs-button  
-                                        @click="validate" 
-                                        color="var(--primary)" type="filled" class="w-48" :disabled="loading">
-                                        <span v-if="!loading">Entrar</span>
-                                        <span v-else class="inline-flex">
-                                            <Spin fix class="spin-col mr-4">
-                                                <Icon type="ios-loading" class="spin-icon-load"></Icon>
-                                            </Spin>
-                                            <span style="margin-top:-15px;">Carregando...</span>
-                                        </span>
-                                    </vs-button>
-                                </div>
+                                <vs-button  type="border" to="/register" class="">Criar nova conta</vs-button>
+                                <vs-button
+                                    @click="validate"
+                                    color="var(--primary)" type="filled" class="float-right" :disabled="loading">
+                                    <span v-if="!loading">Entrar</span>
+                                    <span v-else class="inline-flex">
+                                        <Spin fix class="spin-col mr-4">
+                                            <Icon type="ios-loading" class="spin-icon-load"></Icon>
+                                        </Spin>
+                                        <span style="margin-top:-15px;">Carregando...</span>
+                                    </span>
+                                </vs-button>
                             </form>
                         </div>
                     </div>
@@ -52,7 +51,7 @@
 <script>
     import {mapActions} from "vuex"
     export default {
-        name:"Login",
+        name:"login",
         data:()=>({
             loading:false,
             form: {
@@ -97,7 +96,7 @@
                     })
                     this.getRoles()
                     this.getUsers()
-                    this.$router.push(this.$route.query.redirect || "/")
+                    this.$router.push(this.$route.query.redirect || "/investments")
                 } else {
                     this.loading = false
                     this.$Loading.error()

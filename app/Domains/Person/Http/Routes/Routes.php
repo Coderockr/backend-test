@@ -11,14 +11,17 @@ class Routes extends RouteFile
     {
         $router = $this->router;
 
-        $router->get('/','PersonController@getItems');
-        $router->get('/item/{id}','PersonController@getItem');
-        $router->get('/account/{number}','PersonController@getItemByAccount');
         $router->post('/create','PersonController@create');
-        $router->put('/update','PersonController@update');
-        $router->put('/delete','PersonController@delete');
+        
+        $router->group(['middleware'=>'jwt.verify'], function() use ($router) {
+            $router->get('/','PersonController@getItems');
+            $router->get('/item/{id}','PersonController@getItem');
+            $router->get('/account/{number}','PersonController@getItemByAccount');
+            $router->put('/update','PersonController@update');
+            $router->put('/delete','PersonController@delete');  
+        });
 
-        $router->group(['prefix' => 'phones'], function() use ($router) {
+        $router->group(['prefix' => 'phones', 'middleware'=>'jwt.verify'], function() use ($router) {
             $router->get('/', 'PhoneController@getItems');
             $router->get('/item/{id}', 'PhoneController@getItem');
             $router->post('/create', 'PhoneController@create');
@@ -26,7 +29,7 @@ class Routes extends RouteFile
             $router->put('/delete','PhoneController@delete');
         });
 
-        $router->group(['prefix' => 'roles'], function() use ($router) {
+        $router->group(['prefix' => 'roles', 'middleware'=>'jwt.verify'], function() use ($router) {
             $router->get('/', 'RoleController@getItems');
             $router->get('/item/{id}', 'RoleController@getItem');
             $router->post('/create', 'RoleController@create');

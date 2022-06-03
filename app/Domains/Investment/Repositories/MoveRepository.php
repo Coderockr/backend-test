@@ -22,8 +22,13 @@ class MoveRepository extends Repository
         if($accounts){
             $query->whereIn("account_id", $accounts);
         }
-        if(isset($filter['type'])){
-            $type = $filter['type'];
+        if(isset($filter["move_id"])){
+            $id = $filter["move_id"];
+            $query->where("id", $id)
+                    ->orWhere("move_id", $id);
+        }
+        if(isset($filter["type"])){
+            $type = $filter["type"];
             if(is_array($type)){
                 $type = implode(',', $type);
                 $query->whereRaw("type in (${type})");
@@ -31,8 +36,8 @@ class MoveRepository extends Repository
                 $query->where("type", $type);
             }
         }
-        $query->orderBy('id');
-        if(isset($filter['page'])){
+        $query->orderBy("id");
+        if(isset($filter["page"])){
             return $query->paginate($this->paginate);
         }
         return $query->get();

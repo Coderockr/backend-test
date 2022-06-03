@@ -80,6 +80,19 @@ class MoveController extends Controller
      */
     public function getItem(int $id)
     { 
+        $validator = Validator::make(["id" => $id], [
+            "id" => [
+                "exists:App\Domains\Investment\Models\Move,id"
+            ]
+        ], $this->messages());
+        if ($validator->fails()) {
+            $response = MessageEvent::dispatch([
+                "statusCode" => 400,
+                "action" => "Create",
+                "error" => $validator->errors()
+            ]);
+            return $response[0];
+        }
         return $this->service->getItem($id);
     }
 
@@ -135,7 +148,10 @@ class MoveController extends Controller
                 "date_format:Y-m-d",
                 "before:tomorrow"
             ],
-            "account_id" => "required_if:type,0"
+            "account_id" => [
+                "required_if:type,0",
+                "exists:accounts,id"
+            ]
         ], $this->messages());
         if ($validator->fails()) {
             $response = MessageEvent::dispatch([

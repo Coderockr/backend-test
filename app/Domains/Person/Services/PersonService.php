@@ -89,7 +89,6 @@ class PersonService
      */
     public function create(array $data)
     {
-        $user = JWTAuth::user();
         DB::beginTransaction();
         try {
             if(isset($data["cpf_cnpj"])){
@@ -143,12 +142,7 @@ class PersonService
                 [
                     "statusCode" => 201,
                     "action" => "Create",
-                    "table" => "public.people",
-                    "user" => [
-                        "id" => $user->id,
-                        "name" => $user->name,
-                        "email" => $user->email,
-                    ]
+                    "table" => "public.people"
                 ]
             ]);
             DB::commit();

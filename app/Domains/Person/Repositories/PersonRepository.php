@@ -18,6 +18,24 @@ class PersonRepository extends Repository
     public function getItems(array $filter)
     { 
         $query = $this->newQuery()
+                ->select(
+                    "id",
+                    "active",
+                    "person",
+                    "name",
+                    "nickname",
+                    "photo",
+                    "reason_social",
+                    "cpf_cnpj",
+                    "date_birth",
+                    "gender",
+                    "email",
+                    "address_id",
+                    "name_dad",
+                    "name_mother",
+                    "note",
+                    "role_id",
+                )
                 ->with('address')
                 ->with('role')
                 ->with('phone');

@@ -43,7 +43,6 @@
 import themeConfig from '@/../themeConfig'
 import sidebarItems from './components/vx-sidebar/sidebarItems'
 import {mapActions, mapGetters} from 'vuex'
-import _ from 'lodash'
 export default {
     components: {
         VxSidebar: () => import('@/containers/components/vx-sidebar/VxSidebar'),
@@ -108,26 +107,7 @@ export default {
             } else {
                 await this.toggleIsSidebarActive(true)
             }
-        },
-        async getQueue(){
-            const { data } = await this.$axios.get("system/queue", {
-                params: {
-                    queue: "import"
-                }
-            })
-            if(!data.error) {
-                if(data.length){
-                    this.loading = true
-                    this.loop()
-                }else{
-                    this.loading = false
-                    this.loop()
-                }
-            }
-        },
-        loop:_.debounce(function () {
-            this.getQueue()
-        }, 120000)
+        }
     },
     watch: {
         '$route'() {
@@ -149,7 +129,6 @@ export default {
         }else {
             this.updateNavbarColorLocal(this.navbarColor)
         }
-        this.getQueue()
     }
 }
 </script>

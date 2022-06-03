@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InvestmentController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,14 +22,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+
 
 // Every route inside this block requires the sanctum authentication
 Route::group(['middleware' => ['auth:sanctum']], function() {
-    Route::get('/welcome-auth', function (Request $request) {
-        return json_encode('Hello World!');
-    });
-});
-
-Route::get('/welcome', function (Request $request) {
-    return json_encode('Hello World!');
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/investments', [InvestmentController::class, 'store']);
+    //Route::post('/users/{id}/investments', [InvestmentController::class, 'create']);
 });

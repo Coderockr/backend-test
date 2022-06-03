@@ -13,9 +13,9 @@ class DropSchema extends Command
      * @var array
      */
     private $schema_default = [
+        "investment",
         "log",
-        "public",
-        "investment"
+        "public"
     ];
 
     /**

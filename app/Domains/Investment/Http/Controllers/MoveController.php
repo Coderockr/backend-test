@@ -125,7 +125,7 @@ class MoveController extends Controller
                 "max:1"
             ],
             "value" => [
-                "required",
+                "required_if:type,0",
                 "numeric",
                 "min:0.1"
             ],
@@ -135,7 +135,7 @@ class MoveController extends Controller
                 "date_format:Y-m-d",
                 "before:tomorrow"
             ],
-            "account_id" => "required"
+            "account_id" => "required_if:type,0"
         ], $this->messages());
         if ($validator->fails()) {
             $response = MessageEvent::dispatch([

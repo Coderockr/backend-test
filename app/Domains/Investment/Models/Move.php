@@ -16,6 +16,6 @@ class Move extends Model
      * @var array
      */
     protected $fillable = [
-        "type", "value", "account_id", "move_id"
+        "type", "value", "account_id", "move_id", "registered_at"
     ];
 }

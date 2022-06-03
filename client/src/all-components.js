@@ -4,10 +4,14 @@ import Vue from 'vue'
  * Páginas
  */
 
-const User = () => import("./views/users/User")
+const Login = () => import("./containers/pages/Login")
+const Investment = () => import("./views/investments/Investment")
+const Register = () => import("./containers/pages/Register")
 
 export {
-    User
+    Login,
+    Investment,
+    Register
 }
 
 /**

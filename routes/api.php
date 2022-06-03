@@ -24,12 +24,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-
-
 // Every route inside this block requires the sanctum authentication
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::post('/investments', [InvestmentController::class, 'store']);
+    
     Route::get('/investments', [InvestmentController::class, 'index']);
+    Route::get('/investments/{id}', [InvestmentController::class, 'show']);
+    Route::post('/investments', [InvestmentController::class, 'store']);
     //Route::post('/users/{id}/investments', [InvestmentController::class, 'create']);
 });

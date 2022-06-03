@@ -25,7 +25,6 @@ class AuthService
     public function authenticate(array $data)
     {
         try {
-            $data['type'] = 0;
             if(!str_contains($data["email"], "@")){
                 $person = $this->repo->getUser('nickname', $data['email']);
                 if($person){

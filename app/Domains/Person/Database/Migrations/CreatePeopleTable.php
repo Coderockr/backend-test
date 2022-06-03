@@ -19,10 +19,6 @@ class CreatePeopleTable extends Migration
         Schema::create('public.people', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->boolean('active')->default(true)->comment('registro ativo');
-            $table->integer('type')->comment('tipo: 
-            0 usuario; 
-            1 associado; 
-            ');
             $table->boolean('person')->comment('pessoa: 
             false fisica ; 
             true juridica');
@@ -37,9 +33,6 @@ class CreatePeopleTable extends Migration
             $table->integer('address_id')->nullable()->comment('id do endereço');
             $table->string('name_dad')->nullable()->comment('nome do pai');
             $table->string('name_mother')->nullable()->comment('nome da mao');
-            $table->string('api_report_id')->nullable()->comment('id relatorio api idwall');
-            $table->date('last_query_tjms')->nullable()->comment('ultima consulta TJMS');
-            $table->date('register_updated_at')->nullable()->comment('cadastro atualizado em');
             $table->text('note')->nullable()->comment('observaçoes');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();

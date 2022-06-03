@@ -47,7 +47,13 @@ class PersonRepository extends Repository
     public function getUser(string $key, $value)
     {
         return $this->newQuery()
-                ->where('type', 0)
+                ->select(
+                    "id",
+                    "name",
+                    "nickname",
+                    "email",
+                    "cpf_cnpj"
+                )
                 ->where($key, $value)
                 ->first();
     }

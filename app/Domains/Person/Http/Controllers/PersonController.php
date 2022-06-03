@@ -129,10 +129,10 @@ class PersonController extends Controller
      *          required=true,
      *          @OA\JsonContent(
      *              type="object",
-     *              @OA\Property(property="type", type="integer"),
      *              @OA\Property(property="name", type="string"),
      *              @OA\Property(property="nickname", type="string"),
      *              @OA\Property(property="email", type="string"),
+     *              @OA\Property(property="password", type="string"),
      *              @OA\Property(property="reason_social", type="string"),
      *              @OA\Property(property="cpf_cnpj", type="string"),
      *              @OA\Property(property="date_birth", type="string"),
@@ -200,9 +200,9 @@ class PersonController extends Controller
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(property="id", type="integer"),
-     *              @OA\Property(property="type", type="integer"),
      *              @OA\Property(property="name", type="string"),
      *              @OA\Property(property="email", type="string"),
+     *              @OA\Property(property="password", type="string"),
      *              @OA\Property(property="reason_social", type="string"),
      *              @OA\Property(property="cpf_cnpj", type="string"),
      *              @OA\Property(property="date_birth", type="string"),

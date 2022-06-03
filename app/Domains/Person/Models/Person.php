@@ -20,7 +20,7 @@ class Person extends Model
      */
     protected $fillable = [
         'type', 'person', 'name', 'nickname', 'photo', 'reason_social', 'cpf_cnpj', 'account', 'date_birth', 'gender', 'email', 'address_id',
-        'name_dad', 'name_mother', 'note', 'api_report_id', 'last_query_tjms', 'register_updated_at', 'password', 'role_id' 
+        'name_dad', 'name_mother', 'note', 'password', 'role_id' 
     ];
 
     protected $casts = [

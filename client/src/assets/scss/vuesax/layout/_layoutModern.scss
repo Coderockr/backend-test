@@ -1,0 +1,78 @@
+/*=========================================================================================
+    File Name: _layoutModern.scss
+    Description: Default layout styles
+    ----------------------------------------------------------------------------------------
+    Item Name: Vuesax Admin - VueJS Dashboard Admin Template
+      Author: Pixinvent
+    Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+
+/////////////////////////////////////////////////////////
+// NAVBAR
+/////////////////////////////////////////////////////////
+.vs-navbar.vx-navbar {
+    padding: .8rem 1rem;
+    width: calc(100% - 260px - 4.4rem);
+    position: fixed;
+    border-radius: .5rem;
+    transition: all .5s;
+    z-index: 10000;
+
+    &.navbar-reduced {
+        width: calc(100% - #{$reduced-sidebar-width} - 4.4rem);
+    }
+
+    &.navbar-full {
+        width: calc(100% - 4.4rem);
+    }
+}
+
+
+
+/////////////////////////////////////////////////////////
+// CONTENT AREA
+/////////////////////////////////////////////////////////
+#content-area {
+    margin-left: 260px;
+    height: 100%;
+    transition: margin-left 0.5s;
+
+    .content-wrapper{
+        min-height: calc(100vh - 3.5rem);
+        height: 100%;
+    }
+
+    &.content-area-reduced {
+        margin-left: $reduced-sidebar-width;
+    }
+
+    &.content-area-full {
+        margin-left: 0px;
+    }
+
+    .vx-navbar__search-input {
+        input {
+            border: none !important;
+        }
+
+        input:focus {
+            box-shadow: none;
+        }
+    }
+}
+
+.router-view {
+    position: relative;
+    padding: $spacer;
+
+    .router-content {
+        margin-top: 4.5rem;
+    }
+
+    .content-area__heading {
+        h2{
+            color: #636363;
+        }
+    }
+}

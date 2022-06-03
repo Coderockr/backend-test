@@ -1,0 +1,134 @@
+/*=========================================================================================
+    File Name: calnedar.scss
+    Description: Calendar app's styles. This is imported in Calendar.vue file
+    ----------------------------------------------------------------------------------------
+    Item Name: Vuesax Admin - VueJS Dashboard Admin Template
+      Author: Pixinvent
+    Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+#calendar-app {
+    .comp-full-calendar {
+        max-width: unset;
+        background: transparent;
+
+
+        .full-calendar-header {
+            margin: 1rem 0rem 2rem;
+
+            .header-center {
+                font-size: 1.3rem;
+
+                .prev-month,
+                .next-month {
+                padding: 5px 11.5px;
+                border-radius: 50%;
+                color: #fff;
+                background-color: rgba(var(--vs-primary), 1);
+                }
+
+                .title {
+                    min-width: 155px !important;
+                    display: inline-block;
+                }
+            }
+        }
+
+        .full-calendar-body {
+
+            .events-day {
+                min-height: 100px !important;
+            }
+
+            .event-box {
+
+                transform: translateY(-3.8px);
+
+                .event-item { color: #fff !important; }
+                .event-primary { background: rgba(var(--vs-primary), 1) !important; }
+                .event-warning { background: rgba(var(--vs-warning), 1) !important; }
+                .event-success { background: rgba(var(--vs-success), 1) !important; }
+                .event-danger { background: rgba(var(--vs-danger), 1) !important; }
+
+                .event-item.is-start {
+                    margin-left: 6px !important;
+                    border-top-left-radius: 1rem;
+                    border-bottom-left-radius: 1rem;
+                    padding-left: 1rem !important;
+                }
+
+                .event-item.is-end {
+                    margin-right: 6px !important;
+                    border-top-right-radius: 1rem;
+                    border-bottom-right-radius: 1rem;
+                }
+
+                .more-link {
+                    font-size: .85rem!important;
+                }
+            }
+
+            .day-cell {
+                &.today {
+                    background: inherit !important;
+                    position: relative;
+
+                    .day-number {
+                        position: absolute;
+                        right: 0;
+                        margin-right: 3px;
+                        padding: 2px 0;
+                        min-height: 26px;
+                        min-width: 26px;
+                        text-align: center;
+                        background: rgba(var(--vs-primary), 1) !important;
+                        border-radius: 50%;
+                        color: #fff;
+                    }
+                }
+            }
+
+            .not-cur-month.events-day {
+                background: #f1f1f1;
+                opacity: 0.4;
+            }
+        }
+    }
+}
+.calendar-event-dialog {
+    .date-label {
+        color: rgba(0,0,0,0.4);
+    }
+
+    .vdp-datepicker {
+        input {
+            border: none !important;
+            padding: .7rem;
+            font-size: 1rem;
+            border: 1px solid rgba(0, 0, 0, 0.2) !important;
+            width: 100%;
+            border-radius: 5px;
+        }
+
+        input[disabled='disabled'] {
+            background: #fff !important;
+            opacity: .5;
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .full-calendar-header {
+        display: flex;
+        flex-direction: column;
+
+        .header-center {
+            order: 1;
+        }
+
+        .header-right {
+            margin: 1rem 0;
+        }
+    }
+
+}

@@ -1,0 +1,101 @@
+/*=========================================================================================
+    File Name: _misc.scss
+    Description: partial- misc styles
+    ----------------------------------------------------------------------------------------
+    Item Name: Vuesax Admin - VueJS Dashboard Admin Template
+      Author: Pixinvent
+    Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+
+code {
+    font-family: $font-family-sans-serif;
+    background: #eee;
+    padding: 0.1rem .3rem;
+    border-radius: 3px;
+}
+
+ul,ol {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.bg-img{
+    background-image: url("../images/pages/vuesax-login-bg.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.full-page-bg-color{
+    background-color: #eff2f7;
+}
+
+.count-down{
+    text-align: center;
+}
+.single-counter{
+    display: inline-block;
+    position: relative;
+    width: 105px;
+    padding: 18px 10px 10px;
+    span{
+        display: block;
+        text-align: center;
+    }
+    .timer{
+        font-size: 3rem;
+    }
+}
+
+.activity-timeline {
+    margin-left: 1.5rem;
+    padding-left: 40px;
+    border-left: 2px solid #E5E8EB;
+
+    li {
+        position: relative;
+        margin-bottom: 20px;
+
+        .timeline-icon {
+            position: absolute;
+            top: 0;
+            left: -4.3rem;
+            border-radius: 50%;
+            padding: .75rem;
+            padding-bottom: 0.4rem;
+        }
+
+        .activity-desc {
+            font-size: .9rem;
+        }
+
+        .activity-e-time {
+            font-size: .8rem;
+        }
+    }
+}
+
+.chat-card-log {
+    height: 240px;
+}
+
+
+// video.js poster styles
+.vjs-poster {
+    background-size: cover !important;
+    width: 100% !important;
+}
+
+.spinner{
+    animation: spin 1.5s linear infinite;
+}
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}

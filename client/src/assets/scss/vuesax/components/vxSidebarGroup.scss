@@ -1,0 +1,125 @@
+/*=========================================================================================
+  File Name: vxSidebarGroup.scss
+  Description: Styles for vx-sidebar-group component. Imported in VxSidebarGroup.vue file
+  ----------------------------------------------------------------------------------------
+  Item Name: Vuesax Admin - VueJS Dashboard Admin Template
+  Author: Pixinvent
+  Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+
+.vs-sidebar-group {
+    overflow: hidden;
+    .group-header {
+        transition: all .5s ease;
+        font-size: 15px;
+        padding: 10px 15px;
+        cursor: pointer;
+        .feather-grp-header-arrow {
+            position: absolute !important;
+            right: 8px;
+            top: 12px;
+            // top: 30%;
+            transition: all .2s ease-out;
+            transform: rotate(0deg);
+            display: inline-block;
+            &.rotate90 {
+                transform: rotate(90deg);
+            }
+        }
+
+        > * {
+            transition: all .25s ease;
+        }
+        &:hover {
+            > * {
+                transform: translateX(5px);
+            }
+        }
+        .con-vs-chip{
+            margin-bottom: 0;
+        }
+    }
+
+    .vs-icon {
+        font-size: 1.5rem;
+    }
+
+    &:hover{
+        >.group-header{
+            transform: unset;
+        }
+    }
+
+    .vs-sidebar-group{
+        .group-header{
+            padding-left: 20px;
+        }
+    }
+    &.vs-sidebar-group-open {
+        >.group-header {
+            cursor: pointer;
+            background: #f6f6f6;
+            border-radius: 6px;
+            margin-bottom: 7px;
+        }
+        >.vs-sidebar-group-items{
+            padding-left:0;
+            .vs-sidebar--item{
+                span{
+                    padding-left: 2rem;
+                    padding: 0;
+                }
+                &:last-child{
+                    border-bottom: 0px;
+                }
+            }
+        }
+        .vs-sidebar-group{
+            overflow: visible;
+        }
+    }
+    &.vs-sidebar-group-active {
+        >.group-header {
+            background: #f6f6f6;
+            border-radius: 6px;
+        }
+    }
+    .vs-sidebar-group-items{
+        opacity: 0;
+        .vs-sidebar--item{
+            a{
+                padding: 10px 15px 10px 20px;
+                .feather-icon{
+                    margin-right: 20px;
+                }
+            }
+            &:last-child{
+                a{
+                    margin-bottom: 0;
+                }
+            }
+        }
+        li{
+            &:last-child{
+                padding-bottom: 7px;
+            }
+        }
+
+        .vs-sidebar-group{
+            span{
+                .feather-icon{
+                    margin-right: 20px;
+                }
+            }
+            .feather-icon{
+                margin-right: 0px;
+            }
+        }
+    }
+    &.disabled-item {
+        span {
+            color: #e2e2e2;
+        }
+    }
+}

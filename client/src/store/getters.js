@@ -1,0 +1,22 @@
+export const getters = {
+    navbarSearchAndPinList: state => state.navbarSearchAndPinList,
+    sidebarWidth: state => state.sidebarWidth,
+    bodyOverlay: state => state.bodyOverlay,
+    isSidebarActive: state => state.isSidebarActive,
+    breakpoint: state => state.breakpoint,
+    isThemeDark: state => state.theme === 'dark',
+    theme: state => state.theme,
+    themePrimaryColor: state => state.themePrimaryColor,
+    navbarType: state => state.navbarType,
+    navbarColor: state => state.navbarColor,
+    routerTransition: state => state.routerTransition,
+    footerType: state => state.footerType,
+    isLoggedIn: state => !!state.authToken,
+    authToken: state => state.authToken,
+    token: state => state.authToken,
+    currentUser: state => state.currentUser,
+    idUser: state => state.currentUser.id,
+    userRole: state => state.currentUser.user ? state.currentUser.user.role : '',
+    roles: state => state.roles,
+    users: state => state.users
+}

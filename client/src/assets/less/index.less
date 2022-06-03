@@ -1,0 +1,28 @@
+// mudar variavel de design do iview
+@import '~view-design/src/styles/index.less';
+require('./colors.js');
+
+@primary-color          : @primary;
+@info-color             : @info;
+@success-color          : @success;
+@processing-color       : @primary-color;
+@warning-color          : @warning;
+@error-color            : @error;
+@normal-color           : @normal;
+@link-color             : @link;
+@link-hover-color       : tint(@link-color, 20%);
+@link-active-color      : shade(@link-color, 5%);
+@selected-color         : fade(@primary-color, 90%);
+@tooltip-color          : @tooltip;
+@subsidiary-color       : @subsidiary;
+@rate-star-color        : @rate-star;
+
+:root {
+    --primary: @primary;
+	--link: @link;
+	--info: @info;
+	--success: @success;
+	--danger: @error;
+	--warning: @warning;
+	--dark: @black;
+}

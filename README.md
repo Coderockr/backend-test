@@ -10,6 +10,7 @@
 - docker-compose exec app php artisan jwt:secret
 - docker-compose exec app php artisan schema:create default
 - docker-compose exec app php artisan migrator
+### Optional
 - docker-compose exec app php artisan db:seed
 
 ### Install FRONTEND

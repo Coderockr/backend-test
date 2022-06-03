@@ -7,6 +7,8 @@ use App\Models\User;
 
 use Illuminate\Http\Request;
 
+use Carbon\Carbon;
+
 class InvestmentController extends Controller
 {
     /**
@@ -54,7 +56,29 @@ class InvestmentController extends Controller
      */
     public function show($id)
     {
-        //
+        // Find for the user investment
+        $investment = auth()->user()->investments()->find($id);
+        
+        $investedAmount = $investment['amount'];
+
+        // Calculating how many times the gain fee was applied
+        $insertedAt = Carbon::createFromFormat('Y-m-d', $investment['inserted_at'])->hour(0)->minute(0)->second(0);
+        $currentDate = Carbon::now()->hour(0)->minute(0)->second(0);
+        $numberOfMonths = $insertedAt->diffInMonths($currentDate);
+
+        // Gain fees converted to decimal to use the compound gain formula
+        $gainFees = 0.0052;
+
+        // Casting to string to not use it in response as a float
+        // Applying the M = C * (1 + i)^n formula
+        $expectedBalance = (string) ($investedAmount * pow((1 + $gainFees), $numberOfMonths));
+
+        $response = [
+            'initial_amount' => $investedAmount,
+            'expected_balance' => $expectedBalance
+        ];
+
+        return response($response, 200);
     }
 
     /**

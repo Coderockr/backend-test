@@ -91,7 +91,7 @@ class MoveService
         try {
             if($data["type"] === 0){
                 $move = $this->repo->create($data);
-                Gain::dispatch($move->account_id, $move->id)->onQueue('gain')->delay(now()->addMinutes(1));
+                Gain::dispatch($move->account_id, $move->id)->onQueue('gain')->delay(now()->addMonth(1));
             }else{
                 $id = $data["id"];
                 $data["move_id"] = $id;
@@ -221,7 +221,7 @@ class MoveService
                 ]
             ]);
             DB::commit();
-            Gain::dispatch($account_id, $move_id)->onQueue('gain')->delay(now()->addMinutes(1));
+            Gain::dispatch($account_id, $move_id)->onQueue('gain')->delay(now()->addMonth(1));
             $response = MessageEvent::dispatch([
                 "statusCode" => 201,
                 "action" => "Create",

@@ -16,7 +16,9 @@ class InvestmentController extends Controller
      */
     public function index()
     {
-        //
+        $investments = auth()->user()->investments()->paginate(10);
+
+        return response($investments, 200);
     }
 
     /**
@@ -30,21 +32,12 @@ class InvestmentController extends Controller
         // Validating the request
         $fields = $request->validate([
             'amount' => 'required|numeric|between:0,999999.99',
-            'created_at' => 'required|date|before_or_equal:today|date_format:Y-m-d',
-            'user_id' => 'required|numeric' 
+            'inserted_at' => 'required|date|before_or_equal:today|date_format:Y-m-d'
         ]);
 
-        $user = User::find($fields['user_id']);
-
-        if(!$user) {
-            return response([
-                'message' => 'User not found'
-            ], 400);
-        }
-
-        // Creating the investment with the validated data
-        $investment = Investment::create($fields);
-
+        // Creating the investment with the validated data through the relationship
+        $investment = auth()->user()->investments()->create($fields);
+        
         $response = [
             'investment' => $investment
         ];

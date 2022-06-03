@@ -1,0 +1,93 @@
+{
+  "name": "front-end",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "rm -rf ../dist/assets/* && vue-cli-service build --no-clean",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "accounting": "^0.4.1",
+    "apexcharts": "^3.33.2",
+    "axios": "^0.19.0",
+    "core-js": "^2.6.5",
+    "echarts": "^4.1.0",
+    "js-to-styles-var-loader": "^1.1.0",
+    "lodash": "^4.17.15",
+    "material-design-icons": "^3.0.1",
+    "moment": "^2.24.0",
+    "print-js": "^1.0.63",
+    "prismjs": "^1.17.1",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "tailwindcss": "^0.7.4",
+    "v-mask": "^2.2.4",
+    "v-money": "^0.8.1",
+    "vee-validate": "^2.2.14",
+    "view-design": "^4.6.0",
+    "vue": "^2.6.10",
+    "vue-apexcharts": "^1.6.2",
+    "vue-axios": "^2.1.4",
+    "vue-color": "^2.7.0",
+    "vue-echarts": "^4.0.1",
+    "vue-feather-icons": "^5.0.0",
+    "vue-perfect-scrollbar": "^0.2.0",
+    "vue-prism-component": "^1.1.1",
+    "vue-router": "^3.0.7",
+    "vue2-editor": "^2.10.3",
+    "vuedraggable": "^2.24.3",
+    "vuesax": "^3.12.2",
+    "vuex": "^3.1.1",
+    "vuex-persistedstate": "^2.5.4"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.10.0",
+    "@fullhuman/postcss-purgecss": "^1.1.0",
+    "@vue/cli-plugin-babel": "^3.0.4",
+    "@vue/cli-plugin-eslint": "^3.9.0",
+    "@vue/cli-service": "^3.9.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "node-sass": "^4.12.0",
+    "purgecss": "^1.1.0",
+    "sass-loader": "^7.1.0",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "rules": {
+      "no-console": "off",
+      "vue/no-use-v-if-with-v-for": [
+        "error",
+        {
+          "allowUsingIterationVar": true
+        }
+      ],
+      "no-unused-vars": [
+        "error",
+        {
+          "vars": "all",
+          "args": "after-used",
+          "ignoreRestSiblings": false
+        }
+      ]
+    },
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
+}

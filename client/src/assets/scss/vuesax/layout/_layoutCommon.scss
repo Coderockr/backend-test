@@ -1,0 +1,225 @@
+/*=========================================================================================
+    File Name: _layoutCommon.scss
+    Description: Common layout styles. This style will apply to all layouts
+    ----------------------------------------------------------------------------------------
+    Item Name: Vuesax Admin - VueJS Dashboard Admin Template
+      Author: Pixinvent
+    Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+
+html {
+    font-size: $font-size-base;
+    height: 100%;
+    width: 100%;
+    line-height: 1.5;
+    letter-spacing: 0.01rem;
+}
+
+body{
+    font-family: $font-family-sans-serif;
+    background: #f8f8f8;
+    font-weight: 400;
+    overflow-x: hidden;
+    max-width: 100%;
+    height: 100%;
+}
+
+#app{
+    min-height:100%;
+}
+
+.layout--main{
+    height: 100%;
+    min-height: 100%;
+}
+
+textarea.vs-textarea {
+    font-family: $font-family-sans-serif;
+    line-height: 1.6;
+}
+
+#content-overlay {
+    position: fixed;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: opacity .7s;
+    z-index: -1;
+}
+
+.show-overlay #content-overlay{
+    z-index: 999;
+    opacity: 1;
+}
+
+.the-footer {
+    display: flex;
+    align-items: center;
+}
+
+
+li.vs-navbar--item {
+    a {
+        color: inherit;
+    }
+}
+
+// ======================================================================================
+// Sidebar
+// ======================================================================================
+
+.vs-content-sidebar.items-no-padding {
+    .vs-sidebar--items{
+      padding: 0;
+    }
+}
+
+// ======================================================================================
+// OTHER
+// ======================================================================================
+
+div[id$="demo"] {
+    .vx-card:not(:last-of-type) {
+        margin-bottom: 2.2rem;
+    }
+}
+
+.scroll-area{
+  position: relative;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+}
+
+.app-search-container {
+    background-color: $white;
+}
+
+
+// ======================================================================================
+// COMPONENT DEMO
+// ======================================================================================
+
+.demo-alignment {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+
+    & > * {
+        margin-right: 1.5rem;
+        margin-top: 1.5rem;
+    }
+}
+
+.op-block {
+    // background: rgb(235, 235, 235);
+    box-shadow: 1px 1px 10px rgba(0,0,0,0.1);
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.app-page{
+    .router-view{
+        padding-bottom: 0;
+    }
+    &.navbar-floating{
+        .app-fixed-height{
+            height: calc(100vh - 12.1rem);
+        }
+        &.footer-hidden{
+            .app-fixed-height{
+                height: calc(100vh - 9.6rem);
+            }
+        }
+        &.footer-sticky{
+            .app-fixed-height{
+                height: calc(100vh - 13.1rem);
+            }
+        }
+    }
+
+    &.navbar-sticky{
+        .app-fixed-height{
+            height: calc(100vh - 11.1rem);
+        }
+        &.footer-hidden{
+            .app-fixed-height{
+                height: calc(100vh - 8.6rem);
+            }
+        }
+        &.footer-sticky{
+            .app-fixed-height{
+                height: calc(100vh - 12.1rem);
+            }
+        }
+    }
+
+    &.navbar-static{
+        .app-fixed-height{
+            height: calc(100vh - 11.1rem);
+        }
+        &.footer-hidden{
+            .app-fixed-height{
+                height: calc(100vh - 7.6rem);
+            }
+        }
+    }
+
+    &.navbar-hidden{
+        .app-fixed-height{
+            height: calc(100vh - 6.1rem);
+        }
+        &.footer-hidden{
+            .app-fixed-height{
+                height: calc(100vh - 4.1rem);
+            }
+        }
+        &.footer-sticky{
+            .app-fixed-height{
+                height: calc(100vh - 8.1rem);
+            }
+        }
+    }
+}
+.app-fixed-height {
+    height: calc(100vh - 14.1rem);
+}
+
+.vs-sidebar {
+    .vs-sidebar--items {
+        overflow: hidden;
+        height: 100%;
+    }
+}
+
+.vs-alert {
+    code.language-markup {
+    background: transparent !important;
+    color: #636363 !important;
+    }
+}
+
+
+// ======================================================================================
+// MEDIA QUERIES
+// ======================================================================================
+
+@media (max-width: 576px) {
+    .router-view {
+        padding: 1.2rem !important;
+    }
+
+    .footer-sticky{
+        .router-view{
+            padding-bottom: 5rem !important;
+        }
+    }
+}

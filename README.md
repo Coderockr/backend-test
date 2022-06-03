@@ -1,7 +1,6 @@
 ## Install
 
-- [Docker Documentation](https://docs.docker.com/).
-
+- [Docker Documentation](https://docs.docker.com).
 ### Install BACKEND
 
 - docker-compose up -d --build
@@ -80,3 +79,8 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## libraries
+
+- [artesaos/migrator Documentation](https://github.com/artesaos/migrator).
+- [jwt-auth Documentation](https://jwt-auth.readthedocs.io/en/develop/laravel-installation).

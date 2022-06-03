@@ -1,0 +1,26 @@
+/*=========================================================================================
+  File Name: main.scss
+  Description: Main scss file. Imports other scss partials from 'vuesax' folder
+  ----------------------------------------------------------------------------------------
+  Item Name: Vuesax Admin - VueJS Dashboard Admin Template
+  Author: Pixinvent
+  Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+@import "vuesax/variables";
+
+@import "vuesax/layout";
+@import "vuesax/typography";
+@import "vuesax/misc";
+@import "vuesax/extraComponents";
+@import "vuesax/themes";
+@import "vuesax/routerAnimations";
+@import "vuesax/transitions";
+
+@import "vuesax/customClasses";
+
+// Vuesax fixes and enhancments
+@import "vuesax/fixesVuesax";
+
+// Tailwind Fixes
+@import "vuesax/tailwindFix";

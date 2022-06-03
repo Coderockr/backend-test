@@ -1,0 +1,43 @@
+/*=========================================================================================
+    File Name: todo.scss
+    Description: Todo app's styles. This is imported in Todo.vue file
+    ----------------------------------------------------------------------------------------
+    Item Name: Vuesax Admin - VueJS Dashboard Admin Template
+      Author: Pixinvent
+    Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+
+#todo-app{
+    .vs-sidebar--background{
+        position: absolute;
+    }
+    .todo-scroll-area {
+        position: relative;
+        margin: auto;
+        width: 100%;
+        height: calc(100% - 70px);
+    }
+    .todo-content-scroll-area {
+        position: relative;
+        margin: auto;
+        width: 100%;
+        height: calc(100% - 50px);
+    }
+    
+    // TRANSITION
+    .todo_todo-item {
+        transition: all .35s;
+    }
+
+    .list-item-component {
+        transition: background-color .2s;
+        border-top: 1px solid #dae1e7;
+        &:hover {
+            // background-color: #eee;
+            transform: translateY(-4px);
+			box-shadow: 0px 3px 10px 0px #ccc;
+            transition: all 0.2s;
+        }
+    }
+}

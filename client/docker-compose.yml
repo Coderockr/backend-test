@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: analise
+    container_name: app
+    restart: unless-stopped
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - '8080:80'
+    networks:
+      - analise
+networks:
+  analise:
+    driver: bridge

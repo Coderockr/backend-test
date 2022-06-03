@@ -1,0 +1,193 @@
+/*=========================================================================================
+  File Name: vxSidebar.scss
+  Description: Styles for vx-sidebar component. Imported in VxSidebar.vue file
+  ----------------------------------------------------------------------------------------
+  Item Name: Vuesax Admin - VueJS Dashboard Admin Template
+  Author: Pixinvent
+  Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+
+@import '../_variables.scss';
+
+.main-menu-sidebar{
+  white-space: nowrap;
+
+  .vs-sidebar--background {
+    z-index: 1000;
+  }
+
+  .vs-sidebar{
+    z-index: 1000;
+    position: fixed;
+
+    .vs-sidebar--items {
+      padding: 0;
+    }
+    &.vs-sidebar-reduce{
+      max-width: $reduced-sidebar-width;
+
+      &:hover:not(.vs-sidebar-reduceNotRebound):not(.vs-sidebar-reduceNotHoverExpand){
+        .vs-sidebar--items {
+        }
+        .vs-sidebar-group .group-header i{
+          display: block;
+        }
+      }
+      .vs-sidebar-group .group-header i{
+        display: none;
+      }
+    }
+  }
+
+  .header-sidebar {
+    padding: 20px 19px 16px 23px;
+    width: 100%;
+    .logo{
+      img {
+        padding: 4px 0;
+      }
+      .logo-text{
+        font-family: 'asenineregular';
+        font-size: 48px;
+        color: var(--primary);
+        animation: 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) 0s normal forwards 1 fadein;
+      }
+    }
+
+    .feather-icon {
+    	svg {
+    		color: var(--primary);
+    	}
+    }
+  }
+
+  .shadow-bottom{
+    position: absolute;
+    z-index: 2;
+    height: 60px;
+    width: 100%;
+    pointer-events: none;
+    margin-top: -1.3rem;
+    filter: blur(5px);
+    background: linear-gradient(rgb(255, 255, 255) 41%, rgba(255, 255, 255, 0.11) 95%, rgba(255, 255, 255, 0) 100%);
+  }
+
+  .scroll-area--main-sidebar {
+    position: relative;
+    margin: auto;
+    width: 100%;
+    height: calc(100vh - 69px);
+
+    > .vs-sidebar-group{
+      padding: 0 15px;
+    }
+
+    > .vs-sidebar--item{
+      padding: 0 15px;
+    }
+  }
+
+  .navigation-header{
+    font-size: 0.9rem;
+    display: block;
+    margin-top: 2rem;
+    margin-bottom: 0.8rem;
+    margin-left: 2.2rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: #999;
+  }
+
+  .feather-icon{
+    color: #565656;
+    margin-right: 14px;
+    .feather{
+      width: 20px;
+      height:20px;
+    }
+  }
+
+  .con-vs-chip {
+		box-shadow: 0px 0px 7px 3px rgba(0,0,0,0.1);
+  	.vs-chip--text {
+  		color: $white;
+      font-size: .8rem;
+  	}
+  }
+
+  .vs-sidebar--item{
+    transition: none;
+    overflow: visible !important;
+    &:hover{
+      a {
+        color: inherit;
+        > * {
+          transform: translateX(5px);
+        }
+      }
+    }
+
+    &.vs-sidebar-item-active {
+	  	border-right: none !important;
+      font-weight: 400;
+      z-index: 1;
+      position: relative;
+	  }
+
+    a {
+      font-size: 1rem;
+      transition: none;
+      border-radius: 4px;
+	  	opacity: unset;
+      color: $content-color;
+      > * {
+        transition: transform 0.25s ease;
+      }
+      padding: 10px 15px;
+      span{
+        font-size: 15px;
+      }
+    }
+
+    &.disabled-item {
+      a {
+        span {
+          color: #e2e2e2;
+        }
+      }
+    }
+
+
+
+    .router-link-active{
+      background: linear-gradient(118deg, rgba(var(--vs-primary),1), rgba(var(--vs-primary),.7));
+      font-weight: 400;
+      box-shadow: 0px 0px 10px 1px rgba(var(--vs-primary),.7);
+      .feather-icon{
+        color: $white;
+      }
+      span{
+        color: $white;
+      }
+    }
+  }
+}
+
+#sidebar-demo {
+  .vs-sidebar{
+    z-index: 1001;
+  }
+  .vs-sidebar-staticPosition{
+    z-index: 1001;
+  }
+
+  #parentx-demo-7 {
+    .parentx:not(.show-custom-sidebar) {
+      .vs-sidebar {
+      	display: none;
+        z-index: 1 !important;
+      }
+    }
+  }
+}

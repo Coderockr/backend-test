@@ -22,9 +22,4 @@ class Role extends Model
         'active', 'name'
     ];
 
-    public function groupRole()
-    {
-        return $this->belongsToMany('App\Domains\Person\Models\GroupRole', 'grouped_roles', 'role_id', 'group_role_id');
-    }
-
 }

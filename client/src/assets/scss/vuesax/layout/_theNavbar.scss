@@ -1,0 +1,263 @@
+/*=========================================================================================
+    File Name: _theNavbar.scss
+    Description: The navbar styles
+    ----------------------------------------------------------------------------------------
+    Item Name: Vuesax Admin - VueJS Dashboard Admin Template
+      Author: Pixinvent
+    Author URL: http://www.themeforest.net/user/pixinvent
+==========================================================================================*/
+
+
+.vx-navbar-wrapper {
+    background: linear-gradient(to bottom, rgba(248, 248, 248, 0.95) 44%, rgba(248, 248, 248, 0.46) 73%, rgba(255, 255, 255, 0) 100%);
+    padding: 2.2rem;
+    padding-top: 1.3rem;
+    background-repeat-x: repeat;
+    z-index: 999;
+    // width: calc(100% - 260px - 1.2rem);
+    width: calc(100% - 260px);
+    height: 103px;
+    background-repeat-y: no-repeat;
+    position: fixed;
+    top: 0;
+
+    .vx-navbar {
+        .vs-con-items {
+            width: 100%;
+
+            .search-full-container {
+                background: $white;
+            }
+        }
+    }
+}
+.content-area-reduced{
+    .vx-navbar-wrapper{
+        width: calc(100% - 80px);
+    }
+    .vs-navbar.vx-navbar{
+        width: calc(100% - 80px - 4.4rem);
+    }
+}
+
+.show-overlay .vx-navbar-wrapper {
+    background: linear-gradient(to bottom, rgba(44, 48, 60, 0.9) 44%, rgba(44, 48, 60, 0.43) 73%, rgba(44, 48, 60, 0) 100%);
+}
+
+.navbar-sticky {
+    .vx-navbar-wrapper {
+        padding: 0;
+        background: #f8f8f8;
+
+        .vx-navbar {
+            width: calc(100% - 260px);
+            border-radius: 0;
+            padding: .8rem 2.2rem;
+        }
+    }
+    .content-area-reduced{
+        .vx-navbar-wrapper {
+            .vx-navbar {
+                width: calc(100% - 80px);
+            }
+        }
+    }
+}
+
+.navbar-static {
+    .vx-navbar-wrapper {
+        padding: 0;
+        background: none;
+        position: relative;
+        height: auto;
+        width: 100%;
+
+        .vx-navbar {
+            width: 100%;
+            border-radius: 0;
+            padding: .8rem 2.2rem;
+            background: transparent !important;
+            box-shadow: none;
+            position: relative;
+        }
+    }
+
+    .router-view {
+        padding-top: 1rem;
+        .router-content {
+            margin-top: 0;
+        }
+    }
+}
+
+.navbar-hidden {
+    .vx-navbar-wrapper {
+        display: none;
+    }
+}
+
+.search-full-container {
+    z-index: 50000;
+    .vx-auto-suggest {
+        >div {
+            height: 100%;
+        }
+
+        input[type="text"],
+        .input-span-placeholder {
+            padding: 1.25rem 3rem;
+        }
+
+        .vs-input--icon.feather {
+            top: 34%;
+            left: 0.8rem;
+        }
+    }
+
+    >div.feather-icon {
+        position: absolute !important;
+    }
+}
+
+// Bookmark Dropdown
+.bookmark-dropdown {
+    z-index: 41001;
+}
+
+// navbar update fixes
+.navbar-custom {
+    .vs-navbar--btn-responsive {
+        display: none !important;
+    }
+    .vs-spacer {
+        display: block !important;
+    }
+    .vs-con-items {
+        display: flex !important;
+        width: 100%;
+    }
+}
+
+@media (max-width: 1200px) {
+    .vx-navbar-wrapper {
+        width: calc(100% - 1.2rem);
+    }
+
+    .navbar-sticky {
+        .vx-navbar-wrapper {
+            .vx-navbar {
+                width: 100%;
+                padding: .8rem 2.2rem;
+            }
+        }
+    }
+
+}
+
+@media (max-width: 576px) {
+    .vx-navbar-wrapper {
+        padding: 1.2rem;
+
+        .vx-navbar.navbar-full {
+            width: calc(100% - 2.4rem);
+        }
+    }
+
+    .navbar-sticky {
+        .vx-navbar-wrapper {
+            padding: 0;
+
+            .vx-navbar {
+                width: 100%;
+                padding: .8rem 1.5rem;
+            }
+        }
+    }
+
+    .navbar-static {
+        .vx-navbar-wrapper {
+            .vx-navbar {
+                width: 100%;
+                padding: .8rem 1.5rem;
+            }
+        }
+
+        .router-view{
+            .router-content{
+                margin-top: 0;
+            }
+        }
+    }
+}
+
+
+// BOOKMARK
+.starred-page,
+.starred-page--more {
+    &:hover {
+        color: rgba(var(--vs-primary), 1);
+    }
+}
+
+// I18N
+.i18n-dropdown {
+    .vs-dropdown--item-link {
+        display: flex;
+        align-items: center;
+    }
+
+    @media screen and (max-width: 364px) {
+        width: 95vw;
+        left: 90vw !important;
+
+        .vs-dropdown--menu--after {
+            display: none;
+        }
+    }
+}
+
+// CART & NOTIFICATIONS DROPDOWN
+.cart-dropdown {
+    width: 365px;
+
+    .cart-dropdown-item-img {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        transition: .35s;
+    }
+}
+
+.notification-dropdown,
+.cart-dropdown {
+    width: 365px;
+
+  // Full width notification in mobile devices
+    @media screen and (max-width: 500px) {
+        width: 95vw;
+        left: 97.5vw !important;
+
+        .vs-dropdown--menu--after {
+            display: none;
+        }
+    }
+
+    .notification {
+        &:hover {
+            background-color: #f7f7f7;
+        }
+    }
+
+  .checkout-footer,
+  .notification-footer {
+    background-color: #f8f8f8;
+  }
+}
+
+.scroll-area--nofications-dropdown,
+.scroll-area--cart-items-dropdowm {
+    position: relative;
+    margin: auto;
+    width: 100%;
+    max-height: 25rem;
+}

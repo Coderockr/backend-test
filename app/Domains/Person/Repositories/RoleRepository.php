@@ -17,7 +17,6 @@ class RoleRepository extends Repository
     public function getItems()
     { 
         return $this->newQuery()
-                ->with('groupRole')
                 ->get();
     }
 

@@ -3,19 +3,14 @@ import VueRouter from 'vue-router'
 import store from './store/store'
 import ViewUI from 'view-design'
 import {
-  User,
+  Login,
+  Investment,
+  Register
 } from "./all-components"
 ViewUI.LoadingBar.config({
   color: 'var(--primary)',
   failedColor: 'var(--danger)',
 })
-const records = {
-  label:'Cadastros',
-  url:'',
-  icon:'FolderIcon',
-  index:1,
-  children:false
-}
 Vue.use(VueRouter)
 const router = new VueRouter({
     mode: 'history',
@@ -28,28 +23,31 @@ const router = new VueRouter({
         },
         children: [
           {
-            path: '/users',
+            path: '/investments',
             meta:{
-              name:'Usuários',
+              name:'Investimentos',
               breadcrumb:[
-                panel,
-                records,
                 {
-                    label:'Usuários',
+                    label:'Investimentos',
                     url:'',
-                    icon:'UsersIcon',
+                    icon:'TrendingUpIcon',
                     children:false
                 },
               ],
             },
-            component: User,
+            component: Investment,
           },
         ]
       },
       {
         path: "/login",
         name: 'login',
-        component: () => import("./containers/pages/Login.vue")
+        component: Login
+      },
+      {
+        path: "/register",
+        name: 'register',
+        component: Register
       },
       {
         path: '/error-404',

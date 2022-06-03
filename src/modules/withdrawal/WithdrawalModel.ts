@@ -1,7 +1,7 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import { getModelForClass, prop as Property } from '@typegoose/typegoose'
 import { Investment } from "../investment/InvestmentModel";
-import { Ref } from "../../entities/types";
+import { Ref } from "../../types";
 import { differenceInYears } from "date-fns";
 
 export const LESS_YEAR_TAX = 22.5

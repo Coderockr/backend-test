@@ -9,6 +9,8 @@ class Investment extends Model
 {
     use HasFactory;
 
+    const GAIN_VALUE = 0.0052;
+
     public $timestamps = false;
     /**
      * The attributes that are mass assignable.

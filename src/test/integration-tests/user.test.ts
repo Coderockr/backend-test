@@ -53,7 +53,7 @@ describe('Mutation - User Creation', () => {
     })
 
     expect(result.status).toBe(200)
-    expect(result.body).toBeInstanceOf(Object)
+    expect(result.body?.data?.createUser).toBeInstanceOf(Object)
   })
 })
 
@@ -77,6 +77,6 @@ describe('Mutation - User Deletion', () => {
     })
 
     expect(result.status).toBe(200)
-    expect(result.body).toBeInstanceOf(Object)
+    expect(result.body?.data?.deleteUser).toBeInstanceOf(Object)
   })
 })

@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Investment extends Model
 {
+    use SoftDeletes;
+
     const MONTH_GAIN_VALUE = 0.0052;
 
     const TAX_INVESTMENT_LESS_THAN_ONE_YEAR = 0.225;

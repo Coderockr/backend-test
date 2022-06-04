@@ -24,7 +24,7 @@ class StoreInvestmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => 'required|numeric|between:0,999999.99',
+            'amount' => 'required|numeric|between:0,999999.99|regex:/^-?[0-9]+(?:\.[0-9]{1,2})?$/',
             'inserted_at' => 'required|date|before_or_equal:today|date_format:Y-m-d'
         ];
     }

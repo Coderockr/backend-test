@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Investment extends Model
 {
-    use HasFactory;
-
     const MONTH_GAIN_VALUE = 0.0052;
 
     const TAX_INVESTMENT_LESS_THAN_ONE_YEAR = 0.225;
@@ -16,6 +13,7 @@ class Investment extends Model
     const TAX_INVESTMENT_MORE_THAN_TWO_YEARS = 0.15;
 
     public $timestamps = false;
+    
     /**
      * The attributes that are mass assignable.
      *

@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 
-use Illuminate\Support\Facades\DB;
-
 use App\Http\Requests\StoreInvestmentRequest;
 
 use App\Services\InvestmentService;
@@ -54,7 +52,7 @@ class InvestmentController extends Controller
                 'message' => 'Invesment doenst exist or already was withdrawaled'
             ], 404);    
         }
-        
+
         $investedService = new InvestmentService();
         $expectedBalance = $investedService->getExpectedBalance($investment);
 

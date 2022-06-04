@@ -31,5 +31,6 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::get('/investments', [InvestmentController::class, 'index']);
     Route::get('/investments/{id}', [InvestmentController::class, 'show']);
     Route::post('/investments', [InvestmentController::class, 'store']);
+    Route::post('/investments/{id}/withdrawal', [InvestmentController::class, 'withdrawal']);
     //Route::post('/users/{id}/investments', [InvestmentController::class, 'create']);
 });

@@ -63,7 +63,6 @@ describe('Mutation - Investment Creation', () => {
         initialValue: -20
       })
     })
-
     expect(result.body.errors).toBeTruthy()
   })
 
@@ -79,7 +78,7 @@ describe('Mutation - Investment Creation', () => {
     })
 
     expect(result.status).toBe(200)
-    expect(result.body).toBeInstanceOf(Object)
+    expect(result.body?.data?.createInvestment).toBeInstanceOf(Object)
   })
 
 })
@@ -107,7 +106,7 @@ describe('Query - Get Investment by Id ', () => {
     })
 
     expect(result.status).toBe(200)
-    expect(result.body).toBeInstanceOf(Object)
+    expect(result.body?.data?.getInvestmentByid).toBeInstanceOf(Object)
   })
 
   test('Should return a valid gain amount', async () => {
@@ -180,17 +179,17 @@ describe('Mutation - Delete Investment by id', () => {
     const { body: makeUser } = await agent.post('/graphql').send({ 
       query: makeUserQuery() 
     })
+ 
     const { body: investmentBody } = await agent.post('/graphql').send({
       query: makeInvestmentQuery({
         userId: makeUser?.data?.createUser?.id
       })
     })
 
-    const result = await agent.post('/graphql').send({
+    const { body: bodyResult } = await agent.post('/graphql').send({
       query: deleteInvestmentQuery(investmentBody?.data?.createInvestment?.id)
     })
-
-    expect(result.status).toBe(200)
-    expect(result.body).toBeInstanceOf(Object)
+    
+    expect(bodyResult?.data?.deleteInvestment).toBeInstanceOf(Object)
   })
 })

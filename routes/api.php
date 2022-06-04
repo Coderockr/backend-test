@@ -29,5 +29,5 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::post('/logout', [AuthController::class, 'logout']);
     
     Route::apiResource('/investments', InvestmentController::class)->only(['index', 'show', 'store']);
-    Route::post('/investments/{id}/withdrawal', [InvestmentController::class, 'withdrawal']);
+    Route::post('/investments/{id}/withdrawal', [InvestmentController::class, 'withdrawal'])->name('investments.withdrawal');
 });

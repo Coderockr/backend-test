@@ -29,7 +29,6 @@ class InvestmentController extends Controller
      * @param  \App\Http\Requests\StoreInvestmentRequest  $request
      * @return \App\Models\Investment;
      */
-
     public function store(StoreInvestmentRequest $request) : Investment {
         // Creating the investment with the validated data through the relationship
         $investment = auth()->user()->investments()->create($request->all());
@@ -47,6 +46,7 @@ class InvestmentController extends Controller
         // Find for the user investment
         $investment = auth()->user()->investments()->find($id);
 
+        // If doesnt find the investment
         if(!$investment) {
             return response([
                 'message' => 'Invesment doenst exist or already was withdrawaled'
@@ -71,8 +71,10 @@ class InvestmentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function withdrawal(int $id) : Response {
+        // Find for the user investment
         $investment = auth()->user()->investments()->find($id);
 
+        // If doesnt find the investment
         if(!$investment) {
             return response([
                 'message' => 'Invesment doenst exist or already was withdrawaled'

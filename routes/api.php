@@ -28,9 +28,6 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::post('/logout', [AuthController::class, 'logout']);
     
-    Route::get('/investments', [InvestmentController::class, 'index']);
-    Route::get('/investments/{id}', [InvestmentController::class, 'show']);
-    Route::post('/investments', [InvestmentController::class, 'store']);
+    Route::apiResource('/investments', InvestmentController::class)->only(['index', 'show', 'store']);
     Route::post('/investments/{id}/withdrawal', [InvestmentController::class, 'withdrawal']);
-    //Route::post('/users/{id}/investments', [InvestmentController::class, 'create']);
 });

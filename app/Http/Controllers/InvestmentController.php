@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreInvestmentRequest;
+
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Services\InvestmentService;
 
 use Carbon\Carbon;
 
@@ -14,7 +17,7 @@ class InvestmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index() {
+    public function index() : Response {
         $investments = auth()->user()->investments()->paginate(10);
 
         return response($investments, 200);
@@ -27,7 +30,7 @@ class InvestmentController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function store(StoreInvestmentRequest $request) {
+    public function store(StoreInvestmentRequest $request) : Response {
         // Creating the investment with the validated data through the relationship
         $investment = auth()->user()->investments()->create($request->all());
         
@@ -41,27 +44,16 @@ class InvestmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
+    public function show(int $id) : Response {
         // Find for the user investment
         $investment = auth()->user()->investments()->find($id);
-        
-        $investedAmount = $investment['amount'];
-
-        // Calculating how many times the gain fee was applied
-        $insertedAt = Carbon::createFromFormat('Y-m-d', $investment['inserted_at'])->hour(0)->minute(0)->second(0);
-        $currentDate = Carbon::now()->hour(0)->minute(0)->second(0);
-        $numberOfMonths = $insertedAt->diffInMonths($currentDate);
-
-        // Gain fees converted to decimal to use the compound gain formula
         $gainFees = 0.0052;
 
-        // Casting to string to not use it in response as a float
-        // Applying the M = C * (1 + i)^n formula
-        $expectedBalance = (string) ($investedAmount * pow((1 + $gainFees), $numberOfMonths));
+        $investedService = new InvestmentService();
+        $expectedBalance = (string) $investedService->getCompoundGains($investment, $gainFees);
 
         $response = [
-            'initial_amount' => $investedAmount,
+            'initial_amount' => $investment['amount'],
             'expected_balance' => $expectedBalance
         ];
 
@@ -74,7 +66,7 @@ class InvestmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function withdrawal($id) {
+    public function withdrawal(int $id) : Response {
         $investment = auth()->user()->investments()->find($id);
         $investedAmount = $investment['amount'];
 

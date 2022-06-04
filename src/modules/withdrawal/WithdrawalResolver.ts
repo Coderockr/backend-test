@@ -20,7 +20,7 @@ export class WithDrawalResolver {
   ): Promise<Withdrawal> {
     let existingInvestment = await InvestmentModel.findById(investment_id)
     if (!existingInvestment) {
-      throw new UserInputError('Investment not found')
+      throw new UserInputError('Investment not found by the provided id')
     }
 
     if (isBefore(

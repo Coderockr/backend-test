@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Investment;
-use App\Models\User;
-
+use App\Http\Requests\StoreInvestmentRequest;
 use Illuminate\Http\Request;
 
 use Carbon\Carbon;
@@ -25,19 +23,13 @@ class InvestmentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreInvestmentRequest  $request
      * @return \Illuminate\Http\Response
      */
 
-    public function store(Request $request) {
-        // Validating the request
-        $fields = $request->validate([
-            'amount' => 'required|numeric|between:0,999999.99',
-            'inserted_at' => 'required|date|before_or_equal:today|date_format:Y-m-d'
-        ]);
-
+    public function store(StoreInvestmentRequest $request) {
         // Creating the investment with the validated data through the relationship
-        $investment = auth()->user()->investments()->create($fields);
+        $investment = auth()->user()->investments()->create($request->all());
         
         $response = [
             'investment' => $investment
@@ -80,6 +72,12 @@ class InvestmentController extends Controller
         return response($response, 200);
     }
 
+    /**
+     * Execute the withdrawal of the resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function withdrawal($id) {
         $investment = auth()->user()->investments()->find($id);
         $investedAmount = $investment['amount'];
@@ -125,27 +123,5 @@ class InvestmentController extends Controller
             If older than two years, the percentage will be 15% (tax = 30.00).
         */
         return response($response, 201);
-    }
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

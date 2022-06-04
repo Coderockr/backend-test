@@ -71,6 +71,8 @@ class InvestmentController extends Controller
         $investedService = new InvestmentService();
         $returnInvestmentValue = $investedService->getInvestmentReturn($investment);
         
+        $investment->delete();
+        
         $response = [
             'initial_amount' => $investedAmount,
             'return_value' => (string) $returnInvestmentValue

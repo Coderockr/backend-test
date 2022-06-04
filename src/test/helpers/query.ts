@@ -6,7 +6,7 @@ export const makeInvestmentQuery = (data: {
     createInvestment(data: { 
     initialAmount: ${data.initialValue ?? 100}, 
     creationDate: "${data.customDate ?? new Date()}", 
-    user_id: "${data.userId}"
+    user_id: "${data?.userId}"
 }) {
       id,
       initialAmount, 
@@ -14,7 +14,10 @@ export const makeInvestmentQuery = (data: {
       user_id 
 }}`
 
-export const makeUserQuery = (data?: {bornDate?: Date, email?: string}) => `mutation {
+export const makeUserQuery = (data?: {
+  bornDate?: Date
+  email?: string
+}) => `mutation {
     createUser(data: {
       name: "Test User ${new Date().getDate()}"
       bornDate: "${data?.bornDate ?? new Date()}",
@@ -65,10 +68,13 @@ export const deleteInvestmentQuery = (investmentId: string) => `mutation {
   } 
 }`
 
-export const withdrawalInvestment = (data: {investmentId?: string, creationDate?: Date }) => `mutation {
+export const withdrawalInvestment = (data: {
+  investmentId: string
+  creationDate?: Date
+}) => `mutation {
   withdrawalInvestment(data: { 
-  investment_id: ${data.investmentId}, 
-  creationDate: ${data.creationDate ?? new Date()}}, 
+  investment_id: "${data?.investmentId}", 
+  creationDate: "${data?.creationDate ?? new Date()}", 
 }) {
    id,
    creationDate,
@@ -76,3 +82,13 @@ export const withdrawalInvestment = (data: {investmentId?: string, creationDate?
    finalValue,
    investment_id 
 }}`
+
+export const getWithdrawalByInvestment = (investmentId: string) => `query {
+  getWithdrawalByInvestment(id: "${investmentId}") {
+    id,
+    creationDate,
+    tax,
+    finalValue,
+    investment_id 
+  }
+}`

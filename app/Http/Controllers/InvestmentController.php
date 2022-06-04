@@ -7,6 +7,7 @@ use App\Http\Requests\StoreInvestmentRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Services\InvestmentService;
+use App\Models\Investment;
 
 use Carbon\Carbon;
 
@@ -47,13 +48,12 @@ class InvestmentController extends Controller
     public function show(int $id) : Response {
         // Find for the user investment
         $investment = auth()->user()->investments()->find($id);
-        $gainFees = 0.0052;
 
         $investedService = new InvestmentService();
-        $expectedBalance = (string) $investedService->getCompoundGains($investment, $gainFees);
+        $expectedBalance = (string) $investedService->getCompoundGains($investment, Investment::GAIN_VALUE);
 
         $response = [
-            'initial_amount' => $investment['amount'],
+            'initial_amount' => $investment->amount,
             'expected_balance' => $expectedBalance
         ];
 
@@ -68,10 +68,10 @@ class InvestmentController extends Controller
      */
     public function withdrawal(int $id) : Response {
         $investment = auth()->user()->investments()->find($id);
-        $investedAmount = $investment['amount'];
+        $investedAmount = $investment->amount;
 
         // Calculating how many times the gain fee was applied
-        $insertedAt = Carbon::createFromFormat('Y-m-d', $investment['inserted_at'])->hour(0)->minute(0)->second(0);
+        $insertedAt = Carbon::createFromFormat('Y-m-d', $investment->inserted_at)->hour(0)->minute(0)->second(0);
         $currentDate = Carbon::now()->hour(0)->minute(0)->second(0);
         $numberOfMonths = $insertedAt->diffInMonths($currentDate);
 

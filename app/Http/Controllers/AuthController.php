@@ -8,29 +8,20 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
+use App\Http\Requests\RegisterUserRequest;
+use App\Http\Requests\LoginUserRequest;
+
 class AuthController extends Controller
 {
-    /*
-    public function __construct() {
-        request()->headers->set('Accept', 'application/json');
-    }
-    */
-    
-    public function register(Request $request) {
-        // Validating the request
-        // When passing confirmed to validator, password_confirm is required too
-        $fields = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|unique:users,email',
-            'password' => 'required|string|confirmed' 
-        ]);
-
+    /**
+     * Register a user give it a token.
+     *
+     * @param  \App\Http\Requests\RegisterUserRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(RegisterUserRequest $request) : Response {
         // Creating the user with the validated data
-        $user = User::create([
-            'name' => $fields['name'],
-            'email' => $fields['email'],
-            'password' => bcrypt($fields['password'])
-        ]);
+        $user = User::create($request->all());
 
         // Creating a token assigned to the user
         $token = $user->createToken('backend-test-token')->plainTextToken;
@@ -44,21 +35,20 @@ class AuthController extends Controller
         return response($response, 201);
     }
 
-    public function login(Request $request) {
-        // Validating the request
-        // When passing confirmed to validator, password_confirm is required too
-        $fields = $request->validate([
-            'email' => 'required|string',
-            'password' => 'required|string' 
-        ]);
-
+    /**
+     * Login a user give it a token.
+     *
+     * @param  \App\Http\Requests\RegisterUserRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function login(LoginUserRequest $request) : Response {
         // Check email
-        $user = User::where('email', $fields['email'])->first();
+        $user = User::where('email', $request->email)->first();
 
-        // Check password
-        if(!$user || !Hash::check($fields['password'], $user->password)) {
+        // Check password and if the user exists
+        if(!$user || !Hash::check($request->password, $user->password)) {
             return response([
-                'message' => 'Bad creds'
+                'message' => 'Bad credentials'
             ], 401);
         }
 
@@ -74,12 +64,18 @@ class AuthController extends Controller
         return response($response, 201);
     }
 
-    public function logout(Request $request) {
+    /**
+     * Logout a user and delete its tokens.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request) : Response {
         // Deleting the authenticate user tokens
         auth()->user()->tokens()->delete();
 
-        return [
+        return response([
             'message' => 'Logged out'
-        ];
+        ], 200);
     }
 }

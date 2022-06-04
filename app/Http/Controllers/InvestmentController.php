@@ -49,6 +49,12 @@ class InvestmentController extends Controller
         // Find for the user investment
         $investment = auth()->user()->investments()->find($id);
 
+        if(!$investment) {
+            return response([
+                'message' => 'Invesment doenst exist or already was withdrawaled'
+            ], 404);    
+        }
+        
         $investedService = new InvestmentService();
         $expectedBalance = $investedService->getExpectedBalance($investment);
 
@@ -68,18 +74,29 @@ class InvestmentController extends Controller
      */
     public function withdrawal(int $id) : Response {
         $investment = auth()->user()->investments()->find($id);
+
+        if(!$investment) {
+            return response([
+                'message' => 'Invesment doenst exist or already was withdrawaled'
+            ], 404);    
+        }
+
         $investedAmount = $investment->amount;
 
         $investedService = new InvestmentService();
         $returnInvestmentValue = $investedService->getInvestmentReturn($investment);
         
+        if(!$investment->delete()) {
+            return response([
+                'message' => 'Cannot withdrawal now, try again later.'
+            ], 202);
+        }
+
         $response = [
             'initial_amount' => $investedAmount,
             'return_value' => (string) $returnInvestmentValue
         ];
 
-        $statusCode = !$investment->delete() ? 202 : 201;
-
-        return response($response, $statusCode);
+        return response($response, 201);
     }
 }

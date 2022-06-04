@@ -31,12 +31,8 @@ class InvestmentController extends Controller
         // Creating the investment with the validated data through the relationship
         $investment = auth()->user()->investments()->create($request->all());
         
-        $response = [
-            'investment' => $investment
-        ];
-
         // Returning the response with the corrected status
-        return response($response, 201);
+        return response($investment, 201);
     }
 
     /**

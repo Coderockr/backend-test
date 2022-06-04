@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
 
+use Illuminate\Support\Facades\DB;
+
 use App\Http\Requests\StoreInvestmentRequest;
 
 use App\Services\InvestmentService;
@@ -71,13 +73,13 @@ class InvestmentController extends Controller
         $investedService = new InvestmentService();
         $returnInvestmentValue = $investedService->getInvestmentReturn($investment);
         
-        $investment->delete();
-        
         $response = [
             'initial_amount' => $investedAmount,
             'return_value' => (string) $returnInvestmentValue
         ];
 
-        return response($response, 201);
+        $statusCode = !$investment->delete() ? 202 : 201;
+
+        return response($response, $statusCode);
     }
 }

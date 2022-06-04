@@ -48,14 +48,13 @@ class InvestmentService {
      * @return int
      */
     public function getCompoundGains(Investment $investment, float $gainValue) : float {
-        $investedAmount = $investment['amount'];
+        $investedAmount = $investment->amount;
 
-        $investmentInsertedAt = $this->resetHoursMinutesAndSecondsFromDateTime(Carbon::createFromFormat('Y-m-d', $investment['inserted_at']));
+        $investmentInsertedAt = $this->resetHoursMinutesAndSecondsFromDateTime(Carbon::createFromFormat('Y-m-d', $investment->inserted_at));
         $currentDate = $this->resetHoursMinutesAndSecondsFromDateTime(Carbon::now());
 
         $numberOfMonths = $this->getDifferenceOfDatesInMonths($investmentInsertedAt, $currentDate);
 
-        $gainValue = Investment::GAIN_VALUE;
         $expectedBalance = $this->calculateCompoundGains($investedAmount, $gainValue, $numberOfMonths);
 
         return $expectedBalance;

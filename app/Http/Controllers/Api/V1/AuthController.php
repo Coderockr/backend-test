@@ -20,8 +20,11 @@ class AuthController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function register(RegisterUserRequest $request) : Response {
+        $validatedData = $request->all();
+        $validatedData['password'] = bcrypt($validatedData['password']);
+
         // Creating the user with the validated data
-        $user = User::create($request->all());
+        $user = User::create($validatedData);
 
         // Creating a token assigned to the user
         $token = $user->createToken('backend-test-token')->plainTextToken;
@@ -41,7 +44,7 @@ class AuthController extends Controller
      * @param  \App\Http\Requests\RegisterUserRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function login(LoginUserRequest $request) : Response {
+    public function login(LoginUserRequest $request) {//: Response {
         // Check email
         $user = User::where('email', $request->email)->first();
 

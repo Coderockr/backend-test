@@ -15,16 +15,27 @@ Replace the variables in the .env file, using the new ones.
 BASE_URL = http://127.0.0.1:8000/api/v1/
 
 [POST] BASE_URL/register
+
     Description: Creates a user account and assign its a token to do the other program actions.
+
     Headers: Accept: application/json
+
     Body Parameters:
-        - name (required) (string)
-        - email (required) (string) (unique)
-        - password (required) (string) (must match with password_confirmation)
-        - password_confirmation (required) (string) (must match with password_confirmation)
+
+        * name (required) (string)
+
+        * email (required) (string) (unique)
+
+        * password (required) (string) (must match with password_confirmation)
+
+        * password_confirmation (required) (string) (must match with password_confirmation)
+
     Status:
-        201 - Account created
-        422 - Validation body parameters error
+
+        * (201) Account created
+
+        * (422) Validation body parameters error
+
 
 [POST] BASE_URL/logout
     Description: Logout the user and delete its token.

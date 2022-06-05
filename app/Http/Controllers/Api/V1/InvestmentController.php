@@ -10,6 +10,8 @@ use App\Http\Requests\StoreInvestmentRequest;
 use App\Services\InvestmentService;
 use App\Models\Investment;
 
+use Carbon\Carbon;
+
 class InvestmentController extends Controller
 {
     /**
@@ -17,7 +19,7 @@ class InvestmentController extends Controller
      *
      * @return \Illuminate\Pagination\LengthAwarePaginator
      */
-    public function index() : LengthAwarePaginator {
+    public function index() { //}: LengthAwarePaginator {
         $investments = auth()->user()->investments()->paginate(10);
 
         return $investments;
@@ -54,7 +56,7 @@ class InvestmentController extends Controller
         }
 
         $investedService = new InvestmentService();
-        $expectedBalance = $investedService->getExpectedBalance($investment);
+        $expectedBalance = $investedService->getExpectedBalance($investment, Investment::MONTH_GAIN_VALUE, Carbon::now());
 
         $response = [
             'initial_amount' => $investment->amount,
@@ -84,7 +86,7 @@ class InvestmentController extends Controller
         $investedAmount = $investment->amount;
 
         $investedService = new InvestmentService();
-        $returnInvestmentValue = $investedService->getInvestmentReturn($investment);
+        $returnInvestmentValue = $investedService->getInvestmentReturn($investment, Investment::MONTH_GAIN_VALUE, Carbon::now());
         
         if(!$investment->delete()) {
             return response([

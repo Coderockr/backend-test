@@ -110,17 +110,21 @@ Create more tests, generate documentation via Swagger and creating the docker-co
 BASE_URL = http://127.0.0.1:8000/api/v1/ <br><br>
 [POST] BASE_URL/register <br>
 <hr>
-Description: Creates a user account and assign its a token to do the other program actions. <br>
-Headers: Accept: application/json <br>
-Body Parameters: <br>
-     * name (required) (string) <br>
-     * email (required) (string) (unique) <br>
-     * password (required) (string) (must match with password_confirmation) <br>
-     * password_confirmation (required) (string) (must match with password_confirmation) <br>
-     Status: <br>
-     * (201) Account created <br>
-     * (422) Validation body parameters error<br>
-<br><br>
+Description: Creates a user account and assign its a token to do the other program actions. <br><br>
+Headers: Accept: application/json <br><br>
+Body Parameters: <br><br>
+<ul>
+    <li>name (required) (string)</li>
+    <li>email (required) (string) (unique)</li>
+    <li>password (required) (string) (must match with password_confirmation)</li>
+    <li>password_confirmation (required) (string) (must match with password_confirmation)</li>
+</ul>
+Status: <br><br>
+<ul>
+    <li>(201) Account created</li>
+    <li>(422) Validation body parameters error</li>
+</ul>
+<br><br><br>
 [POST] BASE_URL/logout
 <hr>
     Description: Logout the user and delete its token.

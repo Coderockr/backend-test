@@ -144,11 +144,12 @@ Status: <br><br>
 <ul>
         <li>email (required) (string)</li>
         <li>password (required) (string) (must match with password_confirmation)</li>
+</ul>
     Status:<br><br>
 <ul>
-        <li>201 - Logged in</li>
-        <li>401 - Unauthorized</li>
-        <li>422 - Validation body parameters error</li>    
+        <li>(201) Logged in</li>
+        <li>(401) Unauthorized</li>
+        <li>(422) Validation body parameters error</li>    
     </ul>
 <br><br><br>
 [POST] BASE_URL/investments
@@ -160,12 +161,12 @@ Status: <br><br>
 <ul>
         <li>amount (required) (numeric) (between: 0 - 999999.99) (regex:/^-?[0-9]+(?:\.[0-9]{1,2})?$/)</li>
         <li>inserted_at (required) (date) (before_or_equal: today) (date_format: Y-m-d)</li>
-    </ul>
+</ul>
     Status:<br><br>
 <ul>
-        <li>201 - Investment created</li>
-        <li>302 - Validation body parameters error</li>
-        <li>401 - Unauthorized</li>
+        <li>(201) Investment created</li>
+        <li>(302) Validation body parameters error</li>
+        <li>(401) Unauthorized</li>
     </ul>
 <br><br><br>
 [GET] BASE_URL/investments
@@ -175,8 +176,8 @@ Status: <br><br>
     Authorization: Bearer Token<br><br>
     Status:<br><br>
 <ul>
-        <li>200 - Ok</li>
-        <li>401 - Unauthorized</li>
+        <li>(200) Ok</li>
+        <li>(401) Unauthorized</li>
     </ul>
 <br><br><br>
 [GET] BASE_URL/investments/{id}
@@ -190,9 +191,9 @@ Status: <br><br>
     </ul>
     Status:<br><br>
 <ul>
-        <li>200 - Ok</li>
-        <li>401 - Unauthorized</li>
-        <li>404 - Not Found</li>
+        <li>(200) Ok</li>
+        <li>(401) Unauthorized</li>
+        <li>(404) Not Found</li>
     </ul>
 <br><br><br>
 [POST] BASE_URL/investments/{id}/withdrawal
@@ -206,7 +207,7 @@ Status: <br><br>
     </ul>
     Status:<br><br>
 <ul>
-        <li>201 - Successfull investment withdrawal</li>
-        <li>401 - Unauthorized</li>
-        <li>404 - Not Found</li>
+        <li>(201) Successfull investment withdrawal</li>
+        <li>(401) Unauthorized</li>
+        <li>(404) Not Found</li>
 </ul>

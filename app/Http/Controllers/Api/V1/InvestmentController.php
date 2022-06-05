@@ -12,6 +12,9 @@ use App\Models\Investment;
 
 use Carbon\Carbon;
 
+use App\Mail\WithdrawalMail;
+use Illuminate\Support\Facades\Mail;
+
 class InvestmentController extends Controller
 {
     /**
@@ -98,6 +101,8 @@ class InvestmentController extends Controller
             'initial_amount' => $investedAmount,
             'return_value' => (string) $returnInvestmentValue
         ];
+
+        Mail::to(auth()->user()->email)->send(new WithdrawalMail);
 
         return response($response, 201);
     }

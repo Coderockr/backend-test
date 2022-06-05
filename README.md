@@ -16,6 +16,8 @@ BASE_URL = http://127.0.0.1:8000/api/v1/
 
 [POST] BASE_URL/register
 
+---
+
     Description: Creates a user account and assign its a token to do the other program actions.
 
     Headers: Accept: application/json
@@ -38,12 +40,21 @@ BASE_URL = http://127.0.0.1:8000/api/v1/
         
 
 [POST] BASE_URL/logout
+
+---
+
     Description: Logout the user and delete its token.
+
     Headers: Accept: application/json
+
     Authorization: Bearer Token
+
     Status:
-        200 - Logged out
-        401 - Unauthorized
+
+        * (200) Logged out
+
+        * (401) Unauthorized
+
 
 [POST] BASE_URL/login
     Description: Login a user in the program.

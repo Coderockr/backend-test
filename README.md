@@ -14,10 +14,8 @@ Replace the variables in the .env file, using the new ones.
 
 BASE_URL = http://127.0.0.1:8000/api/v1/
 
-[POST] BASE_URL/register
-
----
-
+    [POST] BASE_URL/register
+    ---
     Description: Creates a user account and assign its a token to do the other program actions.
 
     Headers: Accept: application/json

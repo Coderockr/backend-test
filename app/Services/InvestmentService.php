@@ -11,10 +11,10 @@ class InvestmentService {
      * Truncate value to two decimal places
      *
      * @param  float  $number
-     * @return float
+     * @return string
      */   
-    function truncateValueToTwoDecimalPlaces(float $number) : float {
-        return (float) number_format($number , 2);
+    public function truncateValueToTwoDecimalPlaces(float $number) : float {
+        return floor($number * 100) / 100; 
     }
 
     /**
@@ -23,60 +23,61 @@ class InvestmentService {
      * @param  Carbon  $date
      * @return Carbon
      */
-    private function resetHoursMinutesAndSecondsFromDateTime(Carbon $date) : Carbon {
+    public function resetHoursMinutesAndSecondsFromDateTime(Carbon $date) : Carbon {
         return $date->hour(0)->minute(0)->second(0);
+    }
+
+    /**
+     * Get the difference of dates in months.
+     *
+     * @param  Carbon  $firstDate
+     * @param  Carbon  $secondDate
+     * @return int
+     */
+    public function getDifferenceOfDatesInMonths(Carbon $firstDate, Carbon $secondDate) : int {
+        return $firstDate->diffInMonths($secondDate);
+    }
+
+    /**
+     * Get the difference of dates in dates.
+     *
+     * @param  Carbon  $firstDate
+     * @param  Carbon  $secondDate
+     * @return int
+     */
+    public function getDifferenceOfDatesInYears(Carbon $firstDate, Carbon $secondDate) : int {
+        return $firstDate->diffInYears($secondDate);
     }
 
     /**
      * Use the compound formula for calculate the gains of an investment.
      *
      * @param  float  $investedAmount
+     * @param  float  $monthGainValue
      * @param  integer  $numberOfMonths
      * @return float
      */
-    private function calculateExpectedBalance(float $investedAmount, int $numberOfMonths) : float {
-        $investedAmount = $this->truncateValueToTwoDecimalPlaces($investedAmount);
-        
-        return $this->truncateValueToTwoDecimalPlaces($investedAmount * pow((1 + Investment::MONTH_GAIN_VALUE), $numberOfMonths));
-    }
-
-    /**
-     * Get the difference of dates in months.
-     *
-     * @param  Carbon  $investmentInsertedAt
-     * @param  Carbon  $currentDate
-     * @return int
-     */
-    private function getDifferenceOfDatesInMonths(Carbon $investmentInsertedAt, Carbon $currentDate) : int {
-        return $investmentInsertedAt->diffInMonths($currentDate);
-    }
-
-    /**
-     * Get the difference of dates in dates.
-     *
-     * @param  Carbon  $investmentInsertedAt
-     * @param  Carbon  $currentDate
-     * @return int
-     */
-    private function getDifferenceOfDatesInYears(Carbon $investmentInsertedAt, Carbon $currentDate) : int {
-        return $investmentInsertedAt->diffInYears($currentDate);
+    public function calculateExpectedBalance(float $investedAmount, float $monthGainValue, int $numberOfMonths) : float {
+        return $this->truncateValueToTwoDecimalPlaces($investedAmount * pow((1 + $monthGainValue), $numberOfMonths));
     }
 
     /**
      * Get the compound gains.
      *
      * @param  \App\Models\Investment  $investment
+     * @param  float $monthGainValue
+     * @param  Carbon $date
      * @return int
      */
-    public function getExpectedBalance(Investment $investment) : float {
+    public function getExpectedBalance(Investment $investment, float $monthGainValue, Carbon $date) {//}: float {
         $investedAmount = $investment->amount;
 
         $investmentInsertedAt = $this->resetHoursMinutesAndSecondsFromDateTime(Carbon::createFromFormat('Y-m-d', $investment->inserted_at));
-        $currentDate = $this->resetHoursMinutesAndSecondsFromDateTime(Carbon::now());
+        $date = $this->resetHoursMinutesAndSecondsFromDateTime($date);
 
-        $numberOfMonths = $this->getDifferenceOfDatesInMonths($investmentInsertedAt, $currentDate);
+        $numberOfMonths = $this->getDifferenceOfDatesInMonths($investmentInsertedAt, $date);
 
-        $expectedBalance = $this->calculateExpectedBalance($investedAmount, $numberOfMonths);
+        $expectedBalance = $this->calculateExpectedBalance($investedAmount, $monthGainValue, $numberOfMonths);
 
         return $expectedBalance;
     }
@@ -129,25 +130,26 @@ class InvestmentService {
      * Calculate the investment return.
      *
      * @param  \App\Models\Investment $investment
+     * @param float $gainValue
+     * @param Carbon $date
      * @return float
      */
-    public function getInvestmentReturn(Investment $investment) : float {
+    public function getInvestmentReturn(Investment $investment, float $gainValue, Carbon $date) {//}: array {
         $investedAmount = $this->truncateValueToTwoDecimalPlaces($investment->amount);
 
-        $gainValue = Investment::MONTH_GAIN_VALUE;
-        $totalValue = $this->getExpectedBalance($investment, $gainValue);
-
+        $totalValue = $this->getExpectedBalance($investment, $gainValue, $date);
+        
         // Only the gain value
         $gainValue =  $this->truncateValueToTwoDecimalPlaces($totalValue - $investedAmount);
         
         $investmentInsertedAt = $this->resetHoursMinutesAndSecondsFromDateTime(Carbon::createFromFormat('Y-m-d', $investment->inserted_at));
-        $currentDate = $this->resetHoursMinutesAndSecondsFromDateTime(Carbon::now());
+        $currentDate = $this->resetHoursMinutesAndSecondsFromDateTime($date);
         $numberOfYears = $this->getDifferenceOfDatesInYears($investmentInsertedAt, $currentDate);
 
         $taxPercentInDecimal = $this->getTaxValue($numberOfYears);
 
         $moneyToReduce = $this->calculateMoneyToReduceFromGain($taxPercentInDecimal, $gainValue);
-
+        
         $totalValue = $this->calculateInvestmentReturnValue($totalValue, $moneyToReduce);
 
         return $totalValue;

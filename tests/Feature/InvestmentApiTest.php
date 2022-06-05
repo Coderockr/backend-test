@@ -15,6 +15,8 @@ use Illuminate\Contracts\Pagination\Paginator;
 
 class InvestmentApiTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_can_list_investments() {
         $user = User::factory()->create();
 

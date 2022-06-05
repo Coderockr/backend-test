@@ -10,7 +10,7 @@ To run this project, it's necessary PHP, Composer and Mysql. For elaboration, th
 
 ## Main Packages
 
-Token authentication creation: [Sanctum](https://laravel.com/docs/9.x/sanctum)
+Token authentication creation: [Sanctum](https://laravel.com/docs/9.x/sanctum)<br>
 Sending emails: [Mailtrap.io](https://mailtrap.io/inboxes/1766647/messages/2812274287)
 
 ## How to run
@@ -77,6 +77,8 @@ MAIL_PORT=2525
 MAIL_USERNAME=XXXXX
 MAIL_PASSWORD=XXXXX
 MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="backend-test@coderockr.com"
+MAIL_FROM_NAME="${APP_NAME}"
 ```
 
 ### Opening the server

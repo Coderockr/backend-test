@@ -1,88 +1,88 @@
 # Back End Test Project <img src="https://coderockr.com/assets/images/coderockr.svg" align="right" height="50px" />
 
-You should see this challenge as an opportunity to create an application following modern development best practices (given the stack of your choice), but also feel free to use your own architecture preferences (coding standards, code organization, third-party libraries, etc). It’s perfectly fine to use vanilla code or any framework or libraries.
+https://mailtrap.io/inboxes/1766647/messages/2812274287
 
-## Scope
+Login
 
-In this challenge you should build an API for an application that stores and manages investments, it should have the following features:
+Create inbox
 
-1. __Creation__ of an investment with an owner, a creation date and an amount.
-    1. The creation date of an investment can be today or a date in the past.
-    2. An investment should not be or become negative.
-2. __View__ of an investment with its initial amount and expected balance.
-    1. Expected balance should be the sum of the invested amount and the [gains][].
-3. __Withdrawal__ of a investment.
-    1. The withdraw will always be the sum of the initial amount and its gains,
-       partial withdrawn is not supported.
-    2. Withdrawals can happen in the past or today, but can't happen before the investment creation or the future.
-    3. [Taxes][taxes] need to be applied to the withdrawals before showing the
-       final value.
-4. __List__ of a person's investments
-    1. This list should have pagination.
+Select Laravel 7+
 
-__NOTE:__ the implementation of an interface will not be evaluated.
+Copy the keys
 
-### Gain Calculation
+Replace the variables in the .env file, using the new ones.
 
-The investment will pay 0.52% every month in the same day of the investment creation.
+BASE_URL = http://127.0.0.1:8000/api/v1/
 
-Given that the gain is paid every month, it should be treated as [compound gain][], which means that every new period (month) the amount gained will become part of the investment balance for the next payment.
+[POST] BASE_URL/register
+    Description: Creates a user account and assign its a token to do the other program actions.
+    Headers: Accept: application/json
+    Body Parameters:
+        - name (required) (string)
+        - email (required) (string) (unique)
+        - password (required) (string) (must match with password_confirmation)
+        - password_confirmation (required) (string) (must match with password_confirmation)
+    Status:
+        201 - Account created
+        422 - Validation body parameters error
 
-### Taxation
+[POST] BASE_URL/logout
+    Description: Logout the user and delete its token.
+    Headers: Accept: application/json
+    Authorization: Bearer Token
+    Status:
+        200 - Logged out
+        401 - Unauthorized
 
-When money is withdrawn, tax is triggered. Taxes apply only to the profit/gain portion of the money withdrawn. For example, if the initial investment was 1000.00, the current balance is 1200.00, then the taxes will be applied to the 200.00.
+[POST] BASE_URL/login
+    Description: Login a user in the program.
+    Headers: Accept: application/json
+    Body Parameters:
+        - email (required) (string)
+        - password (required) (string) (must match with password_confirmation)
+    Status:
+        201 - Logged in
+        401 - Unauthorized
+        422 - Validation body parameters error      
 
-The tax percentage changes according to the age of the investment:
-* If it is less than one year old, the percentage will be 22.5% (tax = 45.00).
-* If it is between one and two years old, the percentage will be 18.5% (tax = 37.00).
-* If older than two years, the percentage will be 15% (tax = 30.00).
+[POST] BASE_URL/investments
+    Description: Create a investment assigned to the user.
+    Headers: Accept: application/json
+    Authorization: Bearer Token
+    Body Parameters:
+        - amount (required) (numeric) (between: 0 - 999999.99) (regex:/^-?[0-9]+(?:\.[0-9]{1,2})?$/)
+        - inserted_at (required) (date) (before_or_equal: today) (date_format: Y-m-d)
+    Status:
+        201 - Investment created
+        302 - Validation body parameters error
+        401 - Unauthorized
 
-## Requirements
-1. Create project using any technology of your preference. It’s perfectly OK to use vanilla code or any framework or libraries;
-2. Although you can use as many dependencies as you want, you should manage them wisely;
-3. It is not necessary to send the notification emails, however, the code required for that would be welcome;
-4. The API must be documented in some way.
+[GET] BASE_URL/investments
+    Description: Get a paginated list with all the user investment.
+    Headers: Accept: application/json
+    Authorization: Bearer Token
+    Status:
+        200 - Ok
+        401 - Unauthorized
 
-## Deliverables
-The project source code and dependencies should be made available in GitHub. Here are the steps you should follow:
-1. Fork this repository to your GitHub account (create an account if you don't have one, you will need it working with us).
-2. Create a "development" branch and commit the code to it. Do not push the code to the main branch.
-3. Include a README file that describes:
-    - Special build instructions, if any
-    - List of third-party libraries used and short description of why/how they were used
-    - A link to the API documentation.
-4. Once the work is complete, create a pull request from "development" into "main" and send us the link.
-5. Avoid using huge commits hiding your progress. Feel free to work on a branch and use `git rebase` to adjust your commits before submitting the final version.
+[GET] BASE_URL/investments/{id}
+    Description: Show the informations (amount and expected balance) about the investiment with the id passed in the url.
+    Headers: Accept: application/json
+    Authorization: Bearer Token
+    Query params:
+        - id (required) (integer)
+    Status:
+        200 - Ok
+        401 - Unauthorized
+        404 - Not Found
 
-## Coding Standards
-When working on the project be as clean and consistent as possible.
-
-## Project Deadline
-Ideally you'd finish the test project in 5 days. It shouldn't take you longer than a entire week.
-
-## Quality Assurance
-Use the following checklist to ensure high quality of the project.
-
-### General
-- First of all, the application should run without errors.
-- Are all requirements set above met?
-- Is coding style consistent?
-- The API is well documented?
-- The API has unit tests?
-
-## Submission
-1. A link to the Github repository.
-2. Briefly describe how you decided on the tools that you used.
-
-## Have Fun Coding 🤘
-- This challenge description is intentionally vague in some aspects, but if you need assistance feel free to ask for help.
-- If any of the seems out of your current level, you may skip it, but remember to tell us about it in the pull request.
-
-## Credits
-
-This coding challenge was inspired on [kinvoapp/kinvo-back-end-test](https://github.com/kinvoapp/kinvo-back-end-test/blob/2f17d713de739e309d17a1a74a82c3fd0e66d128/README.md)
-
-[gains]: #gain-calculation
-[taxes]: #taxation
-[interest]: #interest-calculation
-[compound gain]: https://www.investopedia.com/terms/g/gain.asp
+[POST] BASE_URL/investments/{id}/withdrawal
+    Description: Withdrawal an investment with the id passed in the url.
+    Headers: Accept: application/json
+    Authorization: Bearer Token
+    Query params:
+        - id (required) (integer)
+    Status:
+        201 - Successfull investment withdrawal
+        401 - Unauthorized
+        404 - Not Found

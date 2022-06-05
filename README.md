@@ -127,62 +127,86 @@ Status: <br><br>
 <br><br><br>
 [POST] BASE_URL/logout
 <hr>
-    Description: Logout the user and delete its token.
-    Headers: Accept: application/json
-    Authorization: Bearer Token
-    Status:
-        200 - Logged out
-        401 - Unauthorized
-
+    Description: Logout the user and delete its token.<br><br>
+    Headers: Accept: application/json<br><br>
+    Authorization: Bearer Token<br><br>
+    Status: <br><br>
+<ul>
+        <li>(200) Logged out</li>
+        <li>(401) Unauthorized</li>
+</ul>
+<br><br><br>
 [POST] BASE_URL/login
-    Description: Login a user in the program.
-    Headers: Accept: application/json
-    Body Parameters:
-        - email (required) (string)
-        - password (required) (string) (must match with password_confirmation)
-    Status:
-        201 - Logged in
-        401 - Unauthorized
-        422 - Validation body parameters error      
-
+<hr>
+    Description: Login a user in the program.<br><br>
+    Headers: Accept: application/json<br><br>
+    Body Parameters:<br><br>
+<ul>
+        <li>email (required) (string)</li>
+        <li>password (required) (string) (must match with password_confirmation)</li>
+    Status:<br><br>
+<ul>
+        <li>201 - Logged in</li>
+        <li>401 - Unauthorized</li>
+        <li>422 - Validation body parameters error</li>    
+    </ul>
+<br><br><br>
 [POST] BASE_URL/investments
-    Description: Create a investment assigned to the user.
-    Headers: Accept: application/json
-    Authorization: Bearer Token
-    Body Parameters:
-        - amount (required) (numeric) (between: 0 - 999999.99) (regex:/^-?[0-9]+(?:\.[0-9]{1,2})?$/)
-        - inserted_at (required) (date) (before_or_equal: today) (date_format: Y-m-d)
-    Status:
-        201 - Investment created
-        302 - Validation body parameters error
-        401 - Unauthorized
-
+<hr>
+    Description: Create a investment assigned to the user.<br><br>
+    Headers: Accept: application/json<br><br>
+    Authorization: Bearer Token<br><br>
+    Body Parameters:<br><br>
+<ul>
+        <li>amount (required) (numeric) (between: 0 - 999999.99) (regex:/^-?[0-9]+(?:\.[0-9]{1,2})?$/)</li>
+        <li>inserted_at (required) (date) (before_or_equal: today) (date_format: Y-m-d)</li>
+    </ul>
+    Status:<br><br>
+<ul>
+        <li>201 - Investment created</li>
+        <li>302 - Validation body parameters error</li>
+        <li>401 - Unauthorized</li>
+    </ul>
+<br><br><br>
 [GET] BASE_URL/investments
-    Description: Get a paginated list with all the user investment.
-    Headers: Accept: application/json
-    Authorization: Bearer Token
-    Status:
-        200 - Ok
-        401 - Unauthorized
-
+<hr>
+    Description: Get a paginated list with all the user investment.<br><br>
+    Headers: Accept: application/json<br><br>
+    Authorization: Bearer Token<br><br>
+    Status:<br><br>
+<ul>
+        <li>200 - Ok</li>
+        <li>401 - Unauthorized</li>
+    </ul>
+<br><br><br>
 [GET] BASE_URL/investments/{id}
-    Description: Show the informations (amount and expected balance) about the investiment with the id passed in the url.
-    Headers: Accept: application/json
-    Authorization: Bearer Token
-    Query params:
-        - id (required) (integer)
-    Status:
-        200 - Ok
-        401 - Unauthorized
-        404 - Not Found
-
+<hr>
+    Description: Show the informations (amount and expected balance) about the investiment with the id passed in the url.<br><br>
+    Headers: Accept: application/json<br><br>
+    Authorization: Bearer Token<br><br>
+    Query params:<br><br>
+    <ul>
+        <li>id (required) (integer)</li>
+    </ul>
+    Status:<br><br>
+<ul>
+        <li>200 - Ok</li>
+        <li>401 - Unauthorized</li>
+        <li>404 - Not Found</li>
+    </ul>
+<br><br><br>
 [POST] BASE_URL/investments/{id}/withdrawal
-    Description: Withdrawal an investment with the id passed in the url.
-    Headers: Accept: application/json
-    Authorization: Bearer Token
-    Query params:
-        - id (required) (integer)
-    Status:
-        201 - Successfull investment withdrawal
-        401 - Unauthorized
-        404 - Not Found
+<hr>
+    Description: Withdrawal an investment with the id passed in the url.<br><br>
+    Headers: Accept: application/json<br><br>
+    Authorization: Bearer Token<br><br>
+    Query params:<br><br>
+    <ul>
+        <li>id (required) (integer)</li>
+    </ul>
+    Status:<br><br>
+<ul>
+        <li>201 - Successfull investment withdrawal</li>
+        <li>401 - Unauthorized</li>
+        <li>404 - Not Found</li>
+</ul>

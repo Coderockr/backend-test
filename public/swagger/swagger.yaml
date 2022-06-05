@@ -1,0 +1,58 @@
+swagger: '2.0'
+info:
+  description: This is the complete documentation of the API constructed for the backend tes.t
+  version: 1.0.0
+  title: Backend-Test
+basePath: /api/v1/
+
+paths:
+  /investments:
+    get:
+      tags:
+        - Investiment
+      summary: List investiments
+      description: 'List all user investiments'
+      operationId: investiment
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Bad request
+      security:
+        - api_key: [] 
+    post:
+      tags:
+        - Investiment
+      summary: Create Category
+      description: 'Create Category with this API'
+      operationId: createCategory
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: name
+          type: string
+          required: true  
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Bad request
+      security:
+        - api_key: [] 
+
+securityDefinitions:
+  api_key:
+    type: apiKey
+    name: Authorization
+    in: header
+  bearerAuth:
+    type: bearer
+    scheme: bearer
+    bearerFormat: JWT

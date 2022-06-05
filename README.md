@@ -35,7 +35,7 @@ BASE_URL = http://127.0.0.1:8000/api/v1/
         * (201) Account created
 
         * (422) Validation body parameters error
-
+        
 
 [POST] BASE_URL/logout
     Description: Logout the user and delete its token.

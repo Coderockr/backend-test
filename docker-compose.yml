@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  app:
+    container_name: app
+    restart: always
+    build: .
+    ports: 
+      - "3333:3333"
+    links:
+      - mongodb
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - ./data:/data/db
+    ports:
+      - "27017:27017"
+    restart: always

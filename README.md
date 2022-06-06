@@ -19,4 +19,3 @@ To run the integration-tests, you will need to run the database container ***doc
 ## Final Considerations
 I Enjoyed to do this test since i tried tools and stack that i like but don't use on normal days, so
 was a great experience, put me out of comfort zone, read some docs and try to make things work.
->>>>>>> development

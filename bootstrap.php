@@ -74,12 +74,12 @@ $container['em'] = $entityManager;
 /**
  * Carrega os Controllers pra dentro do Slim
  */
-foreach (glob('src/Controllers/*.php') as $filename) {
+foreach (glob('src/Controllers/*') as $filename) {
     $filename = explode('/', $filename);
     $controller = str_replace('.php', '', end($filename));
     $container[$controller] = function () use ($controller, $container) {
         $class = '\\App\\Controllers\\' . $controller;
-        return new $class($container['em'], $container['renderer']);
+        return new $class($container['em']);
     };
 }
 $app = new \Slim\App($container);

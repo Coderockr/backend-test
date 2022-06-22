@@ -8,15 +8,21 @@ namespace App\Models\Entities;
  */
 class Investment
 {
+
     /**
      * @Id @GeneratedValue @Column(type="integer")
      */
     private ?int $id = null;
 
     /**
-     * @Column(type="datetime")
+     * @Column(type="date")
      */
     private \DateTime $created;
+
+    /**
+     * @Column(type="date", nullable=true)
+     */
+    private ?\DateTime $withdrawalDate = null;
 
     /**
      * @Column(type="string")
@@ -27,6 +33,16 @@ class Investment
      * @Column(type="float")
      */
     private float $initialValue = 0;
+
+    /**
+     * @Column(type="float", nullable=true)
+     */
+    private ?float $tax = null;
+
+    /**
+     * @Column(type="float", nullable=true)
+     */
+    private ?float $profit = null;
 
 
     public function __construct()
@@ -71,5 +87,44 @@ class Investment
         $this->initialValue = $initialValue;
         return $this;
     }
+
+    public function getWithdrawalDate(): ?\DateTime
+    {
+        return $this->withdrawalDate;
+    }
+
+    public function setWithdrawalDate(?\DateTime $withdrawalDate): Investment
+    {
+        $this->withdrawalDate = $withdrawalDate;
+        return $this;
+    }
+
+    public function getTax(): ?float
+    {
+        return $this->tax;
+    }
+
+    public function setTax(?float $tax): Investment
+    {
+        $this->tax = $tax;
+        return $this;
+    }
+
+    public function getProfit(): ?float
+    {
+        return $this->profit;
+    }
+
+    public function setProfit(?float $profit): Investment
+    {
+        $this->profit = $profit;
+        return $this;
+    }
+
+    public function getWithdrawValue(): float
+    {
+        return $this->initialValue + $this->profit - $this->tax;
+    }
+
 
 }

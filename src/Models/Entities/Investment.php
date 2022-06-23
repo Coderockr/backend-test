@@ -25,9 +25,10 @@ class Investment
     private ?\DateTime $withdrawalDate = null;
 
     /**
-     * @Column(type="string")
+     * @ManyToOne(targetEntity="Client")
+     * @JoinColumn(name="client", referencedColumnName="id")
      */
-    private string $owner = '';
+    private Client $client;
 
     /**
      * @Column(type="float")
@@ -66,14 +67,14 @@ class Investment
         return $this;
     }
 
-    public function getOwner(): string
+    public function getClient(): Client
     {
-        return $this->owner;
+        return $this->client;
     }
 
-    public function setOwner(string $owner): Investment
+    public function setClient(Client $client): Investment
     {
-        $this->owner = $owner;
+        $this->client = $client;
         return $this;
     }
 

@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Helpers\Utils;
 use App\Helpers\Validator;
 use App\Models\Entities\City;
+use App\Models\Entities\Client;
 use App\Models\Entities\Country;
 use App\Models\Entities\Investment;
 use App\Models\Entities\Member;
@@ -36,7 +37,7 @@ class InvestimentController extends Controller
 
     private function calculateTaxValue(Investment $investment): float
     {
-        $profit = $this->calculateProfitValue($investment);
+        $profit = $investment->getProfit() ?? $this->calculateProfitValue($investment);
         $end = $investment->getWithdrawalDate();
         $dateInterval = $investment->getCreated()->diff($end);
         if ($dateInterval->y < 1) return $profit * 22.5 / 100;
@@ -59,10 +60,12 @@ class InvestimentController extends Controller
             $created = \DateTime::createFromFormat('d/m/Y', $data['created']);
             if ($created->format('Y-m-d') > date('Y-m-d')) throw new \Exception('A data não pode ser maior que o dia atual');
             if ((float)$data['initialValue'] < 0) throw new \Exception('Valor minimo do investimento é zero');
+            $owner = $this->em->getRepository(Client::class)->find($data['owner']);
+            if (!$owner) throw new \Exception('Cliente inválido');
             $investment = new Investment();
             $investment->setCreated($created)
                 ->setInitialValue((float)$data['initialValue'])
-                ->setOwner($data['owner']);
+                ->setClient($owner);
             $investment = $this->em->getRepository(Investment::class)->save($investment);
             $this->em->commit();
             return $response->withJson([

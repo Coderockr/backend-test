@@ -38,7 +38,7 @@ class InvestimentController extends Controller
     private function calculateTaxValue(Investment $investment): float
     {
         $profit = $investment->getProfit() ?? $this->calculateProfitValue($investment);
-        $end = $investment->getWithdrawalDate();
+        $end = $investment->getWithdrawalDate() ?? new \DateTime();
         $dateInterval = $investment->getCreated()->diff($end);
         if ($dateInterval->y < 1) return $profit * 22.5 / 100;
         elseif ($dateInterval->y < 2) return $profit * 18.5 / 100;
@@ -91,7 +91,7 @@ class InvestimentController extends Controller
             return $response->withJson([
                 'status' => 'ok',
                 'initialValue' => Utils::formatMoney($investment->getInitialValue()),
-                'profitValue' => Utils::formatMoney($this->calculateProfitValue($investment)),
+                'profitValue' => Utils::formatMoney($investment->getProfit() ?? $this->calculateProfitValue($investment)),
                 'expectedValue' => Utils::formatMoney($investment->getInitialValue() + $this->calculateProfitValue($investment)),
             ], 200)
                 ->withHeader('Content-type', 'application/json');
@@ -131,6 +131,39 @@ class InvestimentController extends Controller
                 'profitValue' => Utils::formatMoney($investment->getProfit()),
                 'taxValue' => Utils::formatMoney($investment->getTax()),
                 'withdrawValue' => Utils::formatMoney($investment->getWithdrawValue()),
+            ], 200)
+                ->withHeader('Content-type', 'application/json');
+        } catch (Exception $e) {
+            $this->em->rollback();
+            return $response->withJson([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ])->withStatus(400);
+        }
+    }
+
+    public function investimentByClient(Request $request, Response $response)
+    {
+        try {
+            $owner = $request->getAttribute('route')->getArgument('owner');
+            $client = $this->em->getRepository(Client::class)->find($owner);
+            if (!$client) throw new \Exception('Cliente inválido');
+            $page = $request->getAttribute('route')->getArgument('page');
+            $investments = $this->em->getRepository(Investment::class)->getByClient($client, $page);
+            $investmentsArray = [];
+            foreach ($investments as $investment) {
+                $investmentsArray[] = [
+                    'id' => $investment->getId(),
+                    'created' => $investment->getCreated()->format('d/m/Y'),
+                    'withdrawalDate' => $investment->getWithdrawalDate() ? $investment->getWithdrawalDate()->format('d/m/Y') : '',
+                    'initialValue' => $investment->getInitialValue(),
+                    'profitValue' => $investment->getProfit() ?? $this->calculateProfitValue($investment),
+                    'taxValue' => $investment->getTax() ?? '',
+                ];
+            }
+            return $response->withJson([
+                'status' => 'ok',
+                'investments' => $investmentsArray
             ], 200)
                 ->withHeader('Content-type', 'application/json');
         } catch (Exception $e) {

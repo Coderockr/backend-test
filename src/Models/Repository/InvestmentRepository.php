@@ -2,6 +2,7 @@
 
 namespace App\Models\Repository;
 
+use App\Models\Entities\Client;
 use App\Models\Entities\Investment;
 use Doctrine\ORM\EntityRepository;
 
@@ -14,21 +15,17 @@ class InvestmentRepository extends EntityRepository
         return $entity;
     }
 
-    public function getByCompany(Company $company, ?int $id = null)
+    public function getByClient(Client $client, int $offset, int $limit = 2)
     {
-        $where = '';
-        $params[':company'] = $company->getId();
-        if ((int)$id > 0) {
-            $params[':id'] = $id;
-            $where = ' AND u.id = :id';
-        }
-        $query = $this->getEntityManager()->createQuery(
-            "SELECT u FROM  App\Models\Entities\Client as u             
-                JOIN u.company as c
-                WHERE c.id = :company {$where}
-                ORDER BY u.name ASC");
-        $query->execute($params);
-        return $query->getResult();
+        $params[':client'] = $client->getId();
+        return $this->getEntityManager()->createQuery(
+            "SELECT i FROM  App\Models\Entities\Investment AS i
+                JOIN i.client AS c
+                WHERE c.id = :client
+                ORDER BY i.id ASC")
+            ->setMaxResults($limit)
+            ->setFirstResult($offset * $limit)
+            ->execute($params);
     }
 
 

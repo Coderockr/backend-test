@@ -19,7 +19,7 @@ use App\Models\Entities\AddressTalent;
 use App\Models\Entities\Address;
 use App\Helpers\RequireValidator;
 
-class ApiController extends Controller
+class InvestimentController extends Controller
 {
 
     private function calculateProfitValue(Investment $investment): float
@@ -44,7 +44,7 @@ class ApiController extends Controller
         else return $profit * 15 / 100;
     }
 
-    public function save(Request $request, Response $response)
+    public function createInvestiment(Request $request, Response $response)
     {
         try {
             $this->em->beginTransaction();

@@ -11,7 +11,7 @@ In this challenge you should build an API for an application that stores and man
     2. An investment should not be or become negative.
 2. __View__ of an investment with its initial amount and expected balance.
     1. Expected balance should be the sum of the invested amount and the [gains][].
-    2. If a Investment was already withdrawn then the expected balance must be calculed until the withdrawal date instead of today.
+    2. If an investment was already withdrawn then the balance must reflect the gains of that investment
 3. __Withdrawal__ of a investment.
     1. The withdraw will always be the sum of the initial amount and its gains,
        partial withdrawn is not supported.

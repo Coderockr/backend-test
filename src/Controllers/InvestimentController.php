@@ -78,7 +78,7 @@ class InvestimentController extends Controller
             return $response->withJson([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-            ])->withStatus(500);
+            ])->withStatus(400);
         }
     }
 
@@ -87,6 +87,7 @@ class InvestimentController extends Controller
         try {
             $id = $request->getAttribute('route')->getArgument('id');
             $investment = $this->em->getRepository(Investment::class)->find($id);
+            if (!$investment) throw new \Exception('Cliente inválido');
             return $response->withJson([
                 'status' => 'ok',
                 'initialValue' => Utils::formatMoney($investment->getInitialValue()),
@@ -99,7 +100,7 @@ class InvestimentController extends Controller
             return $response->withJson([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-            ])->withStatus(500);
+            ])->withStatus(400);
         }
     }
 
@@ -137,7 +138,7 @@ class InvestimentController extends Controller
             return $response->withJson([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-            ])->withStatus(500);
+            ])->withStatus(400);
         }
     }
 

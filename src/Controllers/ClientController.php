@@ -33,7 +33,7 @@ class ClientController extends Controller
             return $response->withJson([
                 'status' => 'error',
                 'message' => $e->getMessage(),
-            ])->withStatus(500);
+            ])->withStatus(400);
         }
     }
 

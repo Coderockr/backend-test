@@ -2,6 +2,9 @@
 
 Desafio para o teste de back end da **Coderockr**.
 
+**[Documentação API](https://backendtestcoderockr.docs.apiary.io/)**
+
+
 **Requisitos:**
 
 * [PHP 8.1](https://www.php.net/releases/8.1/en.php)

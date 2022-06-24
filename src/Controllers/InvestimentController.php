@@ -92,7 +92,11 @@ class InvestimentController extends Controller
                 'status' => 'ok',
                 'initialValue' => Utils::formatMoney($investment->getInitialValue()),
                 'profitValue' => Utils::formatMoney($investment->getProfit() ?? $this->calculateProfitValue($investment)),
-                'expectedValue' => Utils::formatMoney($investment->getInitialValue() + $this->calculateProfitValue($investment)),
+                'taxValue' => Utils::formatMoney($investment->getTax() ?? 0),
+                'expectedValue' => Utils::formatMoney($investment->getInitialValue()
+                    + ($investment->getProfit() ?? $this->calculateProfitValue($investment))
+                    - ($investment->getTax() ?? 0)
+                ),
             ], 200)
                 ->withHeader('Content-type', 'application/json');
         } catch (Exception $e) {

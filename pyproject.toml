@@ -9,9 +9,15 @@ python = "^3.10"
 Django = "^4.1"
 debugpy = "^1.6.2"
 psycopg2 = "^2.9.3"
+pytest = "^7.1.2"
+model-bakery = "^1.7.0"
 
 [tool.poetry.dev-dependencies]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE="coderockr.settings"
+python_files = ["test_*.py"]

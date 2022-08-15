@@ -13,6 +13,7 @@ pytest = "^7.1.2"
 model-bakery = "^1.7.0"
 djangorestframework = "^3.13.1"
 Markdown = "^3.4.1"
+drf-yasg = "^1.21.3"
 
 [tool.poetry.dev-dependencies]
 

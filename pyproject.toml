@@ -11,6 +11,8 @@ debugpy = "^1.6.2"
 psycopg2 = "^2.9.3"
 pytest = "^7.1.2"
 model-bakery = "^1.7.0"
+djangorestframework = "^3.13.1"
+Markdown = "^3.4.1"
 
 [tool.poetry.dev-dependencies]
 

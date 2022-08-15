@@ -7,6 +7,8 @@ authors = ["João Prado <joaopedro0128@hotmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 Django = "^4.1"
+debugpy = "^1.6.2"
+psycopg2 = "^2.9.3"
 
 [tool.poetry.dev-dependencies]
 

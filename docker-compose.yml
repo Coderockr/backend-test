@@ -1,0 +1,31 @@
+services:
+  app:
+    build:
+      context: .
+    entrypoint:
+     - ./docker-entrypoint.sh
+    env_file:
+      - ./.env.dev
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+      - 5678:5678
+    depends_on:
+      - db
+  db:
+    image: postgres:12.2-alpine
+    restart: unless-stopped
+    volumes:
+      - ./data/postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=coderockr
+      - POSTGRES_DB=coderockr
+      - POSTGRES_PASSWORD=coderockr
+    healthcheck:
+      test: 'pg_isready -U coderockr -d coderockr'
+      interval: 10s
+      timeout: 3s
+      retries: 3

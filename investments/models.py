@@ -8,3 +8,4 @@ class Investment(models.Model):
   amount = models.FloatField()
   active = models.BooleanField(default=True, null=False)
   created_at = models.DateTimeField()
+  withdrawn_at = models.DateTimeField(null=True)

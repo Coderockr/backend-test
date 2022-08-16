@@ -1,7 +1,7 @@
 from django.db.models import (ExpressionWrapper, FloatField, DateField,
-                              F, Case, When, Value)
+                              F, Case, When, Q)
 from django.db.models.lookups import GreaterThan
-from django.db.models.functions import ExtractMonth, Now
+from django.db.models.functions import ExtractDay, Now
 from django.conf import settings
 
 
@@ -11,13 +11,10 @@ INTEREST = settings.CODEROCKR_INTEREST
 def calculate_gain(qs):
   qs = (
     qs.alias(
-      diff_date=ExpressionWrapper(
-        Now() - F('created_at'),
-        output_field=DateField()
-      ),
-      months=ExtractMonth('diff_date'),
-    )
-    .annotate(
+      diff_date=_diff_date(),
+      days=ExtractDay('diff_date'),
+    ).annotate(
+      months=F('days')/30,
       balance=Case(
         When(
           GreaterThan(
@@ -34,7 +31,23 @@ def calculate_gain(qs):
   return qs
 
 
+def _diff_date():
+  def _diff(final_date=None):
+    if not final_date:
+      final_date = Now()
 
+    return ExpressionWrapper(
+      final_date - F('created_at'),
+      output_field=DateField()
+    )
+  
+  return Case(
+    When(
+      Q(withdrawn_at__isnull=True),
+      then=_diff()
+    ),
+    default=_diff(F('withdrawn_at'))
+  )
 
 
 def _gain_formula():

@@ -5,8 +5,8 @@ from .views import InvestmentViewSet
 
 
 router = SimpleRouter()
-router.register('', InvestmentViewSet)
+router.register("", InvestmentViewSet)
 
 urlpatterns = [
-  path('', include(router.urls)),
+    path("", include(router.urls)),
 ]

@@ -1,13 +1,14 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, FloatField
 from rest_framework.fields import CurrentUserDefault
 from .validators import NotFutureDateValidator
 from .models import Investment
 
 
 class InvestmentSerializer(ModelSerializer):
+  balance = FloatField()
   class Meta:
     model = Investment
-    fields = ('id', 'owner', 'amount', 'active', 'created_at')
+    fields = ('id', 'owner', 'amount', 'balance', 'active', 'created_at')
     extra_kwargs = {
       'active': {
         'read_only': True
@@ -29,6 +30,3 @@ class InvestmentSerializer(ModelSerializer):
       owner=self.context.get("request").user
     )
     return investment
-
-  def update(self, instance, validated_data):
-    ...

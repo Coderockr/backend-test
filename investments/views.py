@@ -1,6 +1,6 @@
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import (ListModelMixin, RetrieveModelMixin, 
-                                   DestroyModelMixin, CreateModelMixin)
+                                   CreateModelMixin)
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
@@ -9,13 +9,11 @@ from rest_framework.decorators import action
 from .models import Investment
 from .serializers import InvestmentSerializer, WithdrawalSerializer
 from .permissions import IsOwnInvestment
-from .services import interest_svc
 
 
 # Create your views here.
 class InvestmentViewSet(ListModelMixin, RetrieveModelMixin,
-                        DestroyModelMixin, CreateModelMixin,
-                        GenericViewSet):
+                        CreateModelMixin, GenericViewSet):
   queryset = Investment.objects.all()
   serializer_class = InvestmentSerializer
   permission_classes = (IsAuthenticated, IsOwnInvestment)
@@ -31,9 +29,6 @@ class InvestmentViewSet(ListModelMixin, RetrieveModelMixin,
 
   def get_queryset(self):
     qs = super().get_queryset()
-    
-    qs = interest_svc.calculate_gain(qs)
-
     return qs.filter(owner=self.request.user)
 
 
@@ -42,13 +37,21 @@ class InvestmentViewSet(ListModelMixin, RetrieveModelMixin,
     detail=True,
     serializer_class=WithdrawalSerializer
   )
-  def withdrawal(self, request, pk):
+  def withdrawn(self, request, pk):
     investment = self.get_queryset().get(pk=pk)
+
+    if not investment.active:
+      return Response(status=status.HTTP_400_BAD_REQUEST)
+
     serializer = WithdrawalSerializer(
       instance=investment,
-      data=request.POST.dict(),
+      data=request.data,
       context={'request': request}
     )
     serializer.is_valid(raise_exception=True)
-    serializer.save()
-    return Response(serializer.data)
+    investment = serializer.save()
+    
+    return Response(
+      WithdrawalSerializer().to_representation(investment),
+      status=status.HTTP_202_ACCEPTED
+    )

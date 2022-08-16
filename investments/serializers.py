@@ -5,24 +5,16 @@ from .models import Investment
 
 
 class InvestmentSerializer(serializers.ModelSerializer):
-  balance = serializers.FloatField(read_only=True)
+  balance = serializers.ReadOnlyField()
   class Meta:
     model = Investment
-    fields = ('id', 'owner', 'amount', 'balance', 'active', 'created_at', 'withdrawn_at')
+    fields = '__all__'
+    read_only_fields = ('active', 'owner', 'withdrawn_at')
     extra_kwargs = {
-      'active': {
-        'read_only': True
-      },
       'created_at': {
         'validators': [
           NotFutureDateValidator()
         ]
-      },
-      'owner': {
-        'read_only': True
-      },
-      'withdrawn_at': {
-        'read_only': True
       }
     }
 
@@ -36,9 +28,11 @@ class InvestmentSerializer(serializers.ModelSerializer):
 
 
 class WithdrawalSerializer(serializers.ModelSerializer):
+  balance = serializers.ReadOnlyField()
   class Meta:
     model = Investment
-    fields = ('withdrawn_at',)
+    fields = '__all__'
+    read_only_fields = ('id', 'owner', 'amount', 'balance', 'active', 'created_at')
     extra_kwargs = {
       'withdrawn_at': {
         'validators': [

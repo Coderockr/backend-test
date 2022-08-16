@@ -15,13 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path, include
-from rest_framework.authtoken.views import obtain_auth_token
 from . import openapi
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path(r'login/', obtain_auth_token),
     re_path(r'^swagger/$', openapi.schema_view.with_ui('swagger', cache_timeout=0),
          name='swagger-ui'),
-    path('', include('core.urls'))
+    path('investments/', include('investments.urls')),
+    path('', include('core.urls')),
 ]

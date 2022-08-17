@@ -167,6 +167,11 @@ SWAGGER_SETTINGS = {
     }
 }
 
+# Celery
+
+CELERY_BROKER_URL=os.getenv('CELERY_BROKER_URL')
+CELERY_RESULT_BACKEND=os.getenv('CELERY_RESULT_BACKEND')
+
 # Domain specific constants
 
 CODEROCKR_INTEREST = 0.0052

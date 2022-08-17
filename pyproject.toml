@@ -11,6 +11,8 @@ psycopg2 = "^2.9.3"
 djangorestframework = "^3.13.1"
 Markdown = "^3.4.1"
 drf-yasg = "^1.21.3"
+celery = "^5.2.7"
+redis = "^4.3.4"
 
 [tool.poetry.dev-dependencies]
 pytest-django = "^4.5.2"

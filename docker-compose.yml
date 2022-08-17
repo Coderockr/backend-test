@@ -1,5 +1,6 @@
 services:
   app:
+    image: joaop/coderockr
     build:
       context: .
     entrypoint:
@@ -13,6 +14,25 @@ services:
       - 5678:5678
     depends_on:
       - db
+  celery_worker:
+    build:
+      context:
+        .
+    command: |
+      wait-for-it rabbitmq:5672
+      -- wait-for-it redis:6379
+      -- bash -c
+      'python -m debugpy --listen 0.0.0.0:5679 -m celery -A coderockr worker -l INFO'
+    volumes:
+      - .:/app
+    env_file:
+      - ./.env.dev
+    ports:
+      - 5679:5679
+    depends_on:
+      - rabbitmq
+      - redis
+
   db:
     image: postgres:12.2-alpine
     restart: unless-stopped
@@ -29,3 +49,15 @@ services:
       interval: 10s
       timeout: 3s
       retries: 3
+  rabbitmq:
+    image: rabbitmq:3.10.7-alpine
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
+    ports:
+      - 5672:5672
+    environment:
+      - RABBITMQ_DEFAULT_USER=coderockr
+      - RABBITMQ_DEFAULT_PASS=coderockr
+      - RABBITMQ_DEFAULT_VHOST=coderockr
+  redis:
+    image: redis:7.0.4-alpine

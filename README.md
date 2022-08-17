@@ -25,6 +25,8 @@
 3. **django-rest-framework** - Django Framework that makes the development of Rest API easier, well structured and standardized.
 4. **Markdown** - It gives DRF a nice interface, a great alternative to the OpenAPI specs.
 5. **drf-yasg** - Is the responsible for the Swagger route, it automatically generates the specs based on the project routes.
+6. **celery** - Is a distributed task queue made to deal with lots of messages, here it is used to send emails without affecting the route response time.
+7. **redis** - Python adapter for Redis, needed by celery, who's using redis as a result backend.
 
 ### Development dependencies.
 

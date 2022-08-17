@@ -32,4 +32,8 @@ class UserViewSet(
 
     def get_queryset(self):
         qs = super().get_queryset()
+
+        if not self.request.user.id:
+            return qs.none()
+
         return qs.filter(pk=self.request.user.id)

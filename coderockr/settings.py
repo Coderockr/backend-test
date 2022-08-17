@@ -175,3 +175,9 @@ CELERY_RESULT_BACKEND=os.getenv('CELERY_RESULT_BACKEND')
 # Domain specific constants
 
 CODEROCKR_INTEREST = 0.0052
+
+# EMAIL
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST=os.getenv('MAIL_HOST', 'localhost')
+EMAIL_PORT=os.getenv('MAIL_PORT', 25)

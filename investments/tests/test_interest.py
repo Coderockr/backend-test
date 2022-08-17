@@ -68,7 +68,7 @@ def test_withdrawn_investment(db, client, create_token, user_ains):
     token = create_token(user_ains)
 
     response = client.post(
-        "/investments/1/withdrawn",
+        "/investments/1/withdrawn/",
         data=json.dumps(data),
         content_type="application/json",
         HTTP_AUTHORIZATION=token,
@@ -95,7 +95,7 @@ def test_withdrawn_investment_before_created_at(db, client, create_token, user_a
     token = create_token(user_ains)
 
     response = client.post(
-        "/investments/1/withdrawn",
+        "/investments/1/withdrawn/",
         data=json.dumps(data),
         content_type="application/json",
         HTTP_AUTHORIZATION=token,
@@ -115,7 +115,7 @@ def test_get_investment(db, client, create_token, user_ains):
     token = create_token(user_ains)
     serialized_investment = InvestmentSerializer(investment).data
 
-    response = client.get("/investments/1", HTTP_AUTHORIZATION=token)
+    response = client.get("/investments/1/", HTTP_AUTHORIZATION=token)
     response_data = response.json()
 
     assert response.status_code == status.HTTP_200_OK
@@ -123,7 +123,7 @@ def test_get_investment(db, client, create_token, user_ains):
 
 
 def test_get_investment_other_owner(db, client, create_token, user_ains):
-    investment = baker.make(
+    baker.make(
         "investments.Investment", pk=1, amount=100, created_at=now()
     )
     token = create_token(user_ains)

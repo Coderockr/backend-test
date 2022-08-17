@@ -16,8 +16,7 @@ services:
       - db
   celery_worker:
     build:
-      context:
-        .
+      context: .
     command: |
       wait-for-it rabbitmq:5672
       -- wait-for-it redis:6379

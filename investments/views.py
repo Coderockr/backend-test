@@ -1,3 +1,4 @@
+from .tasks import send_withdrawn_alert_email_task
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import (
     ListModelMixin,
@@ -42,6 +43,10 @@ class InvestmentViewSet(
 
     def get_queryset(self):
         qs = super().get_queryset()
+
+        if not self.request.user.id:
+            return qs.none()
+
         return qs.filter(owner=self.request.user)
 
     @action(
@@ -62,6 +67,8 @@ class InvestmentViewSet(
         )
         serializer.is_valid(raise_exception=True)
         investment = serializer.save()
+
+        send_withdrawn_alert_email_task.delay(investment.owner.email, investment.balance)
 
         return Response(
             WithdrawalSerializer().to_representation(investment),

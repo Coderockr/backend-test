@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "backend-test-coderockr"
+version = "0.1.0"
+description = ""
+authors = ["João Prado <joaopedro0128@hotmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Django = "^4.1"
+psycopg2 = "^2.9.3"
+djangorestframework = "^3.13.1"
+Markdown = "^3.4.1"
+drf-yasg = "^1.21.3"
+celery = "^5.2.7"
+redis = "^4.3.4"
+
+[tool.poetry.dev-dependencies]
+pytest-django = "^4.5.2"
+pytest-xdist = "^2.5.0"
+model-bakery = "^1.7.0"
+pytest = "^7.1.2"
+debugpy = "^1.6.3"
+black = "^22.6.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE="coderockr.settings"
+python_files = ["test_*.py"]
+addopts = "--reuse-db -n auto"
+
+[tool.black]
+line-length=88
+target-version=['py310']
+extend-exclude='''
+(
+  ^/manage.py
+  | ^/data/
+  | ^/coderockr/
+  | migrations
+)
+'''

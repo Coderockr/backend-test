@@ -1,3 +1,4 @@
+import decimal
 import math
 from django.conf import settings
 
@@ -5,8 +6,8 @@ from django.conf import settings
 INTEREST = settings.CODEROCKR_INTEREST
 
 
-def gain_formula(amount, months, total=False):
-    return amount * math.pow((1 + INTEREST), months)
+def gain_formula(amount, months):
+    return amount * decimal.Decimal(math.pow((1 + INTEREST), months))
 
 
 def calculate_tax(gains, age):
@@ -20,4 +21,4 @@ def calculate_tax(gains, age):
 
 
 def _apply_tax(gains, tax):
-    return gains - (gains * tax / 100)
+    return gains - (gains * decimal.Decimal(tax) / 100)

@@ -8,7 +8,7 @@ from .utils import diff_month
 # Create your models here.
 class Investment(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    amount = models.FloatField()
+    amount = models.DecimalField(max_digits=11, decimal_places=2)
     active = models.BooleanField(default=True, null=False)
     created_at = models.DateTimeField()
     withdrawn_at = models.DateTimeField(null=True)

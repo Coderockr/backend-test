@@ -6,7 +6,7 @@ from .models import Investment
 
 
 class InvestmentSerializer(serializers.ModelSerializer):
-    balance = serializers.ReadOnlyField()
+    balance = serializers.DecimalField(max_digits=11, decimal_places=2, read_only=True)
 
     class Meta:
         model = Investment
@@ -24,7 +24,7 @@ class InvestmentSerializer(serializers.ModelSerializer):
 
 
 class WithdrawalSerializer(serializers.ModelSerializer):
-    balance = serializers.ReadOnlyField()
+    balance = serializers.DecimalField(max_digits=11, decimal_places=2, read_only=True)
 
     class Meta:
         model = Investment

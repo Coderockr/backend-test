@@ -10,7 +10,7 @@
 6. Create a user in the users_create route.
 7. Create and copy the token in the login_create route.
 8. Click in the "Authorize 🔒" button.
-9. Enter "Token " + your token and then in "Authorize" button.
+9. Enter "Token {token}" then press the "Authorize" button.
 10. Now you're ready to interact with the API.
 
 ### Extra instructions.
@@ -18,21 +18,22 @@
 * Run `docker-compose exec app pytest` to run the integration tests.
 * Run `docker-compose exec app black .` to run the black linter.
 
-## Dependencies and theirs "why's".
+## Dependencies and their "why's".
 
-1. Django - Python "batteries-included" web-framework, was one of the requirements for the role.
-2. psycopg2 - Python adapter for PostgreSQL (The best OS database option).
-3. django-rest-framework - Django Framework that makes the development of Rest API easier, well structured and standardized.
-4. Markdown - It gives DRF a nice interface, a great alternative to the OpenAPI specs.
-5. drf-yasg - Is the responsible for the Swagger route, it automatically generates the specs based on the project routes.
+1. **Django** - Python "batteries-included" web-framework, was one of the requirements for the role.
+2. **psycopg2** - Python adapter for PostgreSQL (The best OS database option).
+3. **django-rest-framework** - Django Framework that makes the development of Rest API easier, well structured and standardized.
+4. **Markdown** - It gives DRF a nice interface, a great alternative to the OpenAPI specs.
+5. **drf-yasg** - Is the responsible for the Swagger route, it automatically generates the specs based on the project routes.
 
 ### Development dependencies.
 
-1. pytest - Python testing lib.
-2. pytest-django - Pytest adapter is a plugin for Django.
-3. model-bakery - Its a utility function to mock database models.
-4. debugpy - Service that allows debugging python remotely.
-5. black - Python linter, to enforce coding style, it has a "zero configuration" police, I have chosen it just for being easier and faster to setup, flake8 is better.
+1. **pytest** - Python testing lib.
+2. **pytest-django** - Pytest adapter is a plugin for Django.
+3. **model-bakery** - Its a utility function to mock database models.
+4. **debugpy** - Service that allows debugging python remotely.
+5. **black** - Python linter, to enforce coding style, it has a "zero configuration" police, I have chosen it just for being easier and faster to setup, flake8 is better.
+6. **pytest-xdist** - Pytest plugin for multithreading. The `-n auto` option makes it use the available amount.
 
 ## Requirements.
 

@@ -4,7 +4,7 @@ from rest_framework.routers import SimpleRouter
 from .views import InvestmentViewSet
 
 
-router = SimpleRouter()
+router = SimpleRouter(trailing_slash=False)
 router.register("", InvestmentViewSet)
 
 urlpatterns = [

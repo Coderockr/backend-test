@@ -60,15 +60,15 @@ def test_withdrawn_investment(db, client, create_token, user_ains):
         "investments.Investment",
         pk=1,
         amount=100,
-        created_at=now(),
+        created_at=now() - timedelta(days=365),
         owner=user_ains,
     )
-    withdrawn_at = now() + timedelta(days=365)  # 12 meses
+    withdrawn_at = now()
     data = {"withdrawn_at": withdrawn_at.isoformat()}
     token = create_token(user_ains)
 
     response = client.post(
-        "/investments/1/withdrawn/",
+        "/investments/1/withdrawn",
         data=json.dumps(data),
         content_type="application/json",
         HTTP_AUTHORIZATION=token,
@@ -76,13 +76,13 @@ def test_withdrawn_investment(db, client, create_token, user_ains):
     response_data = response.json()
 
     expected_gain = interest_svc.gain_formula(100, 12)
-    expected_gain_with_taxes = interest_svc._apply_tax(expected_gain, 18.5)
+    expected_gain_with_taxes = interest_svc._apply_tax(expected_gain - 100, 18.5)
 
     assert response.status_code == status.HTTP_202_ACCEPTED
     assert response_data["balance"] == expected_gain_with_taxes
 
 
-def test_withdrawn_investment_past_date(db, client, create_token, user_ains):
+def test_withdrawn_investment_before_created_at(db, client, create_token, user_ains):
     baker.make(
         "investments.Investment",
         pk=1,
@@ -95,7 +95,7 @@ def test_withdrawn_investment_past_date(db, client, create_token, user_ains):
     token = create_token(user_ains)
 
     response = client.post(
-        "/investments/1/withdrawn/",
+        "/investments/1/withdrawn",
         data=json.dumps(data),
         content_type="application/json",
         HTTP_AUTHORIZATION=token,
@@ -115,7 +115,7 @@ def test_get_investment(db, client, create_token, user_ains):
     token = create_token(user_ains)
     serialized_investment = InvestmentSerializer(investment).data
 
-    response = client.get("/investments/1/", HTTP_AUTHORIZATION=token)
+    response = client.get("/investments/1", HTTP_AUTHORIZATION=token)
     response_data = response.json()
 
     assert response.status_code == status.HTTP_200_OK

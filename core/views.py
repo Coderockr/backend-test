@@ -27,8 +27,7 @@ class UserViewSet(
     def whoami(self, request):
         if not request.user.id:
             return Response()
-        serializer = self.get_serializer(data=request.user)
-        serializer.is_valid(raise_exception=True)
+        serializer = self.get_serializer(instance=request.user)
         return Response(serializer.data)
 
     def get_queryset(self):

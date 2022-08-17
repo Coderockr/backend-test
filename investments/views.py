@@ -4,10 +4,11 @@ from rest_framework.mixins import (
     RetrieveModelMixin,
     CreateModelMixin,
 )
-from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
+from rest_framework.pagination import LimitOffsetPagination
 
 from .models import Investment
 from .serializers import InvestmentSerializer, WithdrawalSerializer
@@ -24,6 +25,7 @@ class InvestmentViewSet(
     queryset = Investment.objects.all()
     serializer_class = InvestmentSerializer
     permission_classes = (IsAuthenticated, IsOwnInvestment)
+    pagination_class = LimitOffsetPagination
 
     def create(self, request):
         serializer = self.get_serializer(

@@ -4,7 +4,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from .views import UserViewSet
 
 
-router = SimpleRouter()
+router = SimpleRouter(trailing_slash=False)
 router.register("users", UserViewSet)
 
 urlpatterns = [

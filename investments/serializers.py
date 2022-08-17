@@ -1,6 +1,7 @@
 from dataclasses import fields
 from rest_framework import serializers
-from .validators import FutureDateValidator, NotFutureDateValidator
+from rest_framework.validators import ValidationError
+from .validators import NotFutureDateValidator
 from .models import Investment
 
 
@@ -37,8 +38,20 @@ class WithdrawalSerializer(serializers.ModelSerializer):
             "created_at",
         )
         extra_kwargs = {
-            "withdrawn_at": {"validators": [FutureDateValidator()]},
+            "withdrawn_at": {"validators": [NotFutureDateValidator()]},
         }
+
+    def is_valid(self, raise_exception=False):
+        valid = super().is_valid(raise_exception)
+        if raise_exception:
+            if self.instance.created_at > self.validated_data["withdrawn_at"]:
+                valid = False
+                raise ValidationError(
+                    {
+                        "detail": "Withdrawn date must not be older than when investment was created."
+                    }
+                )
+        return valid
 
     def save(self, **kwargs):
         self.instance.active = False

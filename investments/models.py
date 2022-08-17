@@ -17,9 +17,13 @@ class Investment(models.Model):
     def balance(self):
         start_date = self.withdrawn_at if self.withdrawn_at else now()
         age = diff_month(start_date, self.created_at)
+        
+        if age == 0:
+            return self.amount if self.active else 0
+        
         gains = interest_svc.gain_formula(self.amount, age)
 
         if self.active:
             return gains
 
-        return interest_svc.calculate_tax(gains - self.amount, age)
+        return interest_svc.calculate_tax(gains - self.amount, age) if gains else 0

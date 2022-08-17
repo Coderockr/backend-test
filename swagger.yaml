@@ -1,0 +1,328 @@
+swagger: '2.0'
+info:
+  title: Investments API
+  license:
+    name: MIT License
+  version: v1
+host: localhost:8000
+schemes:
+  - http
+basePath: /
+consumes:
+  - application/json
+produces:
+  - application/json
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+security:
+  - Bearer: []
+paths:
+  /investments/:
+    get:
+      operationId: investments_list
+      description: ''
+      parameters:
+        - name: limit
+          in: query
+          description: Number of results to return per page.
+          required: false
+          type: integer
+        - name: offset
+          in: query
+          description: The initial index from which to return the results.
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            required:
+              - count
+              - results
+            type: object
+            properties:
+              count:
+                type: integer
+              next:
+                type: string
+                format: uri
+                x-nullable: true
+              previous:
+                type: string
+                format: uri
+                x-nullable: true
+              results:
+                type: array
+                items:
+                  $ref: '#/definitions/Investment'
+      tags:
+        - investments
+    post:
+      operationId: investments_create
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Investment'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Investment'
+      tags:
+        - investments
+    parameters: []
+  /investments/{id}:
+    get:
+      operationId: investments_read
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Investment'
+      tags:
+        - investments
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this investment.
+        required: true
+        type: integer
+  /investments/{id}/withdrawn:
+    post:
+      operationId: investments_withdrawn
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/Withdrawal'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/Withdrawal'
+      tags:
+        - investments
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this investment.
+        required: true
+        type: integer
+  /login/:
+    post:
+      operationId: login_create
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/AuthToken'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/AuthToken'
+      tags:
+        - login
+    parameters: []
+  /users:
+    post:
+      operationId: users_create
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '201':
+          description: ''
+          schema:
+            $ref: '#/definitions/User'
+      tags:
+        - users
+    parameters: []
+  /users/whoami:
+    get:
+      operationId: users_whoami
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/User'
+      tags:
+        - users
+    parameters: []
+  /users/{id}:
+    put:
+      operationId: users_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/User'
+      tags:
+        - users
+    patch:
+      operationId: users_partial_update
+      description: ''
+      parameters:
+        - name: data
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/User'
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/User'
+      tags:
+        - users
+    delete:
+      operationId: users_delete
+      description: ''
+      parameters: []
+      responses:
+        '204':
+          description: ''
+      tags:
+        - users
+    parameters:
+      - name: id
+        in: path
+        description: A unique integer value identifying this user.
+        required: true
+        type: integer
+definitions:
+  Investment:
+    required:
+      - amount
+      - created_at
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      balance:
+        title: Balance
+        type: string
+        readOnly: true
+      amount:
+        title: Amount
+        type: number
+      active:
+        title: Active
+        type: boolean
+        readOnly: true
+      created_at:
+        title: Created at
+        type: string
+        format: date-time
+      withdrawn_at:
+        title: Withdrawn at
+        type: string
+        format: date-time
+        readOnly: true
+        x-nullable: true
+      owner:
+        title: Owner
+        type: integer
+        readOnly: true
+  Withdrawal:
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      balance:
+        title: Balance
+        type: string
+        readOnly: true
+      amount:
+        title: Amount
+        type: number
+        readOnly: true
+      active:
+        title: Active
+        type: boolean
+        readOnly: true
+      created_at:
+        title: Created at
+        type: string
+        format: date-time
+        readOnly: true
+      withdrawn_at:
+        title: Withdrawn at
+        type: string
+        format: date-time
+        x-nullable: true
+      owner:
+        title: Owner
+        type: integer
+        readOnly: true
+  AuthToken:
+    required:
+      - username
+      - password
+    type: object
+    properties:
+      username:
+        title: Username
+        type: string
+        minLength: 1
+      password:
+        title: Password
+        type: string
+        minLength: 1
+      token:
+        title: Token
+        type: string
+        readOnly: true
+        minLength: 1
+  User:
+    required:
+      - email
+      - password
+    type: object
+    properties:
+      id:
+        title: ID
+        type: integer
+        readOnly: true
+      email:
+        title: Email address
+        type: string
+        format: email
+        maxLength: 254
+        minLength: 1
+      password:
+        title: Password
+        type: string
+        maxLength: 128
+        minLength: 1

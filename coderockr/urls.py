@@ -18,9 +18,17 @@ from django.urls import path, re_path, include
 from . import openapi
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    re_path(r'^swagger/$', openapi.schema_view.with_ui('swagger', cache_timeout=0),
-         name='swagger-ui'),
-    path('investments/', include('investments.urls')),
-    path('', include('core.urls')),
+    path("admin/", admin.site.urls),
+    re_path(
+        r"^swagger/$",
+        openapi.schema_view.with_ui("swagger", cache_timeout=0),
+        name="swagger-ui",
+    ),
+    re_path(
+        r"^swagger(?P<format>\.json|\.yaml)$",
+        openapi.schema_view.without_ui(cache_timeout=0),
+        name="schema-json",
+    ),
+    path("investments/", include("investments.urls")),
+    path("", include("core.urls")),
 ]

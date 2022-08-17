@@ -81,8 +81,8 @@ WSGI_APPLICATION = 'coderockr.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),
+        'ENGINE': os.getenv('DB_DRIVER', 'django.db.backends.sqlite3'),
+        'NAME': os.getenv('DB_NAME', 'test'),
         'USER': os.getenv('DB_USER'),
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST'),

@@ -6,7 +6,7 @@ INTEREST = settings.CODEROCKR_INTEREST
 
 
 def gain_formula(amount, months, total=False):
-    return amount * math.pow((1 + INTEREST/months), months)
+    return amount * math.pow((1 + INTEREST / months), months)
 
 
 def calculate_tax(gains, age):

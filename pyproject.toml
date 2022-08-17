@@ -27,7 +27,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE="coderockr.settings"
 python_files = ["test_*.py"]
-addopts = "--reuse-db"
+addopts = "--reuse-db -n auto"
 
 [tool.black]
 line-length=88

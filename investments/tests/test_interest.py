@@ -9,7 +9,7 @@ from ..services import interest_svc
 
 
 def test_create_investment(db, client, create_token, user_ains):
-    data = {"amount": 100, "created_at": now().isoformat()}
+    data = {"amount": "100.00", "created_at": now().isoformat()}
     token = create_token(user_ains)
 
     response = client.post(
@@ -26,7 +26,7 @@ def test_create_investment(db, client, create_token, user_ains):
 
 def test_create_investment_future_date(db, client, create_token, user_ains):
     created_at = now() + timedelta(days=5)
-    data = {"amount": 100, "created_at": created_at.isoformat()}
+    data = {"amount": "100.00", "created_at": created_at.isoformat()}
     token = create_token(user_ains)
 
     response = client.post(
@@ -41,7 +41,7 @@ def test_create_investment_future_date(db, client, create_token, user_ains):
 
 def test_create_investment_past_date(db, client, create_token, user_ains):
     created_at = now() - timedelta(days=5)
-    data = {"amount": 100, "created_at": created_at.isoformat()}
+    data = {"amount": "100.00", "created_at": created_at.isoformat()}
     token = create_token(user_ains)
 
     response = client.post(
@@ -81,7 +81,7 @@ def test_withdrawn_investment(db, client, create_token, user_ains):
     expected_gain_with_taxes = interest_svc._apply_tax(expected_gain - 100, 18.5)
 
     assert response.status_code == status.HTTP_202_ACCEPTED
-    assert response_data["balance"] == expected_gain_with_taxes
+    assert response_data["balance"] == f"{expected_gain_with_taxes:.2f}"
 
 
 def test_withdrawn_investment_before_created_at(db, client, create_token, user_ains):

@@ -68,7 +68,9 @@ class InvestmentViewSet(
         serializer.is_valid(raise_exception=True)
         investment = serializer.save()
 
-        send_withdrawn_alert_email_task.delay(investment.owner.email, investment.balance)
+        send_withdrawn_alert_email_task.delay(
+            investment.owner.email, investment.balance
+        )
 
         return Response(
             WithdrawalSerializer().to_representation(investment),

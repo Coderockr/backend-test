@@ -2,6 +2,7 @@ import json
 from django.utils.timezone import now, timedelta
 from model_bakery import baker
 from rest_framework import status
+from unittest.mock import patch
 
 from ..serializers import InvestmentSerializer
 from ..services import interest_svc
@@ -67,12 +68,13 @@ def test_withdrawn_investment(db, client, create_token, user_ains):
     data = {"withdrawn_at": withdrawn_at.isoformat()}
     token = create_token(user_ains)
 
-    response = client.post(
-        "/investments/1/withdrawn/",
-        data=json.dumps(data),
-        content_type="application/json",
-        HTTP_AUTHORIZATION=token,
-    )
+    with patch("investments.views.send_withdrawn_alert_email_task.delay") as mock_task:
+        response = client.post(
+            "/investments/1/withdrawn/",
+            data=json.dumps(data),
+            content_type="application/json",
+            HTTP_AUTHORIZATION=token,
+        )
     response_data = response.json()
 
     expected_gain = interest_svc.gain_formula(100, 12)
@@ -123,9 +125,7 @@ def test_get_investment(db, client, create_token, user_ains):
 
 
 def test_get_investment_other_owner(db, client, create_token, user_ains):
-    baker.make(
-        "investments.Investment", pk=1, amount=100, created_at=now()
-    )
+    baker.make("investments.Investment", pk=1, amount=100, created_at=now())
     token = create_token(user_ains)
 
     response = client.get("/investments/1/", HTTP_AUTHORIZATION=token)

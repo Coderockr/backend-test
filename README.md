@@ -55,7 +55,7 @@
 
 ### Gain Calculation
 
-Formula used: Final amount = Initial amount * (1 + interest / months) ^ months
+Formula used: Final amount = Initial amount * (1 + interest) ^ months
 
 ### Taxation
 

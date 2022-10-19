@@ -1,23 +1,22 @@
+from investments.serializers import InvestmentSerializer
 from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from persons.models import Person
 from persons.serializers import UserSerializer
-from investments.serializers import InvestmentSerializer
 
 
 class UserViewSet(
     mixins.CreateModelMixin,
     mixins.RetrieveModelMixin,
-    mixins.UpdateModelMixin,
     mixins.ListModelMixin,
     viewsets.GenericViewSet):
     queryset = Person.objects.all()
     serializer_class = UserSerializer
 
     @action(detail=True, methods=['get'])
-    def investments(self, request, pk=None):
+    def investments(self, request, pk=None, *args, **kwargs):
         person = self.get_object()
         page = self.paginate_queryset(person.investments.all())
         if page is not None:

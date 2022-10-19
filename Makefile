@@ -14,7 +14,6 @@ run:
 	docker-compose logs -f
 down: 
 	docker-compose down --remove-orphans --volumes
-migrate:
-	docker exec -it servi_app bash -c "python manage.py migrate"
+	
 terminal:
 	docker exec -it servi_app bash

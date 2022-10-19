@@ -33,7 +33,7 @@ class InvestmentSerializer(serializers.ModelSerializer):
         df['nb_months'] = ((df.date1 - df.date2)/np.timedelta64(1, 'M'))
         df['nb_months'] = df['nb_months'].astype(int)
         
-        return df['nb_months']
+        return df['nb_months'].item()
         
     def get_expected_balance(self, investment):
         nb_months = self.calculate_number_of_months(investment)
@@ -44,10 +44,9 @@ class InvestmentSerializer(serializers.ModelSerializer):
 
     def get_withdrawn_balance(self, investment):
         expected_balance = self.get_expected_balance(investment)
-        nb_months_series = self.calculate_number_of_months(investment)
+        nb_months = self.calculate_number_of_months(investment)
         initial_amount = investment.initial_amount
         profit = expected_balance - initial_amount        
-        nb_months = nb_months_series.item()
         if nb_months < 12:
             return round(float((profit * 0.775) + initial_amount), 2)
         elif nb_months >= 12 and nb_months < 24:

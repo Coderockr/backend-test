@@ -94,6 +94,6 @@ NumPy arrays are faster and more compact than Python lists. An array consumes le
 
 Pandas is an open-source Python library designed to deal with data analysis and data manipulation. It is built on top of **NumPy** and it has several functions for cleaning, analyzing, and manipulating data, which can help you extract valuable insights about your data set. **In this case it was used to prepare the dates for later calculations.**
 
-### postgre 
+### PostgreSQL
 
 PostgreSQL comes with many features aimed to help developers build applications, administrators to protect data integrity and build fault-tolerant environments, and help you manage your data no matter how big or small the dataset. In addition to being free and open source, PostgreSQL is highly extensible.

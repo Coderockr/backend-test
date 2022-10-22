@@ -22,9 +22,23 @@ Access http://localhost:8080 and you will see the service running.
 
 ### Without Docker
 
-You need to have `Python 3.9^` installed on your machine. for that check the proprietary download [Link](https://www.python.org/downloads/)
+You need to have `Python 3.10^` installed on your machine. for that check the proprietary download [Link](https://www.python.org/downloads/)
 
-Then you should copy the data from `.env.example` to `.env`.
+You need to have `PostgreSQL` installed on your machine. for that check the proprietary download [Link](https://www.postgresql.org/download/)
+
+Then you should copy the data from `.env.example` to `.env`, it is necessary to put the **PASSWORD** and the **PORT** chosen in postgreSQL to `.env` file.
+
+To create the `Venv` file run:
+
+```
+python -m venv venv
+```
+
+To activate `VirtualEnv` run:
+
+```
+./venv/scripts/activate
+```
 
 To install `Poetry` run:
 

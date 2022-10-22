@@ -14,22 +14,24 @@ class InvestmentViewSet(
     mixins.RetrieveModelMixin,
     mixins.ListModelMixin,
     viewsets.GenericViewSet):
-    queryset = Investment.objects.all()
+    queryset = Investment.objects.all().order_by('-id')
     serializer_class = InvestmentSerializer
 
     def create(self, request):
         serializer = self.get_serializer(data=request.data)
         
         # valid creation date
-        creation_date = datetime.strptime(request.data['creation_date'], '%Y-%m-%d')
+        if request.data.get('creation_date') is None:
+            return Response('The creation date is mandatory.', status=status.HTTP_400_BAD_REQUEST)
+        creation_date = datetime.strptime(request.data.get('creation_date'), '%Y-%m-%d')
         now = datetime.today()
         diff = (now - creation_date).days
         if(diff < 0):
             return Response('The creation date of an investment can be today or a date in the past.', status=status.HTTP_400_BAD_REQUEST)
         
         #valid amout
-        initial_amount = request.data['initial_amount']
-        if(initial_amount < 0):
+        initial_amount = request.data.get('initial_amount')
+        if(int(initial_amount) < 0):
             return Response('The initial amount needs to be positive.', status=status.HTTP_400_BAD_REQUEST)
         
         serializer.is_valid(raise_exception=True)
@@ -39,21 +41,19 @@ class InvestmentViewSet(
 
 
 class WithdrawnViewSet(mixins.UpdateModelMixin,viewsets.GenericViewSet):
-    queryset = Investment.objects.all()
+    queryset = Investment.objects.all().order_by('-id')
     serializer_class = WithdrawnSerializer
     
     def send_email_on_withdrawn(self, investment,serializer):
         initial_amount = investment.initial_amount
         withdrawn_balance = serializer.get_withdrawn_balance(investment)
         name = investment.owner.name
-        print(withdrawn_balance)
         email = send_mail(
             'You have a new investment',
             f'Hi {name}, \n\nYour investment has been withdrawn. The initial investment amount was {initial_amount} and the amount withdrawn was {withdrawn_balance}. \nThank you for the trust, have a great day',
             'investmentscoderockr@outlook.com',
             [investment.owner.email],
         )
-        print(email)
 
     @action(detail=True, methods=['put'])        
     def withdrawn(self, request, pk=None):
@@ -67,8 +67,8 @@ class WithdrawnViewSet(mixins.UpdateModelMixin,viewsets.GenericViewSet):
         diff_creation_date_withdrawn_date = (withdrawn_date - creation_date).days
         if(diff_now_withdrawn_date < 0 or diff_creation_date_withdrawn_date < 0):
             return Response('Withdrawals can happen in the past or today, but cannot happen before the investment creation or the future.', status=status.HTTP_400_BAD_REQUEST)
-        # elif investments.active == False:
-        #     return Response('The withdrawal of this investment has already been made.', status=status.HTTP_400_BAD_REQUEST)
+        elif investments.active == False:
+            return Response('The withdrawal of this investment has already been made.', status=status.HTTP_400_BAD_REQUEST)
         serializer.is_valid(raise_exception=True)
         investments.active = False
         self.send_email_on_withdrawn(investments, serializer)

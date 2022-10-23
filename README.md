@@ -1,6 +1,6 @@
 # Coderockr Investments API
 
-An API for an application that stores and manages people and their investments.
+An API for an application that stores and manages people and their investments, and send emails whenever an investment is created or withdrawal.
 
 ## Initializing
 
@@ -8,7 +8,7 @@ An API for an application that stores and manages people and their investments.
 
 You need to have `docker` and `docker-compose` installed on your machine. for that check the proprietary documentation links: [Docker](https://docs.docker.com/engine/install/) e [Docker-compose](https://docs.docker.com/compose/install/), in that order.
 
-Then you should copy the data from `.env.example` to `.env`.
+Then you should copy the data from `.env.example` to `.env`, you need to choose a **PASSWORD** and a **PORT** in the `.env` file. With docker the **HOST** must be `host.docker.internal`
 
 To install all packages and dependencies, run:
 
@@ -26,7 +26,7 @@ You need to have `Python 3.10^` installed on your machine. for that check the pr
 
 You need to have `PostgreSQL` installed on your machine. for that check the proprietary download [Link](https://www.postgresql.org/download/)
 
-Then you should copy the data from `.env.example` to `.env`, it is necessary to put the **PASSWORD** and the **PORT** chosen in postgreSQL to `.env` file.
+Then you should copy the data from `.env.example` to `.env`, it is necessary to put the **PASSWORD** and the **PORT** chosen in postgreSQL to `.env` file. Without docker the **HOST** must be `localhost`
 
 To create the `Venv` file run:
 
@@ -67,15 +67,34 @@ Finally, run the server:
 poetry run python ./app/manage.py runserver
 ```
 
+Access http://localhost:8000 and you will see the service running.
+
+## Running Unit Tests
+
+First you need to initialize the app `Without Docker`.
+
+Then go to the `app` folder:
+```
+cd app
+```
+
+Finally run:
+```
+poetry run pytest
+```
 
 ## Link to the API documentation
 
 **There are 2 different documentations**
 `Swagger:`
-    - With Swagger it's possible to test the endpoints directly from this documentation, it makes testing a lot easier. Access the link **http://localhost:8080**
+    - With Swagger it's possible to test the endpoints directly from this documentation, it makes testing a lot easier. If you're running in **docker**, access the link **http://localhost:8080**. 
+    **Without Docker**, access the link **http://localhost:8000**
 
 `Redoc:`
-    - Redoc is user-friendly and perfect to use on a daily basis and facilitate API absorption. Access the link **http://localhost:8080/redoc**
+    - Redoc is user-friendly and perfect to use on a daily basis and facilitate API absorption. If you're running in **docker**, access the link **http://localhost:8080/redoc**. 
+    **Without Docker**, access the link **http://localhost:8000/redoc** 
+
+
 
 ## List of third-party libraries used
 

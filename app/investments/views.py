@@ -19,6 +19,12 @@ class InvestmentViewSet(
 
     def create(self, request):
         serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+        try:
+            datetime.strptime(request.data.get('creation_date'), '%Y-%m-%d')
+        except:
+            return Response('Please, enter a correct date. Ex: 2022-10-22', status=status.HTTP_400_BAD_REQUEST)
         
         # valid creation date
         if request.data.get('creation_date') is None:
@@ -34,7 +40,6 @@ class InvestmentViewSet(
         if(int(initial_amount) < 0):
             return Response('The initial amount needs to be positive.', status=status.HTTP_400_BAD_REQUEST)
         
-        serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
@@ -57,18 +62,21 @@ class WithdrawnViewSet(mixins.UpdateModelMixin,viewsets.GenericViewSet):
 
     @action(detail=True, methods=['put'])        
     def withdrawn(self, request, pk=None):
+        try:
+            datetime.strptime(request.data['withdrawn_date'], '%Y-%m-%d')
+        except:
+            return Response('Please, enter a correct date. Ex: 2022-10-22', status=status.HTTP_400_BAD_REQUEST)
         investments = self.get_object()
         serializer = WithdrawnSerializer(investments, data=request.data)
-        
         withdrawn_date = datetime.strptime(request.data['withdrawn_date'], '%Y-%m-%d')
         creation_date = datetime.strptime(str(investments.creation_date), '%Y-%m-%d')
         now = datetime.today()
         diff_now_withdrawn_date = (now - withdrawn_date).days
-        diff_creation_date_withdrawn_date = (withdrawn_date - creation_date).days
-        if(diff_now_withdrawn_date < 0 or diff_creation_date_withdrawn_date < 0):
-            return Response('Withdrawals can happen in the past or today, but cannot happen before the investment creation or the future.', status=status.HTTP_400_BAD_REQUEST)
-        elif investments.active == False:
+        diff_creation_date_withdrawn_date =  (withdrawn_date - creation_date).days
+        if investments.active == False:
             return Response('The withdrawal of this investment has already been made.', status=status.HTTP_400_BAD_REQUEST)
+        elif(diff_now_withdrawn_date < 0 or diff_creation_date_withdrawn_date < 0):
+            return Response('Withdrawals can happen in the past or today, but cannot happen before the investment creation or the future.', status=status.HTTP_400_BAD_REQUEST)
         serializer.is_valid(raise_exception=True)
         investments.active = False
         self.send_email_on_withdrawn(investments, serializer)

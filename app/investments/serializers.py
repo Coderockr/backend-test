@@ -1,9 +1,11 @@
 from datetime import datetime
+
 import numpy as np
 import pandas as pd
 from rest_framework import serializers
 
 from investments.models import Investment
+
 
 class InvestmentSerializer(serializers.ModelSerializer):
     expected_balance = serializers.SerializerMethodField()

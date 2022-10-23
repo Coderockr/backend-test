@@ -1,7 +1,7 @@
 from django.db import models
 
 class Person(models.Model):
-    name = models.CharField(max_length=256, blank=True)
+    name = models.CharField(max_length=256)
     email = models.EmailField('Email Adress', unique=True)
 
     def __str__(self):

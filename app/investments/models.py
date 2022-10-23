@@ -35,4 +35,3 @@ def send_mail_on_create(sender, instance=None, created=False, **kwargs):
             'investmentscoderockr@outlook.com',
             [instance.owner.email],
         )
-        print(email)

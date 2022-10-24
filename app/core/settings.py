@@ -14,7 +14,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(dotenv_path=".env")
 
 # .Env Variables
 POSTGRES_NAME = os.getenv("POSTGRES_NAME")
@@ -151,7 +151,6 @@ USE_TZ = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-
         'NAME': POSTGRES_NAME,
         'USER': POSTGRES_USER,
         'PASSWORD': POSTGRES_PASSWORD,

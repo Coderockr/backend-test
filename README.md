@@ -1,88 +1,132 @@
-# Back End Test Project <img src="https://coderockr.com/assets/images/coderockr.svg" align="right" height="50px" />
+# Coderockr Investments API
 
-You should see this challenge as an opportunity to create an application following modern development best practices (given the stack of your choice), but also feel free to use your own architecture preferences (coding standards, code organization, third-party libraries, etc). It’s perfectly fine to use vanilla code or any framework or libraries.
+An API for an application that stores and manages people and their investments, and send emails whenever an investment is created or withdrawal.
 
-## Scope
+## Initializing
 
-In this challenge you should build an API for an application that stores and manages investments, it should have the following features:
+### With Docker
 
-1. __Creation__ of an investment with an owner, a creation date and an amount.
-    1. The creation date of an investment can be today or a date in the past.
-    2. An investment should not be or become negative.
-2. __View__ of an investment with its initial amount and expected balance.
-    1. Expected balance should be the sum of the invested amount and the [gains][].
-    2. If an investment was already withdrawn then the balance must reflect the gains of that investment
-3. __Withdrawal__ of a investment.
-    1. The withdraw will always be the sum of the initial amount and its gains,
-       partial withdrawn is not supported.
-    2. Withdrawals can happen in the past or today, but can't happen before the investment creation or the future.
-    3. [Taxes][taxes] need to be applied to the withdrawals before showing the final value.
-4. __List__ of a person's investments
-    1. This list should have pagination.
+You need to have `docker` and `docker-compose` installed on your machine. for that check the proprietary documentation links: [Docker](https://docs.docker.com/engine/install/) e [Docker-compose](https://docs.docker.com/compose/install/), in that order.
 
-__NOTE:__ the implementation of an interface will not be evaluated.
+Then you should copy the data from `.env.example` to `.env`, you need to choose a **PASSWORD** and a **PORT** in the `.env` file. With docker the **HOST** must be `host.docker.internal`
 
-### Gain Calculation
+To install all packages and dependencies, run:
 
-The investment will pay 0.52% every month in the same day of the investment creation.
+```
+make build
+```
 
-Given that the gain is paid every month, it should be treated as [compound gain][], which means that every new period (month) the amount gained will become part of the investment balance for the next payment.
+Or, if you're using windows open the `Makefile` file and run the `build` block, line by line. To know more[leia](makefile).
 
-### Taxation
+Access http://localhost:8080 and you will see the service running.
 
-When money is withdrawn, tax is triggered. Taxes apply only to the profit/gain portion of the money withdrawn. For example, if the initial investment was 1000.00, the current balance is 1200.00, then the taxes will be applied to the 200.00.
+### Without Docker
 
-The tax percentage changes according to the age of the investment:
-* If it is less than one year old, the percentage will be 22.5% (tax = 45.00).
-* If it is between one and two years old, the percentage will be 18.5% (tax = 37.00).
-* If older than two years, the percentage will be 15% (tax = 30.00).
+You need to have `Python 3.10^` installed on your machine. for that check the proprietary download [Link](https://www.python.org/downloads/)
 
-## Requirements
-1. Create project using any technology of your preference. It’s perfectly OK to use vanilla code or any framework or libraries;
-2. Although you can use as many dependencies as you want, you should manage them wisely;
-3. It is not necessary to send the notification emails, however, the code required for that would be welcome;
-4. The API must be documented in some way.
+You need to have `PostgreSQL` installed on your machine. for that check the proprietary download [Link](https://www.postgresql.org/download/)
 
-## Deliverables
-The project source code and dependencies should be made available in GitHub. Here are the steps you should follow:
-1. Fork this repository to your GitHub account (create an account if you don't have one, you will need it working with us).
-2. Create a "development" branch and commit the code to it. Do not push the code to the main branch.
-3. Include a README file that describes:
-    - Special build instructions, if any
-    - List of third-party libraries used and short description of why/how they were used
-    - A link to the API documentation.
-4. Once the work is complete, create a pull request from "development" into "main" and send us the link.
-5. Avoid using huge commits hiding your progress. Feel free to work on a branch and use `git rebase` to adjust your commits before submitting the final version.
+Then you should copy the data from `.env.example` to `.env`, it is necessary to put the **PASSWORD** and the **PORT** chosen in postgreSQL to `.env` file. Without docker the **HOST** must be `localhost`
 
-## Coding Standards
-When working on the project be as clean and consistent as possible.
+To create the `Venv` file run:
 
-## Project Deadline
-Ideally you'd finish the test project in 5 days. It shouldn't take you longer than a entire week.
+```
+python -m venv venv
+```
 
-## Quality Assurance
-Use the following checklist to ensure high quality of the project.
+To activate `VirtualEnv` run:
 
-### General
-- First of all, the application should run without errors.
-- Are all requirements set above met?
-- Is coding style consistent?
-- The API is well documented?
-- The API has unit tests?
+```
+./venv/scripts/activate
+```
 
-## Submission
-1. A link to the Github repository.
-2. Briefly describe how you decided on the tools that you used.
+To install `Poetry` run:
 
-## Have Fun Coding 🤘
-- This challenge description is intentionally vague in some aspects, but if you need assistance feel free to ask for help.
-- If any of the seems out of your current level, you may skip it, but remember to tell us about it in the pull request.
+```
+pip install poetry
+```
 
-## Credits
+To install all packages and dependencies, run:
 
-This coding challenge was inspired on [kinvoapp/kinvo-back-end-test](https://github.com/kinvoapp/kinvo-back-end-test/blob/2f17d713de739e309d17a1a74a82c3fd0e66d128/README.md)
+```
+poetry install
+```
 
-[gains]: #gain-calculation
-[taxes]: #taxation
-[interest]: #interest-calculation
-[compound gain]: https://www.investopedia.com/terms/g/gain.asp
+To run all migrations:
+
+```
+poetry run python ./app/manage.py makemigrations
+```
+```
+poetry run python ./app/manage.py migrate
+```
+
+Finally, run the server:
+
+```
+poetry run python ./app/manage.py runserver
+```
+
+Access http://localhost:8000 and you will see the service running.
+
+## Running Unit Tests
+
+First you need to initialize the app `Without Docker`.
+
+Then go to the `app` folder:
+```
+cd app
+```
+
+Finally run:
+```
+poetry run pytest
+```
+
+## Link to the API documentation
+
+**There are 2 different documentations**
+`Swagger:`
+    - With Swagger it's possible to test the endpoints directly from this documentation, it makes testing a lot easier. If you're running in **docker**, access the link **http://localhost:8080**. 
+    **Without Docker**, access the link **http://localhost:8000**
+
+`Redoc:`
+    - Redoc is user-friendly and perfect to use on a daily basis and facilitate API absorption. If you're running in **docker**, access the link **http://localhost:8080/redoc**. 
+    **Without Docker**, access the link **http://localhost:8000/redoc** 
+
+
+
+## List of third-party libraries used
+
+### Docker
+Docker makes it easy to run the application without having to put in a lot of effort. With application development using Docker, you don’t need to install a bunch of language environments on your system. You can simply run the application inside docker container with the help of a image.
+
+### Python
+
+Python is an extremely powerful and versatile programming language in terms of the types of applications you can create.
+
+### Django and Django-RestFramework
+
+Django is a open source framework that is compatible with major operating systems and databases. It has a great number of advantages. It's considered a developer-friendly framework easy to pick up. It provides robust security features, helps to avoid the common mistakes of web development including SQL injection, clickjacking, cross-site request forgery and scripting. 
+
+Django REST framework (DRF) is a open source, mature and well supported Python/Django library that aims at building sophisticated web APIs. It is flexible and fully-featured toolkit with modular and customizable architecture that makes possible development of both simple, turn-key API endpoints and complicated REST constructs.
+
+### Poetry 
+
+Poetry is a tool for dependency management and packaging in Python. It allows you to declare the libraries your project depends on and it will manage (install/update) them for you. Poetry offers a lockfile to ensure repeatable installs, and can build your project for distribution.
+
+###  drf_yasg
+
+drf_yasg is a API doc generation tool which provides the option to choose between swagger-ui and redoc or both for generating documentation for your APIs
+
+### NumPy
+
+NumPy arrays are faster and more compact than Python lists. An array consumes less memory and is convenient to use. NumPy uses much less memory to store data and it provides a mechanism of specifying the data types. **In this case it was used to calculate the difference of months between two dates**
+
+### Pandas
+
+Pandas is an open-source Python library designed to deal with data analysis and data manipulation. It is built on top of **NumPy** and it has several functions for cleaning, analyzing, and manipulating data, which can help you extract valuable insights about your data set. **In this case it was used to prepare the dates for later calculations.**
+
+### PostgreSQL
+
+PostgreSQL comes with many features aimed to help developers build applications, administrators to protect data integrity and build fault-tolerant environments, and help you manage your data no matter how big or small the dataset. In addition to being free and open source, PostgreSQL is highly extensible.

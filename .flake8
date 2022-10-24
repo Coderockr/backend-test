@@ -1,0 +1,5 @@
+[flake8]
+max-line-length=120
+ignore=E731
+ignore=C0114
+ignore=c0116

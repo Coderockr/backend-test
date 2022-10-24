@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  db:
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_NAME}
+    image: postgres
+    restart: always
+    ports: 
+      - '${POSTGRES_PORT}:5432'
+    volumes:
+      - /var/lib/postgresql
+  admin:
+    image: fenglc/pgadmin4
+    ports: 
+      - '5050:5050'
+    environment:
+      - DEFAULT_USER=admin
+  application:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - '8080:8080'
+    depends_on:
+      - 'db'

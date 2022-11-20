@@ -24,8 +24,7 @@ class WithdrawStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount' => 'nullable|numeric',
-            'investment_id' => 'required'
+            'amount' => 'nullable|numeric'
         ];
     }
 }

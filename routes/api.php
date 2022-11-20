@@ -15,14 +15,14 @@ Route::middleware('auth:api')->prefix('/investments')->group(function () {
     Route::post('/create', [InvestmentController::class, 'store']);
 });
 
-Route::middleware('auth:api')->prefix('/withdraws')->group(function() {
+Route::middleware('auth:api')->prefix('/withdraws/{investmentId}')->group(function() {
    Route::get('/', [WithdrawController::class, 'index']);
    Route::post('/create', [WithdrawController::class, 'store']);
 });
 
-Route::middleware('auth:api')->prefix('/profits')->group(function() {
+Route::middleware('auth:api')->prefix('/profits/{investmentId}')->group(function() {
    Route::get('/', [ProfitController::class, 'index']);
-   Route::post('/create', [ProfitController::class, 'store']);
+   Route::post('/create/', [ProfitController::class, 'store']);
 });
 
 

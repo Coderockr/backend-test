@@ -21,7 +21,6 @@ class ProfitController extends Controller
     {
         $profit = Profit::query()->create([
             'amount' => $request->amount,
-            'user_id' => Auth::id(),
             'investment_id' => $investmentId
         ]);
 

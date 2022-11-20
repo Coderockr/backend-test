@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Investment extends Model
 {
@@ -18,6 +19,11 @@ class Investment extends Model
     public function profits(): HasMany
     {
         return $this->hasMany(Profit::class);
+    }
+
+    public function withdraws(): HasOne
+    {
+        return $this->hasOne(Withdraw::class);
     }
 
     public function getTotalAmount()

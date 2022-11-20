@@ -1,0 +1,20 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\Investment\InvestmentCreateRequest;
+use App\Services\InvestmentService;
+use Illuminate\Http\Request;
+
+class InvestmentController extends Controller
+{
+    public function __construct(private InvestmentService $service)
+    {
+    }
+
+
+    public function create(InvestmentCreateRequest $request)
+    {
+        return $this->service->create($request->validated());
+    }
+}

@@ -17,10 +17,9 @@ return new class extends Migration
     {
         Schema::create('investments', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(User::class);
             $table->decimal('amount');
             $table->timestamps();
-
-            $table->foreignIdFor(User::class);
         });
     }
 

@@ -9,3 +9,21 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Owner {
+  id          Int           @id @default(autoincrement())
+  name        String        @db.VarChar(60)
+  Investiment Investiment[]
+
+  @@map("owners")
+}
+
+model Investiment {
+  id            Int      @id @default(autoincrement())
+  owner         Owner    @relation(fields: [owner_id], references: [id])
+  owner_id      Int
+  creation_date DateTime @db.Timestamptz()
+  amount        Decimal  @db.Money
+
+  @@map("investiments")
+}

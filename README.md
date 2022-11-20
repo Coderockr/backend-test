@@ -1,8 +1,8 @@
-# Template Repository Name
+# App Investiments - Backend Test
 
-> Resume of application here
+> App for investments, created for show my skills on backend.
 
-### 💻 Main language - Version
+### 💻 Node.js - Version
 
 <p align="center">
   <a href="#%EF%B8%8F-tecnologies">Tecnologies</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
@@ -15,32 +15,42 @@
 
 ![image](https://user-images.githubusercontent.com/50564121/163297818-11a4d919-58a0-4b2b-b65e-110d3aa55f72.png)
 
+## ⚒️ Tecnologies
 
-## ⚒️ Tecnologies (example)
-- [Express](https://expressjs.com/pt-br/)
+- [Nestjs](https://docs.nestjs.com/)
 - [Jest](https://jestjs.io/)
-- [TypeORM](https://typeorm.io/#/)
-- [Ethereal-Email](https://ethereal.email/)
+- [PrismaORM](https://www.prisma.io/)
 - [Typescript](https://www.typescriptlang.org/)
+- [Docker Engine](https://docs.docker.com/get-started/)
 
 ## 💻 Project
-This project as developed with purpose to use for all my projects template :D.
+
+This project as developed with purpose to show my programming skills to a backend test
 
 ## 🚀 How start
-- Install dependencies using `yarn`
-- start web server in localhost using `yarn dev`
+
+- Open project folder (app) `cd ./app`
+- Run docker build `docker-compose build`
+- Run docker project using `docker-compose up`
+- Note: To open bash you can use `docker-compose exec app bash`
+- Note: if you use linux -> in terminal run `chmod +x .docker/entrypoint.sh` to get permission of execute.
 
 ## 🕸️ Test in WEB
-Open Bowser in [`localhost:3333`](http://localhost:3333).
+
+Open Browser in [`localhost:3000`](http://localhost:3000).
 
 # 📚 Docs
+
 - OpenApi 3.0 Using Swagger
-- Check Here [BlogApi](https://apiblognestjs.herokuapp.com/api)
+- Check Documentation Here [AppInvestments](localhost:3000/api)
+- Note: you need run project to view documentation
 
 ## 📝 License
+
 This project use a <a href="./LICENSE"> MIT </a> License
 
 ## :atom_symbol: Follow me!
+
 - Instagram: https://www.instagram.com/sylvn001/
 - Twitch: https://www.twitch.tv/sylvn001
 - GitHub: https://github.com/Sylvn001

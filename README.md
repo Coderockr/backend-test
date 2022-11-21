@@ -34,6 +34,9 @@ This project as developed with purpose to show my programming skills to a backen
 - Run docker project using `docker-compose up`
 - Note: To open bash you can use `docker-compose exec app bash`
 - Note: if you use linux -> in terminal run `chmod +x .docker/entrypoint.sh` to get permission of execute.
+- Note: (windows) if you have error "standard_init_linux.go:228: exec user process caused: no such file or directory. Change EOL in Dockerfile, entrypoint.sh to LF.
+
+"
 
 ## 🕸️ Test in WEB
 

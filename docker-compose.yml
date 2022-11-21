@@ -43,6 +43,18 @@ services:
             - "3389:3306"
         networks:
             - laravel-9
+    mysql_test:
+        image: mysql:5.7.22
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            MYSQL_PASSWORD: ${DB_PASSWORD}
+            MYSQL_USER: ${DB_USERNAME}
+        ports:
+            - "3387:3306"
+        networks:
+            - laravel-9
 
     # queue
     queue:

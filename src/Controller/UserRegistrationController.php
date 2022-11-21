@@ -59,7 +59,6 @@ class UserRegistrationController extends AbstractController
 		]);
 
 		$violations = $validator->validate($input, $constraint);
-		// dd($violations);
 
 		foreach($violations as $violation) {
 			$errors[] = $violation->getPropertyPath() . ': ' . $violation->getMessage();

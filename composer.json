@@ -18,6 +18,7 @@
         "symfony/runtime": "6.1.*",
         "symfony/security-bundle": "6.1.*",
         "symfony/uid": "6.1.*",
+        "symfony/validator": "6.1.*",
         "symfony/yaml": "6.1.*"
     },
     "require-dev": {

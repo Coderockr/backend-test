@@ -12,7 +12,7 @@ export class OwnerRepository {
     });
   }
 
-  async findOne(id: number, skip: number, take: number) {
+  async findOne(id: number, skip = 0, take = 10) {
     return this.prisma.owner.findFirstOrThrow({
       where: { id },
       include: {

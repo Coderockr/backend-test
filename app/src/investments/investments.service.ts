@@ -1,3 +1,5 @@
+import { InvestmentEntity } from './entities/investment.entity';
+import { OwnerRepository } from './../owners/repositories/owners.repository';
 import { Investiment } from '@prisma/client';
 import { InvestimentRepository } from './repositories/investiments.repository';
 import { Injectable, Logger } from '@nestjs/common';
@@ -6,15 +8,25 @@ import { CreateInvestmentResponseDto } from './dto/res/create-investment-respons
 import { Cron } from '@nestjs/schedule';
 import { GainTax } from 'src/shared/gain';
 import { NotFoundException } from '@nestjs/common/exceptions';
+import { formatDate } from 'src/shared/format-date';
 
 @Injectable()
 export class InvestmentsService {
   private readonly logger = new Logger(InvestmentsService.name);
 
-  constructor(private readonly investimentRepository: InvestimentRepository) {}
+  constructor(
+    private readonly investimentRepository: InvestimentRepository,
+    private readonly ownerRepository: OwnerRepository,
+  ) {}
 
-  create(createInvestmentResponseDto: CreateInvestmentResponseDto) {
+  async create(createInvestmentResponseDto: CreateInvestmentResponseDto) {
     const { amount, creation_date, owner_id } = createInvestmentResponseDto;
+
+    const owner = await this.ownerRepository.findOne(owner_id);
+
+    if (!owner) {
+      throw new NotFoundException('Owner not found');
+    }
 
     const expected_balance = amount + amount * GainTax.VALUE;
 
@@ -51,15 +63,24 @@ export class InvestmentsService {
   async calculateDalyGain() {
     const investments = await this.investimentRepository.findAll();
     const today = new Date();
+    const investmentsToUpdate = [];
 
-    investments.forEach(investment => {
-      console.log(investment);
+    await investments.forEach((investment: InvestmentEntity) => {
+      const { creation_date } = investment;
+      const investmentDate = new Date(creation_date);
+
+      if (formatDate(today) != formatDate(investmentDate)) {
+        //validate if date has more thanb 1 mounth
+        investmentsToUpdate.push(investment);
+      }
     });
+
+    return;
   }
 
-  @Cron('30 * * * * *')
-  calculateGain() {
+  @Cron('45 * * * * *')
+  calculateGainSchedule() {
     this.logger.debug('Called Calculate Gain Method');
-    this.calculateGain();
+    this.calculateDalyGain();
   }
 }

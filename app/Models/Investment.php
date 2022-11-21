@@ -32,4 +32,13 @@ class Investment extends Model
     {
         return $this->withdrawn()->get();
     }
+
+    public function getExpectedBalanceAttribute(){
+
+        if($this->is_withdrawn){
+            return floatval($this->initial_investment - $this->movements()->sum('value'));
+        }
+
+        return floatval($this->movements()->sum('value'));
+    }
 }

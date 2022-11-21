@@ -21,7 +21,8 @@ class InvestmentResource extends JsonResource
             'withdrawn_at' => $this->withdrawn_at,
             'is_withdrawn' => $this->is_withdrawn,
             'initial_investment' => $this->initial_investment,
-            'person' => new PersonResource($this->whenLoaded('person')),
+            'expected_balance' => $this->expected_balance,
+            'owner' => new PersonResource($this->whenLoaded('person')),
             'movements' => InvestmentMovementResource::collection($this->whenLoaded('movements')),
         ];
     }

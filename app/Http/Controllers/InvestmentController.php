@@ -18,9 +18,10 @@ class InvestmentController extends Controller
      */
     public function index()
     {
+        $investments = Investment::all();
         return response()->json(
             [
-                'data' => InvestmentResource::collection(Investment::all()),
+                'data' => InvestmentResource::collection($investments),
             ],
             Response::HTTP_OK,
         );

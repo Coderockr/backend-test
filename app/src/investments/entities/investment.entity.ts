@@ -7,4 +7,6 @@ export class InvestmentEntity implements Investiment {
   creation_date: Date;
   amount: Decimal;
   initial_amount: Decimal;
+  expected_balance: Decimal;
+  active: boolean;
 }

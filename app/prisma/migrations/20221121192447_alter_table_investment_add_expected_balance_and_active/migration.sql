@@ -13,7 +13,9 @@ CREATE TABLE "investiments" (
     "owner_id" INTEGER NOT NULL,
     "creation_date" TIMESTAMPTZ NOT NULL,
     "initial_amount" MONEY NOT NULL,
+    "expected_balance" MONEY NOT NULL,
     "amount" MONEY NOT NULL,
+    "active" BOOLEAN NOT NULL DEFAULT true,
 
     CONSTRAINT "investiments_pkey" PRIMARY KEY ("id")
 );

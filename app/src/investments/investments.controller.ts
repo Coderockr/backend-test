@@ -1,3 +1,4 @@
+import { CreateInvestmentResponseDto } from './dto/res/create-investment-response.dto';
 import {
   Controller,
   Get,
@@ -8,18 +9,27 @@ import {
   Delete,
 } from '@nestjs/common';
 import { InvestmentsService } from './investments.service';
-import { CreateInvestmentDto } from './dto/create-investment.dto';
-import { UpdateInvestmentDto } from './dto/update-investment.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { CreateInvestmentRequestDto } from './dto/req/create-investment-request.dto';
+import { UpdateInvestmentRequestDto } from './dto/req/update-investment-request.dto';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Investments')
 @Controller('investments')
+@ApiResponse({
+  status: 400,
+  description: 'Bad Request',
+})
 export class InvestmentsController {
   constructor(private readonly investmentsService: InvestmentsService) {}
 
   @Post()
-  create(@Body() createInvestmentDto: CreateInvestmentDto) {
-    return this.investmentsService.create(createInvestmentDto);
+  @ApiResponse({
+    status: 201,
+    description: 'The record has been successfully created.',
+    type: CreateInvestmentResponseDto,
+  })
+  create(@Body() createInvestmentRequestDto: CreateInvestmentRequestDto) {
+    return this.investmentsService.create(createInvestmentRequestDto);
   }
 
   @Get()
@@ -35,13 +45,13 @@ export class InvestmentsController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateInvestmentDto: UpdateInvestmentDto,
+    @Body() updateInvestmentDto: UpdateInvestmentRequestDto,
   ) {
     return this.investmentsService.update(+id, updateInvestmentDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.investmentsService.remove(+id);
+  withdrawalInvestment(@Param('id') id: string) {
+    return this.investmentsService.withdrawalInvestment(+id);
   }
 }

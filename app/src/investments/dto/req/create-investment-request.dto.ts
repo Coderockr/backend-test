@@ -1,19 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import {
-  IsDate,
-  IsDateString,
-  IsNumber,
-  IsOptional,
-  IsPositive,
-  MaxDate,
-} from 'class-validator';
+import { IsDate, IsNumber, IsPositive, MaxDate } from 'class-validator';
 
-export class CreateInvestmentDto {
-  @ApiProperty()
-  @IsOptional()
-  id?: number;
-
+export class CreateInvestmentRequestDto {
   @ApiProperty()
   @IsNumber()
   owner_id: number;
@@ -31,4 +20,6 @@ export class CreateInvestmentDto {
   )
   @IsPositive({ message: 'amount must be a positive number' })
   amount: number;
+
+  expected_balance?: number;
 }

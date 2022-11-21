@@ -60,27 +60,28 @@ export class InvestmentsService {
     return `This action removes a #${id} investment`;
   }
 
-  async calculateDalyGain() {
+  async calculateDailyGain() {
     const investments = await this.investimentRepository.findAll();
     const today = new Date();
     const investmentsToUpdate = [];
 
     await investments.forEach((investment: InvestmentEntity) => {
       const { creation_date } = investment;
-      const investmentDate = new Date(creation_date);
+      const investmentInitialDate = new Date(creation_date);
 
-      if (formatDate(today) != formatDate(investmentDate)) {
-        //validate if date has more thanb 1 mounth
-        investmentsToUpdate.push(investment);
+      if (formatDate(today) != formatDate(investmentInitialDate)) {
+        if (investmentInitialDate.getDate() == today.getDate()) {
+          investmentsToUpdate.push(investment);
+        }
       }
     });
 
-    return;
+    return investmentsToUpdate;
   }
 
   @Cron('45 * * * * *')
   calculateGainSchedule() {
     this.logger.debug('Called Calculate Gain Method');
-    this.calculateDalyGain();
+    this.calculateDailyGain();
   }
 }

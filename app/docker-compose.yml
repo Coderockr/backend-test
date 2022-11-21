@@ -18,7 +18,7 @@ services:
     restart: always
     tty: true
     ports:
-      - '5432:5432'
+      - '5433:5432'
     volumes:
       - .docker/dbdata:/var/lib/postgresql/data
     environment:
@@ -30,7 +30,7 @@ services:
     restart: always
     tty: true
     ports:
-      - '5433:5432'
+      - '5434:5432'
     volumes:
       - .docker/dbdatatest:/var/lib/postgresql/data
     environment:

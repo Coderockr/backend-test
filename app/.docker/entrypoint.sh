@@ -2,5 +2,5 @@
 
 npm install
 npm run build
-npx prisma migrate
-npm run start:dev
+npx prisma migrate deploy
+TZ="America/Sao_Paulo" npm run start:dev

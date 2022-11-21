@@ -11,7 +11,6 @@ export class InvestimentRepository {
     creation_date,
     owner_id,
   }: CreateInvestmentDto): Promise<Investiment> {
-    return null;
     return this.prisma.investiment.create({
       data: {
         amount,

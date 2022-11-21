@@ -7,8 +7,6 @@ import {
   IsOptional,
   IsPositive,
   MaxDate,
-  maxDate,
-  MinDate,
 } from 'class-validator';
 
 export class CreateInvestmentDto {
@@ -21,8 +19,8 @@ export class CreateInvestmentDto {
   owner_id: number;
 
   @ApiProperty()
-  @IsDateString()
-  @MaxDate(new Date())
+  @MaxDate(new Date(new Date().setHours(23, 59, 59, 999)))
+  @IsDate({ message: 'invalid date format, expect: YYYY-MM-DD' })
   @Type(() => Date)
   creation_date: Date;
 

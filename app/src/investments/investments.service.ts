@@ -1,11 +1,14 @@
+import { InvestimentRepository } from './repositories/investiments.repository';
 import { Injectable } from '@nestjs/common';
 import { CreateInvestmentDto } from './dto/create-investment.dto';
 import { UpdateInvestmentDto } from './dto/update-investment.dto';
 
 @Injectable()
 export class InvestmentsService {
+  constructor(private readonly investimentRepository: InvestimentRepository) {}
+
   create(createInvestmentDto: CreateInvestmentDto) {
-    return 'This action adds a new investment';
+    return this.investimentRepository.create(createInvestmentDto);
   }
 
   findAll() {

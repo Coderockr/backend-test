@@ -1,8 +1,18 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { InvestmentsService } from './investments.service';
 import { CreateInvestmentDto } from './dto/create-investment.dto';
 import { UpdateInvestmentDto } from './dto/update-investment.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Investments')
 @Controller('investments')
 export class InvestmentsController {
   constructor(private readonly investmentsService: InvestmentsService) {}
@@ -23,7 +33,10 @@ export class InvestmentsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInvestmentDto: UpdateInvestmentDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateInvestmentDto: UpdateInvestmentDto,
+  ) {
     return this.investmentsService.update(+id, updateInvestmentDto);
   }
 

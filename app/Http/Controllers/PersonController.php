@@ -102,7 +102,7 @@ class PersonController extends Controller
                     'data' => $person,
                     'message' => 'Person updated'
                 ],
-                Response::HTTP_OK,
+                Response::HTTP_ACCEPTED,
             );
 
         } catch (ModelNotFoundException $m){

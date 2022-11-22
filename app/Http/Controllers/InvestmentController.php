@@ -108,7 +108,7 @@ class InvestmentController extends Controller
                     'data' => $investment,
                     'message' => 'Investment updated'
                 ],
-                Response::HTTP_OK,
+                Response::HTTP_ACCEPTED,
             );
         } catch (ModelNotFoundException $m){
 

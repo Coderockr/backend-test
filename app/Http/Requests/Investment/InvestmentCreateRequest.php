@@ -24,7 +24,16 @@ class InvestmentCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'creation_date' => 'required|date|date_format:Y-m-d|before_or_equal:today',
+            'amount' => 'required|numeric|gt:0',
+            'email' => 'required|email|exists:owners'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'email.exists' => 'Owner does not exist!'
         ];
     }
 }

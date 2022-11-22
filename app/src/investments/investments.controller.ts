@@ -9,11 +9,11 @@ import {
   Delete,
 } from '@nestjs/common';
 import { InvestmentsService } from './investments.service';
-import { CreateInvestmentRequestDto } from './dto/req/create-investment-request.dto';
-import { UpdateInvestmentRequestDto } from './dto/req/update-investment-request.dto';
+import { CreateInvestmentRequestDto } from './dto/create-investment-request.dto';
+import { UpdateInvestmentRequestDto } from './dto/update-investment-request.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Put } from '@nestjs/common/decorators';
-import { PutInvestmentRequestDto } from './dto/req/put-investment-request.dto';
+import { PutInvestmentRequestDto } from './dto/put-investment-request.dto';
 
 @ApiTags('Investments')
 @Controller('investments')

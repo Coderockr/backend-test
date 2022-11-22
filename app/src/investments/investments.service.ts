@@ -1,18 +1,18 @@
-import { PutInvestmentRequestDto } from './dto/req/put-investment-request.dto';
+import { PutInvestmentRequestDto } from './dto/put-investment-request.dto';
 import { Investiment } from '@prisma/client';
 import { InvestmentEntity } from './entities/investment.entity';
 import { InvestimentsRepository } from './repositories/investiments.repository';
 import { Injectable, Logger, BadRequestException } from '@nestjs/common';
-import { UpdateInvestmentRequestDto } from './dto/req/update-investment-request.dto';
+import { UpdateInvestmentRequestDto } from './dto/update-investment-request.dto';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { NotFoundException } from '@nestjs/common/exceptions';
-import { formatDate } from 'src/shared/format-date';
-import { calculateBalance } from 'src/shared/calculate-expected-balance';
-import { calculateTaxByDate } from 'src/shared/calculate-tax-by-date';
-import { CreateInvestmentRequestDto } from './dto/req/create-investment-request.dto';
-import { OwnersService } from 'src/owners/owners.service';
-import { calculateDayDiff } from 'src/shared/calculate-day-diff';
-import { MailService } from 'src/mail/mail.service';
+import { formatDate } from '../shared/format-date';
+import { calculateBalance } from '../shared/calculate-expected-balance';
+import { calculateTaxByDate } from '../shared/calculate-tax-by-date';
+import { CreateInvestmentRequestDto } from './dto/create-investment-request.dto';
+import { OwnersService } from '../owners/owners.service';
+import { calculateDayDiff } from '../shared/calculate-day-diff';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class InvestmentsService {

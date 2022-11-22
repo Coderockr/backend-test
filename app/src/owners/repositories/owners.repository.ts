@@ -2,7 +2,7 @@ import { UpdateOwnerDto } from './../dto/update-owner.dto';
 import { CreateOwnerDto } from './../dto/create-owner.dto';
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { Owner } from '@prisma/client';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class OwnersRepository {

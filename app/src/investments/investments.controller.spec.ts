@@ -1,9 +1,11 @@
+import { OwnersService } from './../owners/owners.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { InvestmentsController } from './investments.controller';
 import { InvestmentsService } from './investments.service';
 
 describe('InvestmentsController', () => {
-  let controller: InvestmentsController;
+  let investmentController: InvestmentsController;
+  let investmentsService: InvestmentsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -11,10 +13,12 @@ describe('InvestmentsController', () => {
       providers: [InvestmentsService],
     }).compile();
 
-    controller = module.get<InvestmentsController>(InvestmentsController);
+    investmentController = module.get<InvestmentsController>(
+      InvestmentsController,
+    );
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(investmentController).toBeDefined();
   });
 });

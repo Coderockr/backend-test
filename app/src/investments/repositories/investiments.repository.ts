@@ -1,8 +1,8 @@
-import { UpdateInvestmentRequestDto } from './../dto/req/update-investment-request.dto';
-import { CreateInvestmentRequestDto } from '../dto/req/create-investment-request.dto';
+import { UpdateInvestmentRequestDto } from './../dto/update-investment-request.dto';
+import { CreateInvestmentRequestDto } from '../dto/create-investment-request.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Investiment } from '@prisma/client';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class InvestimentsRepository {

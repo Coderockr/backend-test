@@ -32,9 +32,11 @@ This project as developed with purpose to show my programming skills to a backen
 - Open project folder (app) `cd ./app`
 - Run docker build `docker-compose build`
 - Run docker project using `docker-compose up`
-- Note: To open bash you can use `docker-compose exec app bash`
+- Note: To open bash you can use `docker-compose exec app bash` - Docker Bash is necessary to run [PrismaORM](https://www.prisma.io/) migrations. You need open bash and run migrations using command `npx prisma migrate dev`.
 - Note: if you use linux -> in terminal run `chmod +x .docker/entrypoint.sh` to get permission of execute.
 - Note: (windows) if you have error "standard_init_linux.go:228: exec user process caused: no such file or directory. Change EOL in Dockerfile, entrypoint.sh to LF.
+- [Optional]: You can also run this application whitout docker. If you try it open app folder and run 1. `yarn` 2. `npx prisma migrate dev` 3. `yarn start:dev`
+- [Env]: Check if `.env` is configured, you need create a new file with `.env` name and copy and paste `.env.example` informations to `.env` file and configure based on you local dependencies
 
 "
 

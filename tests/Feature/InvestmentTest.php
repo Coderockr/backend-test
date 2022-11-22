@@ -10,13 +10,6 @@ use Tests\TestCase;
 class InvestmentTest extends TestCase
 {
 
-    use WithFaker;
-
-    public function __construct()
-    {
-        $this->setUpFaker();
-    }
-
     /**
      * A basic feature test example.
      *
@@ -27,19 +20,19 @@ class InvestmentTest extends TestCase
     public function test_creation_person_request()
     {
         $response = $this->postJson('/api/v1/persons', [
-            'first_name' => $this->faker->firstName,
-            'last_name' => $this->faker->lastName,
-            'ssn' => $this->faker->randomNumber(9, true),
-            'email' => $this->faker->email,
+            'first_name' => 'Daniel',
+            'last_name' => 'Soares',
+            'ssn' => '654984215',
+            'email' => 'danielcarlossoares@gmail.com',
         ]);
 
         $response->dump();
         $response->assertStatus(201);
     }
 
-    public function test_update_person(){
+    public function test_update_person_request(){
         $response = $this->patchJson('/api/v1/persons/1', [
-            'ssn' => $this->faker->randomNumber(9, true),
+            'ssn' => '210931223',
         ]);
 
         $response->dump();
@@ -48,7 +41,7 @@ class InvestmentTest extends TestCase
 
     public function test_view_person_request()
     {
-        $response = $this->get('/api/v1/persons/1');
+        $response = $this->getJson('/api/v1/persons/1');
 
         $response->dump();
         $response->assertStatus(200);
@@ -67,10 +60,10 @@ class InvestmentTest extends TestCase
     {
         $response = $this->postJson('/api/v1/investments', [
             'person_id' => 1,
-            'description' => $this->faker->text(20),
+            'description' => 'Default Investment',
             'gain' => 0.52,
-            'created_at' => $this->faker->dateTimeBetween('-15 years', 'now', 'UTC'),
-            'initial_investment' => $this->faker->randomFloat(2, 1000, 30000),
+            'created_at' => '2021-08-10 09:23:00',
+            'initial_investment' => 13700.00,
         ]);
 
         $response->dump();

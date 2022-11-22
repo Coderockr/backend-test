@@ -1,14 +1,15 @@
+import { Investiment } from '@prisma/client';
 import { InvestmentEntity } from './entities/investment.entity';
 import { OwnerRepository } from './../owners/repositories/owners.repository';
-import { Investiment } from '@prisma/client';
 import { InvestimentRepository } from './repositories/investiments.repository';
 import { Injectable, Logger } from '@nestjs/common';
 import { UpdateInvestmentRequestDto } from './dto/req/update-investment-request.dto';
 import { CreateInvestmentResponseDto } from './dto/res/create-investment-response.dto';
 import { Cron } from '@nestjs/schedule';
-import { GainTax } from 'src/shared/gain';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { formatDate } from 'src/shared/format-date';
+import { calculateBalance } from 'src/shared/calculateExpectedBalance';
+import { calculateTaxByDate } from 'src/shared/calculateTaxByDate';
 
 @Injectable()
 export class InvestmentsService {
@@ -28,11 +29,11 @@ export class InvestmentsService {
       throw new NotFoundException('Owner not found');
     }
 
-    const expected_balance = amount + amount * GainTax.VALUE;
+    const expectedBalance = calculateBalance(amount);
 
     return this.investimentRepository.create({
       amount,
-      expected_balance,
+      expected_balance: expectedBalance,
       creation_date,
       owner_id,
     });
@@ -56,27 +57,47 @@ export class InvestmentsService {
     return this.investimentRepository.update(id, updateInvestmentRequestDto);
   }
 
-  withdrawalInvestment(id: number) {
-    return `This action removes a #${id} investment`;
+  async withdrawalInvestment(id: number) {
+    const investment: Investiment = await this.investimentRepository.findOne(
+      id,
+    );
+
+    if (!investment) {
+      throw new NotFoundException('Investment not found');
+    }
+
+    const amountWithTax: number = calculateTaxByDate(
+      investment.amount,
+      investment.creation_date,
+    );
+
+    return this.investimentRepository.withdrawalInvestment(id, {
+      amount: amountWithTax,
+    });
   }
 
   async calculateDailyGain() {
     const investments = await this.investimentRepository.findAll();
     const today = new Date();
-    const investmentsToUpdate = [];
 
-    await investments.forEach((investment: InvestmentEntity) => {
+    await investments.forEach(async (investment: InvestmentEntity) => {
       const { creation_date } = investment;
       const investmentInitialDate = new Date(creation_date);
 
       if (formatDate(today) != formatDate(investmentInitialDate)) {
         if (investmentInitialDate.getDate() == today.getDate()) {
-          investmentsToUpdate.push(investment);
+          const newAmount = calculateBalance(investment.amount);
+          const newExpectedBalance = calculateBalance(newAmount);
+
+          const data: UpdateInvestmentRequestDto = {
+            expected_balance: newExpectedBalance,
+            amount: newAmount,
+          };
+
+          await this.investimentRepository.update(investment.id, data);
         }
       }
     });
-
-    return investmentsToUpdate;
   }
 
   @Cron('45 * * * * *')

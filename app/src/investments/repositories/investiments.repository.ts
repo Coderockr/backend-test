@@ -58,10 +58,14 @@ export class InvestimentRepository {
     });
   }
 
-  async withdrawal(id: number) {
+  async withdrawalInvestment(
+    id: number,
+    updateInvestmentRequestDto: UpdateInvestmentRequestDto,
+  ) {
+    const { amount } = updateInvestmentRequestDto;
     return this.prisma.investiment.update({
       where: { id },
-      data: { active: false },
+      data: { amount, active: false },
     });
   }
 }

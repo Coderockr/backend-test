@@ -4,7 +4,7 @@ import { InvestmentEntity } from './entities/investment.entity';
 import { InvestimentsRepository } from './repositories/investiments.repository';
 import { Injectable, Logger, BadRequestException } from '@nestjs/common';
 import { UpdateInvestmentRequestDto } from './dto/req/update-investment-request.dto';
-import { Cron } from '@nestjs/schedule';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { formatDate } from 'src/shared/format-date';
 import { calculateBalance } from 'src/shared/calculate-expected-balance';
@@ -22,7 +22,9 @@ export class InvestmentsService {
     private readonly ownerService: OwnersService,
   ) {}
 
-  async create(createInvestmentRequesteDto: CreateInvestmentRequestDto) {
+  async create(
+    createInvestmentRequesteDto: CreateInvestmentRequestDto,
+  ): Promise<Investiment> {
     const { amount, creation_date, owner_id } = createInvestmentRequesteDto;
 
     const owner = await this.ownerService.findOne(owner_id);
@@ -116,6 +118,9 @@ export class InvestmentsService {
       if (investment.active) {
         if (formatDate(today) != formatDate(investmentInitialDate)) {
           if (investmentInitialDate.getDate() == today.getDate()) {
+            //this point does not validate days when fev - 29 - 31 - of any month...
+            //example: january 29 - when date are fev - 28, the month change to march
+
             const newAmount = investment.expected_balance;
             const newExpectedBalance = calculateBalance(+newAmount);
 
@@ -131,7 +136,7 @@ export class InvestmentsService {
     });
   }
 
-  @Cron('5 * * * * *')
+  @Cron(CronExpression.EVERY_DAY_AT_5AM)
   calculateGainSchedule() {
     this.logger.debug('Called Calculate Gain Schedule Method');
     this.calculateDailyGain();

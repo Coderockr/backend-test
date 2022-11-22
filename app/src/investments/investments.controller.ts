@@ -30,20 +30,47 @@ export class InvestmentsController {
     description: 'The record has been successfully created.',
     type: InvestmentEntity,
   })
+  @ApiResponse({
+    status: 404,
+    description: 'No owner Found',
+  })
   create(@Body() createInvestmentRequestDto: CreateInvestmentRequestDto) {
     return this.investmentsService.create(createInvestmentRequestDto);
   }
 
   @Get()
+  @ApiResponse({
+    status: 200,
+    description: 'Request success',
+    type: Array<InvestmentEntity>,
+  })
   findAll() {
     return this.investmentsService.findAll();
   }
 
   @Get(':id')
+  @ApiResponse({
+    status: 200,
+    description: 'Request success',
+    type: InvestmentEntity,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Investment Not Found',
+  })
   findOne(@Param('id') id: string) {
     return this.investmentsService.findOne(+id);
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'Request success',
+    type: InvestmentEntity,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Investment Not Found',
+  })
   @Patch(':id')
   update(
     @Param('id') id: string,
@@ -52,6 +79,15 @@ export class InvestmentsController {
     return this.investmentsService.update(+id, updateInvestmentDto);
   }
 
+  @ApiResponse({
+    status: 200,
+    description: 'Request success',
+    type: InvestmentEntity,
+  })
+  @ApiResponse({
+    status: 404,
+    description: 'Investment Not Found',
+  })
   @Put(':id')
   withdrawalInvestment(
     @Param('id') id: string,

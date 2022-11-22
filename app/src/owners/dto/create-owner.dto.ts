@@ -10,11 +10,6 @@ import {
 
 export class CreateOwnerDto {
   @ApiProperty()
-  @IsOptional()
-  @IsNumber()
-  id?: number;
-
-  @ApiProperty()
   @IsString()
   @IsNotEmpty()
   name: string;

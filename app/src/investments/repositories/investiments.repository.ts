@@ -1,4 +1,3 @@
-import { CreateInvestmentResponseDto } from './../dto/res/create-investment-response.dto';
 import { UpdateInvestmentRequestDto } from './../dto/req/update-investment-request.dto';
 import { CreateInvestmentRequestDto } from '../dto/req/create-investment-request.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
@@ -13,7 +12,7 @@ export class InvestimentsRepository {
     expected_balance,
     creation_date,
     owner_id,
-  }: CreateInvestmentRequestDto) {
+  }: CreateInvestmentRequestDto): Promise<Investiment> {
     try {
       return this.prisma.investiment.create({
         data: {

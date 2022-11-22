@@ -41,4 +41,8 @@ class Investment extends Model
 
         return floatval($this->movements()->sum('value'));
     }
+
+    public function getInvestmentProfitAttribute(){
+        return floatval($this->initial_investment - $this->movements()->sum('value'));
+    }
 }

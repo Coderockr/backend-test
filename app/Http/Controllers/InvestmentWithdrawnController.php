@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\InvestmentWithdrawnRequest;
 use App\Models\Investment;
+use App\Models\InvestmentMovement;
 use App\Services\InvestmentWithdrawnService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class InvestmentWithdrawnController extends Controller
 {
@@ -18,10 +20,11 @@ class InvestmentWithdrawnController extends Controller
 
     public function withdrawn(InvestmentWithdrawnRequest $request, $id){
 
+        DB::beginTransaction();
         try {
 
             $investment = Investment::findOrFail($id);
-            $withdrawn_at = $request->validated()['withdraw_at'];
+            $withdrawn_at = $request->validated()['withdrawn_at'];
 
             if(!$this->investmentWithdrawnService->isWithdrawnDateValid($investment, $withdrawn_at)){
                 return response()->json(
@@ -33,14 +36,51 @@ class InvestmentWithdrawnController extends Controller
                 );
             }
 
+            $investment->update([
+               'withdrawn_at' => $withdrawn_at,
+               'is_withdrawn' => 1,
+            ]);
 
+            $calculatedTax = $this->investmentWithdrawnService->calculateWithdrawnTaxes($investment, $withdrawn_at);
+            $withdrawnValue = floatval($investment->initial_investment + $investment->investment_profit - $calculatedTax);
 
-        } catch (ModelNotFoundException $m){
+            $investment->movements()->createMany([
+                [
+                    'description' => 'Withdrawn Taxes',
+                    'value' => $calculatedTax,
+                    'movement_at' => $withdrawn_at,
+                    'type' => InvestmentMovement::TYPE_TAX,
+                ],
+                [
+                    'description' => 'Withdrawn',
+                    'value' =>  $withdrawnValue,
+                    'movement_at' => $withdrawn_at,
+                    'type' => InvestmentMovement::TYPE_WITHDRAWN,
+                ],
+            ]);
+
+            DB::commit();
+
             return response()->json(
                 [
-                    "message' => 'Investment not found',
+                    'message' => 'The investment has been withdrawn'
+                ],
+                Response::HTTP_ACCEPTED,
+            );
+
+        } catch (ModelNotFoundException $m){
+
+            return response()->json(
+                [
+                    'message' => 'Investment not found',
                 ],
                 Response::HTTP_NOT_FOUND,
+            );
+        } catch (\Exception $e){
+            DB::rollBack();
+            return response()->json(
+                'Withdrawal of investment failed',
+                Response::HTTP_BAD_REQUEST
             );
         }
     }

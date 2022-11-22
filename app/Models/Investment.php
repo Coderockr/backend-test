@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Investment extends Model
@@ -33,16 +32,26 @@ class Investment extends Model
         return $this->withdrawn()->get();
     }
 
-    public function getExpectedBalanceAttribute(){
+    public function getInvestmentProfitAttribute(){
+
+        if($this->movements()->count() > 0){
+            $profit = $this->movements()->where('type', '=',InvestmentMovement::TYPE_GAIN)
+                ->sum('value');
+
+            return floatval($profit);
+        }
+
+        return 0;
+
+    }
+
+    public function getBalanceAttribute(){
 
         if($this->is_withdrawn){
-            return floatval($this->initial_investment - $this->movements()->sum('value'));
+            return $this->investment_profit;
         }
 
         return floatval($this->movements()->sum('value'));
     }
 
-    public function getInvestmentProfitAttribute(){
-        return floatval($this->initial_investment - $this->movements()->sum('value'));
-    }
 }

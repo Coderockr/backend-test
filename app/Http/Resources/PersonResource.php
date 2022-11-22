@@ -22,7 +22,11 @@ class PersonResource extends JsonResource
             'email' => $this->email,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'links' => [
+                'view' => route('persons.show', $this->id),
+            ],
             'investments' => InvestmentResource::collection($this->whenLoaded('investments')),
+
         ];
     }
 }

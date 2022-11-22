@@ -24,6 +24,10 @@ class InvestmentResource extends JsonResource
             'balance' => $this->balance,
             'owner' => new PersonResource($this->whenLoaded('person')),
             'movements' => InvestmentMovementResource::collection($this->whenLoaded('movements')),
+            'links' => [
+                'view' => route('investments.show', $this->id),
+                'movements' => route('investments.movements.index', $this->id)
+            ]
         ];
     }
 }

@@ -1,0 +1,206 @@
+{
+	"info": {
+		"_postman_id": "dc1c4be0-4e13-4596-9587-39738dc53b1b",
+		"name": "backendtest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12367812"
+	},
+	"item": [
+		{
+			"name": "investment",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"owner_id\": 1,\n  \"creation_date\": \"2022-11-21\",\n  \"amount\": 1000\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/investments",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"investments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/investments",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"investments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findOne",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3000/investments/6",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"investments",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "whitdraw",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"withdrawal_date\": \"2022-11-22\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/investments/8",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"investments",
+								"8"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "owner",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"junior\",\n    \"email\": \"juniorbrros@mail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/owners",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"owners"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findAll",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"junior\",\n    \"email\": \"juniorbrros@mail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/owners?take=3",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"owners"
+							],
+							"query": [
+								{
+									"key": "take",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findONe",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"junior\",\n    \"email\": \"juniorbrros@mail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3000/owners/1",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"owners",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

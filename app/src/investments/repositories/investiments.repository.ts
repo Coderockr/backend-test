@@ -1,3 +1,4 @@
+import { CreateInvestmentResponseDto } from './../dto/res/create-investment-response.dto';
 import { UpdateInvestmentRequestDto } from './../dto/req/update-investment-request.dto';
 import { CreateInvestmentRequestDto } from '../dto/req/create-investment-request.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
@@ -5,14 +6,14 @@ import { Investiment } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
-export class InvestimentRepository {
+export class InvestimentsRepository {
   constructor(private readonly prisma: PrismaService) {}
   async create({
     amount,
     expected_balance,
     creation_date,
     owner_id,
-  }: CreateInvestmentRequestDto): Promise<Investiment> {
+  }: CreateInvestmentRequestDto) {
     try {
       return this.prisma.investiment.create({
         data: {
@@ -30,14 +31,12 @@ export class InvestimentRepository {
 
   async update(
     id: number,
-    updateInvestmentRequestDto: UpdateInvestmentRequestDto,
+    { amount, expected_balance }: UpdateInvestmentRequestDto,
   ) {
-    const { amount, creation_date, expected_balance, owner_id } =
-      updateInvestmentRequestDto;
     try {
-      this.prisma.investiment.update({
+      return this.prisma.investiment.update({
         where: { id },
-        data: { amount, creation_date, expected_balance, owner_id },
+        data: { amount, expected_balance },
       });
     } catch (e) {
       throw new BadRequestException(e);
@@ -53,19 +52,23 @@ export class InvestimentRepository {
   }
 
   async findOne(id: number): Promise<Investiment | null> {
-    return this.prisma.investiment.findFirstOrThrow({
-      where: { id, active: true },
-    });
+    try {
+      return this.prisma.investiment.findFirst({
+        where: { id },
+        //, active: true
+      });
+    } catch (e) {
+      throw new BadRequestException();
+    }
   }
 
   async withdrawalInvestment(
     id: number,
-    updateInvestmentRequestDto: UpdateInvestmentRequestDto,
+    { amount, expected_balance }: UpdateInvestmentRequestDto,
   ) {
-    const { amount } = updateInvestmentRequestDto;
     return this.prisma.investiment.update({
       where: { id },
-      data: { amount, active: false },
+      data: { amount, expected_balance, active: false },
     });
   }
 }

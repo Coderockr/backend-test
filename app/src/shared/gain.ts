@@ -1,3 +1,3 @@
 export enum GainTax {
-  VALUE = 0.052,
+  VALUE = 0.0052,
 }

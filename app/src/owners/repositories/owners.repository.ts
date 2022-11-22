@@ -1,15 +1,20 @@
+import { UpdateOwnerDto } from './../dto/update-owner.dto';
 import { CreateOwnerDto } from './../dto/create-owner.dto';
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { Owner } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
-export class OwnerRepository {
+export class OwnersRepository {
   constructor(private readonly prisma: PrismaService) {}
   async create({ name, email }: CreateOwnerDto): Promise<Owner> {
-    return this.prisma.owner.create({
-      data: { name, email },
-    });
+    try {
+      return this.prisma.owner.create({
+        data: { name, email },
+      });
+    } catch (e) {
+      throw new BadRequestException(e);
+    }
   }
 
   async findOne(id: number, skip = 0, take = 10) {
@@ -26,14 +31,34 @@ export class OwnerRepository {
   }
 
   async findAll(skip: number, take: number) {
-    return this.prisma.owner.findMany({
-      include: {
-        Investiment: {
-          select: { creation_date: true, amount: true },
-          skip,
-          take,
+    try {
+      return this.prisma.owner.findMany({
+        include: {
+          Investiment: {
+            select: { creation_date: true, amount: true },
+            skip,
+            take,
+          },
         },
-      },
-    });
+      });
+    } catch (e) {
+      throw new BadRequestException(e);
+    }
+  }
+
+  async update(id: number, { name, email }: UpdateOwnerDto) {
+    try {
+      this.prisma.owner.update({ where: { id }, data: { name, email } });
+    } catch (e) {
+      throw new BadRequestException(e);
+    }
+  }
+
+  async remove(id) {
+    try {
+      return this.prisma.owner.delete({ where: id });
+    } catch (e) {
+      throw new BadRequestException(e);
+    }
   }
 }

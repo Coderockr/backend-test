@@ -1,6 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Decimal } from '@prisma/client/runtime';
 import { Type } from 'class-transformer';
-import { IsDate, IsNumber, IsPositive, MaxDate } from 'class-validator';
+import {
+  IsDate,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  MaxDate,
+} from 'class-validator';
 
 export class CreateInvestmentRequestDto {
   @ApiProperty()
@@ -19,7 +26,7 @@ export class CreateInvestmentRequestDto {
     { message: 'amount must be a number' },
   )
   @IsPositive({ message: 'amount must be a positive number' })
-  amount: number;
+  amount: number | Decimal;
 
-  expected_balance?: number;
+  expected_balance?: number | Decimal;
 }

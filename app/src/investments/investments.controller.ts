@@ -1,4 +1,4 @@
-import { CreateInvestmentResponseDto } from './dto/res/create-investment-response.dto';
+import { InvestmentEntity } from './entities/investment.entity';
 import {
   Controller,
   Get,
@@ -12,6 +12,8 @@ import { InvestmentsService } from './investments.service';
 import { CreateInvestmentRequestDto } from './dto/req/create-investment-request.dto';
 import { UpdateInvestmentRequestDto } from './dto/req/update-investment-request.dto';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Put } from '@nestjs/common/decorators';
+import { PutInvestmentRequestDto } from './dto/req/put-investment-request.dto';
 
 @ApiTags('Investments')
 @Controller('investments')
@@ -26,7 +28,7 @@ export class InvestmentsController {
   @ApiResponse({
     status: 201,
     description: 'The record has been successfully created.',
-    type: CreateInvestmentResponseDto,
+    type: InvestmentEntity,
   })
   create(@Body() createInvestmentRequestDto: CreateInvestmentRequestDto) {
     return this.investmentsService.create(createInvestmentRequestDto);
@@ -50,8 +52,14 @@ export class InvestmentsController {
     return this.investmentsService.update(+id, updateInvestmentDto);
   }
 
-  @Delete(':id')
-  withdrawalInvestment(@Param('id') id: string) {
-    return this.investmentsService.withdrawalInvestment(+id);
+  @Put(':id')
+  withdrawalInvestment(
+    @Param('id') id: string,
+    @Body() putInvestmentRequestDto: PutInvestmentRequestDto,
+  ) {
+    return this.investmentsService.withdrawalInvestment(
+      +id,
+      putInvestmentRequestDto,
+    );
   }
 }

@@ -12,6 +12,7 @@ import { calculateTaxByDate } from 'src/shared/calculate-tax-by-date';
 import { CreateInvestmentRequestDto } from './dto/req/create-investment-request.dto';
 import { OwnersService } from 'src/owners/owners.service';
 import { calculateDayDiff } from 'src/shared/calculate-day-diff';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class InvestmentsService {
@@ -20,6 +21,7 @@ export class InvestmentsService {
   constructor(
     private readonly investimentsRepository: InvestimentsRepository,
     private readonly ownerService: OwnersService,
+    private readonly mailService: MailService,
   ) {}
 
   async create(
@@ -130,6 +132,12 @@ export class InvestmentsService {
             };
 
             await this.investimentsRepository.update(investment.id, data);
+            //here you can sendEmailTo -> investment
+            this.mailService.sendMailTo(
+              investment.owner.email,
+              investment.owner.name,
+              `Your investment is paying off! - Gain: ${newAmount}`,
+            );
           }
         }
       }

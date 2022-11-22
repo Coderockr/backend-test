@@ -44,7 +44,18 @@ export class InvestimentsRepository {
 
   async findAll(): Promise<Investiment[] | []> {
     try {
-      return this.prisma.investiment.findMany({});
+      return this.prisma.investiment.findMany({
+        select: {
+          initial_amount: true,
+          id: true,
+          expected_balance: true,
+          amount: true,
+          active: true,
+          creation_date: true,
+          owner_id: true,
+          owner: { select: { name: true, email: true } },
+        },
+      });
     } catch (e) {
       throw new BadRequestException(e);
     }

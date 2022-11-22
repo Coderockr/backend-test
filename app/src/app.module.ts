@@ -4,6 +4,7 @@ import { InvestmentsModule } from './investments/investments.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { OwnersModule } from './owners/owners.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     InvestmentsModule,
     PrismaModule,
     OwnersModule,
+    MailModule,
   ],
   controllers: [],
   providers: [],

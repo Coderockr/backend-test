@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreInvestmentMovementRequest;
 use App\Http\Requests\UpdateInvestmentMovementRequest;
 use App\Http\Resources\InvestmentMovementResource;
+use App\Http\Resources\InvestmentResource;
 use App\Models\Investment;
 use App\Models\InvestmentMovement;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -24,7 +25,8 @@ class InvestmentMovementController extends Controller
 
             return response()->json(
                 [
-                    'data' => InvestmentMovementResource::collection($investment->movements),
+                    'investment' => new InvestmentResource($investment->withoutRelations()),
+                    'movements' => InvestmentMovementResource::collection($investment->movements),
                 ],
                 Response::HTTP_OK,
             );

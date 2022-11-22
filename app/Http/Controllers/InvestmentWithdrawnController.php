@@ -36,6 +36,15 @@ class InvestmentWithdrawnController extends Controller
                 );
             }
 
+            if($investment->is_withdrawn){
+                return response()->json(
+                    [
+                        'message' => "This investment has already been withdrawn"
+                    ],
+                    Response::HTTP_UNPROCESSABLE_ENTITY
+                );
+            }
+
             $investment->update([
                'withdrawn_at' => $withdrawn_at,
                'is_withdrawn' => 1,

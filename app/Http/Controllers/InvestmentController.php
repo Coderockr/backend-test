@@ -21,7 +21,7 @@ class InvestmentController extends Controller
         $investments = Investment::all();
         return response()->json(
             [
-                'data' => InvestmentResource::collection($investments),
+                'investments' => InvestmentResource::collection($investments),
             ],
             Response::HTTP_OK,
         );

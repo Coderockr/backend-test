@@ -8,6 +8,7 @@ use App\Http\Controllers\InvestmentWithdrawnController;
 use App\Http\Controllers\PersonInvestmentsController;
 
 Route::prefix('v1')->group(function() {
+    Route::get('/', [\App\Http\Controllers\ApiController::class, 'welcome']);
     Route::resource('persons', PersonController::class, ['except' => ['create', 'edit']]);
     Route::get('persons/{id}/investments', [PersonInvestmentsController::class, 'index']);
 

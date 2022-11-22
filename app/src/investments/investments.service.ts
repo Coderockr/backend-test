@@ -99,12 +99,10 @@ export class InvestmentsService {
       withdrawalDate,
     );
 
-    return amountWithTax;
-
-    // return this.investimentsRepository.withdrawalInvestment(id, {
-    //   amount: amountWithTax,
-    //   expected_balance: amountWithTax,
-    // });
+    return this.investimentsRepository.withdrawalInvestment(id, {
+      amount: amountWithTax,
+      expected_balance: amountWithTax,
+    });
   }
 
   async calculateDailyGain() {

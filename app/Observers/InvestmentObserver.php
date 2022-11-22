@@ -30,6 +30,7 @@ class InvestmentObserver
             'description' => 'Initial Investment Amount',
             'value' => $investment->initial_investment,
             'movement_at' => $investment->created_at,
+            'type' => InvestmentMovement::TYPE_INITIAL,
         ]);
 
         if($numberOfGains > 0){
@@ -41,6 +42,7 @@ class InvestmentObserver
                     'description' => 'Investment Gain',
                     'value' => $this->investmentService->calculateInvestmentGain($investment, $balance),
                     'movement_at' => $investment->created_at->addMonth($i+1),
+                    'type' => InvestmentMovement::TYPE_GAIN,
                 ]);
             }
         }
@@ -64,6 +66,7 @@ class InvestmentObserver
             'description' => 'Initial Investment Amount',
             'value' => $investment->initial_investment,
             'movement_at' => $investment->created_at,
+            'type' => InvestmentMovement::TYPE_INITIAL,
         ]);
 
         if($numberOfGains > 0){
@@ -75,6 +78,7 @@ class InvestmentObserver
                     'description' => 'Investment Gain',
                     'value' => $this->investmentService->calculateInvestmentGain($investment, $balance),
                     'movement_at' => $investment->created_at->addMonth($i+1),
+                    'type' => InvestmentMovement::TYPE_GAIN,
                 ]);
             }
         }
@@ -85,38 +89,5 @@ class InvestmentObserver
 
         $investment->movements()->createMany($movements);
 
-    }
-
-    /**
-     * Handle the Investment "deleted" event.
-     *
-     * @param  \App\Models\Investment  $investment
-     * @return void
-     */
-    public function deleted(Investment $investment)
-    {
-        //
-    }
-
-    /**
-     * Handle the Investment "restored" event.
-     *
-     * @param  \App\Models\Investment  $investment
-     * @return void
-     */
-    public function restored(Investment $investment)
-    {
-        //
-    }
-
-    /**
-     * Handle the Investment "force deleted" event.
-     *
-     * @param  \App\Models\Investment  $investment
-     * @return void
-     */
-    public function forceDeleted(Investment $investment)
-    {
-        //
     }
 }

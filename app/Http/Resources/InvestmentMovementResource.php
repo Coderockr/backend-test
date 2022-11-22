@@ -19,6 +19,7 @@ class InvestmentMovementResource extends JsonResource
             'investment_id' => $this->investment_id,
             'description' => $this->description,
             'value' => $this->value,
+            'type' => $this->type,
         ];
     }
 }

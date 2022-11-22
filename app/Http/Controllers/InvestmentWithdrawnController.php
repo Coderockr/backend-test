@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\InvestmentWithdrawnRequest;
+use App\Jobs\SendWithdrawnalProof;
 use App\Models\Investment;
 use App\Models\InvestmentMovement;
 use App\Services\InvestmentWithdrawnService;
@@ -23,7 +24,7 @@ class InvestmentWithdrawnController extends Controller
         DB::beginTransaction();
         try {
 
-            $investment = Investment::findOrFail($id);
+            $investment = Investment::with('person')->findOrFail($id);
             $withdrawn_at = $request->validated()['withdrawn_at'];
 
             if(!$this->investmentWithdrawnService->isWithdrawnDateValid($investment, $withdrawn_at)){
@@ -69,6 +70,8 @@ class InvestmentWithdrawnController extends Controller
             ]);
 
             DB::commit();
+
+            dispatch(new SendWithdrawnalProof($investment));
 
             return response()->json(
                 [

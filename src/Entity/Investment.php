@@ -28,41 +28,61 @@ class Investment implements JsonSerializable
     private \DateTimeImmutable $createdAt;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
-    private ?\DateTimeImmutable $dateOfWithdrawl = null;
+    private ?\DateTimeImmutable $dateOfWithdrawal = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $withdrawalValue = null;
 
 	public function __construct(
-		User $user,
-		float $value,
+        User $user,
+ 		float $value, 
 		\DateTimeImmutable $createdAt
-	)
-	{
-		$this->user = $user;
-		$this->value = $value;
-		$this->createdAt = $createdAt;
-	}
+    )
+    {
+        $this->user = $user;
+        $this->value = $value;
+        $this->createdAt = $createdAt;
+    }
 
 	public function value(): float
-	{
-		return $this->value;
-	}
+    {
+        return $this->value;
+    }
 
 	public function createdAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+	public function dateOfWithdrawal(): ?\DateTimeImmutable
+    {
+        return $this->dateOfWithdrawal;
+    }
+
+	public function setDateOfWithdrawal(\DateTimeImmutable $date): self
 	{
-		return $this->createdAt;
+		$this->dateOfWithdrawal = $date;
+		return $this;
 	}
 
-	public function dateOfWithdrawl(): \DateTimeImmutable
+	public function withdrawalValue(): ?float
 	{
-		return $this->dateOfWithdrawl;
+		return $this->withdrawalValue;
+	}
+
+	public function setWithdrawal(float $value): self
+	{
+		$this->withdrawalValue = $value;
+		return $this;
 	}
 
 	public function jsonSerialize(): mixed
-	{
-		return [
-			'id' => $this->id,
-			'initial_value' => $this->value,
-			'created_at' => $this->createdAt->format('Y-m-d'),
-			'date_of_withdrawl' => $this->dateOfWithdrawl?->format('Y-m-d')
-		];
-	}
+    {
+        return [
+         	'id' => $this->id,
+         	'initial_value' => $this->value,
+         	'created_at' => $this->createdAt->format('Y-m-d'),
+         	'date_of_withdrawal' => $this->dateOfWithdrawal?->format('Y-m-d')
+        ];
+    }
 }

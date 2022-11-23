@@ -7,6 +7,23 @@ use DateTimeImmutable;
 
 class InvestmentCalculator
 {
+	public function calculateTaxes(Investment $investment, ?DateTimeImmutable $dateOfWithdrawal = null): float
+	{
+		$date = $dateOfWithdrawal ?? new DateTimeImmutable('now');
+		$gains = $this->calculateGains($investment, $date);
+		$dateDiff = $investment->createdAt()->diff($date);
+
+		if ($dateDiff->y < 1) {
+			return ($gains * 22.5) / 100;
+		}
+
+		if ($dateDiff->y < 2) {
+			return ($gains * 18.5) / 100;
+		}
+
+		return ($gains * 15) / 100;
+	}
+
 	public function calculateGains(Investment $investment, ?DateTimeImmutable $date = null): float
 	{
 		$balance = $investment->value();

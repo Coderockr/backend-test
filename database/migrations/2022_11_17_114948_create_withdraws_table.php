@@ -17,11 +17,12 @@ return new class extends Migration
     {
         Schema::create('withdraws', function (Blueprint $table) {
             $table->id();
-            $table->decimal('amount');
-            $table->timestamps();
-
             $table->foreignIdFor(Investment::class);
             $table->foreignIdFor(User::class);
+            $table->decimal('gross_value');
+            $table->decimal('net_value');
+            $table->decimal('tax');
+            $table->timestamps();
         });
     }
 

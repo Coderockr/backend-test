@@ -19,6 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->decimal('amount');
+            $table->dateTime('date');
             $table->timestamps();
         });
     }

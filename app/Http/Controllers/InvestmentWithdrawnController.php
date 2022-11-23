@@ -69,10 +69,9 @@ class InvestmentWithdrawnController extends Controller
                 ],
             ]);
 
-            DB::commit();
-
             dispatch(new SendWithdrawnalProof($investment));
 
+            DB::commit();
             return response()->json(
                 [
                     'message' => 'The investment has been withdrawn'

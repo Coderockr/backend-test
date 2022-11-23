@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Investment;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @extends ServiceEntityRepository<Investment>
@@ -38,6 +41,19 @@ class InvestmentRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+	public function findByUser(User $user, ?int $page = 0): mixed
+	{
+		$query = $this->getEntityManager()->createQuery('
+			SELECT investment FROM ' . Investment::class . ' investment
+			JOIN investment.user user
+			WHERE user.email = \'' . $user->email() . '\'
+			')
+			->setFirstResult($page * 10)
+			->setMaxResults(10);
+
+		return $query->getResult();
+	}
 
 //    /**
 //     * @return Investment[] Returns an array of Investment objects

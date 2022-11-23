@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Investment;
+use App\Entity\User;
 use App\Repository\InvestmentRepository;
 use App\Service\InvestmentCalculator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -135,6 +136,23 @@ class InvestmentController extends AbstractController
 				'message' => 'Retida com sucesso.',
 				'withdrawal_value' => round($withdrawalValue, 2)
 			]
+		]);
+	}
+
+	#[Route('/list', name: 'app_investment_list', methods: ['GET'])]
+	public function list(
+		Request $request,
+		InvestmentRepository $repository,
+	): JsonResponse
+	{
+		$page = $request->query->get('page') ?? 0;
+		/** @var User $user */
+		$user = $this->getUser();
+		$investments = $repository->findByUser($user, ($page === 0 ? 0 : $page - 1));
+
+		return $this->json([
+			'results' => $investments,
+			'page' => $page
 		]);
 	}
 	

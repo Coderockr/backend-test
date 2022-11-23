@@ -17,7 +17,7 @@ class Investment implements JsonSerializable
 	#[ORM\CustomIdGenerator(class: 'doctrine.uuid_generator')]
     private ?Uuid $id = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'investments')]
     #[ORM\JoinColumn(nullable: false)]
     private User $user;
 
@@ -82,7 +82,8 @@ class Investment implements JsonSerializable
          	'id' => $this->id,
          	'initial_value' => $this->value,
          	'created_at' => $this->createdAt->format('Y-m-d'),
-         	'date_of_withdrawal' => $this->dateOfWithdrawal?->format('Y-m-d')
+			'date_of_withdrawal' => $this->dateOfWithdrawal?->format('Y-m-d'),
+			'withdrawal_value' => $this->withdrawalValue
         ];
     }
 }

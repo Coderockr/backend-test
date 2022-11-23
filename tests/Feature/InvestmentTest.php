@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Investment;
 use App\Models\Owner;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -54,4 +55,12 @@ test('asserts cannot create investment with invalid date', function () {
         'amount' => faker()->numberBetween(random_int(-10000,-1), 0)
     ])
         ->assertStatus(422);
+});
+
+test('asserts can get investment amount expected', function () {
+    $investment = Investment::factory()->create();
+
+    $this->json('get', '/api/investment', [
+        'investment' => $investment->id
+    ])->assertStatus(200);
 });

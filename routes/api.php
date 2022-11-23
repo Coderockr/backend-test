@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/owner', [OwnerController::class, 'create']);
 Route::post('/investment', [InvestmentController::class, 'create']);
+Route::get('/investment', [InvestmentController::class, 'show']);

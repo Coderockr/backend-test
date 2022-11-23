@@ -2,9 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Jobs\SendWithdrawnalProof;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Queue;
 use Tests\TestCase;
 
 class InvestmentTest extends TestCase
@@ -109,6 +111,10 @@ class InvestmentTest extends TestCase
     // investment withdrawn endpoint test
     public function test_investment_withdrawn()
     {
+        Queue::fake([
+            SendWithdrawnalProof::class,
+        ]);
+
         $response = $this->patchJson('/api/v1/investments/1/withdrawn', [
             "is_withdrawn" => 1,
             "withdrawn_at" => $this->faker->dateTimeBetween( '2021-01-01 00:00:00', '2022-11-22 00:00:00')

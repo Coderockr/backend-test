@@ -16,9 +16,8 @@ return new class extends Migration
         Schema::create('movement', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('investment_id');
-            $table->decimal('gain_real', 5, 2);
+            $table->decimal('real_gain', 10, 2);
             $table->decimal('updated_value', 10,2);
-            $table->dateTime('created_at');
 
             $table->foreign('investment_id')->references('id')->on('investment');
         });

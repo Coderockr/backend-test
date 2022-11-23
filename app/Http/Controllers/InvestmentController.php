@@ -101,8 +101,6 @@ class InvestmentController extends Controller
             $investment = Investment::findOrFail($id);
             $investment->update($data);
 
-            $investment->load('movements');
-
             return response()->json(
                 [
                     'data' => $investment,

@@ -6,9 +6,10 @@ use App\Repository\InvestmentRepository;
 use Symfony\Component\Uid\Uuid;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 #[ORM\Entity(repositoryClass: InvestmentRepository::class)]
-class Investment
+class Investment implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\Column(type: 'uuid', unique: true)]
@@ -38,5 +39,30 @@ class Investment
 		$this->user = $user;
 		$this->value = $value;
 		$this->createdAt = $createdAt;
+	}
+
+	public function value(): float
+	{
+		return $this->value;
+	}
+
+	public function createdAt(): \DateTimeImmutable
+	{
+		return $this->createdAt;
+	}
+
+	public function dateOfWithdrawl(): \DateTimeImmutable
+	{
+		return $this->dateOfWithdrawl;
+	}
+
+	public function jsonSerialize(): mixed
+	{
+		return [
+			'id' => $this->id,
+			'initial_value' => $this->value,
+			'created_at' => $this->createdAt->format('Y-m-d'),
+			'date_of_withdrawl' => $this->dateOfWithdrawl?->format('Y-m-d')
+		];
 	}
 }

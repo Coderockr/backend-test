@@ -4,11 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Investment;
 use App\Repository\InvestmentRepository;
+use App\Service\InvestmentCalculator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validation;
 
@@ -39,6 +41,31 @@ class InvestmentController extends AbstractController
         ]);
     }
 
+	#[Route('/show/{id}', name: 'app_investment_show', methods: ['GET'])]
+	public function show(
+		Uuid $id,
+		InvestmentRepository $repository,
+		InvestmentCalculator $investmentCalculator,
+	): JsonResponse
+	{
+		$investment = $repository->find($id);
+
+		if (!$investment) {
+			return $this->json(['error' => 'Investimento nao encontrado'], Response::HTTP_BAD_REQUEST);
+		}
+
+		$balanceExpect = $investmentCalculator->calculateGains($investment) + $investment->value();
+
+		if ($investment->dateOfWithdrawl()) {
+			$balanceExpect = $investmentCalculator->calculateGains($investment,$investment->dateOfWithdrawl()) + $investment->value();
+		}
+
+		return $this->json([
+			...$investment->jsonSerialize(),
+			'balance_expect' => round($balanceExpect, 2),
+		], Response::HTTP_OK);
+	}
+	
 	private function validateInput(array $input): array
 	{
 		$validator = Validation::createValidator();

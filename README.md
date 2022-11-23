@@ -4,7 +4,7 @@
 ## Requirements
 It is necessary to have the docker installed on your computer. [Go to docker website](https://www.docker.com)
 
-### Passo a passo
+### Step by step
 
 Acess project root directory 
 ```sh
@@ -21,7 +21,7 @@ Run docker-compose command to start containers
 docker-compose up -d
 ```
 
-Get into app bash with the above command
+Get into app bash with the below command
 ```sh
 docker-compose exec app bash
 ```

@@ -10,6 +10,14 @@ use Tests\TestCase;
 class InvestmentTest extends TestCase
 {
 
+    use WithFaker;
+
+    public function __construct($name = null, array $data = [], $dataName = '')
+    {
+        $this->makeFaker('en_US');
+        parent::__construct($name, $data, $dataName);
+    }
+
     /**
      * A basic feature test example.
      *
@@ -19,24 +27,16 @@ class InvestmentTest extends TestCase
     //persons endpoint tests
     public function test_creation_person_request()
     {
+
         $response = $this->postJson('/api/v1/persons', [
-            'first_name' => 'Daniel',
-            'last_name' => 'Soares',
-            'ssn' => '654984215',
-            'email' => 'danielcarlossoares@gmail.com',
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'ssn' => $this->faker->randomNumber(9),
+            'email' => $this->faker->email,
         ]);
 
         $response->dump();
         $response->assertStatus(201);
-    }
-
-    public function test_update_person_request(){
-        $response = $this->patchJson('/api/v1/persons/1', [
-            'ssn' => '210931223',
-        ]);
-
-        $response->dump();
-        $response->assertStatus('202');
     }
 
     public function test_view_person_request()
@@ -60,9 +60,10 @@ class InvestmentTest extends TestCase
     {
         $response = $this->postJson('/api/v1/investments', [
             'person_id' => 1,
-            'description' => 'Default Investment',
+            'description' => $this->faker->text(30),
             'gain' => 0.52,
-            'created_at' => '2021-08-10 09:23:00',
+            'created_at' => $this->faker->dateTimeBetween( '2015-01-01 00:00:00', '2020-12-31 23:59:59')
+                ->format('Y-m-d H:i:s'),
             'initial_investment' => 13700.00,
         ]);
 
@@ -72,8 +73,8 @@ class InvestmentTest extends TestCase
 
     public function test_update_investment()
     {
-        $response = $this->patchJson('/api/v1/investments', [
-            'description' => $this->faker->text(20),
+        $response = $this->patchJson('/api/v1/investments/1', [
+            'description' => 'Default Investment - Updated',
         ]);
 
         $response->dump();
@@ -90,7 +91,7 @@ class InvestmentTest extends TestCase
 
     public function test_view_investment()
     {
-        $response = $this->get('/api/v1/investments/1');
+        $response = $this->getJson('/api/v1/investments/1');
 
         $response->dump();
         $response->assertStatus(200);
@@ -99,7 +100,7 @@ class InvestmentTest extends TestCase
     // persons investment endpoint test
     public function test_persons_investments()
     {
-        $response = $this->get('api/v1/persons/1/investments');
+        $response = $this->getJson('api/v1/persons/1/investments');
 
         $response->dump();
         $response->assertStatus(200);
@@ -110,7 +111,8 @@ class InvestmentTest extends TestCase
     {
         $response = $this->patchJson('/api/v1/investments/1/withdrawn', [
             "is_withdrawn" => 1,
-            "withdrawn_at" => Carbon::now()->format('Y-m-d H:i:s'),
+            "withdrawn_at" => $this->faker->dateTimeBetween( '2021-01-01 00:00:00', '2022-11-22 00:00:00')
+                ->format('Y-m-d H:i:s'),
         ]);
 
         $response->dump();

@@ -1,88 +1,123 @@
 # Back End Test Project <img src="https://coderockr.com/assets/images/coderockr.svg" align="right" height="50px" />
 
-You should see this challenge as an opportunity to create an application following modern development best practices (given the stack of your choice), but also feel free to use your own architecture preferences (coding standards, code organization, third-party libraries, etc). It’s perfectly fine to use vanilla code or any framework or libraries.
+### In this test, must be built an API that receives an investment, and provide a profit to this investment every month, in the same day of the investment creation.
 
-## Scope
+# To execute the project in your machine, follow the steps below
 
-In this challenge you should build an API for an application that stores and manages investments, it should have the following features:
+```
+# clone the repository
+$ git clone git@github.com:thalesmengue/backend-test.git
 
-1. __Creation__ of an investment with an owner, a creation date and an amount.
-    1. The creation date of an investment can be today or a date in the past.
-    2. An investment should not be or become negative.
-2. __View__ of an investment with its initial amount and expected balance.
-    1. Expected balance should be the sum of the invested amount and the [gains][].
-    2. If an investment was already withdrawn then the balance must reflect the gains of that investment
-3. __Withdrawal__ of a investment.
-    1. The withdraw will always be the sum of the initial amount and its gains,
-       partial withdrawn is not supported.
-    2. Withdrawals can happen in the past or today, but can't happen before the investment creation or the future.
-    3. [Taxes][taxes] need to be applied to the withdrawals before showing the final value.
-4. __List__ of a person's investments
-    1. This list should have pagination.
+# access the project folder in your terminal or in your IDE 
 
-__NOTE:__ the implementation of an interface will not be evaluated.
+# install the dependencies
+$ composer install
 
-### Gain Calculation
+# copy the .env file of the project
+$ cp .env.example .env
 
-The investment will pay 0.52% every month in the same day of the investment creation.
+# set environment variables of your database in the .env file
 
-Given that the gain is paid every month, it should be treated as [compound gain][], which means that every new period (month) the amount gained will become part of the investment balance for the next payment.
+# create a new key to the application
+$ php artisan key:generate
 
-### Taxation
+# install the laravel passport
+$ php artisan passport:install
 
-When money is withdrawn, tax is triggered. Taxes apply only to the profit/gain portion of the money withdrawn. For example, if the initial investment was 1000.00, the current balance is 1200.00, then the taxes will be applied to the 200.00.
+#get the client secret for the client 2, and put on your .env file on the "CLIENT_SECRET"
 
-The tax percentage changes according to the age of the investment:
-* If it is less than one year old, the percentage will be 22.5% (tax = 45.00).
-* If it is between one and two years old, the percentage will be 18.5% (tax = 37.00).
-* If older than two years, the percentage will be 15% (tax = 30.00).
+# execute the command below to run the migrations
+$ php artisan migrate
 
-## Requirements
-1. Create project using any technology of your preference. It’s perfectly OK to use vanilla code or any framework or libraries;
-2. Although you can use as many dependencies as you want, you should manage them wisely;
-3. It is not necessary to send the notification emails, however, the code required for that would be welcome;
-4. The API must be documented in some way.
+# execute the following code block to populate your user database with the Seeder
+$ php artisan db:seed
 
-## Deliverables
-The project source code and dependencies should be made available in GitHub. Here are the steps you should follow:
-1. Fork this repository to your GitHub account (create an account if you don't have one, you will need it working with us).
-2. Create a "development" branch and commit the code to it. Do not push the code to the main branch.
-3. Include a README file that describes:
-    - Special build instructions, if any
-    - List of third-party libraries used and short description of why/how they were used
-    - A link to the API documentation.
-4. Once the work is complete, create a pull request from "development" into "main" and send us the link.
-5. Avoid using huge commits hiding your progress. Feel free to work on a branch and use `git rebase` to adjust your commits before submitting the final version.
+# execute the below command to acess the API
+$ php artisan serve
 
-## Coding Standards
-When working on the project be as clean and consistent as possible.
+```
 
-## Project Deadline
-Ideally you'd finish the test project in 5 days. It shouldn't take you longer than a entire week.
+### After you followed the steps above, must have been created a user with the following infos
 
-## Quality Assurance
-Use the following checklist to ensure high quality of the project.
+```bash
+login: 'admin@test.com'
+password: 'password'
+```
 
-### General
-- First of all, the application should run without errors.
-- Are all requirements set above met?
-- Is coding style consistent?
-- The API is well documented?
-- The API has unit tests?
+## commands
 
-## Submission
-1. A link to the Github repository.
-2. Briefly describe how you decided on the tools that you used.
+### I created the commands below to create a random investment and to generate the profits for the investments.
 
-## Have Fun Coding 🤘
-- This challenge description is intentionally vague in some aspects, but if you need assistance feel free to ask for help.
-- If any of the seems out of your current level, you may skip it, but remember to tell us about it in the pull request.
+```bash
+php artisan create:investment {amount} {user_id} {date}
 
-## Credits
+example:
+php artisan create:investment 300.25 1 2022-2-3
+```
 
-This coding challenge was inspired on [kinvoapp/kinvo-back-end-test](https://github.com/kinvoapp/kinvo-back-end-test/blob/2f17d713de739e309d17a1a74a82c3fd0e66d128/README.md)
+```bash
+php artisan generate:profit {investmentId}
 
-[gains]: #gain-calculation
-[taxes]: #taxation
-[interest]: #interest-calculation
-[compound gain]: https://www.investopedia.com/terms/g/gain.asp
+example:
+php artisan generate:profits 3
+```
+
+*obs: on a real situation, the ideal scenario should have been created a job to handle monthly the profit increase*
+
+# Routes
+
+## Login routes
+
+| Method HTTP | Endpoint       | Description            |
+|-------------|----------------|------------------------|
+| POST        | `/oauth/token` | Return the oauth token |
+| POST        | `/api/login`   | Use to login the user  |
+
+## Investment routes
+
+| Method HTTP | Endpoint                  | Description                       |
+|-------------|---------------------------|-----------------------------------|
+| GET         | `/api/investments`        | Return all investments registered |
+| POST        | `/api/investments/create` | Register a new investment         |
+
+## Withdraw routes
+
+| Method HTTP | Endpoint                               | Description                |
+|-------------|----------------------------------------|----------------------------|
+| GET         | `/api/withdraws/{investmentId}/`       | Return a specific withdraw |
+| GET         | `/api/withdraws/{investmentId}/create` | Create a new withdraw      |
+
+## Profit routes
+
+| Method HTTP | Endpoint                             | Description              |
+|-------------|--------------------------------------|--------------------------|
+| GET         | `/api/profits/{investmentId}/`       | Return a specific profit |
+| GET         | `/api/profits/{investmentId}/create` | Create a new profit      |
+
+## Login routes
+
+### [There are two basic login routes on laravel passport, the first one `/oauth/token`, and the second one `/api/login`, the first one works fine on localhost, but the second one need nginx to work in his best]
+
+### the first one works fine without nginx, but need to pass the parameters below to get the bearer_token and access the other routes
+
+```bash
+
+{
+        "grant_type": "password",
+        "client_id": "2",
+        "client_secret": ["YOUR_CLIENT_SECRET"],
+        "username": "admin@test.com",
+    	"password": "password",
+    	"scope": "*"
+}
+
+```
+
+*obs: on "YOUR_CLIENT_SECRET" need to be put the client secret generate by passport on installation*
+
+#### technologies utilized to create the API
+
+* Laravel 9.x (to create the API) [https://laravel.com/docs/9.x]
+* Laravel Passport (to make the auth) [https://laravel.com/docs/9.x/passport]
+
+*obs: the profit routes were made as a test, because the generate profit command are in charge of creating a new profit*

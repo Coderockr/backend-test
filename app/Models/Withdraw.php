@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Withdraw extends Model
 {
+    protected $table = 'withdraw';
     protected $fillable = [
         'investment_id', 'date', 'tax', 'tax_value'
     ];

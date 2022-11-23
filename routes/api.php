@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\PersonController;
+use App\Http\Controllers\InvestmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('/v1')->group(function () {
+    Route::controller(PersonController::class)->group(function () {
+        Route::get('/persons', 'index');
+        Route::get('/person/{id}', 'show');
+        Route::post('/person', 'store');
+    });
+
+
 });

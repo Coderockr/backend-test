@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Investment extends Model
 {
+    protected $table = 'investment';
     protected $fillable = [
         'person_id', 'initial_value', 'created_at', 'gain', 'withdraw'
     ];

@@ -23,5 +23,10 @@ Route::prefix('/v1')->group(function () {
         Route::post('/person', 'store');
     });
 
-
+    Route::controller(InvestmentController::class)->group(function () {
+        Route::get('/investments', 'index');
+        Route::post('/investment', 'store');
+        Route::get('/investment/{id}/', 'show');
+        Route::get('/investment/{id}/movements', 'movements');
+    });
 });

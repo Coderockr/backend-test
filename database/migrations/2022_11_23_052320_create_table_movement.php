@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('movement', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
+            $table->unsignedBigInteger('investment_id');
+            $table->decimal('gain_real', 5, 2);
+            $table->decimal('updated_value', 10,2);
+            $table->dateTime('created_at');
+
+            $table->foreign('investment_id')->references('id')->on('investment');
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('movement');
     }
 };

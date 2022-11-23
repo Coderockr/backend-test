@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\WithdrawStoreRequest;
 use App\Models\Investment;
 use App\Models\Withdraw;
+use Carbon\Carbon;
 use http\Env\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -21,29 +22,40 @@ class WithdrawController extends Controller
         ]);
     }
 
-    public function store(WithdrawStoreRequest $request, $investmentId)
+    public function store(WithdrawStoreRequest $request, $investmentId): JsonResponse
     {
         $amount = $request->amount;
         $investment = Investment::query()->find($investmentId);
+        $totalAmount = $investment->getTotalAmount();
+        $dateDiff = now()->diffInDays(Carbon::parse($investment->date));
+        $amountProfit = $investment->profits()->sum('amount');
 
         if ($investment->withdraws) {
-            return \response()->json([
+            return response()->json([
                 'success' => false,
                 'message' => 'Investment already withdrawn'
             ], 422);
         }
 
-        if ($amount && $investment->getTotalAmount() > $amount) {
+        if ($amount && $totalAmount > $amount) {
             return response()->json([
                 'success' => false,
                 'message' => 'The investment amount must be withdraw integrally'
             ], 422);
+        } else if ($amount && $totalAmount < $amount) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Your amount on balance is below the value you tried to withdraw! ' . 'Your balance: ' . $totalAmount
+            ], 422);
         } else if (!$amount) {
-            $amount = $investment->getTotalAmount();
+            $amount = $totalAmount;
         }
 
+
         $withdraw = Withdraw::query()->create([
-            'amount' => $amount,
+            'gross_value' => $amount,
+            'net_value' => $amount - $this->getWithdrawTax($dateDiff, $amountProfit),
+            'tax' => $this->getWithdrawTax($dateDiff, $amountProfit),
             'user_id' => Auth::id(),
             'investment_id' => $investmentId
         ]);
@@ -52,5 +64,14 @@ class WithdrawController extends Controller
             'success' => true,
             'data' => $withdraw
         ], 201);
+    }
+
+    public function getWithdrawTax($days, $amount): int|float
+    {
+        return match ($days) {
+            $days <= 365 => round(($amount / 100) * 22.5, 2),
+            $days <= 730 => round(($amount / 100) * 18.5, 2),
+            default => round(($amount / 100) * 15, 2),
+        };
     }
 }

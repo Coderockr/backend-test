@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Profit;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,8 @@ class ProfitController extends Controller
     {
         $profit = Profit::query()->create([
             'amount' => $request->amount,
-            'investment_id' => $investmentId
+            'investment_id' => $investmentId,
+            'date' => Carbon::now()
         ]);
 
         return response()->json([

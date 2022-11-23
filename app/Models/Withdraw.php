@@ -10,7 +10,9 @@ class Withdraw extends Model
     use HasFactory;
 
     protected $fillable = [
-        'amount',
+        'gross_value',
+        'net_value',
+        'tax',
         'user_id',
         'investment_id'
     ];

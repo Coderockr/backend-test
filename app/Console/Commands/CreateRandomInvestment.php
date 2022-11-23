@@ -37,8 +37,7 @@ class CreateRandomInvestment extends Command
         DB::table('investments')->insert([
             'amount' => $amount,
             'user_id' => $user_id,
-            'created_at' => $date,
-            'updated_at' => $date
+            'date' => $date
         ]);
 
     }

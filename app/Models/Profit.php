@@ -11,6 +11,11 @@ class Profit extends Model
 
     protected $fillable = [
         'amount',
-        'investment_id'
+        'investment_id',
+        'date'
+    ];
+
+    protected $casts = [
+        'date' => 'datetime'
     ];
 }

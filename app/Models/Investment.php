@@ -13,7 +13,16 @@ class Investment extends Model
 
     protected $fillable = [
         'amount',
-        'user_id'
+        'user_id',
+        'date'
+    ];
+
+    protected $casts = [
+        'date' => 'datetime'
+    ];
+
+    protected $appends = [
+        'total_balance'
     ];
 
     public function profits(): HasMany
@@ -27,6 +36,13 @@ class Investment extends Model
     }
 
     public function getTotalAmount()
+    {
+        $profits = $this->profits()->sum('amount');
+
+        return $this->amount + $profits;
+    }
+
+    public function getTotalBalanceAttribute()
     {
         $profits = $this->profits()->sum('amount');
 

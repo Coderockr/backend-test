@@ -10,8 +10,6 @@ services:
         working_dir: /var/www/
         volumes:
             - ./:/var/www
-        depends_on: 
-            - redis
         networks: 
             - coderockr_test
     
@@ -40,24 +38,6 @@ services:
             - ./docker/mysql/data:/var/lib/mysql
         ports: 
             - "3388:3306"
-        networks: 
-            - coderockr_test
-
-    # queue
-    queue:
-        image: especializati/laravel-app
-        command: "php artisan queue:work"
-        volumes: 
-            - ./:/var/www
-        depends_on: 
-            - redis
-            - app
-        networks: 
-            - coderockr_test
-
-    # redis
-    redis:
-        image: redis:latest
         networks: 
             - coderockr_test
 

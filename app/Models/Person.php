@@ -11,7 +11,7 @@ class Person extends Model
         'first_name', 'last_name', 'username', 'email'
     ];
 
-    public function investmests()
+    public function investments()
     {
         return $this->hasMany(Investment::class);
     }

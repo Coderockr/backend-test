@@ -18,7 +18,7 @@ class InvestmentController extends Controller
 
     public function show(string $id)
     {
-        $investment = Investment::find($id);
+        $investment = Investment::with('person')->find($id);
 
         return new InvestmentResource($investment);
     }
@@ -34,6 +34,16 @@ class InvestmentController extends Controller
     public function withdraw(Request $request, $investmentId)
     {
         $investment = Investment::find($investmentId);
+        $withdrawalDate = Carbon::parse($request->input('date'));
+
+        if (! $investment) {
+            return response()->json([
+                'data'  =>  [
+                    'success'   =>  false,
+                    'message'   =>  'Investment not found'
+                ]
+            ], 404);
+        }
 
         if ($investment->withdraw) {
             return response()->json([
@@ -44,7 +54,6 @@ class InvestmentController extends Controller
             ], 403);
         }
 
-        $withdrawalDate = Carbon::parse($request->input('date'));
 
         try {
             $service = new WithdrawServices($investment, $withdrawalDate);

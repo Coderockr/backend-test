@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PersonInvestmentsResource;
 use App\Http\Resources\PersonResource;
 use App\Models\Person;
 use Illuminate\Http\Request;
@@ -40,5 +41,10 @@ class PersonController extends Controller
         }
 
         return new PersonResource($person);
+    }
+
+    public function investments(string $id)
+    {
+        return new PersonInvestmentsResource(Person::find($id)->investments()->paginate(10));
     }
 }

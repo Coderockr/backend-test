@@ -12,6 +12,9 @@ class Investment extends Model
     protected $fillable = [
         'person_id', 'initial_value', 'date', 'gain', 'withdraw', 'final_value'
     ];
+    protected $appends = [
+        'expected_balance'
+    ];
 
     protected static function boot()
     {
@@ -35,5 +38,10 @@ class Investment extends Model
     public function withdrawals()
     {
         return $this->hasMany(Withdraw::class);
+    }
+
+    public function getExpectedBalanceAttribute()
+    {
+        return $this->movements->last()->updated_value;
     }
 }

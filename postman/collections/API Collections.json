@@ -1,0 +1,154 @@
+{
+	"info": {
+		"_postman_id": "6e6f38b0-b691-496c-9307-37ee31cdb89c",
+		"name": "API Collections",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "9534004-6e6f38b0-b691-496c-9307-37ee31cdb89c"
+	},
+	"item": [
+		{
+			"name": "Check if API is up",
+			"id": "b1dfc547-1580-4102-be7b-c7bc22e4f4af",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{enviroment_url}}/api/v1/status",
+					"host": [
+						"{{enviroment_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new Investment",
+			"id": "0f3835ab-810f-4f17-bf25-d001cf7a5c14",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"owner_id\": 1,\n    \"owner_name\": \"Daniel Maia\",\n    \"invesment\": {\n        \"create_at\": \"2023-05-01\",\n        \"value_decimal\": 990000.00\n    }\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{enviroment_url}}/api/v1/investment",
+					"host": [
+						"{{enviroment_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"investment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Investment by Id",
+			"id": "bd89752f-4bc6-42fc-a7c9-1f6d4f58eae6",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{enviroment_url}}/api/v1/investment/5",
+					"host": [
+						"{{enviroment_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"investment",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Withdrawal",
+			"id": "a5f5b8c4-e794-49c0-b6ac-43b82701f6f8",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"date\": \"2024-06-10\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{enviroment_url}}/api/v1/investment/1",
+					"host": [
+						"{{enviroment_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"investment",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Investments by Owner",
+			"id": "9a13215c-0f4b-42b7-8a43-424fc951518b",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"owner_id\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{enviroment_url}}/api/v1/investment",
+					"host": [
+						"{{enviroment_url}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"investment"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

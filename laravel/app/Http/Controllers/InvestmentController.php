@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\InvestmentRequest;
 use App\Models\Investment;
+use App\Models\Owner;
+use App\Repositories\InvestmentRepository;
+use App\Repositories\OwnerRepository;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 
 class InvestmentController extends Controller
 {
+    use ApiResponser;
+
     /**
      * Display a listing of the resource.
      *
@@ -18,46 +25,43 @@ class InvestmentController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(InvestmentRequest $request)
     {
-        //
+        try {
+            $ownerRepo = new OwnerRepository;
+            $ownerId = $ownerRepo->setOwner($request->owner_id, $request->owner_name);
+            
+            $investmentRepo = new InvestmentRepository;
+            $investmentRepo->setInvestment($request->invesment, $ownerId);
+            
+            return $this->success($request->input(), "Investmento criado com sucesso");
+        } catch (\Exception $e) {
+            return $this->error("Houve um erro interno ao criar um investimento.", 500, ["detail" => $e->getMessage()]);
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Investment  $investment
+     * @param  int  $ownerId
      * @return \Illuminate\Http\Response
      */
-    public function show(Investment $investment)
+    public function show(int $ownerId)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Investment  $investment
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Investment $investment)
-    {
-        //
+        try {
+            $investmentRepo = new InvestmentRepository;
+            $investment = $investmentRepo->getInvestmentByOwner($ownerId);
+            $investmentGain = $investmentRepo->getValueWithGain($investment);
+            
+            return $this->success($investmentGain, "Investmento consultado com sucesso");
+        } catch (\Exception $e) {
+            return $this->error("Houve um erro interno ao buscar um investimento.", 500, ["detail" => $e->getMessage()]);
+        }
     }
 
     /**

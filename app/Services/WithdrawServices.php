@@ -44,7 +44,7 @@ class WithdrawServices
     private function validation()
     {
         if (! $this->withdrawalDate->between($this->investment->date, Carbon::now())) {
-            return false;
+            throw new \Exception('Invalid date');
         }
 
         return $this;

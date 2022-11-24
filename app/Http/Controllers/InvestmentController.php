@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\InvestmentPostRequest;
+use App\Http\Requests\WithdrawRequest;
 use App\Http\Resources\InvestmentResource;
 use App\Models\Investment;
 use App\Services\WithdrawServices;
@@ -31,7 +32,7 @@ class InvestmentController extends Controller
         return new InvestmentResource($investment);
     }
 
-    public function withdraw(Request $request, $investmentId)
+    public function withdraw(WithdrawRequest $request, $investmentId)
     {
         $investment = Investment::find($investmentId);
         $withdrawalDate = Carbon::parse($request->input('date'));

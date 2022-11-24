@@ -17,10 +17,6 @@ use Illuminate\Testing\TestResponse;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 
 Route::get('/status', function () {
     return response()->json(['code' => 200, 'status' => 'Connected', 'message' => 'API is working']);

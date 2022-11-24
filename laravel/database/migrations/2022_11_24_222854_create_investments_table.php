@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('investments', function (Blueprint $table) {
             $table->id();
             $table->decimal("value_decimal", 10, 2);
+            $table->decimal("value_final", 10, 2);
             $table->timestamp("create_at");
             $table->biginteger('owner_id');
         });
@@ -23,8 +24,7 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
+     *     * @return void
      */
     public function down()
     {

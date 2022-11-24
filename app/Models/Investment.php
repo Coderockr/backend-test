@@ -10,7 +10,7 @@ class Investment extends Model
 
     protected $table = 'investment';
     protected $fillable = [
-        'person_id', 'initial_value', 'date', 'gain', 'withdraw'
+        'person_id', 'initial_value', 'date', 'gain', 'withdraw', 'final_value'
     ];
 
     protected static function boot()

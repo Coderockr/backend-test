@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('person_id');
             $table->decimal('initial_value', 10, 2);
             $table->date('date');
-            $table->decimal('gain', 10,5);
+            $table->decimal('gain', 5,4);
             $table->boolean('withdraw')->default(false);
             $table->timestamps();
 

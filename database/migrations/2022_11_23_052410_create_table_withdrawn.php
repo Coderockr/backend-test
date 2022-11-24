@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('investment_id');
             $table->dateTime('date');
-            $table->decimal('tax', 5,2);
+            $table->decimal('tax', 5,4);
             $table->decimal('tax_value', 10, 2);
             $table->timestamps();
 

@@ -28,5 +28,6 @@ Route::prefix('/v1')->group(function () {
         Route::post('/investment', 'store');
         Route::get('/investment/{id}/', 'show');
         Route::get('/investment/{id}/movements', 'movements');
+        Route::get('/investment/{id}/withdraw', 'withdraw');
     });
 });

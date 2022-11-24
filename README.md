@@ -2,6 +2,9 @@
 
 Este projeto é construido em symfony.
 
+[Click aqui](/doc/escopo.md) para ver o escopo do teste.<br>
+[Click aqui](/api/escopo.md) para ver a documentação da API.
+
 ## Bibliotecas instaladas
 
 - [SymfonyMakerBundle](https://symfony.com/bundles/SymfonyMakerBundle/current/index.html)

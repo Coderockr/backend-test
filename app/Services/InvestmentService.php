@@ -26,8 +26,9 @@ class InvestmentService
         $taxes = $this->calculateTaxes($investment->creation_date, $gains, $today);
 
         $investmentExpected = ($investment->initial_amount + $gains - $taxes);
+        $message = "Expected amount (removing taxes) at {$today->format('d M Y')} for the investment is {$investmentExpected}";
 
-        return response()->json("Expected amount (removing taxes) at {$today->format('d M Y')} for the investment is {$investmentExpected}");
+        return response($message)->json();
     }
 
     public function create(array $data)

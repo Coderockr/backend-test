@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Investment;
 use App\Models\Person;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -14,20 +13,37 @@ class InvestmentTest extends TestCase
 
     public function test_add_new_person()
     {
-        $response = $this->post('/api/v1/person', [
+        $data = [
             'first_name'    =>  $this->faker->firstName,
             'last_name'    =>  $this->faker->lastName,
-            'username'    =>  $this->faker->userName,
-            'email'     =>  $this->faker->email
-        ]);
+            'username'    =>  $this->faker->unique()->userName,
+            'email'     =>  $this->faker->unique()->email
+        ];
 
-        $response->assertStatus(201);
+        $response = $this->post('/api/v1/person', $data);
+
+        $this->assertDatabaseHas('person', $data);
+
+        $response
+            ->assertJsonStructure([
+                'data'  =>  [
+                    'id', 'first_name', 'last_name', 'username', 'email'
+                ]
+            ])
+            ->assertStatus(201);
     }
 
     public function test_show_person_details()
     {
         $response = $this->get('/api/v1/person/1');
-        $response->assertStatus(200);
+
+        $response
+            ->assertJsonStructure([
+                'data'  =>  [
+                    'id', 'first_name', 'last_name', 'username', 'email'
+                ]
+            ])
+            ->assertStatus(200);
     }
 
     public function test_create_an_investment()
@@ -47,7 +63,11 @@ class InvestmentTest extends TestCase
     {
         $response = $this->get('/api/v1/investment/1/');
 
-        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data'  =>  [
+                'initial_value', 'date', 'withdraw', 'final_value'
+            ]
+        ])->assertStatus(200);
     }
 
     public function test_create_investment_without_person_id()
@@ -65,20 +85,27 @@ class InvestmentTest extends TestCase
     {
         $response = $this->post('/api/v1/investment', [
             'person_id' => 1,
-            'initial_value' =>  '4000',
+            'initial_value' =>  4000,
             'date'  =>  '2020-02-01'
         ]);
 
-        $response->assertStatus(200);
+        $response
+            ->assertJsonPath('data.date', '2020-02-01')
+            ->assertJsonPath('data.withdraw', 0)
+            ->assertJsonPath('data.final_value', null)
+            ->assertStatus(200);
     }
 
     public function test_withdraw_the_investment()
     {
-        $investment = Investment::create([
+        $data = [
             'person_id' =>  1,
             'initial_value' =>  1000,
             'date'  =>  '2021-03-14'
-        ]);
+        ];
+
+        $investment = Investment::create($data);
+        $this->assertDatabaseHas('investment', $data);
 
         $withdrawUri = sprintf('/api/v1/investment/%s/withdraw', $investment->id);
 
@@ -103,11 +130,14 @@ class InvestmentTest extends TestCase
 
     public function test_withdraw_with_date_before_investment()
     {
-        $investment = Investment::create([
+        $data = [
             'person_id' =>  1,
             'initial_value' =>  1000,
             'date'  =>  '2022-03-01'
-        ]);
+        ];
+
+        $investment = Investment::create($data);
+        $this->assertDatabaseHas('investment', $data);
 
         $withdrawUri = sprintf('/api/v1/investment/%s/withdraw', $investment->id);
 

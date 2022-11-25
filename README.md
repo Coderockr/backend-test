@@ -26,6 +26,10 @@ DB_PASSWORD=senha_banco_de_dados <br>
 
 > php artisan migrate
 
+<p>And run the commando to generate APP_KEY</p>
+
+> php artisan key:generate
+
  ### Initializing the application
 
 To start the application, by default, Laravel will start at the address (http://localhost:8000), executing the command

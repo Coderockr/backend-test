@@ -12,9 +12,11 @@ use Illuminate\Http\Request;
 
 class InvestmentController extends Controller
 {
-    public function index()
+    public function index(Investment $eloquent)
     {
-        return InvestmentResource::collection(Investment::all());
+        $investments = $eloquent->newQuery()->paginate();
+
+        return InvestmentResource::collection($investments);
     }
 
     public function show(string $id)

@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('investments', function (Blueprint $table) {
             $table->id();
             $table->double('initial_amount', 14, 4);
+            $table->double('gains', 14, 4)->nullable();
+            $table->double('taxes', 14, 4)->nullable();
             $table->double('final_amount',16,4)->nullable();
             $table->date('creation_date');
             $table->date('withdrawal_date')->nullable();

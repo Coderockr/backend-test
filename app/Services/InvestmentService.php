@@ -17,7 +17,7 @@ class InvestmentService
     {
         $investment = Investment::find($data['investment']);
         if ($investment->withdrawal_done) {
-            $message = "Final amount is {$investment->final_amount}, after withdrawal date {$investment->date_withdrawal}";
+            $message = "Final amount is {$investment->final_amount}, after withdrawal done";
             return response()->json($message);
         }
 
@@ -28,7 +28,7 @@ class InvestmentService
         $investmentExpected = ($investment->initial_amount + $gains - $taxes);
         $message = "Expected amount (removing taxes) at {$today->format('d M Y')} for the investment is {$investmentExpected}";
 
-        return response($message)->json();
+        return response()->json($message);
     }
 
     public function create(array $data)

@@ -24,7 +24,7 @@ class OwnerInvestmentsRequest extends FormRequest
     public function rules()
     {
         return [
-            'owner' => 'required|numeric|exists:owners,id'
+            'owner' => 'required|email|exists:owners,email'
         ];
     }
 }

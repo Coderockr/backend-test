@@ -45,6 +45,17 @@ class PersonController extends Controller
 
     public function investments(string $id)
     {
-        return new PersonInvestmentsResource(Person::find($id)->investments()->paginate(10));
+        $person = Person::find($id);
+
+        if (! $person) {
+            return response()->json([
+                'data'  =>  [
+                    'success'   =>  false,
+                    'message'   =>  'Person not found'
+                ]
+            ], 404);
+        }
+
+        return new PersonInvestmentsResource($person->investments()->paginate(10));
     }
 }

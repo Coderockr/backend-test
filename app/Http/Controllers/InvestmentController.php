@@ -23,6 +23,15 @@ class InvestmentController extends Controller
     {
         $investment = Investment::with('person')->find($id);
 
+        if (! $investment) {
+            return response()->json([
+                'data'  =>  [
+                    'success'   =>  false,
+                    'message'   =>  'Investment not found'
+                ]
+            ], 404);
+        }
+
         return new InvestmentResource($investment);
     }
 

@@ -51,7 +51,7 @@ class InvestmentService
         }
 
         if ($this->verifyDate($date_withdrawal, $investment->creation_date)) {
-            return response()->json(['Date invalid, pass date after investment creation'], 401);
+            return response()->json('Date invalid, pass date after investment creation', 401);
         }
 
         $gains = $this->calculateGains($investment, $date_withdrawal);
@@ -64,7 +64,7 @@ class InvestmentService
 
         $message = "Final amount: {$investment->final_amount}, Taxes: {$taxes}";
 
-        return response()->json([$message], 201);
+        return response()->json($message, 201);
     }
 
     public function verifyDate($date_withdrawal, $creation_date)

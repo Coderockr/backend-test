@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\{InvestmentController, OwnerController};
+
 use App\Models\Owner;
+use App\Http\Controllers\{InvestmentController, OwnerController, WithdrawalController};
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,4 @@ Route::post('/owner', [OwnerController::class, 'create']);
 Route::get('/owners_investments', [OwnerController::class, 'showInvestments']);
 Route::post('/investment', [InvestmentController::class, 'create']);
 Route::get('/investment', [InvestmentController::class, 'show']);
+Route::post('/withdrawal', [InvestmentController::class, 'withdrawal']);

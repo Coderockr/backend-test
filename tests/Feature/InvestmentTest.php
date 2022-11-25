@@ -64,3 +64,56 @@ test('asserts can get investment amount expected', function () {
         'investment' => $investment->id
     ])->assertStatus(200);
 });
+
+test('asserts can return expected amount', function () {
+    $owner = Owner::factory()->create();
+    $investment = Investment::create([
+        'initial_amount' => 1000,
+        'creation_date' => '2022-01-11',
+        'owner_id' => $owner->id
+    ]);
+
+    $percentage = 0.52;
+    $startDate = Carbon::parse($investment->creation_date);
+    $endDate = Carbon::parse();
+    $monthsDiff = $startDate->diffInMonths($endDate);
+
+    $gains = $investment->initial_amount * ( (1 + $percentage/100) ** ($monthsDiff)) -  $investment->initial_amount;
+    $taxes = $gains * 0.225;
+    $expectedAmount = $investment->initial_amount + $gains - $taxes;
+
+    $result = $this->json('get', '/api/investment', [
+        'investment' => $investment->id
+    ]);
+
+    $this->assertStringContainsString($expectedAmount, $result->original);
+});
+
+test('asserts cannot withdrawal investment twice', function () {
+    $investment = Investment::factory()->create();
+
+    $this->json('post', '/api/withdrawal', [
+        'investment' => $investment->id,
+        'withdrawal_date' => date('Y-m-d')
+    ]);
+
+    //tried withdrawal again after done it before
+    $this->json('post', '/api/withdrawal', [
+        'investment' => $investment->id,
+        'withdrawal_date' => date('Y-m-d')
+    ])->assertStatus(401);
+});
+
+test('asserts cannot withdrawal with invalid date', function () {
+    $investment = Investment::create([
+        'initial_amount' => 100,
+        'creation_date' =>  date('Y-m-d'),
+        'owner_id' => Owner::factory()->create()->id
+    ]);
+
+    $yesterday = strtotime('-1 day');
+    $this->json('post', '/api/withdrawal', [
+        'investment' => $investment->id,
+        'withdrawal_date' => date('Y-m-d', $yesterday)
+    ])->assertStatus(401);
+});

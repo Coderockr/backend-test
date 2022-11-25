@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Investment\{InvestmentCreateRequest, InvestmentShowRequest};
-use App\Models\Investment;
+use App\Http\Requests\Investment\{InvestmentCreateRequest, InvestmentShowRequest, WithdrawalRequest};
 use App\Models\Owner;
 use App\Services\InvestmentService;
-use Illuminate\Http\Request;
 
 class InvestmentController extends Controller
 {
@@ -24,5 +22,10 @@ class InvestmentController extends Controller
         $data = $request->validated();
         $data['owner_id'] = Owner::where('email', $data['email'])->first()->id;
         return $this->service->create($data);
+    }
+
+    public function withdrawal(WithdrawalRequest $request)
+    {
+        return $this->service->withdrawal($request->validated());
     }
 }

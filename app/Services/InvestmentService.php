@@ -9,19 +9,25 @@ use Carbon\Carbon;
 class InvestmentService
 {
     CONST paymentPercentage = 0.52;
+    CONST taxLessThanOneYearPercentage = 22.5;
+    CONST taxBetweenOneAndTwoYearsPercentage = 18.5;
+    CONST taxOlderThanTwoYearsPercentage = 15.0;
 
     public function show(array $data)
     {
         $investment = Investment::find($data['investment']);
         if ($investment->withdrawal_done) {
-            // $message = "Final amount is {$investment->final_amount}, after withdrawal date {$investment->date_withdrawal}"
-            // return response()->json([$message]);
-            return;
+            $message = "Final amount is {$investment->final_amount}, after withdrawal date {$investment->date_withdrawal}";
+            return response()->json($message);
         }
 
-        $investmentExpected = $this->expectedAmount($investment);
+        $today = Carbon::parse();
+        $gains = $this->calculateGains($investment, $today);
+        $taxes = $this->calculateTaxes($investment->creation_date, $gains, $today);
 
-        return response()->json(["Expected amount today for the investment is {$investmentExpected}"]);
+        $investmentExpected = ($investment->initial_amount + $gains - $taxes);
+
+        return response()->json("Expected amount today for the investment is {$investmentExpected}");
     }
 
     public function create(array $data)
@@ -35,12 +41,59 @@ class InvestmentService
         return response()->json(['Created Investment!'], 201);
     }
 
-    public function expectedAmount(Investment $investment)
+    public function withdrawal(array $data)
     {
-        $today = Carbon::parse();
-        $monthsDiff = $today->diffInMonths($investment->creation_date);
-        $amountExpected = $investment->initial_amount * ( (1 + self::paymentPercentage/100) ** ($monthsDiff - 1));
+        $investment = Investment::find($data['investment']);
+        $date_withdrawal = $data['withdrawal_date'];
+        
+        if ($investment->withdrawal_done) {
+            return response()->json(['Already done'], 401);
+        }
 
-        return number_format($amountExpected, 4);
+        if ($this->verifyDate($date_withdrawal, $investment->creation_date)) {
+            return response()->json(['Date invalid, pass date after investment creation'], 401);
+        }
+
+        $gains = $this->calculateGains($investment, $date_withdrawal);
+        $taxes = $this->calculateTaxes($investment->creation_date, $gains, $date_withdrawal);
+
+        $investment->final_amount = ($investment->initial_amount + $gains - $taxes);
+        $investment->withdrawal_date = $date_withdrawal;
+        $investment->withdrawal_done = true;
+        $investment->save();
+
+        $message = "Final amount: {$investment->final_amount}, Taxes: {$taxes}";
+
+        return response()->json([$message], 201);
+    }
+
+    public function verifyDate($date_withdrawal, $creation_date)
+    {
+        return strtotime($date_withdrawal) <= strtotime('+1 month', strtotime($creation_date));
+    }
+
+    public function calculateGains(Investment $investment, $final_date)
+    {
+        $startDate = Carbon::parse($investment->creation_date);
+        $endDate = Carbon::parse($final_date);
+        $monthsDiff = $startDate->diffInMonths($endDate);
+        $initial_amount = $investment->initial_amount;
+        
+        return $initial_amount * ( (1 + self::paymentPercentage/100) ** ($monthsDiff)) - $initial_amount;
+    }
+
+    public function calculateTaxes($creation_date, $gains, $withdrawal_date)
+    {
+        $startDate = Carbon::parse($creation_date);
+        $endDate = Carbon::parse($withdrawal_date);
+        $yearsDiff = $startDate->diffInYears($endDate);
+
+        if ($yearsDiff < 1) {
+            return $gains * (self::taxLessThanOneYearPercentage/100);
+        } elseif ($yearsDiff  <= 2) {
+            return $gains * (self::taxBetweenOneAndTwoYearsPercentage/100);
+        } else {
+            return $gains * (self::taxOlderThanTwoYearsPercentage/100);
+        }
     }
 }

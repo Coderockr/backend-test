@@ -44,6 +44,9 @@ We use [laravel-request-docs](https://github.com/rakutentech/laravel-request-doc
 
 - '/api/withdrawal' - POST method - withdrawal the investment, passing the id of the investment and withdrawal_date(format 'Y-m-d' Example:2020-02-02).
 
+## Tests
+We use [pest](https://pestphp.com/docs/installation) to run tests developed inside tests/Feature folder,
+run `composer pest` inside the container to verify assertions created at files tests.
 
 
 

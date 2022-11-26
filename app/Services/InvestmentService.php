@@ -39,7 +39,7 @@ class InvestmentService
             'owner_id' => $data['owner_id']
         ]);
 
-        return response()->json(['Created Investment!'], 201);
+        return response()->json('Created Investment!', 201);
     }
 
     public function withdrawal(array $data)
@@ -48,7 +48,7 @@ class InvestmentService
         $date_withdrawal = $data['withdrawal_date'];
         
         if ($investment->withdrawal_done) {
-            return response()->json(['Already done'], 401);
+            return response()->json('Already done', 401);
         }
 
         if ($this->verifyDate($date_withdrawal, $investment->creation_date)) {

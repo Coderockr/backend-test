@@ -42,6 +42,6 @@ class Investment extends Model
 
     public function getExpectedBalanceAttribute()
     {
-        return $this->movements->last()->updated_value;
+        return $this->movements->last() ? $this->movements->last()->updated_value : 0;
     }
 }

@@ -11,11 +11,17 @@ def validate_amount(value):
 
 class Investment(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    amount = models.PositiveIntegerField(validators=[validate_amount])
+    amount = models.DecimalField(decimal_places=2,max_digits=10,validators=[validate_amount])
     created_at = models.DateField()
+    gains = models.DecimalField(decimal_places=2,max_digits=5, null=True, default=0)
+    withdrawn_date = models.DateField(null=True)
 
     owner = models.ForeignKey(
         "users.User",
         on_delete=models.CASCADE,
         related_name="investments"
     )
+
+#Colocar gains, decimal e mudar amount
+#Colocar withdrawnDate que começa vazio
+#Caso tenha acontecido withdrawn colocar a data 

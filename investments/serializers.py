@@ -13,10 +13,17 @@ class InvestmentSerializer(serializers.ModelSerializer):
             "id",
             "amount",
             "created_at",
-            "owner_id"
+            "gains",
+            "owner_id",
+            "withdrawn_date"
         ]
 
-        read_only_fields=["id", "owner_id"]
+        read_only_fields=[
+            "id",
+            "owner_id",
+            "gains",
+            "withdrawn_date"
+        ]
 
 class InvestmentDetailSerializer(serializers.ModelSerializer):
 
@@ -27,10 +34,14 @@ class InvestmentDetailSerializer(serializers.ModelSerializer):
             "id",
             "amount",
             "created_at",
-            "owner"
+            "gains",
+            "owner",
+            "withdrawn_date"
         ]
 
         read_only_fields=[
             "id",
-            "owner"
+            "owner",
+            "gains",
+            "withdrawn_date"
         ]

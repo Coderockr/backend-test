@@ -33,3 +33,8 @@ class RetrieveUpdateDestroyInvestmentDetailView(
     serializer_class = InvestmentDetailSerializer
 
     lookup_url_kwarg = 'investment_id'
+
+    def destroy(self, request, *args, **kwargs):
+        ...
+
+# mudar o delete para soft delete

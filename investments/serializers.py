@@ -15,6 +15,8 @@ class InvestmentSerializer(serializers.ModelSerializer):
             "created_at",
             "gains",
             "owner_id",
+            "isActive",
+            "initial_amount",
             "withdrawn_date"
         ]
 
@@ -22,6 +24,8 @@ class InvestmentSerializer(serializers.ModelSerializer):
             "id",
             "owner_id",
             "gains",
+            "isActive",
+            "initial_amount",
             "withdrawn_date"
         ]
 
@@ -36,6 +40,9 @@ class InvestmentDetailSerializer(serializers.ModelSerializer):
             "created_at",
             "gains",
             "owner",
+            "expected_balance",
+            "isActive",
+            "initial_amount",
             "withdrawn_date"
         ]
 
@@ -43,5 +50,12 @@ class InvestmentDetailSerializer(serializers.ModelSerializer):
             "id",
             "owner",
             "gains",
+            "isActive",
+            "expected_balance",
+            "initial_amount",
             "withdrawn_date"
         ]
+
+    def create(self, validated_data: dict) -> Investment:
+        validated_data['initial_amount'] = validated_data['amount']
+        return Investment.objects.create(**validated_data)

@@ -13,10 +13,21 @@ class InvestmentSerializer(serializers.ModelSerializer):
             "id",
             "amount",
             "created_at",
-            "owner_id"
+            "gains",
+            "owner_id",
+            "isActive",
+            "initial_amount",
+            "withdrawn_date"
         ]
 
-        read_only_fields=["id", "owner_id"]
+        read_only_fields=[
+            "id",
+            "owner_id",
+            "gains",
+            "isActive",
+            "initial_amount",
+            "withdrawn_date"
+        ]
 
 class InvestmentDetailSerializer(serializers.ModelSerializer):
 
@@ -27,10 +38,24 @@ class InvestmentDetailSerializer(serializers.ModelSerializer):
             "id",
             "amount",
             "created_at",
-            "owner"
+            "gains",
+            "owner",
+            "expected_balance",
+            "isActive",
+            "initial_amount",
+            "withdrawn_date"
         ]
 
         read_only_fields=[
             "id",
-            "owner"
+            "owner",
+            "gains",
+            "isActive",
+            "expected_balance",
+            "initial_amount",
+            "withdrawn_date"
         ]
+
+    def create(self, validated_data: dict) -> Investment:
+        validated_data['initial_amount'] = validated_data['amount']
+        return Investment.objects.create(**validated_data)

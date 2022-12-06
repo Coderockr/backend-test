@@ -91,9 +91,13 @@ WSGI_APPLICATION = "investments_management.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+      "ENGINE": "django.db.backends.postgresql",
+      "NAME": os.getenv("POSTGRES_DB"),
+      "USER": os.getenv("POSTGRES_USER"),
+      "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+      "HOST": "127.0.0.1",
+      "PORT": 5432,
+  }
 }
 
 
@@ -144,4 +148,13 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
     'EXCEPTION_HANDLER': 'utilities.api_exceptions.custom_exception_handler',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Test Back End - Coderockr',
+    'DESCRIPTION': 'Coderockr Backend recruitment test ',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    # OTHER SETTINGS
 }

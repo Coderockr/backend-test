@@ -3,9 +3,10 @@ from rest_framework import generics
 from datetime import date
 from decimal import Decimal
 import ipdb
+from uritemplate import partial
 
 from investments.models import Investment
-from investments.serializers import InvestmentDetailSerializer, InvestmentSerializer
+from investments.serializers import InvestmentDetailSerializer, InvestmentSerializer, InvestmentWithdrawnDetailSerializer
 from users.models import User
 
 def validate_dates(investment, today_date, investment_date):
@@ -16,7 +17,6 @@ def validate_dates(investment, today_date, investment_date):
     
     #Menos de 1
     if int(today_separeted_date[2]) == int(separeted_date[2]):
-
         if int(today_separeted_date[1]) > int(separeted_date[1]):
 
             months = int(today_separeted_date[1]) - int(separeted_date[1])
@@ -34,7 +34,6 @@ def validate_dates(investment, today_date, investment_date):
             return investment 
 
     #1 ano
-
     if int(today_separeted_date[2]) - int(separeted_date[2]) == 1 :
 
         if int(today_separeted_date[1]) == int(separeted_date[1]):
@@ -62,23 +61,28 @@ def validate_dates(investment, today_date, investment_date):
         years = int(today_separeted_date[2]) - int(separeted_date[2])
         
         if int(today_separeted_date[1]) == int(separeted_date[1]):
+            if int(today_separeted_date[0]) == int(separeted_date[0]):
+                print("1-2 1")
+                new_gains = (years * 12) * (Decimal(investment.amount) * Decimal((0.52/100)))
 
-            new_gains = (years * 12) * (Decimal(investment.amount) * Decimal((0.52/100)))
+                expected_balance =  (new_gains + Decimal(investment.amount))
+                
+                investment.gains = round(new_gains,2)
+                investment.amount = expected_balance
+                investment.expected_balance = round(expected_balance + new_gains , 2)
+                # ipdb.set_trace()
 
-            expected_balance =  (new_gains + Decimal(investment.amount))
-            
-            investment.gains = round(new_gains,2)
-            investment.amount = expected_balance
-            investment.expected_balance = round(expected_balance + new_gains , 2)
-
-            investment.save()
-            
-            return investment
+                investment.save()
+                
+                return investment
+                
 
         if int(today_separeted_date[1]) > int(separeted_date[1]):
+
             months = int(today_separeted_date[1]) - int(separeted_date[1])
 
             if int(today_separeted_date[0]) < int(separeted_date[0]):
+
                 months = int(separeted_date[1]) -  int(today_separeted_date[1])
 
                 for _ in range(months - 1):
@@ -90,10 +94,10 @@ def validate_dates(investment, today_date, investment_date):
                     investment.gains = round(new_gains,2)
                     investment.amount = expected_balance
                     investment.expected_balance = round(expected_balance + new_gains , 2)
-
                     investment.save()
                     
                     return investment
+
             years = int(today_separeted_date[2]) - int(separeted_date[2])
             
             for _ in range(months):
@@ -112,7 +116,7 @@ def validate_dates(investment, today_date, investment_date):
 
     #+2anos
     if int(today_separeted_date[2]) - int(separeted_date[2]) > 2:
-        
+
         if int(today_separeted_date[1]) == int(separeted_date[1]):
             
             years = int(today_separeted_date[2]) - int(separeted_date[2])
@@ -182,7 +186,7 @@ class CreateInvestmentView(generics.CreateAPIView):
         serializer.save(owner=owner)
 
 class RetrieveUpdateDestroyInvestmentDetailView(
-    generics.RetrieveUpdateDestroyAPIView
+    generics.RetrieveDestroyAPIView
     ):
 
     queryset = Investment.objects.all()
@@ -210,3 +214,12 @@ class RetrieveUpdateDestroyInvestmentDetailView(
         ...
 
 # mudar o delete para soft delete
+
+class WithdrawnInvestmentView(generics.CreateAPIView):
+    queryset = Investment.objects.all()
+    serializer_class = InvestmentWithdrawnDetailSerializer
+
+    lookup_url_kwarg = 'investment_id'
+
+
+    

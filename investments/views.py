@@ -1,14 +1,16 @@
+from django.forms import model_to_dict
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
 from rest_framework.views import Response, status
 from datetime import date
 from decimal import Decimal
+from django.core.paginator import Paginator
 
 import ipdb
 
 from investments.models import Investment
 from investments.serializers import InvestmentDetailSerializer, InvestmentSerializer, InvestmentWithdrawnDetailSerializer
-from users.models import User
+
 
 def validate_dates(investment, today_date, investment_date):
 
@@ -170,6 +172,15 @@ def validate_dates(investment, today_date, investment_date):
 class ListInvestmentView(generics.ListAPIView):
     queryset = Investment.objects.all()
     serializer_class = InvestmentSerializer
+
+class ListOneUserInvestmentsView(generics.ListAPIView):
+    queryset = Investment.objects.all()
+    serializer_class = InvestmentSerializer
+
+    lookup_url_kwarg = 'owner_id'
+
+    def get_queryset(self):
+        return self.queryset.filter(owner_id=self.kwargs['owner_id'])
 
 class CreateInvestmentView(generics.CreateAPIView):
 

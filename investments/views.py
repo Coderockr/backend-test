@@ -1,9 +1,10 @@
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
+from rest_framework.views import Response, status
 from datetime import date
 from decimal import Decimal
+
 import ipdb
-from uritemplate import partial
 
 from investments.models import Investment
 from investments.serializers import InvestmentDetailSerializer, InvestmentSerializer, InvestmentWithdrawnDetailSerializer
@@ -15,11 +16,11 @@ def validate_dates(investment, today_date, investment_date):
 
     separeted_date = str(investment_date).split("/")
     
-    #Menos de 1
     if int(today_separeted_date[2]) == int(separeted_date[2]):
         if int(today_separeted_date[1]) > int(separeted_date[1]):
 
             months = int(today_separeted_date[1]) - int(separeted_date[1])
+            investment.initial_amount = investment.amount
 
             for _ in range(months):
                 new_gains = Decimal(investment.amount) * Decimal(0.52/100)
@@ -33,7 +34,6 @@ def validate_dates(investment, today_date, investment_date):
 
             return investment 
 
-    #1 ano
     if int(today_separeted_date[2]) - int(separeted_date[2]) == 1 :
 
         if int(today_separeted_date[1]) == int(separeted_date[1]):
@@ -45,6 +45,7 @@ def validate_dates(investment, today_date, investment_date):
                 expected_balance =  (new_gains + Decimal(investment.amount))
                 
                 investment.gains = round(new_gains,2)
+                investment.initial_amount = investment.amount
                 investment.amount = expected_balance
                 investment.expected_balance = round(expected_balance + new_gains , 2)
 
@@ -52,7 +53,6 @@ def validate_dates(investment, today_date, investment_date):
 
                 return investment
 
-    #1-2 anos
     if (
         int(today_separeted_date[2]) - int(separeted_date[2]) == 1
         or
@@ -62,15 +62,14 @@ def validate_dates(investment, today_date, investment_date):
         
         if int(today_separeted_date[1]) == int(separeted_date[1]):
             if int(today_separeted_date[0]) == int(separeted_date[0]):
-                print("1-2 1")
                 new_gains = (years * 12) * (Decimal(investment.amount) * Decimal((0.52/100)))
 
                 expected_balance =  (new_gains + Decimal(investment.amount))
                 
                 investment.gains = round(new_gains,2)
+                investment.initial_amount = investment.amount
                 investment.amount = expected_balance
                 investment.expected_balance = round(expected_balance + new_gains , 2)
-                # ipdb.set_trace()
 
                 investment.save()
                 
@@ -84,6 +83,7 @@ def validate_dates(investment, today_date, investment_date):
             if int(today_separeted_date[0]) < int(separeted_date[0]):
 
                 months = int(separeted_date[1]) -  int(today_separeted_date[1])
+                investment.initial_amount = investment.amount
 
                 for _ in range(months - 1):
 
@@ -114,7 +114,6 @@ def validate_dates(investment, today_date, investment_date):
                 
                 return investment
 
-    #+2anos
     if int(today_separeted_date[2]) - int(separeted_date[2]) > 2:
 
         if int(today_separeted_date[1]) == int(separeted_date[1]):
@@ -138,6 +137,7 @@ def validate_dates(investment, today_date, investment_date):
             years = int(today_separeted_date[2]) - int(separeted_date[2])
 
             if int(today_separeted_date[0]) < int(separeted_date[0]):
+                investment.initial_amount = investment.amount
                 
                 for _ in range(months - 1):
 
@@ -178,13 +178,6 @@ class CreateInvestmentView(generics.CreateAPIView):
 
     lookup_url_kwarg = 'owner_id'
 
-    def perform_create(self, serializer):
-        owner_id = self.kwargs['owner_id']
-
-        owner = get_object_or_404(User, pk=owner_id)
-        
-        serializer.save(owner=owner)
-
 class RetrieveUpdateDestroyInvestmentDetailView(
     generics.RetrieveDestroyAPIView
     ):
@@ -211,9 +204,15 @@ class RetrieveUpdateDestroyInvestmentDetailView(
 
 
     def destroy(self, request, *args, **kwargs):
-        ...
+        investment_id = self.kwargs['investment_id']
 
-# mudar o delete para soft delete
+        investment = get_object_or_404(Investment, pk=investment_id)
+
+        investment.isActive = False
+
+        investment.save()
+
+        return Response({}, status.HTTP_204_NO_CONTENT)
 
 class WithdrawnInvestmentView(generics.CreateAPIView):
     queryset = Investment.objects.all()

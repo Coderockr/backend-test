@@ -3,8 +3,17 @@ from django.core.exceptions import ValidationError
 from datetime import date
 import ipdb
 import uuid
+from rest_framework.exceptions import APIException
+from rest_framework.views import status
 
-from utilities.api_exceptions import CustomApiException
+class CustomValidation(APIException):
+    status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
+    default_detail = "A server error occured."
+
+    def __init__(self, detail, status_code):
+        if status_code is not None:self.status_code=status_code
+        if detail is not None:
+            self.detail={"detail": detail}
 
 def validate_amount(value):
     if value < 0 :
@@ -32,39 +41,47 @@ def validate_date(date_req):
 
     formated_date = date_req.strftime("%d/%m/%Y")
 
-    if today_formated < formated_date:
-        raise ValidationError(
-            (f'{formated_date} is a invalid date, please investment only can be created in the past or today!')
-        )
+    if today_formated.split('/')[2] < formated_date.split('/')[2]:
+        raise CustomValidation("Invalid Date!", 400)
+
+    if today_formated.split('/')[2] == formated_date.split('/')[2]:
+        if today_formated.split('/')[1] < formated_date.split('/')[1]:
+            raise CustomValidation("Invalid Date!", 400)
+
+
+    if today_formated.split('/')[2] == formated_date.split('/')[2]:
+        if today_formated.split('/')[1] == formated_date.split('/')[1]:
+            if today_formated.split('/')[0] < formated_date.split('/')[0]:
+                raise CustomValidation("Invalid Date!", 400)
 
 def validate_withdrawn_date(date_req):
     today = date.today()
 
     if int(str(today).split("-")[2]) > 31:
         ipdb.set_trace()
-        raise CustomApiException(400, "Invalid Date!")
+        raise CustomValidation("Invalid Date!",400)
 
     if int(str(today).split("-")[1]) > 12:
         ipdb.set_trace()
 
-        raise CustomApiException(400, "Invalid Date!")
+        raise CustomValidation("Invalid Date!",400)
 
     today_formated = str(today)
 
     formated_date = str(date_req)
 
     if today_formated.split('-')[0] < formated_date.split('-')[0]:
-        raise CustomApiException(400, "Invalid Date!")
+        raise CustomValidation("Invalid Date!",400)
 
     if today_formated.split('-')[0] == formated_date.split('-')[0]:
         if today_formated.split('-')[1] < formated_date.split('-')[1]:
-            raise CustomApiException(400, "Invalid Date!")
+            raise CustomValidation("Invalid Date!",400)
 
 
     if today_formated.split('-')[0] == formated_date.split('-')[0]:
         if today_formated.split('-')[1] == formated_date.split('-')[1]:
             if today_formated.split('-')[2] < formated_date.split('-')[2]:
-                raise CustomApiException(400, "Invalid Date!")
+                raise CustomValidation("Invalid Date!",400)
 
 
 class Investment(models.Model):
@@ -84,5 +101,3 @@ class Investment(models.Model):
         related_name="investments"
     )
 
-
-#Caso tenha acontecido withdrawn colocar a data 

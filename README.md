@@ -8,13 +8,14 @@
 
 ```
       - Python
+      - Django
       - Django Rest Framework
       - PostgreSQL
-      - UUID
-      - SQLite3
-      - Ipdb
 ```
-
+## Pré Requisitos:
+      -Python
+      -Pip
+      -PostgreSQL
 #### Assim que clonar o repositório entre na pasta com :
 	  - cd backend-test-nomedousuário
       - code .
@@ -23,12 +24,17 @@
   #### Para utilizar o venv se estiver utilizando Linux use o comando:
     
         source venv/bin/activate
-  #### Para utilizar o venv se estiver utilizando Windows use o comando:
+
+  #### Para utilizar o venv se estiver utilizando bash use o comando:
     
         source venv/Scripts/activate
+  #### Para utilizar o venv se estiver utilizando PowerShell use o comando:
     
+        venv/Scripts/activate
+
   ### Para instalar as dependências use o comando:
          pip install -r requirements.txt 
+
    ##### Dentro do arquivo requirements.txt está todos as denpendências que o projeto necessita para o código rodar normalmente.
  
 ## Após instalar pode se iniciar o projeto com
@@ -36,7 +42,11 @@
         python manage.py migrate
    ### Após rodar as migrations pode iniciar o projeto com:
         python manage.py runserver
-   ### Para acessar a documentação, após iniciar o servidor, possui a rota
-## /api/docs
-### Nesta rota acessando pelo localhost:****/api/docs terá acesso a documentação da api!
+   # Para acessar a documentação, após iniciar o servidor, possui a rota
+Nesta rota acessando pelo localhost:****/api/docs terá acesso a documentação da api!
+```
+/api/docs
+````  
+
+
 

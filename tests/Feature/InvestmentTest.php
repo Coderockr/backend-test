@@ -86,7 +86,7 @@ test('asserts can return expected amount', function () {
         'investment' => $investment->id
     ]);
 
-    $this->assertStringContainsString($expectedAmount, $result->original);
+    $this->assertEquals($expectedAmount, $result->original['expected_amount']);
 });
 
 test('asserts cannot withdrawal investment twice', function () {

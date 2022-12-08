@@ -26,9 +26,13 @@ class InvestmentService
         $taxes = $this->calculateTaxes($investment->creation_date, $gains, $today);
 
         $investmentExpected = ($investment->initial_amount + $gains - $taxes);
-        $message = "Expected amount (removing taxes) at {$today->format('d M Y')} for the investment is {$investmentExpected}";
 
-        return response()->json($message);
+        return response()->json([
+            'initial_amount' =>  $investment->initial_amount,
+            'expected_amount' => $investmentExpected,
+            'creation_date' => $investment->creation_date,
+            'gains_at_the_moment' => $gains
+        ]);
     }
 
     public function create(array $data)
@@ -65,9 +69,7 @@ class InvestmentService
         $investment->withdrawal_done = true;
         $investment->save();
 
-        $message = "Final amount: {$investment->final_amount}, Gains: {$gains}, Taxes: {$taxes}";
-
-        return response()->json($message, 201);
+        return response()->json($investment->details, 201);
     }
 
     public function verifyDate($date_withdrawal, $creation_date)

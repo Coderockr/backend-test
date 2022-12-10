@@ -19,7 +19,7 @@ class OwnerService
 
     public function showInvestments(array $data)
     {   
-        $email = Owner::where('email', $data['owner'])->first()->email;
-        return response()->json([Investment::where('owner_id',$email)->paginate(2)]);
+        $id = Owner::where('email', $data['owner'])->first()->id;
+        return response()->json([Investment::where('owner_id',$id)->paginate(2)]);
     }
 }

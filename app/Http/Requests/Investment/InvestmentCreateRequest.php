@@ -25,7 +25,7 @@ class InvestmentCreateRequest extends FormRequest
     {
         return [
             'creation_date' => 'required|date|date_format:Y-m-d|before_or_equal:today',
-            'amount' => 'required|numeric|gt:0',
+            'amount' => 'required|numeric|gt:100',
             'email' => 'required|email|exists:owners'
         ];
     }

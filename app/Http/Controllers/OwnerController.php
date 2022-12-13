@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Owner\{OwnerCreateRequest, OwnerInvestmentsRequest};
+use App\Http\Requests\Owner\OwnerCreateRequest;
+use App\Http\Requests\Owner\OwnerInvestmentsRequest;
 use App\Services\OwnerService;
-use Illuminate\Http\Request;
 
 class OwnerController extends Controller
 {

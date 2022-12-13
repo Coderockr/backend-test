@@ -24,7 +24,7 @@ class InvestmentShowRequest extends FormRequest
     public function rules()
     {
         return [
-            'investment' => 'required|numeric|exists:investments,id'
+            'investment' => 'required|numeric|exists:investments,id',
         ];
     }
 }

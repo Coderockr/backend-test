@@ -18,7 +18,7 @@ return new class extends Migration
             $table->double('initial_amount', 14, 4);
             $table->double('gains', 14, 4)->nullable();
             $table->double('taxes', 14, 4)->nullable();
-            $table->double('final_amount',16,4)->nullable();
+            $table->double('final_amount', 16, 4)->nullable();
             $table->date('creation_date');
             $table->date('withdrawal_date')->nullable();
             $table->boolean('withdrawal_done')->nullable();

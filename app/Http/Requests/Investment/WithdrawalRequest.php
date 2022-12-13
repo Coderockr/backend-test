@@ -25,7 +25,7 @@ class WithdrawalRequest extends FormRequest
     {
         return [
             'investment' => 'required|numeric|exists:investments,id',
-            'withdrawal_date' => 'required|date|date_format:Y-m-d|before_or_equal:today'
+            'withdrawal_date' => 'required|date|date_format:Y-m-d|before_or_equal:today',
         ];
     }
 }

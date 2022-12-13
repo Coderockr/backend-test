@@ -20,7 +20,7 @@ class InvestmentFactory extends Factory
         return [
             'initial_amount' => fake()->numberBetween(rand(100, 20000)),
             'creation_date' => fake()->dateTimeBetween('-10 years', '-1 day'),
-            'owner_id' => Owner::factory()->create()->id
+            'owner_id' => Owner::factory()->create()->id,
         ];
     }
 }

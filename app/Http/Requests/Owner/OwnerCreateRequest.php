@@ -25,7 +25,7 @@ class OwnerCreateRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3|max:40',
-            'email' => 'required|unique:owners'
+            'email' => 'required|unique:owners',
         ];
     }
 }

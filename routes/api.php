@@ -1,8 +1,7 @@
 <?php
 
-
-use App\Models\Owner;
-use App\Http\Controllers\{InvestmentController, OwnerController, WithdrawalController};
+use App\Http\Controllers\InvestmentController;
+use App\Http\Controllers\OwnerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

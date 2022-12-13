@@ -48,6 +48,10 @@ We use [laravel-request-docs](https://github.com/rakutentech/laravel-request-doc
 We use [pest](https://pestphp.com/docs/installation) to run tests developed inside tests/Feature folder,
 run `composer pest` inside the container to verify assertions created at files tests.
 
+## Format
+We use [pint](https://laravel.com/docs/9.x/pint) to to ensure that your code style stays clean and consistent, run
+`./vendor/bin/pint` inside our container.
+
 
 
 

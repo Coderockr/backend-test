@@ -18,7 +18,7 @@ class OwnerFactory extends Factory
     {
         return [
             'name' => fake()->name,
-            'email' => fake()->safeEmail()
+            'email' => fake()->safeEmail(),
         ];
     }
 }

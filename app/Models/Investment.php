@@ -23,10 +23,10 @@ class Investment extends Model
     {
         return Attribute::make(
             get: fn ($value, $attributes) => [
-                'initial_amount' =>  $attributes['initial_amount'],
+                'initial_amount' => $attributes['initial_amount'],
                 'final_amount' => $attributes['final_amount'],
                 'creation_date' => $attributes['creation_date'],
-                'gains_at_the_moment' => $attributes['gains']
+                'gains_at_the_moment' => $attributes['gains'],
             ]
         );
     }

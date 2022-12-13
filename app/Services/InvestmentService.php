@@ -3,21 +3,24 @@
 namespace App\Services;
 
 use App\Models\Investment;
-use App\Models\Owner;
 use Carbon\Carbon;
 
 class InvestmentService
 {
-    CONST paymentPercentage = 0.52;
-    CONST taxLessThanOneYearPercentage = 22.5;
-    CONST taxBetweenOneAndTwoYearsPercentage = 18.5;
-    CONST taxOlderThanTwoYearsPercentage = 15.0;
+    const paymentPercentage = 0.52;
+
+    const taxLessThanOneYearPercentage = 22.5;
+
+    const taxBetweenOneAndTwoYearsPercentage = 18.5;
+
+    const taxOlderThanTwoYearsPercentage = 15.0;
 
     public function show(array $data)
     {
         $investment = Investment::find($data['investment']);
         if ($investment->withdrawal_done) {
             $message = "Final amount is {$investment->final_amount}, after withdrawal done";
+
             return response()->json($message);
         }
 
@@ -28,10 +31,10 @@ class InvestmentService
         $investmentExpected = ($investment->initial_amount + $gains - $taxes);
 
         return response()->json([
-            'initial_amount' =>  $investment->initial_amount,
+            'initial_amount' => $investment->initial_amount,
             'expected_amount' => $investmentExpected,
             'creation_date' => $investment->creation_date,
-            'gains_at_the_moment' => $gains
+            'gains_at_the_moment' => $gains,
         ]);
     }
 
@@ -40,7 +43,7 @@ class InvestmentService
         $investment = Investment::create([
             'initial_amount' => $data['amount'],
             'creation_date' => $data['creation_date'],
-            'owner_id' => $data['owner_id']
+            'owner_id' => $data['owner_id'],
         ]);
 
         return response()->json("Created Investment - id: {$investment->id}", 201);
@@ -50,7 +53,7 @@ class InvestmentService
     {
         $investment = Investment::find($data['investment']);
         $date_withdrawal = $data['withdrawal_date'];
-        
+
         if ($investment->withdrawal_done) {
             return response()->json('Already done', 401);
         }
@@ -83,8 +86,8 @@ class InvestmentService
         $endDate = Carbon::parse($final_date);
         $monthsDiff = $startDate->diffInMonths($endDate);
         $initial_amount = $investment->initial_amount;
-        
-        return $initial_amount * ( (1 + self::paymentPercentage/100) ** ($monthsDiff)) - $initial_amount;
+
+        return $initial_amount * ((1 + self::paymentPercentage / 100) ** ($monthsDiff)) - $initial_amount;
     }
 
     public function calculateTaxes($creation_date, $gains, $withdrawal_date)
@@ -94,11 +97,11 @@ class InvestmentService
         $yearsDiff = $startDate->diffInYears($endDate);
 
         if ($yearsDiff < 1) {
-            return $gains * (self::taxLessThanOneYearPercentage/100);
-        } elseif ($yearsDiff  <= 2) {
-            return $gains * (self::taxBetweenOneAndTwoYearsPercentage/100);
+            return $gains * (self::taxLessThanOneYearPercentage / 100);
+        } elseif ($yearsDiff <= 2) {
+            return $gains * (self::taxBetweenOneAndTwoYearsPercentage / 100);
         } else {
-            return $gains * (self::taxOlderThanTwoYearsPercentage/100);
+            return $gains * (self::taxOlderThanTwoYearsPercentage / 100);
         }
     }
 }

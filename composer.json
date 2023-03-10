@@ -1,0 +1,44 @@
+{
+    "name": "laravel/lumen",
+    "description": "The Laravel Lumen Framework.",
+    "keywords": ["framework", "laravel", "lumen"],
+    "license": "MIT",
+    "type": "project",
+    "require": {
+        "php": "^8.1",
+        "flipbox/lumen-generator": "^9.2",
+        "laravel/lumen-framework": "^10.0",
+        "moneyphp/money": "^3.3",
+        "nesbot/carbon": "^2.66"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.9.1",
+        "knuckleswtf/scribe": "^4.16",
+        "mockery/mockery": "^1.4.4",
+        "phpunit/phpunit": "^10.0.14"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

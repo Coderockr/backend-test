@@ -21,8 +21,7 @@ class InvestimentoFactory extends Factory
             'investidor_id' => 1,
             'valor_inicial' => $this->faker->unique()->numberBetween(int1: 1, int2: 1000),
             'valor_final' => 0.00,
-            'data_criacao' => $this->faker->date(),
-            'data_retirada' => $this->faker->date(max: now())
+            'data_criacao' => $this->faker->date()
         ];
     }
 }

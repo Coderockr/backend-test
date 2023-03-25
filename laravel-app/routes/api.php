@@ -16,5 +16,4 @@ Route::get('owners/only-investments/{owner}',[OwnerController::class,'onlyInvest
 
 //Investments
 Route::resource('investments',InvestmentController::class);
-Route::post('investments/update-all-investments',[InvestmentController::class,'updateAllInvestments']);
 Route::get('investments/withdraw/{investment}',[InvestmentController::class,'withdraw']);

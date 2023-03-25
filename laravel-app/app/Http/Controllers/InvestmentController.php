@@ -63,23 +63,6 @@ class InvestmentController extends Controller
             ], 200);
     }
 
-    public function updateAllInvestments()
-    {
-        $investments = Investment::where('status', InvestmentStatus::ACTIVE)->where('expected_balance', 0);
-        $count = $investments->count();
-
-        foreach ($investments->get() as $investment) {
-            try {
-                $investmentService = new InvestmentService($investment);
-                $investment->expected_balance = $investmentService->calculateGain();
-                $investment->save();
-            } catch (\Exception $e) {
-                return response()->json(['message' => $e->getMessage()], 400);
-            }
-        }
-        return response()->json(['message' => "Update performed successfully! Count: {$count}"], 200);
-    }
-
      /**
      * Display the specified resource.
      * @param  int  $id

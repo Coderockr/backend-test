@@ -7,14 +7,15 @@ RUN a2enmod rewrite
 # Linux Library
 RUN apt-get update -y && apt-get install -y \
     libicu-dev \
-    libmariadb-dev \
     unzip zip \
     zlib1g-dev \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
     libjpeg62-turbo-dev \
-    libpng-dev 
+    libpng-dev \    
+    cron \
+    nano
 
 RUN apt-get clean
 
@@ -28,6 +29,12 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN apt-get install -y libpq-dev \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install pdo pdo_pgsql pgsql pdo_mysql
+
+# Cron
+COPY cronfile /etc/cron.d/apply-gains
+RUN chmod 0644 /etc/cron.d/apply-gains
+RUN crontab /etc/cron.d/apply-gains
+RUN touch /var/log/cron.log
 
 # Redis
 RUN pecl install -o -f redis \

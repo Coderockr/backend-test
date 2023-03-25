@@ -31,20 +31,6 @@ services:
             - backend
         restart: always  
 
-#   mysql-db:
-#     container_name: mysql-db
-#     image: mysql:latest
-#     volumes:
-#       - ./:/var/lib/mysql
-#     environment:
-#       - MYSQL_ROOT_PASSWORD=root
-#       - MYSQL_DATABASE=db_laravel
-#       - MYSQL_PASSWORD=root
-#     ports:
-#       - 8090:3306
-#     networks:
-#       - backend
-
   redis:
     container_name: predis
     image: redis:7

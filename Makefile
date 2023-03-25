@@ -1,6 +1,7 @@
-include laravel-app/.env
+include laravel-app/.env.example
 
 install:
+	@make cp
 	@make down
 	@make build
 	@make up 
@@ -8,6 +9,8 @@ install:
 	@make perm-storage
 	@make data
 	@make msg
+cp:
+	cd laravel-app/ && rm .env -f && cp .env.example .env && cd ..
 down:
 	docker-compose down --remove-orphans
 build:

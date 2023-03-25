@@ -1,0 +1,260 @@
+{
+	"info": {
+		"_postman_id": "6c67f4e1-430f-48dc-ae8a-c366b253aec1",
+		"name": "Api Investimento",
+		"description": "StartFragment\n\nApi Desenvolvida que tem por objetivo criar um investimento, visualizar e sacar investimentos.\n\nEndFragmen",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19838517"
+	},
+	"item": [
+		{
+			"name": "Criar Investimento",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "investimento",
+							"value": "TESOURO_PRE",
+							"type": "text"
+						},
+						{
+							"key": "investidor_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "valor_inicial",
+							"value": "300.88",
+							"type": "text"
+						},
+						{
+							"key": "data_criacao",
+							"value": "2023-02-12",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/investimento",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"investimento"
+					]
+				},
+				"description": "StartFragment\n\nCriação de um Investimento\n\nEndFragment"
+			},
+			"response": []
+		},
+		{
+			"name": "Visualizar Investimento",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/investimento/TESOURO_PRE/1/visualizar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"investimento",
+						"TESOURO_PRE",
+						"1",
+						"visualizar"
+					]
+				},
+				"description": "StartFragment\n\nVisualização de um Investimento com Ganhos e Saldo Esperado\n\nEndFragment"
+			},
+			"response": []
+		},
+		{
+			"name": "Visualizar Investimentos Investidor",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "proprietario",
+							"value": "Luane Lisboa Pires",
+							"type": "text"
+						},
+						{
+							"key": "valor",
+							"value": "2220.00",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/investimento/1/investimentos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"investimento",
+						"1",
+						"investimentos"
+					]
+				},
+				"description": "StartFragment\n\n**Visualização de todos os Investimentos do Investidor**\n\nEndFragment"
+			},
+			"response": []
+		},
+		{
+			"name": "Retirar Investimento Simulação",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "investimento",
+							"value": "TESOURO_PRE",
+							"type": "text"
+						},
+						{
+							"key": "investidor_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "valor_inicial",
+							"value": "300.88",
+							"type": "text"
+						},
+						{
+							"key": "data_criacao",
+							"value": "2023-02-12",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/investimento/TESOURO_POS/2022-03-05/1/retirar/simulacao",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"investimento",
+						"TESOURO_POS",
+						"2022-03-05",
+						"1",
+						"retirar",
+						"simulacao"
+					]
+				},
+				"description": "StartFragment\n\nSimulação de Retirada de um Investimento\n\nEndFragment"
+			},
+			"response": []
+		},
+		{
+			"name": "Retirar Investimento",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "investimento",
+							"value": "CDB",
+							"type": "text"
+						},
+						{
+							"key": "data_retirada",
+							"value": "2022-03-23",
+							"type": "text"
+						},
+						{
+							"key": "investidor",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/v1/investimento/retirar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"investimento",
+						"retirar"
+					]
+				},
+				"description": "StartFragment\n\nRetirada de um Investimento\n\nEndFragment"
+			},
+			"response": []
+		}
+	]
+}

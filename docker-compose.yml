@@ -1,0 +1,59 @@
+volumes:
+    predis-data:
+    ppostgres-data:
+networks:
+    backend:
+
+services:
+
+  coderockr-app:
+    container_name: coderockr-app
+    build: .
+    volumes:
+      - ./laravel-app:/var/www/html
+    ports:
+      - 8080:80
+    networks:
+      - backend
+
+  postgres:
+        image: postgres:15.1
+        volumes:
+            - ppostgres-data:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_PASSWORD: root
+            POSTGRES_USER: root
+            POSTGRES_DB: db_laravel
+            PGDATA: /var/lib/postgresql/data
+        networks:
+            - backend
+        restart: always  
+
+#   mysql-db:
+#     container_name: mysql-db
+#     image: mysql:latest
+#     volumes:
+#       - ./:/var/lib/mysql
+#     environment:
+#       - MYSQL_ROOT_PASSWORD=root
+#       - MYSQL_DATABASE=db_laravel
+#       - MYSQL_PASSWORD=root
+#     ports:
+#       - 8090:3306
+#     networks:
+#       - backend
+
+  redis:
+    container_name: predis
+    image: redis:7
+    sysctls:
+        - net.core.somaxconn=511
+    ports:
+        - "6379:6379"
+    volumes:
+        - predis-data:/data
+    networks:
+        - backend
+    restart: always

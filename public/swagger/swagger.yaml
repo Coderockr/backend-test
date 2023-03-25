@@ -1,0 +1,157 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: Investimento API
+paths:
+  # api investimento
+  /api/v1/investimento:
+    post:
+      tags:
+        - Investimento
+      summary: Salva um investimento
+      description: "Salvar um investimento na base de dados"
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: investimento
+          type: string
+          description: "Tipos suportados: CDB | TESOURO_PRE | TESOURO_POS"
+          required: true
+        - in: query
+          name: investidor_id
+          type: integer
+          required: true
+        - in: query
+          name: valor_inicial
+          description: "Ex. 200.55"
+          type: number
+          required: true
+        - in: query
+          name: data_criacao
+          type: string
+          description: "Ex. 0000-00-00"
+          required: true
+      responses:
+        "201":
+          description: Investimento criado com sucesso
+        "422":
+          description: Atributos não podem ser processados
+        "500":
+          description: Erro interno do servidor
+  /api/v1/investimento/{investidor}/investimentos:
+    get:
+      tags:
+        - Investimento
+      summary: Retorna investimentos de um investidor
+      description: "Retornar os objetos com os investimentos de um investidor paginados"
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: investidor
+          type: integer
+          required: true
+      responses:
+        "200":
+          description: Informações dos investimentos recuperadas com sucesso
+        "404":
+          description: Não encontramos nenhum investimento
+        "500":
+          description: Erro interno do servidor
+  /api/v1/investimento/{investimento}/{investidor}/visualizar:
+    get:
+      tags:
+        - Investimento
+      summary: Retorna um investimento de um investidor
+      description: "Retornar os objetos com os dados do investimento e ganhos além do saldo"
+      operationId: administrador
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: investimento
+          description: "Tipos suportados: CDB | TESOURO_PRE | TESOURO_POS"
+          type: string
+          required: true
+        - in: path
+          name: investidor
+          type: integer
+          required: true
+      responses:
+        "200":
+          description: Informações do investimento recuperada com sucesso
+        "404":
+          description: Não encontramos o investimento
+        "500":
+          description: Erro interno do servidor
+  /api/v1/investimento/{investimento}/{data_retirada}/{investidor}/retirar/simulacao:
+    get:
+      tags:
+        - Investimento
+      summary: Simular a retirada de um investimento de um investidor
+      description: "Retornar os objetos com os dados da simulação de retirada de investimento"
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: investimento
+          description: "Tipos suportados: CDB | TESOURO_PRE | TESOURO_POS"
+          type: string
+          required: true
+        - in: path
+          name: data_retirada
+          description: "Ex. 0000-00-00"
+          type: string
+          required: true
+        - in: path
+          name: investidor
+          type: integer
+          required: true
+      responses:
+        "200":
+          description: Informações da retirada do investimento recuperada com sucesso
+        "404":
+          description: Não encontramos informações da retirada do investimento
+        "500":
+          description: Erro interno do servidor
+  /api/v1/investimento/retirar:
+    post:
+      tags:
+        - Investimento
+      summary: Realizar a retirada de um investimento de um investidor
+      description: "Retornar os objetos com os dados da retirada de investimento"
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: investimento
+          description: "Tipos suportados: CDB | TESOURO_PRE | TESOURO_POS"
+          type: string
+          required: true
+        - in: query
+          name: data_retirada
+          description: "Ex. 0000-00-00"
+          type: string
+          required: true
+        - in: query
+          name: investidor
+          type: integer
+          required: true
+      responses:
+        "200":
+          description: Informações da retirada do investimento recuperada com sucesso
+        "404":
+          description: Não encontramos informações da retirada do investimento
+        "500":
+          description: Erro interno do servidor

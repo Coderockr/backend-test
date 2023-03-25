@@ -17,7 +17,7 @@ return new class () extends Migration {
             $table->decimal('invested_amount', 8, 2)->unsigned();
             $table->decimal('expected_balance', 8, 2)->default(0);
 
-            $table->enum('status', ['ACTIVE','WITHDRAWN']);
+            $table->enum('status', ['ACTIVE','WITHDRAWN'])->default('ACTIVE');
 
             $table->decimal('taxes',8,2)->default(0);
             $table->decimal('withdrawn_amount',8,2)->default(0);

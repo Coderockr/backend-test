@@ -11,24 +11,47 @@ use Symfony\Component\HttpFoundation\Response;
 class OwnerController extends Controller
 {
     /**
+     * @OA\Get(
+     *     tags={"Owners"},
+     *     path="/api/owners",
+     *     summary="Returns all owners",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Returns all owners"
+     *     )
+     * )
+     *
      * Display a listing of the resource.
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $search = $request->input('search');
-
         $owners = Owner::with('investments')
-        ->where('id',$search)
-        ->orWhere('email', 'like', '%'.$search.'%')
         ->paginate(10);
 
         return response()->json($owners);
     }
 
     /**
-     * Display the specified resource.
-     * @param  int  $id
+     * @OA\Get(
+     *     tags={"Owners"},
+     *     path="/api/owners/{id}",
+     *     summary="Returns information about the owner and his investments",
+     *     @OA\Parameter(
+     *         description="Owner uuid",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string"),
+     *         @OA\Examples(example="uuid", value="98c660e0-90b4-4ddf-8543-2183380d1a10", summary="An UUID value."),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Returns information about the owner and his investments"
+     *     )
+     * )
+     *
+     * @param Owner $owner
      * @return \Illuminate\Http\Response
      */
     public function show(Owner $owner)
@@ -37,8 +60,25 @@ class OwnerController extends Controller
       return response()->json($owner);
     }
 
-    /**
-     * Returns only owner investments
+   /**
+     * @OA\Get(
+     *     tags={"Owners"},
+     *     path="/api/owners/only-investments/{id}",
+     *     summary="Returns all investments of an owner",
+     *     @OA\Parameter(
+     *         description="Owner uuid",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string"),
+     *         @OA\Examples(example="uuid", value="98c660e0-90b4-4ddf-8543-2183380d1a10", summary="An UUID value."),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Returns all investments of an owner"
+     *     )
+     * )
+     *
      * @param Owner $owner
      * @return \Illuminate\Http\Response
      */
@@ -48,8 +88,25 @@ class OwnerController extends Controller
       return response()->json($investments);
     }
 
-    /**
-     * Remove the specified resource from storage.
+   /**
+     * @OA\Delete(
+     *     tags={"Owners"},
+     *     path="/api/owners/{id}",
+     *     summary="Destroy an owner",
+     *     @OA\Parameter(
+     *         description="Owner uuid",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string"),
+     *         @OA\Examples(example="uuid", value="98c660e0-90b4-4ddf-8543-2183380d1a10", summary="An UUID value."),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Destroy an owner"
+     *     )
+     * )
+     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
@@ -59,9 +116,34 @@ class OwnerController extends Controller
         return response()->json(['message'=> 'Owner and investments successfully removed!']);
     }
 
-     /**
-     * Store a newly created resource in storage.
-     * @param  \Illuminate\Http\Request  $request
+   /**
+     * @OA\Post(
+     *     tags={"Owners"},
+     *     path="/api/owners",
+     *     summary="Create an owner",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="name",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="email",
+     *                     type="email"
+     *                 ),
+     *                 example={"name": "Michael Desiato", "email": "michael@yourhonor.com"}
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Create an owner"
+     *     )
+     * )
+     *
+     * @param  \App\Http\Requests\OwnerStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(OwnerStoreRequest $request)

@@ -72,20 +72,9 @@ make cron-log
 make cron-stop
 ```
 
-# Referências da API
-## Proprietários
+# Documentação da API
 
-- Retorna todos os proprietários ou uma pesquisa (nome ou e-mail)
-
-```http
-  GET /api/owners
-```
-| Query | Type     | Description                       |
-| :-------- | :------- | :-------------------------------- |
-| `search`      | `string` | **Not required**|
-| `page`      | `int` | **Not required**|
-
-
+Link [http://127.0.0.1:8080/api/doc](http://127.0.0.1:8080/api/doc)
 
 # Desenvolvido por
 

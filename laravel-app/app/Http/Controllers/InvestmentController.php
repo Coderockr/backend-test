@@ -13,6 +13,16 @@ use Symfony\Component\HttpFoundation\Response;
 class InvestmentController extends Controller
 {
     /**
+     * @OA\Get(
+     *     tags={"Investments"},
+     *     path="/api/investments",
+     *     summary="Returns all investments",
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK"
+     *     )
+     * )
+     *
      * Display a listing of the resource.
      * @return \Illuminate\Http\Response
      */
@@ -24,6 +34,41 @@ class InvestmentController extends Controller
         return response()->json($investments);
     }
 
+    /**
+     * @OA\Post(
+     *     tags={"Investments"},
+     *     path="/api/investments/withdraw/{id}",
+     *     summary="Withdrawal of investment",
+     *    @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="withdrawal_date",
+     *                     type="date",
+     *                 ),
+     *                 example={"withdrawal_date": "2022-12-10"}
+     *             )
+     *         )
+     *     ),
+     *     @OA\Parameter(
+     *         description="Investment uuid",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string"),
+     *         @OA\Examples(example="uuid", value="98c660e0-a22e-4c91-b4c6-65737720228d", summary="An UUID value."),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *     )
+     * )
+     *
+     * @param Investment $investment
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function withdraw(Investment $investment, Request $request)
     {
         try {
@@ -64,9 +109,26 @@ class InvestmentController extends Controller
             ], Response::HTTP_OK);
     }
 
-     /**
-     * Display the specified resource.
-     * @param  int  $id
+    /**
+     * @OA\Get(
+     *     tags={"Investments"},
+     *     path="/api/investments/{id}",
+     *     summary="Returns information about the investment and his owner",
+     *     @OA\Parameter(
+     *         description="Investment uuid",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string"),
+     *         @OA\Examples(example="uuid", value="98c660e0-a22e-4c91-b4c6-65737720228d", summary="An UUID value."),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK"
+     *     )
+     * )
+     *
+     * @param Investment $id
      * @return \Illuminate\Http\Response
      */
     public function show(Investment $investment)
@@ -76,8 +138,37 @@ class InvestmentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     * @param  \Illuminate\Http\Request  $request
+     * @OA\Post(
+     *     tags={"Investments"},
+     *     path="/api/investments",
+     *     summary="Create an investment",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="investment_date",
+     *                     type="date"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="invested_amount",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="owner_id",
+     *                     type="string"
+     *                 ),
+     *                 example={"investment_date": "2022-01-02", "invested_amount": "2200.15", "owner_id": "98c6afc6-bfdb-4ef8-ab80-daa7dc8aa440"}
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="OK"
+     *     )
+     * )
+     *
+     * @param InvestmentStoreRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(InvestmentStoreRequest $request)
@@ -95,8 +186,25 @@ class InvestmentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     * @param  int  $id
+     * @OA\Delete(
+     *     tags={"Investments"},
+     *     path="/api/investments/{id}",
+     *     summary="Destroy an investment",
+     *     @OA\Parameter(
+     *         description="Investment uuid",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(type="string"),
+     *         @OA\Examples(example="uuid", value="98c660e0-a1ad-41b6-9695-8f34476e0666", summary="An UUID value."),
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK"
+     *     )
+     * )
+     *
+     * @param Investment $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Investment $investment)

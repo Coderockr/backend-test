@@ -17,7 +17,7 @@ class OwnerController extends Controller
      *     summary="Returns all owners",
      *     @OA\Response(
      *         response=200,
-     *         description="Returns all owners"
+     *         description="OK"
      *     )
      * )
      *
@@ -47,7 +47,7 @@ class OwnerController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Returns information about the owner and his investments"
+     *         description="OK"
      *     )
      * )
      *
@@ -60,7 +60,7 @@ class OwnerController extends Controller
       return response()->json($owner);
     }
 
-   /**
+    /**
      * @OA\Get(
      *     tags={"Owners"},
      *     path="/api/owners/only-investments/{id}",
@@ -75,7 +75,7 @@ class OwnerController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Returns all investments of an owner"
+     *         description="OK"
      *     )
      * )
      *
@@ -88,7 +88,7 @@ class OwnerController extends Controller
       return response()->json($investments);
     }
 
-   /**
+    /**
      * @OA\Delete(
      *     tags={"Owners"},
      *     path="/api/owners/{id}",
@@ -103,11 +103,11 @@ class OwnerController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Destroy an owner"
+     *         description="OK"
      *     )
      * )
      *
-     * @param  int  $id
+     * @param Owner $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Owner $owner)
@@ -116,7 +116,7 @@ class OwnerController extends Controller
         return response()->json(['message'=> 'Owner and investments successfully removed!']);
     }
 
-   /**
+    /**
      * @OA\Post(
      *     tags={"Owners"},
      *     path="/api/owners",
@@ -139,11 +139,11 @@ class OwnerController extends Controller
      *     ),
      *     @OA\Response(
      *         response=201,
-     *         description="Create an owner"
+     *         description="OK"
      *     )
      * )
      *
-     * @param  \App\Http\Requests\OwnerStoreRequest  $request
+     * @param OwnerStoreRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(OwnerStoreRequest $request)

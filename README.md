@@ -7,8 +7,10 @@ Neste desafio deverás construir uma API para uma aplicação que armazena e ger
 - [Docker Composer](https://docs.docker.com/compose/)
 - [Make](https://linuxhint.com/install-use-make-ubuntu/)
 
-## 👩‍💻  Sobre mim
-Sou organizado e perfeccionista, preocupo-me com a qualidade. Gosto de ambientes estruturados com regras claras. Quando recebo uma tarefa, procuro executá-la com precisão e atenção aos detalhes. Sou calmo e bom ouvinte, acompanho os processos sempre que possível.
+## 👩‍💻  Sobre o desafio
+Nesta aplicação foi desenvolvido com a maior parte dos recursos que o próprio framework já fornece, o único pacote que utilizei foi o L5-Swagger para criar uma documentação básica da api.
+
+No container da aplicação adicionei um crontab, de tempos em tempos o serviço é executado aplicando ganhos em todos os investimentos que estiverem com status ativo. Isso acontece logo após o container estiver levantado, de 5 mim em 5 mim são analisados/aplicados os ganhos conforme a regra de negócio.
 
 ## Executar localmente
 

@@ -10,6 +10,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/', function () {
+    return 'Working...';
+});
+
 // Owners
 Route::resource('owners',OwnerController::class);
 Route::get('owners/only-investments/{owner}',[OwnerController::class,'onlyInvestments']);

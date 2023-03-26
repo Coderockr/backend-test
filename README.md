@@ -12,6 +12,8 @@ Nesta aplicação foi desenvolvido com a maior parte dos recursos que o próprio
 
 No container da aplicação adicionei um crontab, de tempos em tempos o serviço é executado aplicando ganhos em todos os investimentos que estiverem com status ativo. Isso acontece logo após o container estiver levantado, de 5 mim em 5 mim são analisados/aplicados os ganhos conforme a regra de negócio.
 
+A partir da rota `[GET]/api/owners` com o retorno da consulta, vocês já terão insumos para prosseguir com os testes em todas as rodas, como: Criar, Consultar, Sacar, Remove `owners` e `investments`
+
 ## Executar localmente
 
 Clonar o projeto

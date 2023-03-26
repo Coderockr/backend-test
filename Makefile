@@ -47,6 +47,8 @@ schedule-run:
 	docker exec -t coderockr-app bash -c "php artisan schedule:run"
 cron-log:
 	docker exec -t coderockr-app bash -c "tail -f /var/log/cron.log"
+cron-stop:
+	docker exec -t coderockr-app bash -c "/etc/init.d/cron stop"
 msg:
 	@echo "########################################################################"
 	@echo "### Clique aqui para ver a api funcionando ${APP_URL}/api ###"

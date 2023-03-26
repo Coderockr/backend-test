@@ -6,8 +6,9 @@ use Carbon\Carbon;
 use App\Models\Investment;
 use Illuminate\Http\Request;
 use App\Enums\InvestmentStatus;
-use App\Http\Requests\InvestmentStoreRequest;
 use App\Services\InvestmentService;
+use App\Http\Requests\InvestmentStoreRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class InvestmentController extends Controller
 {
@@ -52,7 +53,7 @@ class InvestmentController extends Controller
             $investment->save();
 
         } catch (\Exception $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
+            return response()->json(['message' => $e->getMessage()], Response::HTTP_BAD_REQUEST);
         }
 
         $investment->owner;
@@ -60,7 +61,7 @@ class InvestmentController extends Controller
         return response()->json([
             'message' => 'Full withdrawal of investment successfully!',
             'investment' => $investment
-            ], 200);
+            ], Response::HTTP_OK);
     }
 
      /**
@@ -84,50 +85,24 @@ class InvestmentController extends Controller
         try {
             $investment = Investment::create($request->all());
         } catch (\Exception $e) {
-            return response()->json(['message'=> $e->getMessage()], 422);
+            return response()->json(['message'=> $e->getMessage()], Response::HTTP_BAD_REQUEST);
         }
 
         $investment = Investment::find($investment->id);
         $investment->owner;
 
-        return response()->json($investment, 201);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     * @return \Illuminate\Http\Response
-     */
-    public function create(){}
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
+        return response()->json($investment, Response::HTTP_CREATED);
     }
 
     /**
      * Remove the specified resource from storage.
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Investment $investment)
     {
-        //
+        $investment->delete();
+        return response()->json(['message'=> 'Investment successfully removed!']);
     }
+
 }

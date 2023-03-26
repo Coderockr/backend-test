@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class InvestmentStoreRequest extends FormRequest
+class OwnerStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,8 @@ class InvestmentStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'invested_amount' => 'required|regex:/^\d+(\.\d{1,2})?$/',
-            'investment_date' => 'required|date|before:tomorrow',
-            'owner_id' => 'required|exists:owners,id'
+            'name' => 'required|min:3|unique:owners',
+            'email' => 'required|email|unique:owners',
         ];
     }
 

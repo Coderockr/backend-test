@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Owner;
 use App\Models\Investment;
 use Illuminate\Http\Request;
+use App\Http\Requests\OwnerStoreRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class OwnerController extends Controller
 {
@@ -42,7 +44,7 @@ class OwnerController extends Controller
      */
     public function onlyInvestments(Owner $owner)
     {
-      $investments = Investment::where('owner_id', $owner->id)->paginate(10);
+      $investments = Investment::with('owner')->where('owner_id', $owner->id)->paginate(10);
       return response()->json($investments);
     }
 
@@ -57,43 +59,19 @@ class OwnerController extends Controller
         return response()->json(['message'=> 'Owner and investments successfully removed!']);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-    }
-
-    /**
+     /**
      * Store a newly created resource in storage.
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OwnerStoreRequest $request)
     {
+        try {
+            $owner = Owner::create($request->all());
+        } catch (\Exception $e) {
+            return response()->json(['message'=> $e->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
+        return response()->json($owner, Response::HTTP_CREATED);
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
 
 }

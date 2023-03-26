@@ -30,11 +30,11 @@ class InvestmentController extends Controller
             if($investment->status != InvestmentStatus::ACTIVE)
                 throw new \Exception("Investment {$investment->id} has already been withdrawn");
 
-            $investmentDate = Carbon::createFromDate($investment->investment_date);
-            $withdrawalDate = Carbon::createFromDate($request->input('withdrawal_date'));
-
             if(!$request->input('withdrawal_date'))
                 throw new \Exception("You must fill in a withdrawal date");
+
+            $investmentDate = Carbon::createFromDate($investment->investment_date);
+            $withdrawalDate = Carbon::createFromDate($request->input('withdrawal_date'));
 
             if($investmentDate->gt($withdrawalDate) || $withdrawalDate->gt(Carbon::now()))
                 throw new \Exception("Withdrawals can happen in the past or today, but cannot happen before investment creation or in the future");

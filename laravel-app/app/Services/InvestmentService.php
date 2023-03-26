@@ -9,7 +9,7 @@ class InvestmentService
 {
     private $investment;
 
-    private const PERCENT_GAIN = 0.052;
+    private const PERCENT_GAIN = 0.0052;
 
     private const RATES = [
         'LESS_THAN_A_YEAR' => 0.225,

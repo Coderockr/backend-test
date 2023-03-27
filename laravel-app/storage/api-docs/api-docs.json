@@ -1,0 +1,309 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Api Investiment",
+        "description": "This API provides API business rules for Investments",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/investments": {
+            "get": {
+                "tags": [
+                    "Investments"
+                ],
+                "summary": "Returns all investments",
+                "operationId": "0219250acdc66727d7781c2bbe38dd17",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Investments"
+                ],
+                "summary": "Create an investment",
+                "operationId": "650ba82fccad5f7634cd8f4e7580abbc",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "investment_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "invested_amount": {
+                                        "type": "string"
+                                    },
+                                    "owner_id": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "investment_date": "2022-01-02",
+                                    "invested_amount": "2200.15",
+                                    "owner_id": "98c6afc6-bfdb-4ef8-ab80-daa7dc8aa440"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/investments/withdraw/{id}": {
+            "post": {
+                "tags": [
+                    "Investments"
+                ],
+                "summary": "Withdrawal of investment",
+                "operationId": "0aeec08e6c171d1407c3c645788e5ff9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Investment uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "uuid": {
+                                "summary": "An UUID value.",
+                                "value": "98c660e0-a22e-4c91-b4c6-65737720228d"
+                            }
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "withdrawal_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "withdrawal_date": "2022-12-10"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/investments/{id}": {
+            "get": {
+                "tags": [
+                    "Investments"
+                ],
+                "summary": "Returns information about the investment and his owner",
+                "operationId": "fb49c81ce9c8c3ac2fe4fdb3b8c61c64",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Investment uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "uuid": {
+                                "summary": "An UUID value.",
+                                "value": "98c660e0-a22e-4c91-b4c6-65737720228d"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Investments"
+                ],
+                "summary": "Destroy an investment",
+                "operationId": "0aa23f5edb2841cbb3e68b135e4899f0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Investment uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "uuid": {
+                                "summary": "An UUID value.",
+                                "value": "98c660e0-a1ad-41b6-9695-8f34476e0666"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/owners": {
+            "get": {
+                "tags": [
+                    "Owners"
+                ],
+                "summary": "Returns all owners",
+                "operationId": "9e6af3de1e756f8f19aa17b9f190d639",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Owners"
+                ],
+                "summary": "Create an owner",
+                "operationId": "f6d6bf3981a1f44f42bb408ade192f8e",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "email"
+                                    }
+                                },
+                                "type": "object",
+                                "example": {
+                                    "name": "Michael Desiato",
+                                    "email": "michael@yourhonor.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/owners/{id}": {
+            "get": {
+                "tags": [
+                    "Owners"
+                ],
+                "summary": "Returns information about the owner and his investments",
+                "operationId": "bea386b360fe056d32a8729e68220029",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Owner uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "uuid": {
+                                "summary": "An UUID value.",
+                                "value": "98c660e0-90b4-4ddf-8543-2183380d1a10"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Owners"
+                ],
+                "summary": "Destroy an owner",
+                "operationId": "8d8fb48464822ce7ff1ea8d4ff719c4c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Owner uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "uuid": {
+                                "summary": "An UUID value.",
+                                "value": "98c660e0-90b4-4ddf-8543-2183380d1a10"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/owners/only-investments/{id}": {
+            "get": {
+                "tags": [
+                    "Owners"
+                ],
+                "summary": "Returns all investments of an owner",
+                "operationId": "b3ed2b29a58062190b1dc6b411407213",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Owner uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "examples": {
+                            "uuid": {
+                                "summary": "An UUID value.",
+                                "value": "98c660e0-90b4-4ddf-8543-2183380d1a10"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    }
+}

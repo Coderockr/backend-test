@@ -1,4 +1,4 @@
-# Back End Test Project <img src="https://coderockr.com/assets/images/coderockr.svg" align="right" height="50px" />
+# Back End Test Project <img src="https://www.moveissimonetti.com.br/arquivos/header-logo.png?v=636639862737800000" align="right" height="50px" />
 
 You should see this challenge as an opportunity to create an application following modern development best practices (given the stack of your choice), but also feel free to use your own architecture preferences (coding standards, code organization, third-party libraries, etc). It’s perfectly fine to use vanilla code or any framework or libraries.
 
@@ -38,10 +38,10 @@ The tax percentage changes according to the age of the investment:
 * If older than two years, the percentage will be 15% (tax = 30.00).
 
 ## Requirements
-1. Create project using any technology of your preference. It’s perfectly OK to use vanilla code or any framework or libraries;
-2. Although you can use as many dependencies as you want, you should manage them wisely;
-3. It is not necessary to send the notification emails, however, the code required for that would be welcome;
-4. The API must be documented in some way.
+1. Create project using any stack of your preference, but with PHP as its main language. It’s perfectly OK to use vanilla code or any framework or libraries;
+3. Although you can use as many dependencies as you want, you should manage them wisely;
+4. It is not necessary to send the notification emails, however, the code required for that would be welcome;
+5. The API must be documented in some way.
 
 ## Deliverables
 The project source code and dependencies should be made available in GitHub. Here are the steps you should follow:

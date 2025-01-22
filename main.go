@@ -26,6 +26,7 @@ func main() {
 
 type Env struct {
 	investors interface {
+		Create(invstr models.Investor) error
 		ByCpf(cpf string) ([]models.Investor, error)
 	}
 }

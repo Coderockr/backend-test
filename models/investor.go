@@ -13,6 +13,15 @@ type InvestorModel struct {
 	DB *sql.DB
 }
 
+func (m InvestorModel) Create(invstr Investor) error {
+	_, err := m.DB.Exec("INSERT INTO investors VALUES (?, ?)", invstr.CPF, invstr.Name);
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (m InvestorModel) ByCpf(cpf string) ([]Investor, error) {
 	rows, err := m.DB.Query("SELECT * FROM investors where cpf = ?", cpf)
 	if err != nil {

@@ -14,7 +14,7 @@ type InvestorModel struct {
 }
 
 func (m InvestorModel) Create(invstr Investor) error {
-	_, err := m.DB.Exec("INSERT INTO investors VALUES (?, ?)", invstr.CPF, invstr.Name);
+	_, err := m.DB.Exec("INSERT INTO investors VALUES (?, ?)", invstr.CPF, invstr.Name)
 	if err != nil {
 		return err
 	}

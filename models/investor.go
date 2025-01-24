@@ -5,8 +5,8 @@ import (
 )
 
 type Investor struct {
-	CPF  string `json:"cpf"`
-	Name string `json:"name"`
+	CPF  string `json:"cpf" validate:"cpf"`
+	Name string `json:"name" validate:"required"`
 }
 
 type InvestorModel struct {
@@ -34,9 +34,9 @@ func (m InvestorModel) ByCPF(cpf string) (*Investor, error) {
 }
 
 type Database interface {
-    Query(query string, args ...interface{}) (*sql.Rows, error)
- 
-    QueryRow(query string, args ...interface{}) *sql.Row
- 
-    Exec(query string, args ...interface{}) (sql.Result, error)
+	Query(query string, args ...interface{}) (*sql.Rows, error)
+
+	QueryRow(query string, args ...interface{}) *sql.Row
+
+	Exec(query string, args ...interface{}) (sql.Result, error)
 }

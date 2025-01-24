@@ -6,9 +6,11 @@ import (
 	"errors"
 	"log"
 	"net/http"
+	"strconv"
 
 	"causeurgnocchi/backend-test/models"
 
+	"github.com/go-playground/validator/v10"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -20,7 +22,7 @@ func main() {
 	defer db.Close()
 
 	env := &Env{investors: &models.InvestorModel{DB: db}}
-	
+
 	http.HandleFunc("/api/investors?", env.investorsIndex)
 	http.ListenAndServe(":8080", nil)
 }
@@ -46,6 +48,15 @@ func (env Env) investorsIndex(w http.ResponseWriter, r *http.Request) {
 			} else {
 				http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 			}
+			return
+		}
+
+		v := validator.New()
+		v.RegisterValidation("cpf", validateCPF)
+
+		err = v.Struct(invstr)
+		if err != nil {
+			log.Print(err)
 			return
 		}
 
@@ -89,4 +100,49 @@ func (env Env) investorsIndex(w http.ResponseWriter, r *http.Request) {
 	default:
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 	}
+}
+
+func validateCPF(fl validator.FieldLevel) bool {
+	f := fl.Field().String()
+
+	if len(f) != 11 {
+		return false
+	}
+
+	var cpf [11]int
+	for i, c := range f {
+		n, err := strconv.Atoi(string(c))
+		if err != nil {
+			log.Print(err.Error())
+		}
+		cpf[i] = n
+	}
+
+	sum1 := 0
+	for i := 0; i < 9; i++ {
+		sum1 += cpf[i] * (10 - i)
+	}
+
+	validation1 := (sum1 * 10) % 11
+	if validation1 == 10 {
+		validation1 = 0
+	}
+	if validation1 != cpf[9] {
+		return false
+	}
+
+	sum2 := validation1 * 2
+	for i := 0; i < 9; i++ {
+		sum2 += cpf[i] * (11 - i)
+	}
+
+	validation2 := (sum2 * 10) % 11
+	if validation2 == 10 {
+		validation2 = 0
+	}
+	if validation2 != cpf[10] {
+		return false
+	}
+
+	return true
 }

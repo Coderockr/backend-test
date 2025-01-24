@@ -20,69 +20,73 @@ func main() {
 	defer db.Close()
 
 	env := &Env{investors: &models.InvestorModel{DB: db}}
-
-	http.HandleFunc("/api/investors/{cpf}", env.investorsByCpf)
-	http.HandleFunc("/api/investors", env.investorsCreate)
+	
+	http.HandleFunc("/api/investors?", env.investorsIndex)
 	http.ListenAndServe(":8080", nil)
 }
 
 type Env struct {
 	investors interface {
 		Create(invstr models.Investor) error
-		ByCpf(cpf string) ([]models.Investor, error)
+		ByCPF(cpf string) (*models.Investor, error)
 	}
 }
 
-func (env Env) investorsCreate(w http.ResponseWriter, r *http.Request) {
-	var invstr models.Investor
+func (env Env) investorsIndex(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodPost:
+		var invstr models.Investor
 
-	err := decodeJsonBody(w, r, invstr)
-	if err != nil {
-		var mr *malformedRequest
+		err := decodeJsonBody(w, r, &invstr)
+		if err != nil {
+			var mr *malformedRequest
 
-		if errors.As(err, &mr) {
-			http.Error(w, mr.msg, mr.status)
-		} else {
-			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			if errors.As(err, &mr) {
+				http.Error(w, mr.msg, mr.status)
+			} else {
+				http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			}
+			return
 		}
-		return
+
+		err = env.investors.Create(invstr)
+		if err != nil {
+			log.Print(err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+
+		invstrJson, err := json.Marshal(invstr)
+		if err != nil {
+			log.Print(err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(invstrJson)
+
+	case http.MethodGet:
+		cpf := r.URL.Query().Get("cpf")
+
+		invstrs, err := env.investors.ByCPF(cpf)
+		if err != nil {
+			log.Print(err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+
+		invstrsJson, err := json.Marshal(invstrs)
+		if err != nil {
+			log.Print(err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(invstrsJson)
+
+	default:
+		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
 	}
-
-	err = env.investors.Create(invstr)
-	if err != nil {
-		log.Print(err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-
-	invstrJson, err := json.Marshal(invstr)
-	if err != nil {
-		log.Print(err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(invstrJson)
-}
-
-func (env Env) investorsByCpf(w http.ResponseWriter, r *http.Request) {
-	cpf := r.PathValue("cpf")
-
-	invstrs, err := env.investors.ByCpf(cpf)
-	if err != nil {
-		log.Print(err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-
-	invstrsJson, err := json.Marshal(invstrs)
-	if err != nil {
-		log.Print(err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(invstrsJson)
 }

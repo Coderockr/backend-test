@@ -1,5 +1,4 @@
-# Using root/example as user/password credentials
-# (this is just an example, not intended to be a production configuration)
+# Using root/example as user/password credentials (not advised for production)
 
 services:
   db:

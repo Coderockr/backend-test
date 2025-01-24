@@ -10,7 +10,7 @@ type Investor struct {
 }
 
 type InvestorModel struct {
-	DB *sql.DB
+	DB Database
 }
 
 func (m InvestorModel) Create(invstr Investor) error {
@@ -22,27 +22,21 @@ func (m InvestorModel) Create(invstr Investor) error {
 	return nil
 }
 
-func (m InvestorModel) ByCpf(cpf string) ([]Investor, error) {
-	rows, err := m.DB.Query("SELECT * FROM investors where cpf = ?", cpf)
+func (m InvestorModel) ByCPF(cpf string) (*Investor, error) {
+	var invstr Investor
+
+	err := m.DB.QueryRow("SELECT * FROM investors where cpf = ?", cpf).Scan(&invstr.CPF, &invstr.Name)
 	if err != nil {
 		return nil, err
 	}
 
-	var invstrs []Investor
+	return &invstr, nil
+}
 
-	for rows.Next() {
-		var invstr Investor
-
-		err := rows.Scan(&invstr.CPF, &invstr.Name)
-		if err != nil {
-			return nil, err
-		}
-
-		invstrs = append(invstrs, invstr)
-	}
-	if err = rows.Err(); err != nil {
-		return nil, err
-	}
-
-	return invstrs, nil
+type Database interface {
+    Query(query string, args ...interface{}) (*sql.Rows, error)
+ 
+    QueryRow(query string, args ...interface{}) *sql.Row
+ 
+    Exec(query string, args ...interface{}) (sql.Result, error)
 }

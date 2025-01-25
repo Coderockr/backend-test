@@ -1,11 +1,7 @@
 package models
 
-import (
-	"database/sql"
-)
-
 type Investor struct {
-	CPF  string `json:"cpf" validate:"cpf"`
+	CPF  string `json:"cpf" validate:"required,cpf"`
 	Name string `json:"name" validate:"required"`
 }
 
@@ -31,12 +27,4 @@ func (m InvestorModel) ByCPF(cpf string) (*Investor, error) {
 	}
 
 	return &invstr, nil
-}
-
-type Database interface {
-	Query(query string, args ...interface{}) (*sql.Rows, error)
-
-	QueryRow(query string, args ...interface{}) *sql.Row
-
-	Exec(query string, args ...interface{}) (sql.Result, error)
 }

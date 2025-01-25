@@ -11,7 +11,8 @@ create table investors (
 
 create table investments (
     id int auto_increment,
-    amount decimal(15, 2) not null,
+    initial_amount int not null,
+    balance int not null,
     creation_date date not null,
     investor_cpf varchar(11),
     

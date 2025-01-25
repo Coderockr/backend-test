@@ -6,16 +6,16 @@ import (
 
 type Investment struct {
 	Id            int       `json:"id"`
-	InitialAmount int       `json:"amount" validate:"required,gt=0"`
+	InitialAmount int       `json:"amount"`
 	Balance       int       `json:"balance"`
-	CreationDate  time.Time `json:"creation_date" validate:"required"`
-	Investor      Investor  `json:"investor" validate:"required"`
+	CreationDate  time.Time `json:"creation_date"`
+	Investor      Investor  `json:"investor"`
 }
 
 type InvestmentCreationDTO struct {
 	InitialAmount int    `json:"amount" validate:"required,gt=0"`
-	CreationDate  string `json:"creation_date" validate:"required,datetime=2006-01-02"`
-	InvestorCPF   string `json:"investor_cpf" validate:"required,cpf"`
+	CreationDate  string `json:"creation_date" validate:"required,notfuture,datetime=2006-01-02"`
+	InvestorCPF   string `json:"investor_cpf" validate:"required"`
 }
 
 type InvestmentModel struct {

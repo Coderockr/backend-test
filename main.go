@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"causeurgnocchi/backend-test/models"
 
@@ -127,7 +128,7 @@ func (env Env) investmentsIndex(w http.ResponseWriter, r *http.Request) {
 		}
 
 		v := validator.New()
-		v.RegisterValidation("cpf", validateCPF)
+		v.RegisterValidation("notfuture", notFuture)
 
 		err = v.Struct(inv)
 		if err != nil {
@@ -200,4 +201,15 @@ func validateCPF(fl validator.FieldLevel) bool {
 	}
 
 	return true
+}
+
+func notFuture(fl validator.FieldLevel) bool {
+	today := time.Now().Truncate(24 * time.Hour)
+	creationDate, err := time.Parse(time.DateOnly, fl.Field().String())
+	if err != nil {
+		log.Print(err)
+		return false
+	}
+
+	return !creationDate.After(today)
 }

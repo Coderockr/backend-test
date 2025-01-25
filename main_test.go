@@ -110,7 +110,7 @@ func TestInvestmentsCreate(t *testing.T) {
 
 	inv := &models.InvestmentCreationDTO{
 		InitialAmount: 100000,
-		CreationDate:  time.Now().AddDate(0, 0, -1).Format(time.DateOnly),
+		CreationDate:  time.Now().Format(time.DateOnly),
 		InvestorCPF:   "95130357000",
 	}
 	invJson, _ := json.Marshal(inv)

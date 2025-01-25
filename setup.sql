@@ -1,21 +1,30 @@
-drop database if exists investments;
-create database investments;
-use investments;
+DROP DATABASE IF EXISTS investments;
+CREATE DATABASE investments;
+USE investments;
 
-create table investors (
-    cpf varchar(11) not null,
-    name text not null,
+CREATE TABLE investors (
+    cpf VARCHAR(11) NOT NULL,
+    name TEXT NOT NULL,
 
-    primary key (cpf)
+    PRIMARY KEY (cpf)
 );
 
-create table investments (
-    id int auto_increment,
-    initial_amount int not null,
-    balance int not null,
-    creation_date date not null,
-    investor_cpf varchar(11),
+CREATE TABLE investments (
+    id INT AUTO_INCREMENT,
+    initial_amount INT NOT NULL,
+    balance INT NOT NULL,
+    creation_date DATE NOT NULL,
+    investor_cpf VARCHAR(11),
     
-    primary key (id),
-    foreign key (investor_cpf) references investors(cpf) 
+    PRIMARY KEY (id),
+    FOREIGN KEY (investor_cpf) REFERENCES investors(cpf) 
 );
+
+CREATE EVENT apply_interest
+  ON SCHEDULE
+    EVERY 1 DAY
+    STARTS (TIMESTAMP(CURRENT_DATE) + INTERVAL 1 DAY)
+  DO
+    UPDATE investments
+    SET balance = balance * 1.0052
+    WHERE IF(DAY(creation_date) > LAST_DAY(CURRENT_DATE), LAST_DAY(CURRENT_DATE), DAY(creation_date)) = DAY(CURRENT_DATE);

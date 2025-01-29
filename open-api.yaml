@@ -1,0 +1,188 @@
+openapi: 3.0.3
+
+info:
+  title: Coderockr Backend Test - OpenAPI 3.0
+  description: |-
+    A submission for Coderockr's backend development test.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api
+
+tags:
+  - name: investors
+  - name: investments
+  - name: withdrawals
+
+paths:
+  /investors:
+    post:
+      tags:
+        - investors
+      summary: Add a new investor
+      operationId: addInvestor
+      requestBody:
+        description: Create a new investor
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Investor"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Investor"
+        "400":
+          description: Invalid input
+        "500":
+          description: Internal server error
+
+    get:
+      tags:
+        - investors
+      summary: Find investor by CPF
+      description: Returns a single investor
+      operationId: getInvestorByCpf
+      parameters:
+        - name: cpf
+          in: query
+          description: CPF of investor to return
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Investor"
+        "400":
+          description: Invalid CPF supplied
+        "404":
+          description: Investor not found
+        "500":
+          description: Internal server error
+
+  /investments:
+    post:
+      tags:
+        - investments
+      summary: Add a new investment
+      operationId: addInvestment
+      requestBody:
+        description: Create a new investment
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewInvestment"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Investment"
+        "400":
+          description: Invalid input
+        "500":
+          description: Internal server error
+
+  /withdrawals:
+    post:
+      tags:
+        - withdrawals
+      summary: Add a new withdrawal
+      operationId: addWithdrawal
+      requestBody:
+        description: Create a new withdrawal
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewWithdrawal"
+        required: true
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Investment"
+        "400":
+          description: Invalid input
+        "500":
+          description: Internal server error
+
+components:
+  schemas:
+    Investor:
+      properties:
+        cpf:
+          type: string
+          example: 30361099002
+        name:
+          type: string
+          example: Lazlo Varga
+
+    Investment:
+      properties:
+        initialAmount:
+          type: integer
+          example: 1000000
+          description: Amount of money to be invested expressed in the smallest unit in the respective monetary system
+        creationDate:
+          type: string
+          format: datetime
+          example: 2024-01-20
+        investor:
+          $ref: "#/components/schemas/Investor"
+
+    NewInvestment:
+      required:
+        - initialAmount
+        - creationDate
+      properties:
+        initialAmount:
+          type: integer
+          example: 1000000
+          description: Amount of money to be invested, expressed in the smallest unit of the respective monetary system
+        creationDate:
+          type: string
+          format: datetime
+          example: 2024-01-20
+        investorId:
+          type: integer
+
+    Pet:
+      allOf:
+        - $ref: "#/components/schemas/NewPet"
+        - required:
+            - id
+          properties:
+            id:
+              type: integer
+              format: int64
+              description: Unique id of the pet
+
+    NewPet:
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: Name of the pet
+        tag:
+          type: string
+          description: Type of the pet
+
+  requestBodies:
+    Pet:
+      description: Investor object that needs to be added
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Investor"

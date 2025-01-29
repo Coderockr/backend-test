@@ -1,4 +1,4 @@
-# Using root/example as user/password credentials (not advised for production)
+# Using root/example as user/password credentials (not intended for production)
 
 services:
   db:

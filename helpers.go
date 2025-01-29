@@ -16,6 +16,7 @@ func decodeJsonBody(w http.ResponseWriter, r *http.Request, dst interface{}) err
 		mediaType := strings.ToLower(strings.TrimSpace(strings.Split(ct, ";")[0]))
 		if mediaType != "application/json" {
 			msg := "Content-Type header is not application/json"
+
 			return &malformedRequest{status: http.StatusUnsupportedMediaType, msg: msg}
 		}
 	}
@@ -46,7 +47,7 @@ func decodeJsonBody(w http.ResponseWriter, r *http.Request, dst interface{}) err
 
 		case strings.HasPrefix(err.Error(), "json: unknown field "):
 			fieldName := strings.TrimPrefix(err.Error(), "json: unknown field %s")
-			msg := fmt.Sprintf("Request body cpntains unknown field %s", fieldName)
+			msg := fmt.Sprintf("Request body contains unknown field %s", fieldName)
 			return &malformedRequest{status: http.StatusBadRequest, msg: msg}
 
 		case errors.Is(err, io.EOF):

@@ -17,7 +17,7 @@ var env *Env
 func ConfigTest(t *testing.T) {
 	t.Helper()
 
-	db, err := sql.Open("mysql", "root:example@(127.0.0.1:3306)/investments")
+	db, err := sql.Open("mysql", "root:example@(127.0.0.1:3306)/investments?parseTime=true")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -31,13 +31,15 @@ func ConfigTest(t *testing.T) {
 	}
 
 	env = &Env{
-		investors:   &models.InvestorModel{DB: tx},
-		investments: &models.InvestmentModel{DB: tx},
+		investors:   &models.InvestorModel{Db: tx},
+		investments: &models.InvestmentModel{Db: tx},
+		withdrawals: &models.WithdrawalModel{Db: tx},
 	}
 
 	mux = http.NewServeMux()
 	mux.HandleFunc("/api/investors", env.investorsIndex)
 	mux.HandleFunc("/api/investments", env.investmentsIndex)
+	mux.HandleFunc("/api/withdrawal", env.withdrawalsIndex)
 
 	t.Cleanup(func() {
 		tx.Rollback()
@@ -49,7 +51,7 @@ func TestInvestorsCreate(t *testing.T) {
 	ConfigTest(t)
 
 	invstr := &models.Investor{
-		CPF:  "95130357000",
+		Cpf:  "95130357000",
 		Name: "Lazlo Varga",
 	}
 	invstrJson, _ := json.Marshal(invstr)
@@ -74,7 +76,7 @@ func TestInvestorsByCPF(t *testing.T) {
 	const CPF = "95130357000"
 
 	invstr := models.Investor{
-		CPF:  CPF,
+		Cpf:  CPF,
 		Name: "Lazlo Varga",
 	}
 
@@ -99,7 +101,7 @@ func TestInvestmentsCreate(t *testing.T) {
 	ConfigTest(t)
 
 	invstr := &models.Investor{
-		CPF:  "95130357000",
+		Cpf:  "95130357000",
 		Name: "Lazlo Varga",
 	}
 	invstrJson, _ := json.Marshal(invstr)

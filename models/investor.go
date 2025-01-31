@@ -6,7 +6,7 @@ type Investor struct {
 }
 
 type InvestorModel struct {
-	Db Database
+	Db database
 }
 
 func (m InvestorModel) Create(i Investor) error {
@@ -19,7 +19,7 @@ func (m InvestorModel) Create(i Investor) error {
 }
 
 func (m InvestorModel) ByCpf(cpf string) (*Investor, error) {
-	r := m.Db.QueryRow("SELECT * FROM investors where cpf = ?", cpf)
+	r := m.Db.QueryRow("SELECT cpf, name FROM investors where cpf = ?", cpf)
 
 	var i Investor
 

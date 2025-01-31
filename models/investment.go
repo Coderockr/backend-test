@@ -13,13 +13,13 @@ type Investment struct {
 }
 
 type InvestmentCreationDTO struct {
-	InitialAmount int    `json:"amount" validate:"required,gt=0"`
-	CreationDate  string `json:"creation_date" validate:"required,datetime=2006-01-02,notfuture"`
-	InvestorCPF   string `json:"investor_cpf" validate:"required"`
+	InitialAmount int       `json:"amount" validate:"required,gt=0"`
+	CreationDate  time.Time `json:"creation_date" validate:"required,notfuture"`
+	InvestorCPF   string    `json:"investor_cpf" validate:"required"`
 }
 
 type InvestmentModel struct {
-	Db Database
+	Db database
 }
 
 func (m InvestmentModel) Create(dto InvestmentCreationDTO) (int, error) {

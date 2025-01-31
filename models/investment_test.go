@@ -3,6 +3,7 @@ package models
 import (
 	"database/sql"
 	"testing"
+	"time"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -22,7 +23,7 @@ func TestInvestments(t *testing.T) {
 
 	investorM := InvestorModel{Db: tx}
 	investmentM := InvestmentModel{Db: tx}
-	
+
 	investor := Investor{
 		Cpf:  "95130357000",
 		Name: "Lazlo Varga",
@@ -32,7 +33,7 @@ func TestInvestments(t *testing.T) {
 
 	investment := InvestmentCreationDTO{
 		InitialAmount: 1000000,
-		CreationDate:  "2025-01-01",
+		CreationDate:  time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC),
 		InvestorCPF:   "95130357000",
 	}
 

@@ -2,7 +2,7 @@ package models
 
 import "database/sql"
 
-type Database interface {
+type database interface {
 	Query(query string, args ...interface{}) (*sql.Rows, error)
 
 	QueryRow(query string, args ...interface{}) *sql.Row

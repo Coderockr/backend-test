@@ -1,4 +1,4 @@
-package main
+package handlers
 
 import (
 	"encoding/json"
@@ -8,6 +8,15 @@ import (
 	"net/http"
 	"strings"
 )
+
+type malformedRequest struct {
+	status int
+	msg    string
+}
+
+func (mr *malformedRequest) Error() string {
+	return mr.msg
+}
 
 func decodeJsonBody(w http.ResponseWriter, r *http.Request, dst interface{}) error {
 	ct := r.Header.Get("Content-Type")
@@ -70,13 +79,4 @@ func decodeJsonBody(w http.ResponseWriter, r *http.Request, dst interface{}) err
 	}
 
 	return nil
-}
-
-type malformedRequest struct {
-	status int
-	msg    string
-}
-
-func (mr *malformedRequest) Error() string {
-	return mr.msg
 }

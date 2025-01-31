@@ -34,14 +34,14 @@ func TestWithdrawalsCreate(t *testing.T) {
 
 	investment := InvestmentCreationDTO{
 		InitialAmount: 1000000,
-		CreationDate:  "2025-01-01",
+		CreationDate:  time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC),
 		InvestorCPF:   "95130357000",
 	}
 
 	investmentId, _ := investmentM.Create(investment)
 
 	w := WithdrawalCreationDTO{
-		Date:         time.Now(),
+		Date:         time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC),
 		InvestmentId: investmentId,
 	}
 

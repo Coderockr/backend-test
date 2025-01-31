@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"math"
 	"strconv"
 	"time"
@@ -15,28 +16,34 @@ type Withdrawal struct {
 }
 
 type WithdrawalCreationDTO struct {
-	Date         time.Time `validate:"required,datetime=2006-01-02"`
+	Date         time.Time `validate:"required"`
 	InvestmentId int
 }
 
 type WithdrawalModel struct {
-	Db Database
+	Db database
 }
+
+var InvalidWithdrawalDate = errors.New("Withdrawal date preceeds investment's creation")
 
 func (m WithdrawalModel) Create(dto WithdrawalCreationDTO) (int, error) {
 	im := &InvestmentModel{Db: m.Db}
 
-	inv, err := im.ById(dto.InvestmentId)
+	i, err := im.ById(dto.InvestmentId)
 	if err != nil {
 		return -1, err
 	}
 
-	var taxes int
-	gain := inv.Balance - inv.InitialAmount
+	if dto.Date.Before(i.CreationDate) {
+		return -1, InvalidWithdrawalDate
+	}
 
-	if inv.CreationDate.Before(inv.CreationDate.AddDate(1, 0, 0)) {
+	var taxes int
+	gain := i.Balance - i.InitialAmount
+
+	if i.CreationDate.Before(i.CreationDate.AddDate(1, 0, 0)) {
 		taxes = int(math.Floor(float64(gain) * 0.225))
-	} else if inv.CreationDate.Before(inv.CreationDate.AddDate(2, 0, 0)) {
+	} else if i.CreationDate.Before(i.CreationDate.AddDate(2, 0, 0)) {
 		taxes = int(math.Floor(float64(gain) * 0.185))
 	} else {
 		taxes = int(math.Floor(float64(gain) * 0.15))
@@ -44,8 +51,8 @@ func (m WithdrawalModel) Create(dto WithdrawalCreationDTO) (int, error) {
 
 	r, err := m.Db.Exec(
 		"INSERT INTO withdrawals (gross_amount, net_amount, date, investment_id) VALUES (?, ?, ?, ?)",
-		inv.Balance,
-		inv.Balance-taxes,
+		i.Balance,
+		i.Balance-taxes,
 		dto.Date,
 		dto.InvestmentId,
 	)

@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"strings"
+	"time"
 )
 
 type malformedRequest struct {
@@ -40,6 +41,7 @@ func decodeJsonBody(w http.ResponseWriter, r *http.Request, dst interface{}) err
 	if err != nil {
 		var syntaxError *json.SyntaxError
 		var unmarshalTypeError *json.UnmarshalTypeError
+		var timeParseError *time.ParseError
 
 		switch {
 		case errors.As(err, &syntaxError):
@@ -53,6 +55,9 @@ func decodeJsonBody(w http.ResponseWriter, r *http.Request, dst interface{}) err
 		case errors.As(err, &unmarshalTypeError):
 			msg := fmt.Sprintf("Request body contains an invalid value for the %q field (at position %d)", unmarshalTypeError.Field, unmarshalTypeError.Offset)
 			return &malformedRequest{status: http.StatusBadRequest, msg: msg}
+
+		case errors.As(err, &timeParseError):
+			return &malformedRequest{status: http.StatusBadRequest, msg: err.Error()}
 
 		case strings.HasPrefix(err.Error(), "json: unknown field "):
 			fieldName := strings.TrimPrefix(err.Error(), "json: unknown field %s")

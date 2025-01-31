@@ -23,7 +23,7 @@ func (m InvestmentModel) Create(dto InvestmentCreationDTO) (int, error) {
 		"INSERT INTO investments (initial_amount, balance, creation_date, investor_cpf) VALUES (?, ?, ?, ?)",
 		dto.InitialAmount,
 		dto.InitialAmount,
-		dto.CreationDate,
+		dto.CreationDate.Time,
 		dto.InvestorCPF,
 	)
 	if err != nil {
@@ -44,7 +44,7 @@ func (m InvestmentModel) ById(id int) (*Investment, error) {
 
 	r := m.Db.QueryRow("SELECT id, initial_amount, balance, creation_date, investor_cpf FROM investments WHERE id = ?", id)
 
-	err := r.Scan(&investment.Id, &investment.InitialAmount, &investment.Balance, &investment.CreationDate, &cpf)
+	err := r.Scan(&investment.Id, &investment.InitialAmount, &investment.Balance, &investment.CreationDate.Time, &cpf)
 	if err != nil {
 		return nil, err
 	}

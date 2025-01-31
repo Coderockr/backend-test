@@ -34,8 +34,8 @@ func main() {
 	http.HandleFunc("/api/investments", investmentH.CreateInvestment)
 	http.HandleFunc("/api/investments/{id}", investmentH.FindInvestmentById)
 
-	http.HandleFunc("/api/witdrawals", withdrawalH.CreateWithdrawal)
-	http.HandleFunc("/api/witdrawals/{id}", withdrawalH.FindWithdrawalById)
+	http.HandleFunc("/api/withdrawals", withdrawalH.CreateWithdrawal)
+	http.HandleFunc("/api/withdrawals/{id}", withdrawalH.FindWithdrawalById)
 
 	http.ListenAndServe(":8080", nil)
 }

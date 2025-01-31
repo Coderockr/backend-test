@@ -52,7 +52,7 @@ func (m WithdrawalModel) Create(dto WithdrawalCreationDTO) (int, error) {
 		"INSERT INTO withdrawals (gross_amount, net_amount, date, investment_id) VALUES (?, ?, ?, ?)",
 		i.Balance,
 		i.Balance-taxes,
-		dto.Date,
+		dto.Date.Time,
 		dto.InvestmentId,
 	)
 	if err != nil {
@@ -73,7 +73,7 @@ func (m WithdrawalModel) ById(id int) (*Withdrawal, error) {
 
 	r := m.Db.QueryRow("SELECT id, gross_amount, net_amount, date, investment_id FROM withdrawals WHERE id = ?", id)
 
-	err := r.Scan(&w.Id, &w.GrossAmount, &w.NetAmount, &w.Date, &investmentIdStr)
+	err := r.Scan(&w.Id, &w.GrossAmount, &w.NetAmount, &w.Date.Time, &investmentIdStr)
 	if err != nil {
 		return nil, err
 	}

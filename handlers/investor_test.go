@@ -4,12 +4,20 @@ import (
 	"bytes"
 	"causeurgnocchi/backend-test/models"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 )
 
-var investorJson []byte
+var (
+	mux *http.ServeMux
+
+	investor = &models.Investor{
+		Cpf:  "95130357000",
+		Name: "Lazlo Varga",
+	}
+)
 
 type mockInvestorModel struct {
 }
@@ -25,8 +33,6 @@ func (m mockInvestorModel) ByCpf(cpf string) (*models.Investor, error) {
 func configInvestorTest(t *testing.T) {
 	t.Helper()
 
-	investorJson, _ = json.Marshal(investor)
-
 	h := InvestorHandler{Investors: mockInvestorModel{}}
 
 	mux = http.NewServeMux()
@@ -38,8 +44,10 @@ func configInvestorTest(t *testing.T) {
 func TestInvestorsCreate(t *testing.T) {
 	configInvestorTest(t)
 
+	reqBody := []byte(fmt.Sprintf(`{"cpf":"%s","name":"%s"}`, investor.Cpf, investor.Name))
+
 	rec := httptest.NewRecorder()
-	req := httptest.NewRequest("POST", "/api/investors", bytes.NewBuffer(investorJson))
+	req := httptest.NewRequest("POST", "/api/investors", bytes.NewBuffer(reqBody))
 
 	mux.ServeHTTP(rec, req)
 
@@ -47,8 +55,8 @@ func TestInvestorsCreate(t *testing.T) {
 		t.Errorf("Expected response code %d.\nGot %d", http.StatusOK, rec.Code)
 	}
 
-	if body := rec.Body.String(); body != string(investorJson) {
-		t.Errorf("Expected the following reponse body:\n%s.\nGot\n%s", string(investorJson), body)
+	if b := rec.Body.String(); b != string(reqBody) {
+		t.Errorf("Expected the following reponse body:\n%s.\nGot\n%s", string(reqBody), b)
 	}
 }
 
@@ -56,7 +64,7 @@ func TestInvestorsByCPF(t *testing.T) {
 	configInvestorTest(t)
 
 	rec := httptest.NewRecorder()
-	req := httptest.NewRequest("GET", "/api/investors/"+cpf, nil)
+	req := httptest.NewRequest("GET", "/api/investors/"+investor.Cpf, nil)
 
 	mux.ServeHTTP(rec, req)
 
@@ -64,7 +72,9 @@ func TestInvestorsByCPF(t *testing.T) {
 		t.Errorf("Expected response code %d.\nGot %d", http.StatusOK, rec.Code)
 	}
 
-	if body := rec.Body.String(); body != string(investorJson) {
-		t.Errorf("Expected the following reponse body:\n%s.\nGot\n%s", string(investorJson), body)
+	expected, _ := json.Marshal(investor)
+
+	if b := rec.Body.String(); b != string(expected) {
+		t.Errorf("Expected the following reponse body:\n%s.\nGot\n%s", string(expected), b)
 	}
 }

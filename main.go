@@ -29,7 +29,7 @@ func main() {
 	}
 
 	http.HandleFunc("/api/investors", investorH.CreateInvestor)
-	http.HandleFunc("/api/investors/cpf/{cpf}", investorH.FindInvestorByCpf)
+	http.HandleFunc("/api/investors/{cpf}", investorH.FindInvestorByCpf)
 
 	http.HandleFunc("/api/investments", investmentH.CreateInvestment)
 	http.HandleFunc("/api/investments/{id}", investmentH.FindInvestmentById)

@@ -4,6 +4,16 @@ info:
   title: Coderockr Backend Test - OpenAPI 3.0
   description: |-
     A submission for Coderockr's backend development test.
+    <br>
+    <br>
+    An investment managment application exposed through a REST API that deals with 3 entities:
+    <br>
+    - Investors
+    <br>
+    - Investments
+    <br>
+    - Withdrawals
+
   version: 1.0.0
 
 servers:
@@ -20,7 +30,7 @@ paths:
       tags:
         - investors
       summary: Add a new investor
-      operationId: addInvestor
+      operationId: createInvestor
       requestBody:
         description: Create a new investor
         content:
@@ -36,32 +46,33 @@ paths:
               schema:
                 $ref: "#/components/schemas/Investor"
         "400":
-          description: Invalid input
+          description: Bad request
         "500":
           description: Internal server error
 
+  /investors/{cpf}:
     get:
       tags:
         - investors
       summary: Find investor by CPF
-      description: Returns a single investor
-      operationId: getInvestorByCpf
+      description: Returns a single investor based on their CPF
+      operationId: findInvestorByCpf
       parameters:
         - name: cpf
-          in: query
-          description: CPF of investor to return
+          in: path
+          description: CPF of the investor to return
           required: true
           schema:
             type: string
       responses:
         "200":
-          description: successful operation
+          description: Successful operation
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Investor"
         "400":
-          description: Invalid CPF supplied
+          description: Bad request
         "404":
           description: Investor not found
         "500":
@@ -71,8 +82,8 @@ paths:
     post:
       tags:
         - investments
-      summary: Add a new investment
-      operationId: addInvestment
+      summary: Create a new investment
+      operationId: createInvestment
       requestBody:
         description: Create a new investment
         content:
@@ -88,7 +99,35 @@ paths:
               schema:
                 $ref: "#/components/schemas/Investment"
         "400":
-          description: Invalid input
+          description: Bad request
+        "500":
+          description: Internal server error
+
+  /investments/{id}:
+    get:
+      tags:
+        - investments
+      summary: Find investment by ID
+      description: Returns a single investment based on its ID
+      operationId: findInvestmentById
+      parameters:
+        - name: id
+          in: path
+          description: ID of the investment to return
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Investment"
+        "400":
+          description: Bad request
+        "404":
+          description: Investor not found
         "500":
           description: Internal server error
 
@@ -111,9 +150,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Investment"
+                $ref: "#/components/schemas/Withdrawal"
         "400":
-          description: Invalid input
+          description: Bad request
+        "500":
+          description: Internal server error
+
+  /withdrawals/{id}:
+    get:
+      tags:
+        - withdrawals
+      summary: Find withdrawal by ID
+      description: Returns a single withdrawal based on its ID
+      operationId: findWithdrawalById
+      parameters:
+        - name: id
+          in: path
+          description: ID of the withdrawal to return
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Withdrawal"
+        "400":
+          description: Bad request
+        "404":
+          description: Investor not found
         "500":
           description: Internal server error
 
@@ -123,66 +190,105 @@ components:
       properties:
         cpf:
           type: string
-          example: 30361099002
+          example: 95130357000
         name:
           type: string
           example: Lazlo Varga
 
     Investment:
-      properties:
-        initialAmount:
-          type: integer
-          example: 1000000
-          description: Amount of money to be invested expressed in the smallest unit in the respective monetary system
-        creationDate:
-          type: string
-          format: datetime
-          example: 2024-01-20
-        investor:
-          $ref: "#/components/schemas/Investor"
+      allOf:
+        - $ref: "#/components/schemas/BaseInvestment"
+        - required:
+            - id
+            - balance
+            - investor
+          properties:
+            id:
+              type: integer
+              example: 1
+              description: Investment ID
+            balance:
+              type: integer
+              example: 1000000
+              description: Sum of the initial amount and the gains of the investment, represented in the smallest unit of the respective monetary system
+            investor:
+              $ref: "#/components/schemas/Investor"
 
     NewInvestment:
+      allOf:
+        - $ref: "#/components/schemas/BaseInvestment"
+        - required:
+            - investor_cpf
+          properties:
+            investor_cpf:
+              type: string
+              description: CPF of the investor
+
+    BaseInvestment:
       required:
         - initialAmount
         - creationDate
       properties:
-        initialAmount:
+        initial_amount:
           type: integer
           example: 1000000
-          description: Amount of money to be invested, expressed in the smallest unit of the respective monetary system
-        creationDate:
+          description: Amount of money that was invested initially, represented in the smallest unit of the respective monetary system
+        creation_date:
           type: string
-          format: datetime
-          example: 2024-01-20
-        investorId:
-          type: integer
+          format: date
+          example: 2025-01-01
+          description: Date of creation of the investment
 
-    Pet:
+    Withdrawal:
       allOf:
-        - $ref: "#/components/schemas/NewPet"
+        - $ref: "#/components/schemas/NewWithdrawal"
         - required:
             - id
+            - gross_amount
+            - net_amount
           properties:
             id:
               type: integer
-              format: int64
-              description: Unique id of the pet
+              example: 1
+              description: Withdrawal ID
+            gross_amount:
+              type: integer
+              example: 1000000
+              description: The investment balance at the moment the withdrawal was made, represented in the smallest unit of the respective monetary system
+            net_amount:
+              type: integer
+              example: 1000000
+              description: The investment balance minus appliable taxes, represented in the smallest unit of the respective monetary system
 
-    NewPet:
+    NewWithdrawal:
       required:
-        - name
+        - date
+        - investment_id
       properties:
-        name:
+        date:
           type: string
-          description: Name of the pet
-        tag:
-          type: string
-          description: Type of the pet
+          format: date
+          example: 2025-01-01
+          description: Date of creation of the withdrawal
 
   requestBodies:
-    Pet:
-      description: Investor object that needs to be added
+    Investor:
+      description: Investor object that needs to be created
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/Investor"
+
+    NewInvestment:
+      description: Investment object that needs to be created
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Investment"
+
+    NewWithdrawal:
+      description: Withdrawal object that needs to be created
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Withdrawal"

@@ -1,21 +1,17 @@
 package models
 
-import (
-	"time"
-)
-
 type Investment struct {
-	Id            int       `json:"id"`
-	InitialAmount int       `json:"amount"`
-	Balance       int       `json:"balance"`
-	CreationDate  time.Time `json:"creation_date"`
-	Investor      Investor  `json:"investor"`
+	Id            int      `json:"id"`
+	InitialAmount int      `json:"initial_amount"`
+	Balance       int      `json:"balance"`
+	CreationDate  Date     `json:"creation_date"`
+	Investor      Investor `json:"investor"`
 }
 
 type InvestmentCreationDTO struct {
-	InitialAmount int       `json:"amount" validate:"required,gt=0"`
-	CreationDate  time.Time `json:"creation_date" validate:"required,notfuture"`
-	InvestorCPF   string    `json:"investor_cpf" validate:"required"`
+	InitialAmount int    `json:"initial_amount" validate:"required,gt=0"`
+	CreationDate  Date   `json:"creation_date" validate:"required,notfuture"`
+	InvestorCPF   string `json:"investor_cpf" validate:"required"`
 }
 
 type InvestmentModel struct {

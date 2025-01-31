@@ -14,7 +14,7 @@ var investment = &models.Investment{
 	Id:            1,
 	InitialAmount: 1000000,
 	Balance:       1000000,
-	CreationDate:  time.Now(),
+	CreationDate:  models.Date{Time: time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)},
 	Investor:      *investor,
 }
 
@@ -43,13 +43,7 @@ func configInvestmentTest(t *testing.T) {
 func TestInvestmentsCreate(t *testing.T) {
 	configInvestmentTest(t)
 
-	dto := &models.InvestmentCreationDTO{
-		InitialAmount: 100000,
-		CreationDate:  time.Now(),
-		InvestorCPF:   "95130357000",
-	}
-
-	dtoJson, _ := json.Marshal(dto)
+	dtoJson := []byte(`{"initial_amount":1000000,"creation_date":"2025-01-01","investor_cpf":"95130357000"}`)
 
 	rec := httptest.NewRecorder()
 	req := httptest.NewRequest("POST", "/api/investments", bytes.NewBuffer(dtoJson))

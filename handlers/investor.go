@@ -14,19 +14,7 @@ import (
 	"github.com/go-sql-driver/mysql"
 )
 
-const (
-	cpf            = "95130357000"
-	mySqlKeyExists = 1062
-)
-
-var (
-	mux *http.ServeMux
-
-	investor = &models.Investor{
-		Cpf:  cpf,
-		Name: "Lazlo Varga",
-	}
-)
+const mySqlKeyExists = 1062
 
 type InvestorHandler struct {
 	Investors interface {
@@ -60,7 +48,7 @@ func (h InvestorHandler) CreateInvestor(w http.ResponseWriter, r *http.Request) 
 	v.RegisterValidation("cpf", func(fl validator.FieldLevel) bool {
 		cpf := fl.Field().String()
 
-		return validateCPF(cpf)
+		return cpfIsValid(cpf)
 	})
 
 	err = v.Struct(i)
@@ -104,8 +92,9 @@ func (h InvestorHandler) FindInvestorByCpf(w http.ResponseWriter, r *http.Reques
 
 	cpf := r.PathValue("cpf")
 
-	if !validateCPF(cpf) {
+	if !cpfIsValid(cpf) {
 		http.Error(w, "Invalid CPF", http.StatusBadRequest)
+		return
 	}
 
 	i, err := h.Investors.ByCpf(cpf)
@@ -127,7 +116,7 @@ func (h InvestorHandler) FindInvestorByCpf(w http.ResponseWriter, r *http.Reques
 	w.Write(iJson)
 }
 
-func validateCPF(cpf string) bool {
+func cpfIsValid(cpf string) bool {
 	if len(cpf) != 11 {
 		return false
 	}

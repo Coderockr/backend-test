@@ -122,7 +122,7 @@ func (h InvestmentHandler) FindInvestmentById(w http.ResponseWriter, r *http.Req
 
 func notFuture(fl validator.FieldLevel) bool {
 	today := time.Now()
-	creationDate := fl.Field().Interface().(time.Time)
+	creationDate := fl.Field().Interface().(models.Date)
 
 	return !creationDate.After(today)
 }

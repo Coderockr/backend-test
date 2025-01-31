@@ -33,7 +33,7 @@ func TestInvestments(t *testing.T) {
 
 	investment := InvestmentCreationDTO{
 		InitialAmount: 1000000,
-		CreationDate:  time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC),
+		CreationDate:  Date{Time: time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)},
 		InvestorCPF:   "95130357000",
 	}
 

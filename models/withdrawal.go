@@ -4,20 +4,19 @@ import (
 	"errors"
 	"math"
 	"strconv"
-	"time"
 )
 
 type Withdrawal struct {
 	Id          int        `json:"id"`
 	GrossAmount int        `json:"gross_amount"`
 	NetAmount   int        `json:"net_amount"`
-	Date        time.Time  `json:"date"`
+	Date        Date       `json:"date"`
 	Investment  Investment `json:"investment"`
 }
 
 type WithdrawalCreationDTO struct {
-	Date         time.Time `validate:"required"`
-	InvestmentId int
+	Date         Date `json:"date" validate:"required"`
+	InvestmentId int  `json:"investment_id" validate:"required"`
 }
 
 type WithdrawalModel struct {
@@ -34,7 +33,7 @@ func (m WithdrawalModel) Create(dto WithdrawalCreationDTO) (int, error) {
 		return -1, err
 	}
 
-	if dto.Date.Before(i.CreationDate) {
+	if dto.Date.Before(i.CreationDate.Time) {
 		return -1, InvalidWithdrawalDate
 	}
 

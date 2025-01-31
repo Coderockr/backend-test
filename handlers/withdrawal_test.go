@@ -14,7 +14,7 @@ var withdrawal = &models.Withdrawal{
 	Id:          1,
 	GrossAmount: 1000000,
 	NetAmount:   1000000,
-	Date:        time.Now(),
+	Date:        models.Date{Time: time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)},
 	Investment:  *investment,
 }
 
@@ -43,15 +43,11 @@ func configWithdrawalTest(t *testing.T) {
 func TestWithdrawalsCreate(t *testing.T) {
 	configWithdrawalTest(t)
 
-	dto := &models.WithdrawalCreationDTO{
-		InvestmentId: 1,
-		Date:         time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC),
-	}
-
-	dtoJson, _ := json.Marshal(dto)
+	dtoJson := []byte(`{"date":"2025-01-01","investment_id":1}`)
 
 	rec := httptest.NewRecorder()
 	req := httptest.NewRequest("POST", "/api/withdrawals", bytes.NewBuffer(dtoJson))
+
 	mux.ServeHTTP(rec, req)
 
 	if rec.Code != http.StatusOK {

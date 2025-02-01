@@ -14,8 +14,8 @@ var (
 	mux *http.ServeMux
 
 	investor = &models.Investor{
-		Cpf:  "95130357000",
-		Name: "Lazlo Varga",
+		Cpf:  "92087347069",
+		Name: "Lazlo Varga Jr",
 	}
 )
 
@@ -37,8 +37,8 @@ func configInvestorTest(t *testing.T) {
 
 	mux = http.NewServeMux()
 
-	mux.HandleFunc("/api/investors", h.CreateInvestor)
-	mux.HandleFunc("/api/investors/{cpf}", h.FindInvestorByCpf)
+	mux.HandleFunc("GET /api/investors/{cpf}", h.FindInvestorByCpf)
+	mux.HandleFunc("POST /api/investors", h.CreateInvestor)
 }
 
 func TestInvestorsCreate(t *testing.T) {

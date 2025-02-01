@@ -26,8 +26,8 @@ func TestWithdrawalsCreate(t *testing.T) {
 	withdrawalM := WithdrawalModel{Db: tx}
 
 	investor := Investor{
-		Cpf:  "95130357000",
-		Name: "Lazlo Varga",
+		Cpf:  "92087347069",
+		Name: "Lazlo Varga Jr",
 	}
 
 	investorM.Create(investor)
@@ -35,7 +35,7 @@ func TestWithdrawalsCreate(t *testing.T) {
 	investment := InvestmentCreationDTO{
 		InitialAmount: 1000000,
 		CreationDate:  Date{Time: time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)},
-		InvestorCPF:   "95130357000",
+		InvestorCPF:   "92087347069",
 	}
 
 	investmentId, _ := investmentM.Create(investment)

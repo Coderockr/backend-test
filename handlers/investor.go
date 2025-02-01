@@ -8,13 +8,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"strconv"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/go-sql-driver/mysql"
 )
-
-const mySqlKeyExists = 1062
 
 type InvestorHandler struct {
 	Investors interface {
@@ -24,10 +21,6 @@ type InvestorHandler struct {
 }
 
 func (h InvestorHandler) CreateInvestor(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
-	}
-
 	var i models.Investor
 
 	err := decodeJsonBody(w, r, &i)
@@ -62,7 +55,7 @@ func (h InvestorHandler) CreateInvestor(w http.ResponseWriter, r *http.Request) 
 
 	err = h.Investors.Create(i)
 	if err != nil {
-		if err.(*mysql.MySQLError).Number == mySqlKeyExists {
+		if err.(*mysql.MySQLError).Number == 1062 {
 			msg := "CPF provided is already being used"
 			http.Error(w, msg, http.StatusBadRequest)
 		} else {
@@ -86,10 +79,6 @@ func (h InvestorHandler) CreateInvestor(w http.ResponseWriter, r *http.Request) 
 }
 
 func (h InvestorHandler) FindInvestorByCpf(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
-	}
-
 	cpf := r.PathValue("cpf")
 
 	if !cpfIsValid(cpf) {
@@ -114,47 +103,4 @@ func (h InvestorHandler) FindInvestorByCpf(w http.ResponseWriter, r *http.Reques
 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(iJson)
-}
-
-func cpfIsValid(cpf string) bool {
-	if len(cpf) != 11 {
-		return false
-	}
-
-	var cpfDigits [11]int
-	for i, c := range cpf {
-		n, err := strconv.Atoi(string(c))
-		if err != nil {
-			log.Print(err.Error())
-		}
-		cpfDigits[i] = n
-	}
-
-	sum1 := 0
-	for i := 0; i < 9; i++ {
-		sum1 += cpfDigits[i] * (10 - i)
-	}
-
-	validator1 := (sum1 * 10) % 11
-	if validator1 == 10 {
-		validator1 = 0
-	}
-	if validator1 != cpfDigits[9] {
-		return false
-	}
-
-	sum2 := validator1 * 2
-	for i := 0; i < 9; i++ {
-		sum2 += cpfDigits[i] * (11 - i)
-	}
-
-	validator2 := (sum2 * 10) % 11
-	if validator2 == 10 {
-		validator2 = 0
-	}
-	if validator2 != cpfDigits[10] {
-		return false
-	}
-
-	return true
 }

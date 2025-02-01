@@ -23,8 +23,8 @@ func TestInvestors(t *testing.T) {
 	m := &InvestorModel{Db: tx}
 
 	i := Investor{
-		Cpf:  "95130357000",
-		Name: "Lazlo Varga",
+		Cpf:  "92087347069",
+		Name: "Lazlo Varga Jr",
 	}
 
 	err = m.Create(i)

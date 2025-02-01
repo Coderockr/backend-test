@@ -25,8 +25,8 @@ func TestInvestments(t *testing.T) {
 	investmentM := InvestmentModel{Db: tx}
 
 	investor := Investor{
-		Cpf:  "95130357000",
-		Name: "Lazlo Varga",
+		Cpf:  "92087347069",
+		Name: "Lazlo Varga Jr",
 	}
 
 	investorM.Create(investor)
@@ -34,7 +34,7 @@ func TestInvestments(t *testing.T) {
 	investment := InvestmentCreationDTO{
 		InitialAmount: 1000000,
 		CreationDate:  Date{Time: time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)},
-		InvestorCPF:   "95130357000",
+		InvestorCPF:   "92087347069",
 	}
 
 	id, err := investmentM.Create(investment)
@@ -45,5 +45,15 @@ func TestInvestments(t *testing.T) {
 	_, err = investmentM.ById(id)
 	if err != nil {
 		t.Errorf("Error retrieving investment:\n%s", err.Error())
+	}
+
+	_, err = investmentM.ByInvestorCpf(investor.Cpf)
+	if err != nil {
+		t.Errorf("Error retrieving investments belonging to investor of CPF %s:\n%s", investor.Cpf, err.Error())
+	}
+
+	err = investmentM.RemoveBalance(id)
+	if err != nil {
+		t.Errorf("Error removing investment's balance:\n%s", err.Error())
 	}
 }

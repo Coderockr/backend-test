@@ -12,12 +12,14 @@ import (
 	"time"
 
 	"github.com/go-playground/validator/v10"
+	"github.com/go-sql-driver/mysql"
 )
 
 type InvestmentHandler struct {
 	Investments interface {
 		Create(inv models.InvestmentCreationDTO) (int, error)
 		ById(id int) (*models.Investment, error)
+		ByInvestorCpf(cpf string) ([]models.Investment, error)
 	}
 }
 
@@ -56,8 +58,13 @@ func (h InvestmentHandler) CreateInvestment(w http.ResponseWriter, r *http.Reque
 
 	id, err := h.Investments.Create(dto)
 	if err != nil {
-		log.Print(err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		if err.(*mysql.MySQLError).Number == 1452 {
+			msg := fmt.Sprintf("There are no records of an investor with CPF of %s", dto.InvestorCPF)
+			http.Error(w, msg, http.StatusBadRequest)
+		} else {
+			log.Print(err)
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		}
 
 		return
 	}
@@ -77,10 +84,6 @@ func (h InvestmentHandler) CreateInvestment(w http.ResponseWriter, r *http.Reque
 }
 
 func (h InvestmentHandler) FindInvestmentById(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
-	}
-
 	pv := r.PathValue("id")
 
 	id, err := strconv.Atoi(pv)
@@ -120,9 +123,41 @@ func (h InvestmentHandler) FindInvestmentById(w http.ResponseWriter, r *http.Req
 	w.Write(iJson)
 }
 
+func (h InvestmentHandler) FilterByInvestorCpf(w http.ResponseWriter, r *http.Request) {
+	cpf := r.URL.Query().Get("investor_cpf")
+
+	if !cpfIsValid(cpf) {
+		msg := "CPF provided is invalid"
+		http.Error(w, msg, http.StatusBadRequest)
+		return
+	}
+
+	investments, err := h.Investments.ByInvestorCpf(cpf)
+	if errors.Is(err, sql.ErrNoRows) {
+		msg := fmt.Sprintf("Investor of CPF %s not found", cpf)
+		http.Error(w, msg, http.StatusNotFound)
+		return
+	}
+
+	if len(investments) == 0 {
+		msg := fmt.Sprintf("Investor of CPF %s doesn't have any investment", cpf)
+		http.Error(w, msg, http.StatusNotFound)
+		return
+	}
+
+	investmentsJson, err := json.Marshal(investments)
+	if err != nil {
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		log.Print(err)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(investmentsJson)
+}
+
 func notFuture(fl validator.FieldLevel) bool {
 	today := time.Now()
 	creationDate := fl.Field().Interface().(models.Date)
-
 	return !creationDate.After(today)
 }

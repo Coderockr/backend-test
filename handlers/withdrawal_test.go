@@ -32,12 +32,15 @@ func (m mockWithdrawalModel) ById(id int) (*models.Withdrawal, error) {
 func configWithdrawalTest(t *testing.T) {
 	t.Helper()
 
-	h := WithdrawalHandler{Withdrawals: mockWithdrawalModel{}}
+	h := WithdrawalHandler{
+		Withdrawals: mockWithdrawalModel{},
+		Investments: mockInvestmentModel{},
+	}
 
 	mux = http.NewServeMux()
 
-	mux.HandleFunc("/api/withdrawals", h.CreateWithdrawal)
-	mux.HandleFunc("/api/withdrawals/{id}", h.FindWithdrawalById)
+	mux.HandleFunc("GET /api/withdrawals/{id}", h.FindWithdrawalById)
+	mux.HandleFunc("POST /api/withdrawals", h.CreateWithdrawal)
 }
 
 func TestWithdrawalsCreate(t *testing.T) {

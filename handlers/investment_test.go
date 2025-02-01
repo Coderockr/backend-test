@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"causeurgnocchi/backend-test/models"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -29,6 +30,14 @@ func (m mockInvestmentModel) ById(id int) (*models.Investment, error) {
 	return investment, nil
 }
 
+func (m mockInvestmentModel) ByInvestorCpf(cpf string) ([]models.Investment, error) {
+	return []models.Investment{*investment}, nil
+}
+
+func (m mockInvestmentModel) RemoveBalance(id int) error {
+	return nil
+}
+
 func configInvestmentTest(t *testing.T) {
 	t.Helper()
 
@@ -36,14 +45,15 @@ func configInvestmentTest(t *testing.T) {
 
 	mux = http.NewServeMux()
 
-	mux.HandleFunc("/api/investments", h.CreateInvestment)
-	mux.HandleFunc("/api/investments/{id}", h.FindInvestmentById)
+	mux.HandleFunc("GET /api/investments/{id}", h.FindInvestmentById)
+	mux.HandleFunc("GET /api/investments", h.FilterByInvestorCpf)
+	mux.HandleFunc("POST /api/investments", h.CreateInvestment)
 }
 
 func TestInvestmentsCreate(t *testing.T) {
 	configInvestmentTest(t)
 
-	dtoJson := []byte(`{"initial_amount":1000000,"creation_date":"2025-01-01","investor_cpf":"95130357000"}`)
+	dtoJson := []byte(fmt.Sprintf(`{"initial_amount":1000000,"creation_date":"2025-01-01","investor_cpf":"%s"}`, investor.Cpf))
 
 	rec := httptest.NewRecorder()
 	req := httptest.NewRequest("POST", "/api/investments", bytes.NewBuffer(dtoJson))
@@ -77,5 +87,25 @@ func TestInvestmentsById(t *testing.T) {
 
 	if body := rec.Body.String(); body != string(investmentJson) {
 		t.Errorf("Expected the following reponse body:\n%s.\nGot\n%s", string(investmentJson), body)
+	}
+}
+
+func TestInvestmentsByInvestorCpf(t *testing.T) {
+	configInvestmentTest(t)
+
+	rec := httptest.NewRecorder()
+	reqUrl := fmt.Sprintf("/api/investments?investor_cpf=%s", investor.Cpf)
+	req := httptest.NewRequest("GET", reqUrl, nil)
+
+	mux.ServeHTTP(rec, req)
+
+	if rec.Code != http.StatusOK {
+		t.Errorf("Expected response code %d. Got %d", http.StatusOK, rec.Code)
+	}
+
+	investmentsJson, _ := json.Marshal([]models.Investment{*investment})
+
+	if body := rec.Body.String(); body != string(investmentsJson) {
+		t.Errorf("Expected the following reponse body:\n%s.\nGot\n%s", string(investmentsJson), body)
 	}
 }

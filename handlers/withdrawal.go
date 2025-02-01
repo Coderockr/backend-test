@@ -18,13 +18,13 @@ type WithdrawalHandler struct {
 		Create(w models.WithdrawalCreationDTO) (int, error)
 		ById(id int) (*models.Withdrawal, error)
 	}
+
+	Investments interface {
+		RemoveBalance(id int) error
+	}
 }
 
 func (h WithdrawalHandler) CreateWithdrawal(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
-	}
-
 	var dto models.WithdrawalCreationDTO
 
 	err := decodeJsonBody(w, r, &dto)
@@ -48,14 +48,13 @@ func (h WithdrawalHandler) CreateWithdrawal(w http.ResponseWriter, r *http.Reque
 		errs := err.(validator.ValidationErrors)
 		msg := fmt.Sprintf("Invalid withdrawal information:\n%s", errs)
 		http.Error(w, msg, http.StatusBadRequest)
-
 		return
 	}
 
 	id, err := h.Withdrawals.Create(dto)
 	if err != nil {
-		if errors.Is(err, models.InvalidWithdrawalDate) {
-			http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
+		if errors.Is(err, models.ErrInvalidWithdrawalDate) {
+			http.Error(w, err.Error(), http.StatusBadRequest)
 		} else {
 			log.Print(err)
 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
@@ -64,11 +63,17 @@ func (h WithdrawalHandler) CreateWithdrawal(w http.ResponseWriter, r *http.Reque
 		return
 	}
 
+	err = h.Investments.RemoveBalance(dto.InvestmentId)
+	if err != nil {
+		log.Print(err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
 	withdrawal, err := h.Withdrawals.ById(id)
 	if err != nil {
 		log.Print(err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-
 		return
 	}
 
@@ -79,10 +84,6 @@ func (h WithdrawalHandler) CreateWithdrawal(w http.ResponseWriter, r *http.Reque
 }
 
 func (h WithdrawalHandler) FindWithdrawalById(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
-	}
-
 	pv := r.PathValue("id")
 
 	id, err := strconv.Atoi(pv)
@@ -99,7 +100,6 @@ func (h WithdrawalHandler) FindWithdrawalById(w http.ResponseWriter, r *http.Req
 			log.Print(err)
 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		}
-
 		return
 	}
 
@@ -112,7 +112,6 @@ func (h WithdrawalHandler) FindWithdrawalById(w http.ResponseWriter, r *http.Req
 			log.Print(err)
 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		}
-
 		return
 	}
 

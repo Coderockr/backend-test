@@ -26,16 +26,18 @@ func main() {
 
 	withdrawalH := handlers.WithdrawalHandler{
 		Withdrawals: models.WithdrawalModel{Db: db},
+		Investments: models.InvestmentModel{Db: db},
 	}
 
-	http.HandleFunc("/api/investors", investorH.CreateInvestor)
-	http.HandleFunc("/api/investors/{cpf}", investorH.FindInvestorByCpf)
+	http.HandleFunc("GET /api/investors/{cpf}", investorH.FindInvestorByCpf)
+	http.HandleFunc("POST /api/investors", investorH.CreateInvestor)
 
-	http.HandleFunc("/api/investments", investmentH.CreateInvestment)
-	http.HandleFunc("/api/investments/{id}", investmentH.FindInvestmentById)
+	http.HandleFunc("GET /api/investments", investmentH.FilterByInvestorCpf)
+	http.HandleFunc("GET /api/investments/{id}", investmentH.FindInvestmentById)
+	http.HandleFunc("POST /api/investments", investmentH.CreateInvestment)
 
-	http.HandleFunc("/api/withdrawals", withdrawalH.CreateWithdrawal)
-	http.HandleFunc("/api/withdrawals/{id}", withdrawalH.FindWithdrawalById)
+	http.HandleFunc("GET /api/withdrawals/{id}", withdrawalH.FindWithdrawalById)
+	http.HandleFunc("POST /api/withdrawals", withdrawalH.CreateWithdrawal)
 
 	http.ListenAndServe(":8080", nil)
 }

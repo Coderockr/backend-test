@@ -23,7 +23,7 @@ type WithdrawalModel struct {
 	Db database
 }
 
-var InvalidWithdrawalDate = errors.New("Withdrawal date preceeds investment's creation")
+var ErrInvalidWithdrawalDate = errors.New("Withdrawal date precedes investment's creation")
 
 func (m WithdrawalModel) Create(dto WithdrawalCreationDTO) (int, error) {
 	im := &InvestmentModel{Db: m.Db}
@@ -34,7 +34,7 @@ func (m WithdrawalModel) Create(dto WithdrawalCreationDTO) (int, error) {
 	}
 
 	if dto.Date.Before(i.CreationDate.Time) {
-		return -1, InvalidWithdrawalDate
+		return -1, ErrInvalidWithdrawalDate
 	}
 
 	var taxes int

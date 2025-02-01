@@ -60,6 +60,37 @@ func (m InvestmentModel) ById(id int) (*Investment, error) {
 	return &investment, nil
 }
 
+func (m InvestmentModel) ByInvestorCpf(cpf string) ([]Investment, error) {
+	investorM := &InvestorModel{Db: m.Db}
+
+	investor, err := investorM.ByCpf(cpf)
+	if err != nil {
+		return nil, err
+	}
+
+	r, err := m.Db.Query("SELECT id, initial_amount, balance, creation_date FROM investments WHERE investor_cpf = ?", cpf)
+	if err != nil {
+		return nil, err
+	}
+
+	var investements []Investment
+
+	for r.Next() {
+		var i Investment
+
+		err = r.Scan(&i.Id, &i.InitialAmount, &i.Balance, &i.CreationDate.Time)
+		if err != nil {
+			return nil, err
+		}
+
+		i.Investor = *investor
+
+		investements = append(investements, i)
+	}
+
+	return investements, nil
+}
+
 func (m InvestmentModel) RemoveBalance(id int) error {
 	_, err := m.Db.Exec("UPDATE investments SET balance = 0 WHERE id = ?", id)
 

@@ -1,0 +1,1383 @@
+{
+	"info": {
+		"_postman_id": "f4c7ad08-fc49-4caa-b9d3-0695ee64a35c",
+		"name": "Coderockr Backend Test",
+		"description": "A submission for Coderockr's backend development test.\n\nAn investment managment application exposed through a REST API that deals with 3 entities:\n\n- Investors\n    \n- Investments\n    \n- Withdrawals",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11087918"
+	},
+	"item": [
+		{
+			"name": "Investors",
+			"item": [
+				{
+					"name": "Create a new investor",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cpf\": \"95130357000\", // CPF of the investor to be created\n    \"name\": \"Lazlo Varga\" // Name of the investor to be created\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/investors",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"investors"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful operation",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cpf\": \"95130357000\", // CPF of the investor to be created\n    \"name\": \"Lazlo Varga\" // Name of the investor to be created\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/investors",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"investors"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 12:51:07 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "42"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"cpf\": \"95130357000\",\n    \"name\": \"Lazlo Varga\"\n}"
+						},
+						{
+							"name": "Invalid CPF",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"cpf\": \"12345678900\", // CPF of the investor to be created\n    \"name\": \"Lazlo Varga\" // Name of the investor to be created\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/investors",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"investors"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 12:51:59 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "107"
+								}
+							],
+							"cookie": [],
+							"body": "Invalid investor information:\nKey: 'Investor.Cpf' Error:Field validation for 'Cpf' failed on the 'cpf' tag\n"
+						}
+					]
+				},
+				{
+					"name": "Find investor by CPF",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/investors/:cpf",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"investors",
+								":cpf"
+							],
+							"variable": [
+								{
+									"key": "cpf",
+									"value": "95130357000",
+									"description": "(Required) CPF of the investor to return"
+								}
+							]
+						},
+						"description": "Returns a single investor based on their CPF"
+					},
+					"response": [
+						{
+							"name": "Successful operation",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/investors/:cpf",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"investors",
+										":cpf"
+									],
+									"variable": [
+										{
+											"key": "cpf",
+											"value": "95130357000",
+											"description": "(Required) CPF of the investor to return"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 12:53:54 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "42"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"cpf\": \"95130357000\",\n    \"name\": \"Lazlo Varga\"\n}"
+						},
+						{
+							"name": "Invalid CPF",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/investors/:cpf",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"investors",
+										":cpf"
+									],
+									"variable": [
+										{
+											"key": "cpf",
+											"value": "lorem123",
+											"description": "(Required) CPF of the investor to return"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 12:57:04 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "12"
+								}
+							],
+							"cookie": [],
+							"body": "Invalid CPF\n"
+						},
+						{
+							"name": "Not found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/investors/:cpf",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"investors",
+										":cpf"
+									],
+									"variable": [
+										{
+											"key": "cpf",
+											"value": "92087347069",
+											"description": "(Required) CPF of the investor to return"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 12:56:57 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "61"
+								}
+							],
+							"cookie": [],
+							"body": "No record of an investor with CPF 92087347069 has been found\n"
+						}
+					]
+				}
+			],
+			"description": "The `/investors` endpoints let you manage information about investors."
+		},
+		{
+			"name": "Investments",
+			"item": [
+				{
+					"name": "Create a new investment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"investor_cpf\": \"95130357000\", // CPF of the investor who owns the investment\n    \"initial_amount\": 1000000, // amount of money to be invested, represented in the smallest unit of the respective monetary system\n    \"creation_date\": \"2025-01-01\" // date of creation of the investment\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/investments",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"investments"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful operation",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"investor_cpf\": \"95130357000\", // CPF of the investor who owns the investment\n    \"initial_amount\": 1000000, // amount of money to be invested, represented in the smallest unit of the respective monetary system\n    \"creation_date\": \"2025-01-01\" // date of creation of the investment\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/investments",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"investments"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 12:58:00 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "144"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"initial_amount\": 1000000,\n    \"balance\": 1000000,\n    \"creation_date\": \"2025-01-01T00:00:00Z\",\n    \"investor\": {\n        \"cpf\": \"95130357000\",\n        \"name\": \"Lazlo Varga\"\n    }\n}"
+						},
+						{
+							"name": "Invalid initial amount",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"investor_cpf\": \"95130357000\", // CPF of the investor who owns the investment\n    \"initial_amount\": \"one thousand bucks\", // amount of money to be invested, represented in the smallest unit of the respective monetary system\n    \"creation_date\": \"2025-01-01\" // date of creation of the investment\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/investments",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"investments"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 12:58:36 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "87"
+								}
+							],
+							"cookie": [],
+							"body": "Request body contains an invalid value for the \"initial_amount\" field (at position 80)\n"
+						},
+						{
+							"name": "Non-existing investor",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"investor_cpf\": \"92087347069\", // CPF of the investor who owns the investment\n    \"initial_amount\": 1000000, // amount of money to be invested, represented in the smallest unit of the respective monetary system\n    \"creation_date\": \"2025-01-01\" // date of creation of the investment\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/investments",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"investments"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 13:08:16 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "60"
+								}
+							],
+							"cookie": [],
+							"body": "There are no records of an investor with CPF of 92087347069\n"
+						}
+					]
+				},
+				{
+					"name": "Find investment by ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/investments/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"investments",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "ID of the investment to be retrieved"
+								}
+							]
+						},
+						"description": "Returns a single investment based on its ID"
+					},
+					"response": [
+						{
+							"name": "Sucessful operation",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/investments/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"investments",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "ID of the investment to be retrieved"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 13:10:26 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "144"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"initial_amount\": 1000000,\n    \"balance\": 1000000,\n    \"creation_date\": \"2025-01-01T00:00:00Z\",\n    \"investor\": {\n        \"cpf\": \"95130357000\",\n        \"name\": \"Lazlo Varga\"\n    }\n}"
+						},
+						{
+							"name": "Not found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/investments/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"investments",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2",
+											"description": "ID of the investment to be retrieved"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 13:11:00 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "52"
+								}
+							],
+							"cookie": [],
+							"body": "No record of an investment with id 2 has been found\n"
+						},
+						{
+							"name": "Invalid ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/investments/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"investments",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "one",
+											"description": "ID of the investment to be retrieved"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 13:12:52 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "46"
+								}
+							],
+							"cookie": [],
+							"body": "Investment ID of value one has a syntax error\n"
+						}
+					]
+				},
+				{
+					"name": "Filter by investor CPF",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/investments?investor_cpf=17988930028",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"investments"
+							],
+							"query": [
+								{
+									"key": "investor_cpf",
+									"value": "17988930028"
+								}
+							]
+						},
+						"description": "Returns a single investment based on its ID"
+					},
+					"response": [
+						{
+							"name": "Successful operation",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/investments?investor_cpf=95130357000",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"investments"
+									],
+									"query": [
+										{
+											"key": "investor_cpf",
+											"value": "95130357000"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 13:14:32 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "291"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"initial_amount\": 1000000,\n        \"balance\": 1000000,\n        \"creation_date\": \"2025-01-01T00:00:00Z\",\n        \"investor\": {\n            \"cpf\": \"95130357000\",\n            \"name\": \"Lazlo Varga\"\n        }\n    },\n    {\n        \"id\": 4,\n        \"initial_amount\": 1000000,\n        \"balance\": 1000000,\n        \"creation_date\": \"2025-01-01T00:00:00Z\",\n        \"investor\": {\n            \"cpf\": \"95130357000\",\n            \"name\": \"Lazlo Varga\"\n        }\n    }\n]"
+						},
+						{
+							"name": "Investor not found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/investments?investor_cpf=17988930028",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"investments"
+									],
+									"query": [
+										{
+											"key": "investor_cpf",
+											"value": "17988930028"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 13:45:23 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "38"
+								}
+							],
+							"cookie": [],
+							"body": "Investor of CPF 17988930028 not found\n"
+						},
+						{
+							"name": "Investor has no investment",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/investments?investor_cpf=92087347069",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"investments"
+									],
+									"query": [
+										{
+											"key": "investor_cpf",
+											"value": "92087347069"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 13:46:27 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "56"
+								}
+							],
+							"cookie": [],
+							"body": "Investor of CPF 92087347069 doesn't have any investment\n"
+						}
+					]
+				}
+			],
+			"description": "The `/investments` endpoints let you manage information about investments."
+		},
+		{
+			"name": "Withdrawals",
+			"item": [
+				{
+					"name": "Create a new withdrawal",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"date\": \"2025-01-01\", // creation date of the withdrawal\n    \"investment_id\": 1 // ID of the investment from which the withdrawal is being made\n}",
+							"options": {
+								"raw": {
+									"headerFamily": "json",
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/withdrawals",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"withdrawals"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Successful operation",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"date\": \"2025-01-01\", // creation date of the withdrawal\n    \"investment_id\": 1 // ID of the investment from which the withdrawal is being made\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/withdrawals",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"withdrawals"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 14:15:29 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "234"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 4,\n    \"gross_amount\": 1000000,\n    \"net_amount\": 1000000,\n    \"date\": \"2025-01-01T00:00:00Z\",\n    \"investment\": {\n        \"id\": 1,\n        \"initial_amount\": 1000000,\n        \"balance\": 0,\n        \"creation_date\": \"2025-01-01T00:00:00Z\",\n        \"investor\": {\n            \"cpf\": \"95130357000\",\n            \"name\": \"Lazlo Varga\"\n        }\n    }\n}"
+						},
+						{
+							"name": "Invalid withdrawal date",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"date\": \"2024-01-01\", // creation date of the withdrawal\n    \"investment_id\": 1 // ID of the investment from which the withdrawal is being made\n}",
+									"options": {
+										"raw": {
+											"headerFamily": "json",
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/withdrawals",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"withdrawals"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 14:18:20 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "47"
+								}
+							],
+							"cookie": [],
+							"body": "Withdrawal date preceeds investment's creation\n"
+						}
+					]
+				},
+				{
+					"name": "Find withdrawal by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/withdrawals/:id",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"withdrawals",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "(Required) ID of the withdrawal to return"
+								}
+							]
+						},
+						"description": "Returns a single withdrawal based on its ID"
+					},
+					"response": [
+						{
+							"name": "Successful response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/withdrawals/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"withdrawals",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "(Required) ID of the withdrawal to return"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 14:21:00 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "234"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 1,\n    \"gross_amount\": 1000000,\n    \"net_amount\": 1000000,\n    \"date\": \"2025-01-01T00:00:00Z\",\n    \"investment\": {\n        \"id\": 1,\n        \"initial_amount\": 1000000,\n        \"balance\": 0,\n        \"creation_date\": \"2025-01-01T00:00:00Z\",\n        \"investor\": {\n            \"cpf\": \"95130357000\",\n            \"name\": \"Lazlo Varga\"\n        }\n    }\n}"
+						},
+						{
+							"name": "Not found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/withdrawals/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"withdrawals",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "5",
+											"description": "(Required) ID of the withdrawal to return"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 14:21:48 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "51"
+								}
+							],
+							"cookie": [],
+							"body": "No record of a withdrawal with id 5 has been found\n"
+						},
+						{
+							"name": "Invalid ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/withdrawals/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"withdrawals",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "five",
+											"description": "(Required) ID of the withdrawal to return"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 01 Feb 2025 14:22:24 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "47"
+								}
+							],
+							"cookie": [],
+							"body": "Withdrawal ID of value five has a syntax error\n"
+						}
+					]
+				}
+			],
+			"description": "The `/withdrawals` endpoints lets you manage information about withdrawals."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/api"
+		},
+		{
+			"key": "investor",
+			"value": "{\n  \"cpf\": \"95130357000\",\n  \"name\": \"Lazlo Varga\"\n}",
+			"type": "string"
+		},
+		{
+			"key": "investment",
+			"value": "{\n  \"investor_cpf\": \"95130357000\",\n  \"initial_amount\": 1000000,\n  \"creation_date\": \"2025-01-01\",\n}",
+			"type": "string"
+		},
+		{
+			"key": "investorCpf",
+			"value": "95130357000",
+			"type": "string"
+		}
+	]
+}

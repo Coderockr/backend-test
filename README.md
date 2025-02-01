@@ -4,7 +4,7 @@ A submission for Coderockr's backend development test.
 
 ## Description
 
-An investment managment application exposed through a REST API that deals with 3 entities:
+An investment management application exposed through a REST API that deals with 3 entities:
 
 - Investors
 - Investments
@@ -12,14 +12,13 @@ An investment managment application exposed through a REST API that deals with 3
 
 The system was programmed in Go, and uses the default library's http server.
 
-Unit tests were implemented for the data access layer and for the requisition handlers, which was made possible through dependency injection.
+It has the following features:
 
-It uses 2 third-party packages:
-
-- github.com/go-sql-driver/mysql
-- github.com/go-playground/validator/v10
-
-There's a setup.sql file in the project's root. It is used in the database container to create the relevant tables and a scheduled event that applies the investments' interest monthly.
+- HTTP endpoints for creating and retrieving the entities mentioned above.
+- An interest applying functionality that works on a timely basis implemented through MySQL's event scheduler.
+- Unit tests implemented via dependency injection
+- A low number of third party libraries (i.e. github.com/go-sql-driver/mysql and github.com/go-playground/validator/v10)
+- Somewhat thorough error handling, which allows for informative error messages to the end-user.
 
 ## Requirements
 
@@ -32,19 +31,19 @@ Also, to view the documentation you'll need Postman.
 
 ## Run Locally
 
-Go to the project directory
+1. Go to the project directory
 
 ```bash
   cd backend-test
 ```
 
-Start the database
+2. Start the database
 
 ```bash
   docker compose up -d
 ```
 
-Start the server (Available at port 8080 by default)
+3. Start the server (Available at port 8080 by default)
 
 ```bash
   go run main.go
@@ -62,8 +61,16 @@ I apologize for the inconveninence.
 
 ## Closing Remarks
 
-I'd like to thank the Coderockr team for the opportunity, this was definitely a great learning experience.
+I'd like to point out that this projects still lack MANY features to even be considered a first prototype. Stuff like:
 
-Wish you guys the best.
+- Authentication
+- Endpoints for updating and deleting entities
+- Email notifications
+
+Although I have developed REST APIs for some of my personal projects, I had yet to tackle this matter in such a intricate manner, and so it took quite a considerable amount of time for me to finally be able to show you something.
+
+I'd like to thank the Coderockr team for the opportunity. This was definitely a great learning experience for me.
+
+Wish you guys a good one.
 
 Take care!

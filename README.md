@@ -30,7 +30,7 @@ Given that the gain is paid every month, it should be treated as [compound gain]
 
 ### Taxation
 
-When money is withdrawn, tax is triggered. Taxes apply only to the profit/gain portion of the money withdrawn. For example, if the initial investment was 1000.00, the current balance is 1200.00, then the taxes will be applied to the 200.00.
+When money is withdrawn, tax is triggered. Taxes apply only to the gain portion of the money withdrawn. For example, if the initial investment was 1000.00, the current balance is 1200.00, then the taxes will be applied to the 200.00.
 
 The tax percentage changes according to the age of the investment:
 * If it is less than one year old, the percentage will be 22.5% (tax = 45.00).

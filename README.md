@@ -11,7 +11,7 @@
      - A data de criação pode ser hoje ou no passado.
    - **Exemplo de requisição**:
      ```bash
-     curl -X POST http://localhost:8000/api/investment \
+     curl -X POST http://localhost:3000/api/investment \
      -H "Content-Type: application/json" \
      -d '{"name": "John Doe", "value": 1000, "created_at": "2023-01-01"}'
      ```
@@ -24,7 +24,7 @@
      - `perPage`: Número de itens por página (padrão: 10).
    - **Exemplo de requisição**:
      ```bash
-     curl -X GET "http://localhost:8000/api/investments/listInvestments?page=1&perPage=5"
+     curl -X GET "http://localhost:3000/api/investments/listInvestments?page=1&perPage=5"
      ```
 
 3. **Visualização de um investimento**
@@ -32,7 +32,7 @@
    - **Descrição**: Retorna os detalhes de um investimento específico.
    - **Exemplo de requisição**:
      ```bash
-     curl -X GET http://localhost:8000/api/investment/1
+     curl -X GET http://localhost:3000/api/investment/1
      ```
 
 4. **Retirada de um investimento**
@@ -44,7 +44,7 @@
      - Saques parciais não são suportados.
    - **Exemplo de requisição**:
      ```bash
-     curl -X PUT http://localhost:8000/api/investment/1/withdraw
+     curl -X PUT http://localhost:3000/api/investment/1/withdraw
      ```
 
 ## Regras de Negócio
@@ -92,4 +92,4 @@ npm test
 ```
 
 Documentação da API
-Acesse a documentação completa da API em: http://localhost:8000/docs
+Acesse a documentação completa da API em: http://localhost:3000/docs

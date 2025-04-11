@@ -26,30 +26,24 @@ class EntryInvestmentController extends AbstractController
     public function viewInvestment($investmentId)
     {
         $investmentId = (int) $investmentId; 
-       
-        echo "Buscando investimento ID: " . $investmentId . "<br>";
         
         $investment = $this->getInvestmentById($investmentId);        
         
         if (!$investment) {
-            echo "Investimento não encontrado!<br>";
-            echo "URL do banco: " . $_ENV['DATABASE_URL'] . "<br>";
-            return new JsonResponse(['error' => 'Investment not found'], 404);
+            return new JsonResponse([
+                'message' => 'Investimento não encontrado!',
+                'database_url' => $_ENV['DATABASE_URL']
+            ], 404);
         }
-        
-        echo "Investimento encontrado!<br>";
-        echo "Nome do proprietário: " . $investment->getOwner()->getName() . "<br>";
-        echo "Valor: " . $investment->getValue() . "<br>";
         
         $investmentDetails = $this->calculateInvestmentDetails($investment);
         
-        echo "<pre>";
-        print_r($investmentDetails);
-        echo "</pre>";
-        
-        exit; 
-        
-        return new JsonResponse(['investment_details' => $investmentDetails]);
+        return new JsonResponse([
+            'message' => 'Investimento encontrado!',
+            'owner_name' => $investment->getOwner()->getName(),
+            'value' => $investment->getValue(),
+            'investment_details' => $investmentDetails
+        ]);
     }
 
     private function getInvestmentById(int $investmentId)
@@ -66,15 +60,14 @@ class EntryInvestmentController extends AbstractController
         $annualInterestRate = 0.052;
 
         $earnedInterest = $investment->getValue() * (pow(1 + $annualInterestRate, $daysInvested / 365) - 1);
-
         $expectedBalance = $investment->getValue() + $earnedInterest;
 
         return [
             'id' => $investment->getId(),
             'name' => $investment->getOwner()->getName(),
-            'amount' => $investment->getValue(),
-            'earnings' => $earnedInterest,
-            'expected_balance' => $expectedBalance,
+            'amount' => number_format($investment->getValue(), 2, '.', ''),
+            'earnings' => number_format($earnedInterest, 2, '.', ''),
+            'expected_balance' => number_format($expectedBalance, 2, '.', ''),
             'days_invested' => $daysInvested,
         ];
     }
@@ -82,21 +75,23 @@ class EntryInvestmentController extends AbstractController
     #[Route('/api/db-info', methods: 'GET')]
     public function showDbInfo()
     {
-        echo "Configuração do Banco de Dados:<br>";
-        echo "DATABASE_URL: " . $_ENV['DATABASE_URL'] . "<br>";
+        $response = [
+            'database_url' => $_ENV['DATABASE_URL']
+        ];
         
         try {
             $conn = $this->entityManager->getConnection();
-            echo "Conexão estabelecida com sucesso!<br>";            
+            $response['connection_status'] = 'Conexão estabelecida com sucesso!';
             
             $result = $conn->executeQuery('SELECT COUNT(*) FROM investment')->fetchOne();
-            echo "Total de investimentos: " . $result . "<br>";
-            
-            return new Response("Verificação concluída", 200);
+            $response['total_investments'] = $result;
         } catch (\Exception $e) {
-            echo "Erro ao conectar: " . $e->getMessage() . "<br>";
-            return new Response("Erro de conexão", 500);
+            $response['connection_status'] = 'Erro ao conectar';
+            $response['error'] = $e->getMessage();
+            return new JsonResponse($response, 500);
         }
+        
+        return new JsonResponse($response);
     }
 
     #[Route('/api/test', methods: 'GET')]

@@ -256,6 +256,12 @@ curl -X GET http://localhost:3000/investments
     res.status(200).send(html);
 });
 
+// Middleware para rotas inexistentes
+app.use((req, res) => {
+    res.status(404).send({ error: 'Rota não encontrada.' });
+});
+
+// Adicionar o middleware de tratamento de erros como o último middleware
 app.use(errorHandler);
 
 module.exports = app;

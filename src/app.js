@@ -115,51 +115,40 @@ app.get('/docs', (req, res) => {
             </head>
             <body>
                 <h1>Documentação da API de Investimentos</h1>
-                <h2>Funcionalidades</h2>
+                <h2>Endpoints</h2>
                 <ul>
                     <li>
                         <strong>Criação de um investimento</strong>
-                        <p>Implementado na rota <code>POST /investments</code>.</p>
-                        <p>Validações:</p>
-                        <ul>
-                            <li>A data de criação pode ser hoje ou no passado.</li>
-                            <li>O valor do investimento não pode ser negativo.</li>
-                        </ul>
-                        <p>Como testar:</p>
+                        <p>Rota: <code>POST /api/investment</code></p>
+                        <p>Exemplo de requisição:</p>
                         <pre>
-curl -X POST http://localhost:3000/investments -H "Content-Type: application/json" -d '{"owner": "John Doe", "creationDate": "2023-01-01", "value": 1000}'
+curl -X POST http://localhost:8000/api/investment \
+-H "Content-Type: application/json" \
+-d '{"name": "John Doe", "value": 1000, "created_at": "2023-01-01"}'
+                        </pre>
+                    </li>
+                    <li>
+                        <strong>Listagem de investimentos</strong>
+                        <p>Rota: <code>GET /api/investments/listInvestments</code></p>
+                        <p>Exemplo de requisição:</p>
+                        <pre>
+curl -X GET "http://localhost:8000/api/investments/listInvestments?page=1&perPage=5"
                         </pre>
                     </li>
                     <li>
                         <strong>Visualização de um investimento</strong>
-                        <p>Implementado na rota <code>GET /investments</code>.</p>
-                        <p>Mostra o valor inicial e o saldo esperado.</p>
-                        <p>Como testar:</p>
+                        <p>Rota: <code>GET /api/investment/{investmentId}</code></p>
+                        <p>Exemplo de requisição:</p>
                         <pre>
-curl -X GET http://localhost:3000/investments
+curl -X GET http://localhost:8000/api/investment/1
                         </pre>
                     </li>
                     <li>
                         <strong>Retirada de um investimento</strong>
-                        <p>Implementado na rota <code>POST /investments/:id/withdraw</code>.</p>
-                        <p>Regras:</p>
-                        <ul>
-                            <li>O saque inclui o valor inicial e os ganhos.</li>
-                            <li>Os impostos são aplicados sobre os ganhos.</li>
-                            <li>Saques parciais não são suportados.</li>
-                        </ul>
-                        <p>Como testar:</p>
+                        <p>Rota: <code>PUT /api/investment/{investmentId}/withdraw</code></p>
+                        <p>Exemplo de requisição:</p>
                         <pre>
-curl -X POST http://localhost:3000/investments/1/withdraw
-                        </pre>
-                    </li>
-                    <li>
-                        <strong>Lista de investimentos de uma pessoa</strong>
-                        <p>Implementado na rota <code>GET /investments</code>.</p>
-                        <p>Atualmente, a lista não possui paginação, mas pode ser estendida.</p>
-                        <p>Como testar:</p>
-                        <pre>
-curl -X GET http://localhost:3000/investments
+curl -X PUT http://localhost:8000/api/investment/1/withdraw
                         </pre>
                     </li>
                 </ul>
@@ -175,81 +164,6 @@ curl -X GET http://localhost:3000/investments
                         </ul>
                     </li>
                 </ul>
-                <h2>Relatório de Arquivos</h2>
-                <table>
-                    <tr>
-                        <th>Arquivo</th>
-                        <th>Descrição</th>
-                        <th>Função</th>
-                    </tr>
-                    <tr>
-                        <td><code>index.js</code></td>
-                        <td>Arquivo principal que inicializa o servidor da aplicação.</td>
-                        <td>Configura o servidor para escutar na porta especificada e importa o aplicativo principal.</td>
-                    </tr>
-                    <tr>
-                        <td><code>src/app.js</code></td>
-                        <td>Arquivo principal da aplicação que define as rotas e a lógica da API.</td>
-                        <td>
-                            Define as rotas para criar, listar e retirar investimentos.<br>
-                            Implementa a documentação da API na rota <code>/docs</code>.<br>
-                            Configura middlewares como o de log e tratamento de erros.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><code>src/middlewares/validateInput.js</code></td>
-                        <td>Middleware para validação de entrada de dados.</td>
-                        <td>
-                            Valida o proprietário, a data de criação e o valor do investimento.<br>
-                            Garante que a data de criação não seja no futuro e que o valor não seja negativo.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><code>src/middlewares/errorHandler.js</code></td>
-                        <td>Middleware para tratamento de erros.</td>
-                        <td>
-                            Captura erros não tratados e retorna uma resposta com status <code>500</code> e uma mensagem de erro.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><code>src/services/investmentService.js</code></td>
-                        <td>Serviço que contém a lógica de cálculo de rendimentos e impostos.</td>
-                        <td>
-                            <code>calculateEarnings</code>: Calcula os rendimentos com base em juros compostos.<br>
-                            <code>calculateTaxes</code>: Calcula os impostos sobre os ganhos com base no tempo do investimento.
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><code>tests/investmentService.test.js</code></td>
-                        <td>Arquivo de testes unitários para o serviço de investimentos.</td>
-                        <td>Testa o cálculo de rendimentos e impostos para diferentes cenários.</td>
-                    </tr>
-                    <tr>
-                        <td><code>README.md</code></td>
-                        <td>Arquivo de documentação principal do projeto.</td>
-                        <td>Explica as funcionalidades implementadas, como executar o projeto e como testar a API.</td>
-                    </tr>
-                    <tr>
-                        <td><code>relatorio.md</code></td>
-                        <td>Arquivo de relatório.</td>
-                        <td>Lista todos os arquivos do projeto com suas respectivas descrições e funções.</td>
-                    </tr>
-                    <tr>
-                        <td><code>composer.json</code></td>
-                        <td>Arquivo de configuração do Composer.</td>
-                        <td>Define as dependências do projeto PHP e suas versões.<br>Configura o autoload para as classes do projeto.</td>
-                    </tr>
-                    <tr>
-                        <td><code>composer.lock</code></td>
-                        <td>Arquivo gerado automaticamente pelo Composer.</td>
-                        <td>Garante que as versões exatas das dependências sejam instaladas.</td>
-                    </tr>
-                    <tr>
-                        <td><code>.env</code></td>
-                        <td>Arquivo de configuração de variáveis de ambiente.</td>
-                        <td>Define variáveis como <code>APP_ENV</code>, <code>APP_SECRET</code> e <code>DATABASE_URL</code>.</td>
-                    </tr>
-                </table>
             </body>
         </html>
     `;

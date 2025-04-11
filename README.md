@@ -3,42 +3,48 @@
 ## Funcionalidades Implementadas
 
 1. **Criação de um investimento**
-   - **Rota**: `POST /investments`
+   - **Rota**: `POST /api/investment`
    - **Descrição**: Cria um novo investimento com um proprietário, uma data de criação e um valor.
    - **Validações**:
-     - A data de criação pode ser hoje ou no passado.
+     - O nome do proprietário é obrigatório.
      - O valor do investimento não pode ser negativo.
-   - **Como testar**:
+     - A data de criação pode ser hoje ou no passado.
+   - **Exemplo de requisição**:
      ```bash
-     curl -X POST http://localhost:3000/investments -H "Content-Type: application/json" -d '{"owner": "John Doe", "creationDate": "2023-01-01", "value": 1000}'
+     curl -X POST http://localhost:8000/api/investment \
+     -H "Content-Type: application/json" \
+     -d '{"name": "John Doe", "value": 1000, "created_at": "2023-01-01"}'
      ```
 
-2. **Visualização de um investimento**
-   - **Rota**: `GET /investments`
-   - **Descrição**: Lista todos os investimentos com o valor inicial e o saldo esperado.
-   - **Como testar**:
+2. **Listagem de investimentos**
+   - **Rota**: `GET /api/investments/listInvestments`
+   - **Descrição**: Lista todos os investimentos cadastrados, com suporte a paginação.
+   - **Parâmetros opcionais**:
+     - `page`: Número da página (padrão: 1).
+     - `perPage`: Número de itens por página (padrão: 10).
+   - **Exemplo de requisição**:
      ```bash
-     curl -X GET http://localhost:3000/investments
+     curl -X GET "http://localhost:8000/api/investments/listInvestments?page=1&perPage=5"
      ```
 
-3. **Retirada de um investimento**
-   - **Rota**: `POST /investments/:id/withdraw`
+3. **Visualização de um investimento**
+   - **Rota**: `GET /api/investment/{investmentId}`
+   - **Descrição**: Retorna os detalhes de um investimento específico.
+   - **Exemplo de requisição**:
+     ```bash
+     curl -X GET http://localhost:8000/api/investment/1
+     ```
+
+4. **Retirada de um investimento**
+   - **Rota**: `PUT /api/investment/{investmentId}/withdraw`
    - **Descrição**: Realiza a retirada de um investimento, aplicando impostos sobre os ganhos.
    - **Regras**:
      - O saque inclui o valor inicial e os ganhos.
      - Os impostos são aplicados sobre os ganhos.
      - Saques parciais não são suportados.
-   - **Como testar**:
+   - **Exemplo de requisição**:
      ```bash
-     curl -X POST http://localhost:3000/investments/1/withdraw
-     ```
-
-4. **Lista de investimentos de uma pessoa**
-   - **Rota**: `GET /investments`
-   - **Descrição**: Lista todos os investimentos de uma pessoa. Atualmente, a lista não possui paginação.
-   - **Como testar**:
-     ```bash
-     curl -X GET http://localhost:3000/investments
+     curl -X PUT http://localhost:8000/api/investment/1/withdraw
      ```
 
 ## Regras de Negócio
@@ -52,17 +58,22 @@
 
 ## Como Executar
 
-1. Instale as dependências:
+1. Instale as dependências do projeto:
    ```bash
+   composer install
    npm install
    ```
+2. Configure o banco de dados no arquivo .env:
+Exemplo de configuração para SQLite:
+DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db"
 
-2. Inicie o servidor:
-   ```bash
-   npm start
-   ```
+3. Execute as migrações para criar as tabelas no banco de dados:
+   php bin/console doctrine:migrations:migrate
+4.  Inicie o servidor:
 
-3. Acesse a documentação da API:
+npm start
+
+5. Acesse a documentação da API:
    - URL: http://localhost:3000/docs
 
 ## Relatório de Arquivos
@@ -80,6 +91,5 @@ Execute os testes com:
 npm test
 ```
 
-## Créditos
-
-Este desafio de codificação foi inspirado em kinvoapp/kinvo-back-end-test.
+Documentação da API
+Acesse a documentação completa da API em: http://localhost:8000/docs

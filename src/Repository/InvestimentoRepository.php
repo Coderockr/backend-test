@@ -16,28 +16,11 @@ class InvestimentoRepository extends ServiceEntityRepository
         parent::__construct($registry, Investimento::class);
     }
 
-    //    /**
-    //     * @return Investimento[] Returns an array of Investimento objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('i')
-    //            ->andWhere('i.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('i.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function salvar(Investimento $investimento):Investimento
+    {
+        $this->getEntityManager()->persist($investimento);
+        $this->getEntityManager()->flush();
+        return $investimento;
+    }
 
-    //    public function findOneBySomeField($value): ?Investimento
-    //    {
-    //        return $this->createQueryBuilder('i')
-    //            ->andWhere('i.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

@@ -5,9 +5,10 @@ namespace App\Entity;
 use App\Repository\InvestimentoRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 #[ORM\Entity(repositoryClass: InvestimentoRepository::class)]
-class Investimento
+class Investimento 
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -16,10 +17,11 @@ class Investimento
 
     #[ORM\Column]
     private \DateTimeImmutable $dataCriacao;
-
+   
     public function __construct(
-        #[ORM\Column(length: 255)]
-        private string $propietario,
+        #[ORM\ManyToOne(inversedBy: 'investimentos')]
+        #[ORM\JoinColumn(nullable: false)]
+        private Propietario $propietario,
 
         #[ORM\Column]
         private float $valor,
@@ -33,11 +35,6 @@ class Investimento
         return $this->id;
     }
 
-    public function getPropietario(): string
-    {
-        return $this->propietario;
-    }
-
     public function getDataCriacao(): \DateTimeImmutable
     {
         return $this->dataCriacao;
@@ -47,4 +44,11 @@ class Investimento
     {
         return $this->valor;
     }
+
+    public function getPropietario(): Propietario
+    {
+        return $this->propietario;
+    }
+
+   
 }

@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Investimento;
 use App\Repository\InvestimentoRepository;
 use App\Service\CalcularGanhoService as ServiceCalcularGanhoService;
 
@@ -17,49 +18,39 @@ class RetirarInvestimentoService
     {
     }
 
-    public function execute(int $id, array $dados): array
+    public function execute(Investimento $investimento): array
     {
-        $investimento = $this->buscarInvestimentoService->buscarInvestimentoOuFalhar(id:$id);
-        $valorQueOusuarioQuerRetirar = (float) $dados["retirada"];
+        $investimento = $investimento;;
 
         $dataQueInvestiu = $investimento->getDataCriacao();
         $dataAtual = $this->pegarDataAtualService->obterDataAtual();
         
         $aliquota = $this->calcularAliquota->CalcularAliquota(dataQueInvestiu: $dataQueInvestiu);
 
-        $dadosGanhos = $this->calcularGanhoService->calcularGanho(
+        $dadosCalculo = $this->calcularGanhoService->calcularGanho(
             dataQueInvestiu: $dataQueInvestiu,
             valorIniciaInvestimento: $investimento->getValor(),
             valorAliquota: $aliquota
         );
 
-        $impostoSobreInvestimento = $dadosGanhos["impostoSobreInvestimento"];
 
-        if($impostoSobreInvestimento <= 0){
-            $valorAcerRetiradoPeloPropietario = $valorQueOusuarioQuerRetirar;
-
-            $sobraDoSaque =  $investimento->getValor() - $valorAcerRetiradoPeloPropietario; 
-
+        if($dadosCalculo["impostoSobreInvestimento"] <= 0){
             $investimento->setDataRetirada($dataAtual);
-            $investimento->setValor($sobraDoSaque);
+            $investimento->setValor(0);
             $this->investimentoRepository->salvar($investimento);
 
             return  [
-                "saque" => $valorAcerRetiradoPeloPropietario,
+                "saque" => $dadosCalculo["valorAserRetiradoPeloPropietario"],
                 "imposto" => 0,
             ];
         }
-       
-        $valorAcerRetiradoPeloPropietario = $valorQueOusuarioQuerRetirar - $impostoSobreInvestimento;
-        $sobraDoSaque =  $investimento->getValor() - $valorAcerRetiradoPeloPropietario; 
-
         $investimento->setDataRetirada($dataAtual);
-        $investimento->setValor($sobraDoSaque);
+        $investimento->setValor(0);
         $this->investimentoRepository->salvar($investimento);
 
         return  [
-            "saque" => $valorAcerRetiradoPeloPropietario,
-            "imposto" => $impostoSobreInvestimento,
+            "saque" => $dadosCalculo["valorAserRetiradoPeloPropietario"],
+            "imposto" => $dadosCalculo["impostoSobreInvestimento"],
         ];
     }
 }

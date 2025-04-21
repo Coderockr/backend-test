@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Investimento;
 use App\Repository\InvestimentoRepository;
 
 class VerInvestimentoService
@@ -9,16 +10,14 @@ class VerInvestimentoService
     public function __construct
     (
         private InvestimentoRepository $investimentoRepository,
-        private BuscarInvestimentoService $buscarInvestimentoService,
         private PegarDataAtualService $pegarDataAtualService
     )
     {
     }
 
-    public function execute(int $id):array
+    public function execute(Investimento $investimento):array
     {
-        $investimento = $this->buscarInvestimentoService->buscarInvestimentoOuFalhar(id:$id);
-
+        $investimento = $investimento;
         $mesQueInvestiu = $investimento->getDataCriacao();
         $mesOuDiaAtual = $this->pegarDataAtualService->obterDataAtual(); 
         

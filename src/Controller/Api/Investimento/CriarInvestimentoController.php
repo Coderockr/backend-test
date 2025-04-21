@@ -27,7 +27,7 @@ class CriarInvestimentoController extends AbstractController
 
             $criarInvestimentoService->execute(dados:$dados,id:$propietario);
 
-            return $this->json(["mensage" => "sucesso ao investir"]);
+            return $this->json(["mensage" => "sucesso ao investir"],200);
         }catch(Throwable $e){
             return $this->json([
                 "error" => "Erro ao criar investimento",

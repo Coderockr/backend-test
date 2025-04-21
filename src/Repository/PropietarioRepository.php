@@ -26,7 +26,7 @@ class PropietarioRepository extends ServiceEntityRepository
     */
     public function listaDeInvestimentoPorUsuario(int $id): array
     {
-        $query = $this->createQueryBuilder('p') 
+        return $this->createQueryBuilder('p') 
             ->innerJoin('p.investimentos', 'i') 
             ->addSelect('i') 
             ->where('p.id = :id') 
@@ -34,11 +34,5 @@ class PropietarioRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
-
-        if(empty($query)){
-            throw new NaoEncontrouPropietarioException();
-        }
-
-        return $query;
     }
 }

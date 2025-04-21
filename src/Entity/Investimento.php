@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\InvestimentoRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
-use JsonSerializable;
 
 #[ORM\Entity(repositoryClass: InvestimentoRepository::class)]
 class Investimento 
@@ -17,9 +16,6 @@ class Investimento
 
     #[ORM\Column]
     private \DateTimeImmutable $dataCriacao;
-
-    #[ORM\Column(nullable: true)]
-    private ?float $saldoAtual = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $dataRetirada = null;
@@ -61,18 +57,6 @@ class Investimento
         return $this->propietario;
     }
 
-    public function getSaldoAtual(): ?float
-    {
-        return $this->saldoAtual;
-    }
-
-    public function setSaldoAtual(?float $saldoAtual): static
-    {
-        $this->saldoAtual = $saldoAtual;
-
-        return $this;
-    }
-
     public function getDataRetirada(): ?\DateTimeImmutable
     {
         return $this->dataRetirada;
@@ -84,6 +68,4 @@ class Investimento
 
         return $this;
     }
-
-   
 }

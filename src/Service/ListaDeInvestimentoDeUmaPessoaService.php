@@ -2,13 +2,12 @@
 
 namespace App\Service;
 
-use App\Controller\Exceptions\NaoEncontrouPropietarioException;
 use App\Repository\PropietarioRepository;
 
 class ListaDeInvestimentoDeUmaPessoaService
 {
     public function __construct(
-        private PropietarioRepository $propietarioRepository
+        private PropietarioRepository $propietarioRepository,
     )
     {
     }

@@ -26,14 +26,16 @@ class CalcularGanhoService
         $messesDoInvestimento = ($diferencaDoMes->y * 12) + $diferencaDoMes->m;
          
         $valorInicialDoInvestimento = $valorIniciaInvestimento;
-        $valorQueRendeuSobreInvestimento = $valorInicialDoInvestimento * (1 + 0.0052) ** $messesDoInvestimento;
-        $ganhoSobreInvestimento = $valorQueRendeuSobreInvestimento - $valorInicialDoInvestimento;
+        $saldoAtual = $valorInicialDoInvestimento * (1 + 0.0052) ** $messesDoInvestimento;
 
-        $impostoSobreInvestimento = $valorAliquota * $ganhoSobreInvestimento;
+        $ganhoSobreInvestimento = $saldoAtual - $valorInicialDoInvestimento;
+        $impostoSobreInvestimento = $ganhoSobreInvestimento * $valorAliquota;
+
+        $valorAserRetiradoPeloPropietario = $saldoAtual- $impostoSobreInvestimento;
 
         return [
-            "impostoSobreInvestimento" =>  $impostoSobreInvestimento,
-            "valorQueRendeuSobreInvestimento" =>  $valorQueRendeuSobreInvestimento
+            "impostoSobreInvestimento" =>  number_format($impostoSobreInvestimento,2, '.', ''),
+            "valorAserRetiradoPeloPropietario" => number_format($valorAserRetiradoPeloPropietario, 2, '.', '')
         ];
     }
 }

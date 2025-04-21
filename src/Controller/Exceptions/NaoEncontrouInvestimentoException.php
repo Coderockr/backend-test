@@ -8,6 +8,6 @@ class NaoEncontrouInvestimentoException extends Exception
 {
     public function __construct()
     {
-        return parent::__construct("Falha aou buscar investimento");
+        return parent::__construct("Falha ao buscar investimento");
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Controller\Api\Investimento;
 
-use App\Repository\InvestimentoRepository;
+use App\Service\VerInvestimentoService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,15 +10,11 @@ use Throwable;
 
 class VerInvestimentosController extends AbstractController
 {
-    #[Route("/api/verInvestimentos",methods:["GET"])]
-    public function __invoke(InvestimentoRepository $i):JsonResponse
+    #[Route("/api/verInvestimentos/{investimento}",methods:["GET"])]
+    public function __invoke(int $investimento,VerInvestimentoService $verInvestimentoService):JsonResponse
     {
         try{
-            $i->findAll();
-            
-            dd($i->getPropietario());
-
-
+          return $this->json($verInvestimentoService->execute($investimento),200); 
         }catch(Throwable $e){
             return $this->json([
                 "error" => "erro ao ver investimentos"

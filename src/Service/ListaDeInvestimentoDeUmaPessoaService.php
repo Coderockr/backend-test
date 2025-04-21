@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Controller\Exceptions\NaoEncontrouPropietarioException;
 use App\Repository\PropietarioRepository;
 
 class ListaDeInvestimentoDeUmaPessoaService
@@ -20,6 +21,7 @@ class ListaDeInvestimentoDeUmaPessoaService
     public function execute(int $id): array
     {
         $listaDeInvestimentoPorUsuario = $this->propietarioRepository->listaDeInvestimentoPorUsuario(id:$id);
+
         $resultado = [];
         foreach($listaDeInvestimentoPorUsuario as $lista){
             $listaPropietario = $lista->getInvestimentos();

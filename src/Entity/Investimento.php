@@ -17,6 +17,12 @@ class Investimento
 
     #[ORM\Column]
     private \DateTimeImmutable $dataCriacao;
+
+    #[ORM\Column(nullable: true)]
+    private ?float $saldoAtual = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $dataRetirada = null;
    
     public function __construct(
         #[ORM\ManyToOne(inversedBy: 'investimentos')]
@@ -45,9 +51,38 @@ class Investimento
         return $this->valor;
     }
 
+    public function setValor(float $valor): float
+    {
+        return $this->valor = $valor;
+    }
+
     public function getPropietario(): Propietario
     {
         return $this->propietario;
+    }
+
+    public function getSaldoAtual(): ?float
+    {
+        return $this->saldoAtual;
+    }
+
+    public function setSaldoAtual(?float $saldoAtual): static
+    {
+        $this->saldoAtual = $saldoAtual;
+
+        return $this;
+    }
+
+    public function getDataRetirada(): ?\DateTimeImmutable
+    {
+        return $this->dataRetirada;
+    }
+
+    public function setDataRetirada(?\DateTimeImmutable $dataRetirada): static
+    {
+        $this->dataRetirada = $dataRetirada;
+
+        return $this;
     }
 
    

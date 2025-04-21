@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Controller\Exceptions\NaoEncontrouPropietarioException;
 use App\Entity\Investimento;
 use App\Entity\Propietario;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -25,15 +26,19 @@ class PropietarioRepository extends ServiceEntityRepository
     */
     public function listaDeInvestimentoPorUsuario(int $id): array
     {
-        return $this->createQueryBuilder('p') 
+        $query = $this->createQueryBuilder('p') 
             ->innerJoin('p.investimentos', 'i') 
             ->addSelect('i') 
             ->where('p.id = :id') 
             ->setParameter('id', $id)
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
+
+        if(empty($query)){
+            throw new NaoEncontrouPropietarioException();
+        }
+
+        return $query;
     }
-    
-        
-    
 }

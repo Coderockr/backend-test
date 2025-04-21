@@ -2,10 +2,7 @@
 
 namespace App\Controller\Api\Investimento;
 
-use App\Repository\InvestimentoRepository;
-use App\Repository\PropietarioRepository;
 use App\Service\ListaDeInvestimentoDeUmaPessoaService;
-use Doctrine\Common\Collections\Expr\Value;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;

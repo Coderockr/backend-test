@@ -20,7 +20,7 @@ In this challenge you should build an **API** for an application that stores and
 4. __List__ of a person's investments
     1. This list should have pagination.
 
-__NOTE:__ the implementation of an interface will not be evaluated.
+__NOTE:__ the implementation of an interface will not be evaluated, and if implemented the endpoints still need to be usable/readable for a machine.
 
 ### Gain Calculation
 

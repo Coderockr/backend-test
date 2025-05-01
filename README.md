@@ -15,7 +15,7 @@ In this challenge you should build an **API** for an application that stores and
 3. __Withdrawal__ of a investment.
     1. The withdraw will always be the sum of the initial amount and its gains,
        partial withdrawn is not supported.
-    2. Withdrawals can happen in the past or today, but can't happen before the investment creation or the future.
+    2. The withdrawal date must be informmed by the user, and it can be a date in the past or today, but can't happen before the investment creation or the future.
     3. [Taxes][taxes] need to be applied to the withdrawals before showing the final value.
 4. __List__ of a person's investments
     1. This list should have pagination.

@@ -41,7 +41,8 @@ The tax percentage changes according to the age of the investment:
 1. Create project using any technology of your preference. It’s perfectly OK to use vanilla code or any framework or libraries;
 2. Although you can use as many dependencies as you want, you should manage them wisely;
 3. It is not necessary to send the notification emails, however, the code required for that would be welcome;
-4. The API must be documented in some way.
+4. The API must be documented in some way;
+5. Use [Conventional Commits](https://www.conventionalcommits.org/) for commit messages throughout the development process;
 
 ## Deliverables
 The project source code and dependencies should be made available in GitHub. Here are the steps you should follow:
